@@ -12,7 +12,7 @@
     "updtr": "./bin/updtr"
   },
   "dependencies": {
-    "colors": "^1.1.2",
+    "colors": "^1.1.2"
   },
   "optionalDependencies": {
     "runsync": "^0.1.8"
