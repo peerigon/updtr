@@ -1,2 +1,10 @@
+![updtr](assets/updtr.jpg)
+
 # updtr
-Updates your npm modules with executing your tests
+
+**Update outdated npm modules with zero pain**
+
+
+## License
+
+Unlicense
