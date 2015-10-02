@@ -16,4 +16,5 @@ node_modules
 coverage
 examples
 test
+assets
 .idea
