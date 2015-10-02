@@ -1,21 +1,27 @@
 {
   "name": "updtr",
   "version": "0.0.1",
-  "description": "Updates your npm modules",
+  "description": "Update outdated npm modules with zero pain",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -R spec"
   },
   "author": "peerigon",
   "license": "Unlicense",
+  "bin": {
+    "updtr": "./bin/updtr"
+  },
   "dependencies": {
     "cli-table": "^0.3.1",
-    "colors": "^1.1.2",
-    "eslint": "^1.5.1",
-    "eslint-config-peerigon": "^0.1.0",
+    "colors": "^1.1.2"
+  },
+  "optionalDependencies": {
     "runsync": "^0.1.8"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^1.5.1",
+    "eslint-config-peerigon": "^0.1.0"
+  },
   "engines": {
     "node": ">= 0.10.0",
     "npm": ">= 2.5.0"
