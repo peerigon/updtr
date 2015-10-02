@@ -9,7 +9,6 @@
   "author": "peerigon",
   "license": "Unlicense",
   "dependencies": {
-    "cli-table": "^0.3.1",
     "colors": "^1.1.2",
     "eslint": "^1.5.1",
     "eslint-config-peerigon": "^0.1.0",
