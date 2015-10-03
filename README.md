@@ -2,7 +2,7 @@
 
 # updtr
 
-**Update outdated npm modules with zero pain**
+**Update outdated npm modules with zero pain™**
 
 ![](https://img.shields.io/npm/v/updtr.svg)
 ![](https://img.shields.io/npm/dm/updtr.svg)
