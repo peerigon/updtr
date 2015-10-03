@@ -1,3 +1,12 @@
 #!/usr/bin/env node
 
-require("../lib");
+var updtr = require("../lib");
+
+updtr.run({
+    cwd: process.cwd(),
+    reporter: updtr.reporters.default
+}, function (err) {
+    if (err) {
+        throw err;
+    }
+});
