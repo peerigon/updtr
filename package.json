@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "async": "^1.4.2",
+    "cli-spinner": "^0.2.1",
     "colors": "^1.1.2"
   },
   "devDependencies": {
