@@ -12,10 +12,8 @@
     "updtr": "./bin/updtr"
   },
   "dependencies": {
+    "async": "^1.4.2",
     "colors": "^1.1.2"
-  },
-  "optionalDependencies": {
-    "runsync": "^0.1.8"
   },
   "devDependencies": {
     "eslint": "^1.5.1",
