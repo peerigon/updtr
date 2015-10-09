@@ -7,12 +7,12 @@ var reporters = Object.keys(updtr.reporters);
 
 program
   .version(pkg.version)
-  .description("Update outdated npm modules with zero pain™")
+  .description(pkg.description)
   .option("-R, --reporter <reporter>", "choose reporter: " + reporters.join(", "), "default");
 
 program.parse(process.argv);
 
-if (!(new RegExp(reporters.join("|")).test(program.reporter))) {
+if (program.reporter in updtr.reporters === false) {
     console.log(program.reporter + " is not a reporter.");
     console.log("Available reporters: " + reporters.join(", "));
     process.exit(0);
