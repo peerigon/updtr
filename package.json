@@ -20,6 +20,7 @@
     "unicons": "0.0.1"
   },
   "devDependencies": {
+    "chai": "^3.3.0",
     "eslint": "^1.5.1",
     "eslint-config-peerigon": "^0.1.0",
     "istanbul": "^0.3.22",
