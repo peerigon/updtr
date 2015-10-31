@@ -108,7 +108,7 @@ describe("run()", function () {
             it("should be emitted, if cwd is set", function (done) {
                 reporter = function (emitter) {
                     emitter.on("init", function (options) {
-                        expect(options).to.eql({ cwd: "/Users/peerigon/Workspace/peerigon/updtr" });
+                        expect(options).to.eql({ cwd: process.cwd() });
                     });
                 };
 
