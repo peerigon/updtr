@@ -4,7 +4,9 @@
   "description": "Update outdated npm modules with zero pain™",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "mocha -R spec",
+    "test:watch": "npm run test -- -w -G",
+    "coverage": "istanbul cover _mocha -- -R spec"
   },
   "author": "peerigon",
   "license": "Unlicense",
@@ -18,8 +20,11 @@
     "unicons": "0.0.1"
   },
   "devDependencies": {
+    "chai": "^3.3.0",
     "eslint": "^1.5.1",
-    "eslint-config-peerigon": "^0.1.0"
+    "eslint-config-peerigon": "^0.1.0",
+    "istanbul": "^0.3.22",
+    "mocha": "^2.3.3"
   },
   "engines": {
     "node": ">= 0.10.0",
