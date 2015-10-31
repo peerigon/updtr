@@ -4,6 +4,7 @@
 
 **Update outdated npm modules with zero pain™**
 
+[![Build Status](https://travis-ci.org/peerigon/updtr.svg?branch=master)](https://travis-ci.org/peerigon/updtr)
 [![](https://img.shields.io/npm/v/updtr.svg)](https://www.npmjs.com/package/updtr)
 [![](https://img.shields.io/npm/dm/updtr.svg)](https://www.npmjs.com/package/updtr)
 
