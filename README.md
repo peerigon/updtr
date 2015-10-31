@@ -17,6 +17,22 @@ Based on `npm outdated`, **updtr** installs the latest version and runs `npm tes
 npm install -g updtr
 ```
 
+## Options
+
+```
+➜  ~  updtr -h
+
+  Usage: updtr [options]
+
+  Update outdated npm modules with zero pain™
+
+  Options:
+
+    -h, --help                 output usage information
+    -V, --version              output the version number
+    -R, --reporter <reporter>  choose reporter: default, shy
+```
+
 ## License
 
 Unlicense

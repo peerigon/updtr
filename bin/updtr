@@ -1,10 +1,26 @@
 #!/usr/bin/env node
 
+var program = require("commander");
 var updtr = require("../lib");
+var pkg = require("../package.json");
+var reporters = Object.keys(updtr.reporters);
+
+program
+  .version(pkg.version)
+  .description(pkg.description)
+  .option("-R, --reporter <reporter>", "choose reporter: " + reporters.join(", "), "default");
+
+program.parse(process.argv);
+
+if (program.reporter in updtr.reporters === false) {
+    console.log(program.reporter + " is not a reporter.");
+    console.log("Available reporters: " + reporters.join(", "));
+    process.exit(1);
+}
 
 updtr.run({
     cwd: process.cwd(),
-    reporter: updtr.reporters.default
+    reporter: updtr.reporters[program.reporter]
 }, function (err) {
     if (err) {
         throw err;
