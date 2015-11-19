@@ -22,7 +22,7 @@ npm install -g updtr
 ## Options
 
 ```
-➜  ~  updtr -h
+➜  ~  updtr --help
 
   Usage: updtr [options]
 
@@ -33,6 +33,7 @@ npm install -g updtr
     -h, --help                 output usage information
     -V, --version              output the version number
     -R, --reporter <reporter>  choose reporter: default, shy
+    -w, --wanted               updates to wanted version specified in package.json instead of the modules latest version
 ```
 
 ## License
