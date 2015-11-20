@@ -44,7 +44,8 @@ var expectedOptions = {
         location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save"
+        saveCmd: "--save",
+        updateTo: "2.0.0"
     }],
     total: 1
 };
