@@ -44,12 +44,13 @@ var expectedOptions = {
         location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save"
+        saveCmd: "--save",
+        updateTo: "2.0.0"
     }],
     total: 1
 };
 
-var expectedOptionsWithCurrentCount = {
+var expectedOptionsWithCurrentCountLatest = {
     current: 1,
     total: 1,
     info: {
@@ -59,7 +60,23 @@ var expectedOptionsWithCurrentCount = {
         location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save"
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    }
+};
+
+var expectedOptionsWithCurrentCountWanted = {
+    current: 1,
+    total: 1,
+    info: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "1.1.5"
     }
 };
 
@@ -165,17 +182,27 @@ describe("run()", function () {
 
         describe("updating", function () {
             describe("if outdated modules were found", function () {
-                before(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdatedModules(outdatedModules));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
+                it("should be emitted with latest version to install", function (done) {
                     reporter = function (emitter) {
                         emitter.on("updating", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCount);
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
                         });
                     };
 
                     run({ cwd: process.cwd(), reporter: reporter }, done);
+                });
+
+                it("should be emitted with wanted version to install", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("updating", function (options) {
+                            expect(options).to.eql(expectedOptionsWithCurrentCountWanted);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter, wanted: true }, done);
                 });
             });
 
@@ -203,7 +230,7 @@ describe("run()", function () {
                 it("should be emitted", function (done) {
                     reporter = function (emitter) {
                         emitter.on("testing", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCount);
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
                         });
                     };
 
@@ -220,7 +247,7 @@ describe("run()", function () {
                 it("should be emitted", function (done) {
                     reporter = function (emitter) {
                         emitter.on("rollback", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCount);
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
                         });
                     };
 
@@ -252,7 +279,7 @@ describe("run()", function () {
                 it("should be emitted", function (done) {
                     reporter = function (emitter) {
                         emitter.on("rollbackDone", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCount);
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
                         });
                     };
 
@@ -269,7 +296,7 @@ describe("run()", function () {
                 it("should be emitted", function (done) {
                     reporter = function (emitter) {
                         emitter.on("updatingDone", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCount);
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
                         });
                     };
 
