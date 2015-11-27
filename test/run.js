@@ -148,6 +148,21 @@ describe("run()", function () {
             });
         });
 
+        describe("noop", function () {
+            before(setupOutdatedModules(undefined));
+            afterEach(tearDown);
+
+            it("should be emitted if npm outdated returns nothing", function (done) {
+                reporter = function (emitter) {
+                    emitter.on("noop", function (options) {
+                        expect(options).to.be.undefined; // eslint-disable-line
+                    });
+                };
+
+                run({ cwd: process.cwd(), reporter: reporter }, done);
+            });
+        });
+
         describe("outdated", function () {
             describe("if outdated modules were found", function () {
                 before(setupOutdatedModules(outdatedModules));
