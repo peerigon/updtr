@@ -18,6 +18,37 @@ var outdatedModules = {
         type: "dependencies"
     }
 };
+
+var outdatedModulesNotInstalled = {
+    "servus.js": {
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "",
+        type: "dependencies"
+    },
+    unicons: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    }
+};
+
+var expectedOptionsNotInstalled = {
+    infos: [{
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    }],
+    total: 1
+};
+
 var outdatedModulesWithGitDependencies = {
     unicons: outdatedModules.unicons,
     "xunit-file": {
@@ -172,6 +203,21 @@ describe("run()", function () {
                     reporter = function (emitter) {
                         emitter.on("outdated", function (options) {
                             expect(options).to.eql(expectedOptions);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                });
+            });
+
+            describe("if outdated modules were found with not installed modules", function () {
+                before(setupOutdatedModules(outdatedModulesNotInstalled));
+                afterEach(tearDown);
+
+                it("should be emitted without not installed modules", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("outdated", function (options) {
+                            expect(options).to.eql(expectedOptionsNotInstalled);
                         });
                     };
 
