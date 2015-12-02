@@ -49,6 +49,51 @@ var expectedOptionsNotInstalled = {
     total: 1
 };
 
+var outdatedModulesUnstable = {
+    "servus.js": {
+        current: "0.1.4-beta",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    },
+    "xunit-file": {
+        current: "0.1.4-alpha",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    },
+    "npm-stats": {
+        current: "0.1.4-rc",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    },
+    unicons: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    }
+};
+
+var expectedOptionsUnstable = {
+    infos: [{
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    }],
+    total: 1
+};
+
 var outdatedModulesWithGitDependencies = {
     unicons: outdatedModules.unicons,
     "xunit-file": {
@@ -218,6 +263,21 @@ describe("run()", function () {
                     reporter = function (emitter) {
                         emitter.on("outdated", function (options) {
                             expect(options).to.eql(expectedOptionsNotInstalled);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                });
+            });
+            
+            describe("if outdated modules were found with unstable modules", function () {
+                before(setupOutdatedModules(outdatedModulesUnstable));
+                afterEach(tearDown);
+
+                it("should be emitted without unstable modules", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("outdated", function (options) {
+                            expect(options).to.eql(expectedOptionsUnstable);
                         });
                     };
 
