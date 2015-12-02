@@ -269,7 +269,7 @@ describe("run()", function () {
                     run({ cwd: process.cwd(), reporter: reporter }, done);
                 });
             });
-            
+
             describe("if outdated modules were found with unstable modules", function () {
                 before(setupOutdatedModules(outdatedModulesUnstable));
                 afterEach(tearDown);
