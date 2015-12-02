@@ -51,23 +51,23 @@ var expectedOptionsNotInstalled = {
 
 var outdatedModulesUnstable = {
     "servus.js": {
-        current: "0.1.4-beta",
+        current: "0.1.4",
         wanted: "1.1.5",
-        latest: "2.0.0",
+        latest: "2.0.0-beta",
         location: "unicons",
         type: "dependencies"
     },
     "xunit-file": {
-        current: "0.1.4-alpha",
+        current: "0.1.4",
         wanted: "1.1.5",
-        latest: "2.0.0",
+        latest: "2.0.0-alpha",
         location: "unicons",
         type: "dependencies"
     },
     "npm-stats": {
-        current: "0.1.4-rc",
+        current: "0.1.4",
         wanted: "1.1.5",
-        latest: "2.0.0",
+        latest: "2.0.0-rc",
         location: "unicons",
         type: "dependencies"
     },
