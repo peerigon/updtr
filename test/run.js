@@ -344,7 +344,7 @@ describe("run()", function () {
         });
 
         describe("testing", function () {
-            describe("if outdated moudles were found", function () {
+            describe("if outdated modules were found", function () {
                 before(setupOutdatedModules(outdatedModules));
                 afterEach(tearDown);
 
