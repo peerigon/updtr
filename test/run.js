@@ -138,7 +138,24 @@ var expectedOptionsWithCurrentCountLatest = {
         name: "unicons",
         saveCmd: "--save",
         updateTo: "2.0.0"
-    }
+    },
+    testCmd: "npm test"
+};
+
+var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
+    current: 1,
+    total: 1,
+    info: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    },
+    testCmd: "npm run test"
 };
 
 var expectedOptionsWithCurrentCountWanted = {
@@ -153,7 +170,8 @@ var expectedOptionsWithCurrentCountWanted = {
         name: "unicons",
         saveCmd: "--save",
         updateTo: "1.1.5"
-    }
+    },
+    testCmd: "npm test"
 };
 
 function tearDown() {
@@ -313,7 +331,7 @@ describe("run()", function () {
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
                 });
 
                 it("should be emitted with wanted version to install", function (done) {
@@ -356,6 +374,23 @@ describe("run()", function () {
                     };
 
                     run({ cwd: process.cwd(), reporter: reporter }, done);
+                });
+            });
+        });
+
+        describe("testing", function () {
+            describe("if custom test command is given", function () {
+                before(setupOutdatedModules(outdatedModules));
+                afterEach(tearDown);
+
+                it("should be emitted with correct command", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("testing", function (options) {
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatestAndCustomTestCmd);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm run test" }, done);
                 });
             });
         });
@@ -421,7 +456,7 @@ describe("run()", function () {
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
                 });
             });
             describe("if tests are failing", function () {
@@ -435,7 +470,7 @@ describe("run()", function () {
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
                 });
             });
         });
@@ -452,7 +487,7 @@ describe("run()", function () {
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
                 });
             });
         });
