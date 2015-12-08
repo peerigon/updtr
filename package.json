@@ -1,6 +1,6 @@
 {
   "name": "updtr",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Update outdated npm modules with zero pain™",
   "main": "lib/index.js",
   "scripts": {
