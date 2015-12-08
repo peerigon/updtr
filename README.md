@@ -35,6 +35,7 @@ npm install -g updtr
     -R, --reporter <reporter>  choose reporter: default, shy
     -w, --wanted               updates to wanted version specified in package.json instead of the modules latest version
     -t, --test <test>          change the command for the tests
+    -e, --exclude <exclude>    exclude modules comma seperated, e.g. updtr --exclude module1,module2
 ```
 
 ## License

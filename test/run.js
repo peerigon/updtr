@@ -49,6 +49,37 @@ var expectedOptionsNotInstalled = {
     total: 1
 };
 
+var outdatedModulesExclude = {
+    "servus.js": {
+        current: "1.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    },
+    unicons: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies"
+    }
+};
+
+var expectedOptionsExclude = {
+    infos: [{
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    }],
+    total: 1
+};
+
 var outdatedModulesUnstable = {
     "servus.js": {
         current: "0.1.4",
@@ -285,6 +316,36 @@ describe("run()", function () {
                     };
 
                     run({ cwd: process.cwd(), reporter: reporter }, done);
+                });
+            });
+
+            describe("if outdated modules were found with excluded one module", function () {
+                before(setupOutdatedModules(outdatedModulesExclude));
+                afterEach(tearDown);
+
+                it("should be emitted without excluded module", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("outdated", function (options) {
+                            expect(options).to.eql(expectedOptionsExclude);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter, exclude: "servus.js" }, done);
+                });
+            });
+            
+            describe("if outdated modules were found with excluded more modules", function () {
+                before(setupOutdatedModules(outdatedModulesExclude));
+                afterEach(tearDown);
+
+                it("should be emitted without excluded modules", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("outdated", function (options) {
+                            expect(options).to.eql(expectedOptionsExclude);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter, exclude: "asdf, servus.js" }, done);
                 });
             });
 
