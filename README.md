@@ -36,6 +36,7 @@ npm install -g updtr
     -w, --wanted               updates to wanted version specified in package.json instead of the modules latest version
     -t, --test <test>          change the command for the tests
     -e, --exclude <exclude>    exclude modules comma seperated, e.g. updtr --exclude module1,module2
+    --test-stdout              shows stdout if your test command fails
 ```
 
 ## License
