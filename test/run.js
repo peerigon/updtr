@@ -231,7 +231,6 @@ function execMock(object, testsExpectToPass) {
         if (cmd === "npm outdated --json --long --depth=0") {
             setImmediate(cb, null, JSON.stringify(object), null);
         } else if (cmd === "npm test" && !testsExpectToPass) {
-            console.log("PASS");
             setImmediate(cb, new Error("test failed"), "This is the test error stdout", "This is the test error stderr");
         } else {
             setImmediate(cb, null);
@@ -523,19 +522,19 @@ describe("run()", function () {
             });
         });
 
-        describe.only("testErrors", function () {
-            describe("if --test-errors is set and update fails", function () {
+        describe("testStdout", function () {
+            describe("if --test-stdout is set and update fails", function () {
                 before(setupOutdatedModules(outdatedModules, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
                     reporter = function (emitter) {
-                        emitter.on("testErrors", function (options) {
+                        emitter.on("testStdout", function (options) {
                             expect(options).to.eql(expectedOptionsWithCurrentCountLatestAndTestErrors);
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter, testErrors: true }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, testStdout: true }, done);
                 });
             });
         });
