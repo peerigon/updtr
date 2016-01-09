@@ -189,6 +189,23 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     testCmd: "npm run test"
 };
 
+var expectedOptionsWithCurrentCountLatestAndTestErrors = {
+    current: 1,
+    total: 1,
+    info: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    },
+    testCmd: "npm test",
+    errors: "This is the test error stdout"
+};
+
 var expectedOptionsWithCurrentCountWanted = {
     current: 1,
     total: 1,
@@ -214,7 +231,8 @@ function execMock(object, testsExpectToPass) {
         if (cmd === "npm outdated --json --long --depth=0") {
             setImmediate(cb, null, JSON.stringify(object), null);
         } else if (cmd === "npm test" && !testsExpectToPass) {
-            setImmediate(cb, new Error());
+            console.log("PASS");
+            setImmediate(cb, new Error("test failed"), "This is the test error stdout", "This is the test error stderr");
         } else {
             setImmediate(cb, null);
         }
@@ -333,7 +351,7 @@ describe("run()", function () {
                     run({ cwd: process.cwd(), reporter: reporter, exclude: "servus.js" }, done);
                 });
             });
-            
+
             describe("if outdated modules were found with excluded more modules", function () {
                 before(setupOutdatedModules(outdatedModulesExclude));
                 afterEach(tearDown);
@@ -501,6 +519,23 @@ describe("run()", function () {
                     };
 
                     run({ cwd: process.cwd(), reporter: reporter }, done);
+                });
+            });
+        });
+
+        describe.only("testErrors", function () {
+            describe("if --test-errors is set and update fails", function () {
+                before(setupOutdatedModules(outdatedModules, false));
+                afterEach(tearDown);
+
+                it("should be emitted", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("testErrors", function (options) {
+                            expect(options).to.eql(expectedOptionsWithCurrentCountLatestAndTestErrors);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter, testErrors: true }, done);
                 });
             });
         });

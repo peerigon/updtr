@@ -11,7 +11,8 @@ program
   .option("-R, --reporter <reporter>", "choose reporter: " + reporters.join(", "), "default")
   .option("-w, --wanted", "updates to wanted version specified in package.json instead of the modules latest version")
   .option("-t, --test <test>", "change the command for the tests")
-  .option("-e, --exclude <exclude>", "exclude modules comma seperated, e.g. updtr --exclude module1,module2", "excludes");
+  .option("-e, --exclude <exclude>", "exclude modules comma seperated, e.g. updtr --exclude module1,module2", "excludes")
+  .option("--test-errors", "shows stdout if your test command fails");
 
 program.parse(process.argv);
 
@@ -26,7 +27,8 @@ updtr.run({
     reporter: updtr.reporters[program.reporter],
     wanted: program.wanted,
     testCmd: program.test,
-    exclude: program.exclude
+    exclude: program.exclude,
+    testErrors: program.testErrors
 }, function (err) {
     if (err) {
         throw err;
