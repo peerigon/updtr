@@ -305,6 +305,21 @@ describe("run()", function () {
             });
         });
 
+        describe("modulesMissing", function () {
+            before(setupOutdatedModules(outdatedModulesNotInstalled));
+            afterEach(tearDown);
+
+            it("should be emitted if npm outdated returns at least one missing module", function (done) {
+                reporter = function (emitter) {
+                    emitter.on("modulesMissing", function (options) {
+                        expect(options).to.be.undefined; // eslint-disable-line
+                    });
+                };
+
+                run({ cwd: process.cwd(), reporter: reporter }, done);
+            });
+        });
+
         describe("outdated", function () {
             describe("if outdated modules were found", function () {
                 before(setupOutdatedModules(outdatedModules));
@@ -314,21 +329,6 @@ describe("run()", function () {
                     reporter = function (emitter) {
                         emitter.on("outdated", function (options) {
                             expect(options).to.eql(expectedOptions);
-                        });
-                    };
-
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
-                });
-            });
-
-            describe("if outdated modules were found with not installed modules", function () {
-                before(setupOutdatedModules(outdatedModulesNotInstalled));
-                afterEach(tearDown);
-
-                it("should be emitted without not installed modules", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptionsNotInstalled);
                         });
                     };
 
