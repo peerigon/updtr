@@ -12,7 +12,8 @@ program
   .option("-w, --wanted", "updates to wanted version specified in package.json instead of the modules latest version")
   .option("-t, --test <test>", "change the command for the tests")
   .option("-e, --exclude <exclude>", "exclude modules comma seperated, e.g. updtr --exclude module1,module2", "excludes")
-  .option("--test-stdout", "shows stdout if your test command fails");
+  .option("--test-stdout", "shows stdout if your test command fails")
+  .option("--save-exact", "save exact module version");
 
 program.parse(process.argv);
 
@@ -28,7 +29,8 @@ updtr.run({
     wanted: program.wanted,
     testCmd: program.test,
     exclude: program.exclude,
-    testStdout: program.testStdout
+    testStdout: program.testStdout,
+    saveExact: program.saveExact
 }, function (err) {
     if (err) {
         throw err;
