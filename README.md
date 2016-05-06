@@ -38,7 +38,7 @@ npm install -g updtr
     -e, --exclude <exclude>    exclude modules comma seperated, e.g. updtr --exclude module1,module2
     --test-stdout              shows stdout if your test command fails
     --save-exact               save exact module version
-    --registry                 chance registry
+    --registry                 change registry
 ```
 
 ## License
