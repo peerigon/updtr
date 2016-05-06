@@ -170,7 +170,8 @@ var expectedOptionsWithCurrentCountLatest = {
         saveCmd: "--save",
         updateTo: "2.0.0"
     },
-    testCmd: "npm test"
+    testCmd: "npm test",
+    installCmd: "npm i"
 };
 
 var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
@@ -186,7 +187,8 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
         saveCmd: "--save",
         updateTo: "2.0.0"
     },
-    testCmd: "npm run test"
+    testCmd: "npm run test",
+    installCmd: "npm i"
 };
 
 var expectedOptionsWithCurrentCountLatestAndTestErrors = {
@@ -219,7 +221,25 @@ var expectedOptionsWithCurrentCountWanted = {
         saveCmd: "--save",
         updateTo: "1.1.5"
     },
-    testCmd: "npm test"
+    testCmd: "npm test",
+    installCmd: "npm i"
+};
+
+var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
+    current: 1,
+    total: 1,
+    info: {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "unicons",
+        type: "dependencies",
+        name: "unicons",
+        saveCmd: "--save",
+        updateTo: "1.1.5",
+    },
+    testCmd: "npm test",
+    installCmd: "npm i --registry https://curstom.npm.registry"
 };
 
 function tearDown() {
@@ -420,6 +440,16 @@ describe("run()", function () {
                     };
 
                     run({ cwd: process.cwd(), reporter: reporter, wanted: true }, done);
+                });
+
+                it("should be emitted with specified registry", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("updating", function (options) {
+                            expect(options).to.eql(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter, wanted: true, registry: "https://curstom.npm.registry" }, done);
                 });
             });
 
