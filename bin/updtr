@@ -13,7 +13,8 @@ program
   .option("-t, --test <test>", "change the command for the tests")
   .option("-e, --exclude <exclude>", "exclude modules comma seperated, e.g. updtr --exclude module1,module2", "excludes")
   .option("--test-stdout", "shows stdout if your test command fails")
-  .option("--save-exact", "save exact module version");
+  .option("--save-exact", "save exact module version")
+  .option("--registry", "change registry");
 
 program.parse(process.argv);
 
@@ -30,7 +31,8 @@ updtr.run({
     testCmd: program.test,
     exclude: program.exclude,
     testStdout: program.testStdout,
-    saveExact: program.saveExact
+    saveExact: program.saveExact,
+    registry: program.registry
 }, function (err) {
     if (err) {
         throw err;
