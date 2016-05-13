@@ -143,6 +143,51 @@ var outdatedModulesWithGitDependencies = {
     }
 };
 
+var outdatedModulesWithVersionGreaterThanLatestInstalled = {
+    "xunit-file": {
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "xunit-file",
+        type: "dependencies"
+    },  
+    unicons: {
+        current: "0.1.0",
+        wanted: "0.0.5",
+        latest: "0.0.5",
+        location: "unicons",
+        type: "dependencies"
+    },
+    "servus.js": {
+        current: "0.1.0-alpha",
+        wanted: "0.0.5",
+        latest: "0.0.5",
+        location: "servus.js",
+        type: "dependencies"
+    },
+    "babel-eslint": {
+        current: "6.0.0-beta.6",
+        wanted: "5.0.0",
+        latest: "5.0.0",
+        location: "babel-eslint",
+        type: "dependencies"
+    }
+};
+
+var expectedOptionsWithVersionGreaterThanLatestInstalled = {
+    infos: [{
+        current: "0.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "xunit-file",
+        type: "dependencies",
+        name: "xunit-file",
+        saveCmd: "--save",
+        updateTo: "2.0.0"
+    }],
+    total: 1
+};
+
 var expectedOptions = {
     infos: [{
         current: "0.1.4",
@@ -383,6 +428,21 @@ describe("run()", function () {
                     };
 
                     run({ cwd: process.cwd(), reporter: reporter, exclude: "asdf, servus.js" }, done);
+                });
+            });
+
+            describe("if outdated modules were found with unstable modules", function () {
+                before(setupOutdatedModules(outdatedModulesWithVersionGreaterThanLatestInstalled));
+                afterEach(tearDown);
+
+                it("should be emitted without unstable modules", function (done) {
+                    reporter = function (emitter) {
+                        emitter.on("outdated", function (options) {
+                            expect(options).to.eql(expectedOptionsWithVersionGreaterThanLatestInstalled);
+                        });
+                    };
+
+                    run({ cwd: process.cwd(), reporter: reporter }, done);
                 });
             });
 
