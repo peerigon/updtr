@@ -57,6 +57,13 @@ var outdatedModulesExclude = {
         location: "unicons",
         type: "dependencies"
     },
+    "servus.jsShouldNotBeExclued": {
+        current: "1.1.4",
+        wanted: "1.1.5",
+        latest: "2.0.0",
+        location: "servus.jsShouldNotBeExclued",
+        type: "dependencies"
+    },
     unicons: {
         current: "0.1.4",
         wanted: "1.1.5",
@@ -67,17 +74,29 @@ var outdatedModulesExclude = {
 };
 
 var expectedOptionsExclude = {
-    infos: [{
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies",
-        name: "unicons",
-        saveCmd: "--save",
-        updateTo: "2.0.0"
-    }],
-    total: 1
+    infos: [
+        {
+            current: "1.1.4",
+            wanted: "1.1.5",
+            latest: "2.0.0",
+            location: "servus.jsShouldNotBeExclued",
+            type: "dependencies",
+            name: "servus.jsShouldNotBeExclued",
+            saveCmd: "--save",
+            updateTo: "2.0.0"
+        },
+        {
+            current: "0.1.4",
+            wanted: "1.1.5",
+            latest: "2.0.0",
+            location: "unicons",
+            type: "dependencies",
+            name: "unicons",
+            saveCmd: "--save",
+            updateTo: "2.0.0"
+        }
+    ],
+    total: 2
 };
 
 var outdatedModulesUnstable = {
