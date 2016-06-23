@@ -35,20 +35,6 @@ var outdatedModulesNotInstalled = {
     }
 };
 
-var expectedOptionsNotInstalled = {
-    infos: [{
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies",
-        name: "unicons",
-        saveCmd: "--save",
-        updateTo: "2.0.0"
-    }],
-    total: 1
-};
-
 var outdatedModulesExclude = {
     "servus.js": {
         current: "1.1.4",
@@ -169,7 +155,7 @@ var outdatedModulesWithVersionGreaterThanLatestInstalled = {
         latest: "2.0.0",
         location: "xunit-file",
         type: "dependencies"
-    },  
+    },
     unicons: {
         current: "0.1.0",
         wanted: "0.0.5",
@@ -300,7 +286,7 @@ var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "1.1.5",
+        updateTo: "1.1.5"
     },
     testCmd: "npm test",
     installCmd: "npm i --registry https://curstom.npm.registry"
