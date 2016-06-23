@@ -5,8 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -R spec",
+    "posttest": "npm run lint",
     "test:watch": "npm run test -- -w -G",
-    "coverage": "istanbul cover _mocha -- -R spec"
+    "coverage": "istanbul cover _mocha -- -R spec",
+    "lint": "eslint --fix bin lib test"
   },
   "author": "peerigon",
   "license": "Unlicense",
@@ -24,7 +26,8 @@
   "devDependencies": {
     "chai": "^3.3.0",
     "eslint": "^2.9.0",
-    "eslint-config-peerigon": "^4.0.0",
+    "eslint-config-peerigon": "^5.0.0",
+    "eslint-plugin-jsdoc": "^2.3.1",
     "istanbul": "^0.4.3",
     "mocha": "^2.3.3"
   },
