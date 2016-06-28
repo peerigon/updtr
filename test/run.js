@@ -289,7 +289,7 @@ var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
         updateTo: "1.1.5"
     },
     testCmd: "npm test",
-    installCmd: "npm i --registry https://curstom.npm.registry"
+    installCmd: "npm i --registry https://custom.npm.registry"
 };
 
 function tearDown() {
@@ -514,7 +514,7 @@ describe("run()", function () {
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter, wanted: true, registry: "https://curstom.npm.registry" }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, wanted: true, registry: "https://custom.npm.registry" }, done);
                 });
             });
 
