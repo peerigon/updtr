@@ -629,7 +629,7 @@ describe("run()", function () {
                         });
                     };
 
-                    run({ cwd: process.cwd(), reporter: reporter, testStdout: true }, done);
+                    run({ cwd: process.cwd(), reporter: reporter, testStdout: true, exclude: "unicons" }, done);
                 });
             });
         });
