@@ -29,7 +29,9 @@
     "eslint-config-peerigon": "^5.0.0",
     "eslint-plugin-jsdoc": "^2.3.1",
     "istanbul": "^0.4.3",
-    "mocha": "^2.3.3"
+    "mocha": "^2.3.3",
+    "sinon": "^1.17.4",
+    "sinon-chai": "^2.8.0"
   },
   "engines": {
     "node": ">= 0.10.0",
