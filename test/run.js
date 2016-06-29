@@ -1,12 +1,12 @@
 "use strict";
 
 var childProcess = require("child_process");
+var sinon = require("sinon");
 var chai = require("chai");
+var sinonChai = require("sinon-chai");
 var run = require("../lib/run");
 
 var expect = chai.expect;
-
-var reporter;
 var execBackup;
 var noOutdatedModules = {};
 var outdatedModules = {
@@ -18,7 +18,6 @@ var outdatedModules = {
         type: "dependencies"
     }
 };
-
 var outdatedModulesNotInstalled = {
     "servus.js": {
         wanted: "1.1.5",
@@ -34,7 +33,6 @@ var outdatedModulesNotInstalled = {
         type: "dependencies"
     }
 };
-
 var outdatedModulesExclude = {
     "servus.js": {
         current: "1.1.4",
@@ -58,7 +56,6 @@ var outdatedModulesExclude = {
         type: "dependencies"
     }
 };
-
 var expectedOptionsExclude = {
     infos: [
         {
@@ -84,7 +81,6 @@ var expectedOptionsExclude = {
     ],
     total: 2
 };
-
 var outdatedModulesUnstable = {
     "servus.js": {
         current: "0.1.4",
@@ -115,7 +111,6 @@ var outdatedModulesUnstable = {
         type: "dependencies"
     }
 };
-
 var expectedOptionsUnstable = {
     infos: [{
         current: "0.1.4",
@@ -129,7 +124,6 @@ var expectedOptionsUnstable = {
     }],
     total: 1
 };
-
 var outdatedModulesWithGitDependencies = {
     unicons: outdatedModules.unicons,
     "xunit-file": {
@@ -147,7 +141,6 @@ var outdatedModulesWithGitDependencies = {
         type: "dependencies"
     }
 };
-
 var outdatedModulesWithVersionGreaterThanLatestInstalled = {
     "xunit-file": {
         current: "0.1.4",
@@ -178,7 +171,6 @@ var outdatedModulesWithVersionGreaterThanLatestInstalled = {
         type: "dependencies"
     }
 };
-
 var expectedOptionsWithVersionGreaterThanLatestInstalled = {
     infos: [{
         current: "0.1.4",
@@ -192,7 +184,6 @@ var expectedOptionsWithVersionGreaterThanLatestInstalled = {
     }],
     total: 1
 };
-
 var expectedOptions = {
     infos: [{
         current: "0.1.4",
@@ -206,7 +197,6 @@ var expectedOptions = {
     }],
     total: 1
 };
-
 var expectedOptionsWithCurrentCountLatest = {
     current: 1,
     total: 1,
@@ -223,7 +213,6 @@ var expectedOptionsWithCurrentCountLatest = {
     testCmd: "npm test",
     installCmd: "npm i"
 };
-
 var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     current: 1,
     total: 1,
@@ -240,7 +229,6 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     testCmd: "npm run test",
     installCmd: "npm i"
 };
-
 var expectedOptionsWithCurrentCountLatestAndTestErrors = {
     current: 1,
     total: 1,
@@ -255,9 +243,9 @@ var expectedOptionsWithCurrentCountLatestAndTestErrors = {
         updateTo: "2.0.0"
     },
     testCmd: "npm test",
-    errors: "This is the test error stdout"
+    installCmd: "npm i",
+    testStdout: "This is the test error stdout"
 };
-
 var expectedOptionsWithCurrentCountWanted = {
     current: 1,
     total: 1,
@@ -274,7 +262,6 @@ var expectedOptionsWithCurrentCountWanted = {
     testCmd: "npm test",
     installCmd: "npm i"
 };
-
 var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
     current: 1,
     total: 1,
@@ -315,169 +302,220 @@ function setupOutdatedModules(obj, testsExpectToPass) {
     };
 }
 
+chai.use(sinonChai);
+
 describe("run()", function () {
     it("should throw an error, if no options set", function () {
         expect(run).to.throw(Error);
     });
 
     it("should throw an error, if cwd is missing", function () {
-        expect(
-            function () {
-                run({ cwd: 1 });
-            }
-        ).to.throw(Error);
+        expect(function () {
+            run({ cwd: 1 });
+        }).to.throw(Error);
     });
 
     describe("events", function () {
         describe("init", function () {
-            before(setupOutdatedModules(outdatedModules));
-
-            after(tearDown);
+            beforeEach(setupOutdatedModules(outdatedModules));
+            afterEach(tearDown);
 
             it("should be emitted, if cwd is set", function (done) {
-                reporter = function (emitter) {
-                    emitter.on("init", function (options) {
-                        expect(options).to.eql({ cwd: process.cwd() });
-                    });
-                };
+                var onInit = sinon.spy();
 
-                run({ cwd: process.cwd(), reporter: reporter }, done);
+                run({
+                    cwd: process.cwd(),
+                    reporter: function (emitter) {
+                        emitter.on("init", onInit);
+                    }
+                }, function (err) {
+                    expect(onInit).to.have.been.calledOnce;
+                    expect(onInit).to.have.been.calledWithExactly({ cwd: process.cwd() });
+                    done(err);
+                });
             });
         });
 
         describe("noop", function () {
-            before(setupOutdatedModules(noOutdatedModules));
+            beforeEach(setupOutdatedModules(noOutdatedModules));
             afterEach(tearDown);
 
             it("should be emitted if no outdated modules were found", function (done) {
-                reporter = function (emitter) {
-                    emitter.on("noop", function (options) {
-                        expect(options).to.be.undefined; // eslint-disable-line
-                    });
-                };
+                var onNoop = sinon.spy();
 
-                run({ cwd: process.cwd(), reporter: reporter }, done);
+                run({
+                    cwd: process.cwd(),
+                    reporter: function (emitter) {
+                        emitter.on("noop", onNoop);
+                    }
+                }, function (err) {
+                    expect(onNoop).to.have.been.calledOnce;
+                    expect(onNoop).to.have.been.calledWithExactly();
+                    done(err);
+                });
             });
         });
 
         describe("noop", function () {
-            before(setupOutdatedModules(undefined));
+            beforeEach(setupOutdatedModules(undefined));
             afterEach(tearDown);
 
             it("should be emitted if npm outdated returns nothing", function (done) {
-                reporter = function (emitter) {
-                    emitter.on("noop", function (options) {
-                        expect(options).to.be.undefined; // eslint-disable-line
-                    });
-                };
+                var onNoop = sinon.spy();
 
-                run({ cwd: process.cwd(), reporter: reporter }, done);
+                run({
+                    cwd: process.cwd(),
+                    reporter: function (emitter) {
+                        emitter.on("noop", onNoop);
+                    }
+                }, function (err) {
+                    expect(onNoop).to.have.been.calledOnce;
+                    expect(onNoop).to.have.been.calledWithExactly();
+                    done(err);
+                });
             });
         });
 
         describe("modulesMissing", function () {
-            before(setupOutdatedModules(outdatedModulesNotInstalled));
+            beforeEach(setupOutdatedModules(outdatedModulesNotInstalled));
             afterEach(tearDown);
 
             it("should be emitted if npm outdated returns at least one missing module", function (done) {
-                reporter = function (emitter) {
-                    emitter.on("modulesMissing", function (options) {
-                        expect(options).to.be.undefined; // eslint-disable-line
-                    });
-                };
+                var onModulesMissing = sinon.spy();
 
-                run({ cwd: process.cwd(), reporter: reporter }, done);
+                run({
+                    cwd: process.cwd(),
+                    reporter: function (emitter) {
+                        emitter.on("modulesMissing", onModulesMissing);
+                    }
+                }, function (err) {
+                    expect(onModulesMissing).to.have.been.calledOnce;
+                    expect(onModulesMissing).to.have.been.calledWithExactly();
+                    done(err);
+                });
             });
         });
 
         describe("outdated", function () {
             describe("if outdated modules were found", function () {
-                before(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdatedModules(outdatedModules));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptions);
-                        });
-                    };
+                    var onOutdated = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("outdated", onOutdated);
+                        }
+                    }, function (err) {
+                        expect(onOutdated).to.have.been.calledOnce;
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
+                        done(err);
+                    });
                 });
             });
 
             describe("if outdated modules were found with excluded one module", function () {
-                before(setupOutdatedModules(outdatedModulesExclude));
+                beforeEach(setupOutdatedModules(outdatedModulesExclude));
                 afterEach(tearDown);
 
                 it("should be emitted without excluded module", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptionsExclude);
-                        });
-                    };
+                    var onOutdated = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, exclude: "servus.js" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        exclude: "servus.js",
+                        reporter: function (emitter) {
+                            emitter.on("outdated", onOutdated);
+                        }
+                    }, function (err) {
+                        expect(onOutdated).to.have.been.calledOnce;
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
+                        done(err);
+                    });
                 });
             });
 
             describe("if outdated modules were found with excluded more modules", function () {
-                before(setupOutdatedModules(outdatedModulesExclude));
+                beforeEach(setupOutdatedModules(outdatedModulesExclude));
                 afterEach(tearDown);
 
                 it("should be emitted without excluded modules", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptionsExclude);
-                        });
-                    };
+                    var onOutdated = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, exclude: "asdf, servus.js" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        exclude: "asdf, servus.js",
+                        reporter: function (emitter) {
+                            emitter.on("outdated", onOutdated);
+                        }
+                    }, function (err) {
+                        expect(onOutdated).to.have.been.calledOnce;
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
+                        done(err);
+                    });
                 });
             });
 
             describe("if outdated modules were found with unstable modules", function () {
-                before(setupOutdatedModules(outdatedModulesWithVersionGreaterThanLatestInstalled));
+                beforeEach(setupOutdatedModules(outdatedModulesWithVersionGreaterThanLatestInstalled));
                 afterEach(tearDown);
 
                 it("should be emitted without unstable modules", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptionsWithVersionGreaterThanLatestInstalled);
-                        });
-                    };
+                    var onOutdated = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("outdated", onOutdated);
+                        }
+                    }, function (err) {
+                        expect(onOutdated).to.have.been.calledOnce;
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsWithVersionGreaterThanLatestInstalled);
+                        done(err);
+                    });
                 });
             });
 
             describe("if outdated modules were found with unstable modules", function () {
-                before(setupOutdatedModules(outdatedModulesUnstable));
+                beforeEach(setupOutdatedModules(outdatedModulesUnstable));
                 afterEach(tearDown);
 
                 it("should be emitted without unstable modules", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptionsUnstable);
-                        });
-                    };
+                    var onOutdated = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("outdated", onOutdated);
+                        }
+                    }, function (err) {
+                        expect(onOutdated).to.have.been.calledOnce;
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsUnstable);
+                        done(err);
+                    });
                 });
             });
 
             describe("if outdated modules with git submodules were found", function () {
-                before(setupOutdatedModules(outdatedModulesWithGitDependencies));
+                beforeEach(setupOutdatedModules(outdatedModulesWithGitDependencies));
                 afterEach(tearDown);
 
                 it("should be emitted without git submodules", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("outdated", function (options) {
-                            expect(options).to.eql(expectedOptions);
-                        });
-                    };
+                    var onOutdated = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("outdated", onOutdated);
+                        }
+                    }, function (err) {
+                        expect(onOutdated).to.have.been.calledOnce;
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
+                        done(err);
+                    });
                 });
             });
         });
@@ -488,196 +526,264 @@ describe("run()", function () {
                 afterEach(tearDown);
 
                 it("should be emitted with latest version to install", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("updating", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
-                        });
-                    };
+                    var onUpdating = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("updating", onUpdating);
+                        }
+                    }, function (err) {
+                        expect(onUpdating).to.have.been.calledOnce;
+                        expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
+                        done(err);
+                    });
                 });
 
                 it("should be emitted with wanted version to install", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("updating", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountWanted);
-                        });
-                    };
+                    var onUpdating = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, wanted: true }, done);
+                    run({
+                        cwd: process.cwd(),
+                        wanted: true,
+                        reporter: function (emitter) {
+                            emitter.on("updating", onUpdating);
+                        }
+                    }, function (err) {
+                        expect(onUpdating).to.have.been.calledOnce;
+                        expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWanted);
+                        done(err);
+                    });
                 });
 
                 it("should be emitted with specified registry", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("updating", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
-                        });
-                    };
+                    var onUpdating = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, wanted: true, registry: "https://custom.npm.registry" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        wanted: true,
+                        registry: "https://custom.npm.registry",
+                        reporter: function (emitter) {
+                            emitter.on("updating", onUpdating);
+                        }
+                    }, function (err) {
+                        expect(onUpdating).to.have.been.calledOnce;
+                        expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
+                        done(err);
+                    });
                 });
             });
 
             describe("if no outdated modules were found", function () {
-                before(setupOutdatedModules(noOutdatedModules));
+                beforeEach(setupOutdatedModules(noOutdatedModules));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("updating", function () {
-                            throw new Error();
-                        });
-                    };
+                    var onUpdating = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("updating", onUpdating);
+                        }
+                    }, function (err) {
+                        expect(onUpdating).to.not.have.been.called;
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("testing", function () {
             describe("if outdated modules were found", function () {
-                before(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdatedModules(outdatedModules));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("testing", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
-                        });
-                    };
+                    var onTesting = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("testing", onTesting);
+                        }
+                    }, function (err) {
+                        expect(onTesting).to.have.been.calledOnce;
+                        expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("testing", function () {
             describe("if custom test command is given", function () {
-                before(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdatedModules(outdatedModules));
                 afterEach(tearDown);
 
                 it("should be emitted with correct command", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("testing", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatestAndCustomTestCmd);
-                        });
-                    };
+                    var onTesting = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm run test" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        testCmd: "npm run test",
+                        reporter: function (emitter) {
+                            emitter.on("testing", onTesting);
+                        }
+                    }, function (err) {
+                        expect(onTesting).to.have.been.calledOnce;
+                        expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndCustomTestCmd);
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("rollback", function () {
             describe("if tests are failing", function () {
-                before(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdatedModules(outdatedModules, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("rollback", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
-                        });
-                    };
+                    var onRollback = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("rollback", onRollback);
+                        }
+                    }, function (err) {
+                        expect(onRollback).to.have.been.calledOnce;
+                        expect(onRollback).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
+                        done(err);
+                    });
                 });
             });
 
             describe("if tests are passing", function () {
-                before(setupOutdatedModules(outdatedModules, true));
+                beforeEach(setupOutdatedModules(outdatedModules, true));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("rollback", function (options) {
-                            throw new Error();
-                        });
-                    };
+                    var onRollback = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("rollback", onRollback);
+                        }
+                    }, function (err) {
+                        expect(onRollback).to.not.have.been.called;
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("rollbackDone", function () {
             describe("if outdated modules were found", function () {
-                before(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdatedModules(outdatedModules, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("rollbackDone", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
-                        });
-                    };
+                    var onRollbackDone = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("rollbackDone", onRollbackDone);
+                        }
+                    }, function (err) {
+                        expect(onRollbackDone).to.have.been.calledOnce;
+                        expect(onRollbackDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("testStdout", function () {
             describe("if --test-stdout is set and update fails", function () {
-                before(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdatedModules(outdatedModules, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("testStdout", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatestAndTestErrors);
-                        });
-                    };
+                    var onTestStdout = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, testStdout: true, exclude: "unicons" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        testStdout: true,
+                        reporter: function (emitter) {
+                            emitter.on("testStdout", onTestStdout);
+                        }
+                    }, function (err) {
+                        expect(onTestStdout).to.have.been.calledOnce;
+                        expect(onTestStdout).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndTestErrors);
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("updatingDone", function () {
             describe("if tests are passing", function () {
-                before(setupOutdatedModules(outdatedModules, true));
+                beforeEach(setupOutdatedModules(outdatedModules, true));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("updatingDone", function (options) {
-                            expect(options).to.eql(expectedOptionsWithCurrentCountLatest);
-                        });
-                    };
+                    var onUpdatingDone = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("updatingDone", onUpdatingDone);
+                        }
+                    }, function (err) {
+                        expect(onUpdatingDone).to.have.been.calledOnce;
+                        expect(onUpdatingDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
+                        done(err);
+                    });
                 });
             });
             describe("if tests are failing", function () {
-                before(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdatedModules(outdatedModules, false));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("updatingDone", function (options) {
-                            throw new Error();
-                        });
-                    };
+                    var onUpdatingDone = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        reporter: function (emitter) {
+                            emitter.on("updatingDone", onUpdatingDone);
+                        }
+                    }, function (err) {
+                        expect(onUpdatingDone).to.not.have.been.called;
+                        done(err);
+                    });
                 });
             });
         });
 
         describe("finished", function () {
             describe("if outdated modules were found", function () {
-                before(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdatedModules(outdatedModules));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
-                    reporter = function (emitter) {
-                        emitter.on("finished", function (options) {
-                            expect(options).to.be.undefined; // eslint-disable-line
-                        });
-                    };
+                    var onFinished = sinon.spy();
 
-                    run({ cwd: process.cwd(), reporter: reporter, testCmd: "npm test" }, done);
+                    run({
+                        cwd: process.cwd(),
+                        testStdout: true,
+                        reporter: function (emitter) {
+                            emitter.on("finished", onFinished);
+                        }
+                    }, function (err) {
+                        expect(onFinished).to.have.been.calledOnce;
+                        expect(onFinished).to.have.been.calledWithExactly();
+                        done(err);
+                    });
                 });
             });
         });
