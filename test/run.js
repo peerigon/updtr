@@ -7,7 +7,6 @@ var sinonChai = require("sinon-chai");
 var run = require("../lib/run");
 
 var expect = chai.expect;
-var reporter;
 var execBackup;
 var noOutdatedModules = {};
 var outdatedModules = {
