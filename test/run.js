@@ -389,8 +389,12 @@ describe("run()", function () {
                         emitter.on("modulesMissing", onModulesMissing);
                     }
                 }, function (err) {
+                    var expectedEvent = {
+                        infos: [sinon.match({ name: "servus.js" })]
+                    };
+
                     expect(onModulesMissing).to.have.been.calledOnce;
-                    expect(onModulesMissing).to.have.been.calledWithExactly();
+                    expect(onModulesMissing).to.have.been.calledWithMatch(expectedEvent);
                     done(err);
                 });
             });
