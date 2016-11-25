@@ -11,7 +11,7 @@
 
 Based on `npm outdated`, **updtr** installs the latest version and runs `npm test` for each dependency. If the test succeeds, **updtr** saves the new version number to your `package.json`. If the test fails, however, **updtr** rolls back its changes.
 
-Made by [Peerigon](https://peerigon.com).
+Made by [Peerigon](https://peerigon.com/?pk_campaign=gh-os&pk_kwd=updtr).
 
 ![updtr](assets/updtr.gif)
 
