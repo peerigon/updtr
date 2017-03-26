@@ -10,6 +10,7 @@ program
   .description(pkg.description)
   .option("-R, --reporter <reporter>", "choose reporter: " + reporters.join(", "), "default")
   .option("-w, --wanted", "updates to wanted version specified in package.json instead of the modules latest version")
+  .option("-fn, --force-npm", "force usage of npm")
   .option("-t, --test <test>", "change the command for the tests")
   .option("-e, --exclude <exclude>", "exclude modules comma seperated, e.g. updtr --exclude module1,module2")
   .option("--test-stdout", "shows stdout if your test command fails")
@@ -28,6 +29,7 @@ updtr.run({
     cwd: process.cwd(),
     reporter: updtr.reporters[program.reporter],
     wanted: program.wanted,
+    forceNpm: program.forceNpm,
     testCmd: program.test,
     exclude: program.exclude,
     testStdout: program.testStdout,
