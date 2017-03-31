@@ -4,7 +4,8 @@ var childProcess = require("child_process");
 var sinon = require("sinon");
 var chai = require("chai");
 var sinonChai = require("sinon-chai");
-var run = require("../lib/run");
+var rewire = require("rewire");
+var run = rewire("../lib/run");
 
 var expect = chai.expect;
 var execBackup;
@@ -306,6 +307,12 @@ function setupOutdatedModules(obj, testsExpectToPass) {
 chai.use(sinonChai);
 
 describe("yarn run()", function () {
+    var fsMock = {
+        existsSync: () => true
+    };
+
+    run.__set__("fs", fsMock);
+
     it("should throw an error, if no options set", function () {
         expect(run).to.throw(Error);
     });
