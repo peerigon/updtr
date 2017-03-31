@@ -265,21 +265,6 @@ var expectedOptionsWithCurrentCountWanted = {
     testCmd: "yarn test",
     installCmd: "yarn add"
 };
-var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
-    current: 1,
-    total: 1,
-    info: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        type: "dependencies",
-        name: "unicons",
-        saveCmd: "",
-        updateTo: "1.1.5"
-    },
-    testCmd: "yarn test",
-    installCmd: "yarn add --registry https://custom.npm.registry"
-};
 
 function tearDown() {
     childProcess.exec = execBackup;
@@ -546,21 +531,16 @@ describe("yarn run()", function () {
                     });
                 });
 
-                it("should be emitted with specified registry", function (done) {
-                    var onUpdating = sinon.spy();
-
-                    run({
-                        cwd: process.cwd(),
-                        wanted: true,
-                        registry: "https://custom.npm.registry",
-                        reporter: function (emitter) {
-                            emitter.on("updating", onUpdating);
-                        }
-                    }, function (err) {
-                        expect(onUpdating).to.have.been.calledOnce;
-                        expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
-                        done(err);
-                    });
+                it("should be abort with specified registry since yarn does not support it yet", function (done) {
+                    function runIt() {
+                        run({
+                            cwd: process.cwd(),
+                            wanted: true,
+                            registry: "https://custom.npm.registry"
+                        });
+                    }
+                    expect(runIt).to.throw(/`yarn add` does not support custom registries yet. Please use a .npmrc file to achieve this./);
+                    done();
                 });
             });
 
