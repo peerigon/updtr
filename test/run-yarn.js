@@ -308,7 +308,9 @@ chai.use(sinonChai);
 
 describe("yarn run()", function () {
     var fsMock = {
-        existsSync: () => true
+        existsSync: function () {
+            return true;
+        }
     };
 
     run.__set__("fs", fsMock);
