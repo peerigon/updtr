@@ -11,6 +11,8 @@
 
 Based on `npm outdated`, **updtr** installs the latest version and runs `npm test` for each dependency. If the test succeeds, **updtr** saves the new version number to your `package.json`. If the test fails, however, **updtr** rolls back its changes.
 
+Additionally, it will use `yarn` instead of `npm` when a `yarn.lock` file is present in your project.
+
 Made by [Peerigon](https://peerigon.com/?pk_campaign=gh-os&pk_kwd=updtr).
 
 ![updtr](assets/updtr.gif)
@@ -34,7 +36,7 @@ npm install -g updtr
 
     -h, --help                 output usage information
     -V, --version              output the version number
-    -R, --reporter <reporter>  choose reporter: default, shy
+    -R, --reporter <reporter>  choose reporter: default, shy, simple
     -w, --wanted               updates to wanted version specified in package.json instead of the modules latest version
     -t, --test <test>          change the command for the tests
     -e, --exclude <exclude>    exclude modules comma seperated, e.g. updtr --exclude module1,module2

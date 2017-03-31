@@ -4,56 +4,52 @@ var childProcess = require("child_process");
 var sinon = require("sinon");
 var chai = require("chai");
 var sinonChai = require("sinon-chai");
-var run = require("../lib/run");
+var rewire = require("rewire");
+var run = rewire("../lib/run");
 
 var expect = chai.expect;
 var execBackup;
 var noOutdatedModules = {};
 var outdatedModules = {
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    }
-};
-var outdatedModulesNotInstalled = {
-    "servus.js": {
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
+    type: "table",
+    data: {
+        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
+        body: [
+            [
+                "unicons",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ]
+        ]
     }
 };
 var outdatedModulesExclude = {
-    "servus.js": {
-        current: "1.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "servus.jsShouldNotBeExclued": {
-        current: "1.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "servus.jsShouldNotBeExclued",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
+    type: "table",
+    data: {
+        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
+        body: [
+            [
+                "servus.js",
+                "1.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ], [
+                "servus.jsShouldNotBeExclued",
+                "1.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ], [
+                "unicons",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ]
+        ]
     }
 };
 var expectedOptionsExclude = {
@@ -62,53 +58,54 @@ var expectedOptionsExclude = {
             current: "1.1.4",
             wanted: "1.1.5",
             latest: "2.0.0",
-            location: "servus.jsShouldNotBeExclued",
             type: "dependencies",
             name: "servus.jsShouldNotBeExclued",
-            saveCmd: "--save",
+            saveCmd: "",
             updateTo: "2.0.0"
         },
         {
             current: "0.1.4",
             wanted: "1.1.5",
             latest: "2.0.0",
-            location: "unicons",
             type: "dependencies",
             name: "unicons",
-            saveCmd: "--save",
+            saveCmd: "",
             updateTo: "2.0.0"
         }
     ],
     total: 2
 };
 var outdatedModulesUnstable = {
-    "servus.js": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0-beta",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "xunit-file": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0-alpha",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "npm-stats": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0-rc",
-        location: "unicons",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
+    type: "table",
+    data: {
+        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
+        body: [
+            [
+                "servus.js",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0-beta",
+                "dependencies"
+            ], [
+                "xunit-file",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0-alpha",
+                "dependencies"
+            ], [
+                "npm-stats",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0-rc",
+                "dependencies"
+            ], [
+                "unicons",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ]
+        ]
     }
 };
 var expectedOptionsUnstable = {
@@ -116,59 +113,71 @@ var expectedOptionsUnstable = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "2.0.0"
     }],
     total: 1
 };
 var outdatedModulesWithGitDependencies = {
-    unicons: outdatedModules.unicons,
-    "xunit-file": {
-        current: "0.0.7",
-        wanted: "git",
-        latest: "git",
-        location: "xunit-file",
-        type: "dependencies"
-    },
-    "servus.js": {
-        current: "0.0.1",
-        wanted: "git",
-        latest: "git",
-        location: "servus.js",
-        type: "dependencies"
+    type: "table",
+    data: {
+        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
+        body: [
+            [
+                "unicons",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ], [
+                "xunit-file",
+                "0.0.7",
+                "exotic",
+                "exotic",
+                "dependencies"
+            ], [
+                "servus.js",
+                "0.0.1",
+                "exotic",
+                "exotic",
+                "dependencies"
+            ]
+        ]
     }
 };
 var outdatedModulesWithVersionGreaterThanLatestInstalled = {
-    "xunit-file": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "xunit-file",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.0",
-        wanted: "0.0.5",
-        latest: "0.0.5",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "servus.js": {
-        current: "0.1.0-alpha",
-        wanted: "0.0.5",
-        latest: "0.0.5",
-        location: "servus.js",
-        type: "dependencies"
-    },
-    "babel-eslint": {
-        current: "6.0.0-beta.6",
-        wanted: "5.0.0",
-        latest: "5.0.0",
-        location: "babel-eslint",
-        type: "dependencies"
+    type: "table",
+    data: {
+        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
+        body: [
+            [
+                "xunit-file",
+                "0.1.4",
+                "1.1.5",
+                "2.0.0",
+                "dependencies"
+            ], [
+                "unicons",
+                "0.1.0",
+                "0.0.5",
+                "0.0.5",
+                "dependencies"
+            ], [
+                "servus.js",
+                "0.1.0-alpha",
+                "0.0.5",
+                "0.0.5",
+                "dependencies"
+            ], [
+                "babel-eslint",
+                "6.0.0-beta.6",
+                "5.0.0",
+                "5.0.0",
+                "dependencies"
+            ]
+        ]
     }
 };
 var expectedOptionsWithVersionGreaterThanLatestInstalled = {
@@ -176,10 +185,9 @@ var expectedOptionsWithVersionGreaterThanLatestInstalled = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "xunit-file",
         type: "dependencies",
         name: "xunit-file",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "2.0.0"
     }],
     total: 1
@@ -189,10 +197,9 @@ var expectedOptions = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "2.0.0"
     }],
     total: 1
@@ -204,14 +211,13 @@ var expectedOptionsWithCurrentCountLatest = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "2.0.0"
     },
-    testCmd: "npm test",
-    installCmd: "npm i"
+    testCmd: "yarn test",
+    installCmd: "yarn add"
 };
 var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     current: 1,
@@ -220,14 +226,13 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "2.0.0"
     },
-    testCmd: "npm run test",
-    installCmd: "npm i"
+    testCmd: "yarn run test",
+    installCmd: "yarn add"
 };
 var expectedOptionsWithCurrentCountLatestAndTestErrors = {
     current: 1,
@@ -236,14 +241,13 @@ var expectedOptionsWithCurrentCountLatestAndTestErrors = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "2.0.0"
     },
-    testCmd: "npm test",
-    installCmd: "npm i",
+    testCmd: "yarn test",
+    installCmd: "yarn add",
     testStdout: "This is the test error stdout"
 };
 var expectedOptionsWithCurrentCountWanted = {
@@ -253,46 +257,13 @@ var expectedOptionsWithCurrentCountWanted = {
         current: "0.1.4",
         wanted: "1.1.5",
         latest: "2.0.0",
-        location: "unicons",
         type: "dependencies",
         name: "unicons",
-        saveCmd: "--save",
+        saveCmd: "",
         updateTo: "1.1.5"
     },
-    testCmd: "npm test",
-    installCmd: "npm i"
-};
-var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
-    current: 1,
-    total: 1,
-    info: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies",
-        name: "unicons",
-        saveCmd: "--save",
-        updateTo: "1.1.5"
-    },
-    testCmd: "npm test",
-    installCmd: "npm i --registry https://custom.npm.registry"
-};
-var expectedOptionsWithSaveExact = {
-    current: 1,
-    total: 1,
-    info: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies",
-        name: "unicons",
-        saveCmd: "--save",
-        updateTo: "2.0.0"
-    },
-    testCmd: "npm test",
-    installCmd: "npm i --save-exact"
+    testCmd: "yarn test",
+    installCmd: "yarn add"
 };
 
 function tearDown() {
@@ -301,9 +272,9 @@ function tearDown() {
 
 function execMock(object, testsExpectToPass) {
     return function (cmd, obj, cb) {
-        if (cmd === "npm outdated --json --long --depth=0") {
+        if (cmd === "yarn outdated --json --flat") {
             setImmediate(cb, null, JSON.stringify(object), null);
-        } else if (cmd === "npm test" && !testsExpectToPass) {
+        } else if (cmd === "yarn test" && !testsExpectToPass) {
             setImmediate(cb, new Error("test failed"), "This is the test error stdout", "This is the test error stderr");
         } else {
             setImmediate(cb, null);
@@ -320,7 +291,15 @@ function setupOutdatedModules(obj, testsExpectToPass) {
 
 chai.use(sinonChai);
 
-describe("npm run()", function () {
+describe("yarn run()", function () {
+    var fsMock = {
+        existsSync: function () {
+            return true;
+        }
+    };
+
+    run.__set__("fs", fsMock);
+
     it("should throw an error, if no options set", function () {
         expect(run).to.throw(Error);
     });
@@ -341,7 +320,6 @@ describe("npm run()", function () {
 
                 run({
                     cwd: process.cwd(),
-                    forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("init", onInit);
                     }
@@ -362,7 +340,6 @@ describe("npm run()", function () {
 
                 run({
                     cwd: process.cwd(),
-                    forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("noop", onNoop);
                     }
@@ -383,38 +360,12 @@ describe("npm run()", function () {
 
                 run({
                     cwd: process.cwd(),
-                    forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("noop", onNoop);
                     }
                 }, function (err) {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
-                    done(err);
-                });
-            });
-        });
-
-        describe("modulesMissing", function () {
-            beforeEach(setupOutdatedModules(outdatedModulesNotInstalled));
-            afterEach(tearDown);
-
-            it("should be emitted if npm outdated returns at least one missing module", function (done) {
-                var onModulesMissing = sinon.spy();
-
-                run({
-                    cwd: process.cwd(),
-                    forceNpm: true,
-                    reporter: function (emitter) {
-                        emitter.on("modulesMissing", onModulesMissing);
-                    }
-                }, function (err) {
-                    var expectedEvent = {
-                        infos: [sinon.match({ name: "servus.js" })]
-                    };
-
-                    expect(onModulesMissing).to.have.been.calledOnce;
-                    expect(onModulesMissing).to.have.been.calledWithMatch(expectedEvent);
                     done(err);
                 });
             });
@@ -430,7 +381,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
                         }
@@ -451,7 +401,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         exclude: "servus.js",
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
@@ -473,7 +422,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         exclude: "asdf, servus.js",
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
@@ -495,7 +443,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
                         }
@@ -516,7 +463,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
                         }
@@ -537,7 +483,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
                         }
@@ -560,7 +505,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
                         }
@@ -576,7 +520,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         wanted: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
@@ -588,39 +531,16 @@ describe("npm run()", function () {
                     });
                 });
 
-                it("should be emitted with specified registry", function (done) {
-                    var onUpdating = sinon.spy();
-
-                    run({
-                        cwd: process.cwd(),
-                        forceNpm: true,
-                        wanted: true,
-                        registry: "https://custom.npm.registry",
-                        reporter: function (emitter) {
-                            emitter.on("updating", onUpdating);
-                        }
-                    }, function (err) {
-                        expect(onUpdating).to.have.been.calledOnce;
-                        expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
-                        done(err);
-                    });
-                });
-
-                it("should be emitted with save exact param", function (done) {
-                    var onUpdating = sinon.spy();
-
-                    run({
-                        cwd: process.cwd(),
-                        forceNpm: true,
-                        saveExact: true,
-                        reporter: function (emitter) {
-                            emitter.on("updating", onUpdating);
-                        }
-                    }, function (err) {
-                        expect(onUpdating).to.have.been.calledOnce;
-                        expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithSaveExact);
-                        done(err);
-                    });
+                it("should be abort with specified registry since yarn does not support it yet", function (done) {
+                    function runIt() {
+                        run({
+                            cwd: process.cwd(),
+                            wanted: true,
+                            registry: "https://custom.npm.registry"
+                        });
+                    }
+                    expect(runIt).to.throw(/`yarn add` does not support custom registries yet. Please use a .npmrc file to achieve this./);
+                    done();
                 });
             });
 
@@ -633,7 +553,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
                         }
@@ -655,7 +574,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("testing", onTesting);
                         }
@@ -678,8 +596,7 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
-                        testCmd: "npm run test",
+                        testCmd: "yarn run test",
                         reporter: function (emitter) {
                             emitter.on("testing", onTesting);
                         }
@@ -702,7 +619,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("rollback", onRollback);
                         }
@@ -723,7 +639,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("rollback", onRollback);
                         }
@@ -745,7 +660,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("rollbackDone", onRollbackDone);
                         }
@@ -768,7 +682,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         testStdout: true,
                         reporter: function (emitter) {
                             emitter.on("testStdout", onTestStdout);
@@ -792,7 +705,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
                         }
@@ -812,7 +724,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
                         }
@@ -834,7 +745,6 @@ describe("npm run()", function () {
 
                     run({
                         cwd: process.cwd(),
-                        forceNpm: true,
                         testStdout: true,
                         reporter: function (emitter) {
                             emitter.on("finished", onFinished);
