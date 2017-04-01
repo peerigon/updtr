@@ -8,7 +8,7 @@
     "posttest": "npm run lint",
     "test:watch": "npm run test -- -w -G",
     "coverage": "istanbul cover _mocha -- -R spec",
-    "lint": "eslint --fix bin lib test"
+    "lint": "eslint bin lib test"
   },
   "author": "peerigon",
   "license": "Unlicense",
@@ -16,23 +16,24 @@
     "updtr": "./bin/updtr"
   },
   "dependencies": {
-    "async": "^1.4.2",
-    "cli-spinner": "^0.2.5",
+    "async": "^2.2.0",
+    "cli-spinner": "^0.2.6",
     "colors": "^1.1.2",
     "commander": "^2.8.1",
-    "semver": "^5.1.0",
+    "semver": "^5.3.0",
     "unicons": "0.0.3"
   },
   "devDependencies": {
     "chai": "^3.3.0",
-    "eslint": "^2.9.0",
-    "eslint-config-peerigon": "^5.0.0",
-    "eslint-plugin-jsdoc": "^2.3.1",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.3.3",
+    "eslint": "^3.18.0",
+    "eslint-config-peerigon": "^10.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsdoc": "^3.0.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
     "rewire": "^2.5.2",
-    "sinon": "^1.17.4",
-    "sinon-chai": "^2.8.0"
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0"
   },
   "engines": {
     "node": ">= 0.10.0",
