@@ -1,17 +1,17 @@
 "use strict";
 
-var chai = require("chai");
+const chai = require("chai");
 
-var util = require("../../lib/reporters/util");
+const util = require("../../lib/reporters/util");
 
-var expect = chai.expect;
+const expect = chai.expect;
 
-describe("util", function () {
-    describe("modulesMissingMessage", function () {
-        var modulesMissingMessage = util.modulesMissingMessage;
+describe("util", () => {
+    describe("modulesMissingMessage", () => {
+        const modulesMissingMessage = util.modulesMissingMessage;
 
-        it("should contain the list of missing modules", function () {
-            var event = {
+        it("should contain the list of missing modules", () => {
+            const event = {
                 infos: [{
                     name: "requests",
                 }, {

@@ -1,15 +1,15 @@
 "use strict";
 
-var childProcess = require("child_process");
-var sinon = require("sinon");
-var chai = require("chai");
-var sinonChai = require("sinon-chai");
-var run = require("../lib/run");
-var npmFixtures = require("./fixtures/npm");
+const childProcess = require("child_process");
+const sinon = require("sinon");
+const chai = require("chai");
+const sinonChai = require("sinon-chai");
+const run = require("../lib/run");
+const npmFixtures = require("./fixtures/npm");
 
-var expect = chai.expect;
-var execBackup;
-var expectedOptionsExclude = {
+const expect = chai.expect;
+let execBackup;
+const expectedOptionsExclude = {
     infos: [
         {
             current: "1.1.4",
@@ -34,7 +34,7 @@ var expectedOptionsExclude = {
     ],
     total: 2,
 };
-var expectedOptionsUnstable = {
+const expectedOptionsUnstable = {
     infos: [{
         current: "0.1.4",
         wanted: "1.1.5",
@@ -47,7 +47,7 @@ var expectedOptionsUnstable = {
     }],
     total: 1,
 };
-var expectedOptionsVersionGreaterThanLatest = {
+const expectedOptionsVersionGreaterThanLatest = {
     infos: [{
         current: "0.1.4",
         wanted: "1.1.5",
@@ -60,7 +60,7 @@ var expectedOptionsVersionGreaterThanLatest = {
     }],
     total: 1,
 };
-var expectedOptions = {
+const expectedOptions = {
     infos: [{
         current: "0.1.4",
         wanted: "1.1.5",
@@ -73,7 +73,7 @@ var expectedOptions = {
     }],
     total: 1,
 };
-var expectedOptionsWithCurrentCountLatest = {
+const expectedOptionsWithCurrentCountLatest = {
     current: 1,
     total: 1,
     info: {
@@ -89,7 +89,7 @@ var expectedOptionsWithCurrentCountLatest = {
     testCmd: "npm test",
     installCmd: "npm i",
 };
-var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
+const expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     current: 1,
     total: 1,
     info: {
@@ -105,7 +105,7 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     testCmd: "npm run test",
     installCmd: "npm i",
 };
-var expectedOptionsWithCurrentCountLatestAndTestErrors = {
+const expectedOptionsWithCurrentCountLatestAndTestErrors = {
     current: 1,
     total: 1,
     info: {
@@ -122,7 +122,7 @@ var expectedOptionsWithCurrentCountLatestAndTestErrors = {
     installCmd: "npm i",
     testStdout: "This is the test error stdout",
 };
-var expectedOptionsWithCurrentCountWanted = {
+const expectedOptionsWithCurrentCountWanted = {
     current: 1,
     total: 1,
     info: {
@@ -138,7 +138,7 @@ var expectedOptionsWithCurrentCountWanted = {
     testCmd: "npm test",
     installCmd: "npm i",
 };
-var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
+const expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
     current: 1,
     total: 1,
     info: {
@@ -154,7 +154,7 @@ var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
     testCmd: "npm test",
     installCmd: "npm i --registry https://custom.npm.registry",
 };
-var expectedOptionsWithSaveExact = {
+const expectedOptionsWithSaveExact = {
     current: 1,
     total: 1,
     info: {
@@ -196,32 +196,32 @@ function setupOutdated(obj, testsExpectToPass) {
 
 chai.use(sinonChai);
 
-describe("npm run()", function () {
-    it("should throw an error, if no options set", function () {
+describe("npm run()", () => {
+    it("should throw an error, if no options set", () => {
         expect(run).to.throw(Error);
     });
 
-    it("should throw an error, if cwd is missing", function () {
-        expect(function () {
+    it("should throw an error, if cwd is missing", () => {
+        expect(() => {
             run({ cwd: 1 });
         }).to.throw(Error);
     });
 
-    describe("events", function () {
-        describe("init", function () {
+    describe("events", () => {
+        describe("init", () => {
             beforeEach(setupOutdated(npmFixtures.outdated));
             afterEach(tearDown);
 
-            it("should be emitted, if cwd is set", function (done) {
-                var onInit = sinon.spy();
+            it("should be emitted, if cwd is set", (done) => {
+                const onInit = sinon.spy();
 
                 run({
                     cwd: process.cwd(),
                     forceNpm: true,
-                    reporter: function (emitter) {
+                    reporter(emitter) {
                         emitter.on("init", onInit);
                     },
-                }, function (err) {
+                }, (err) => {
                     expect(onInit).to.have.been.calledOnce;
                     expect(onInit).to.have.been.calledWithExactly({ cwd: process.cwd() });
                     done(err);
@@ -229,20 +229,20 @@ describe("npm run()", function () {
             });
         });
 
-        describe("noop", function () {
+        describe("noop", () => {
             beforeEach(setupOutdated(npmFixtures.noOutdated));
             afterEach(tearDown);
 
-            it("should be emitted if no outdated modules were found", function (done) {
-                var onNoop = sinon.spy();
+            it("should be emitted if no outdated modules were found", (done) => {
+                const onNoop = sinon.spy();
 
                 run({
                     cwd: process.cwd(),
                     forceNpm: true,
-                    reporter: function (emitter) {
+                    reporter(emitter) {
                         emitter.on("noop", onNoop);
                     },
-                }, function (err) {
+                }, (err) => {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
                     done(err);
@@ -250,20 +250,20 @@ describe("npm run()", function () {
             });
         });
 
-        describe("noop", function () {
+        describe("noop", () => {
             beforeEach(setupOutdated(undefined));
             afterEach(tearDown);
 
-            it("should be emitted if npm outdated returns nothing", function (done) {
-                var onNoop = sinon.spy();
+            it("should be emitted if npm outdated returns nothing", (done) => {
+                const onNoop = sinon.spy();
 
                 run({
                     cwd: process.cwd(),
                     forceNpm: true,
-                    reporter: function (emitter) {
+                    reporter(emitter) {
                         emitter.on("noop", onNoop);
                     },
-                }, function (err) {
+                }, (err) => {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
                     done(err);
@@ -271,21 +271,21 @@ describe("npm run()", function () {
             });
         });
 
-        describe("modulesMissing", function () {
+        describe("modulesMissing", () => {
             beforeEach(setupOutdated(npmFixtures.outdatedNotInstalled));
             afterEach(tearDown);
 
-            it("should be emitted if npm outdated returns at least one missing module", function (done) {
-                var onModulesMissing = sinon.spy();
+            it("should be emitted if npm outdated returns at least one missing module", (done) => {
+                const onModulesMissing = sinon.spy();
 
                 run({
                     cwd: process.cwd(),
                     forceNpm: true,
-                    reporter: function (emitter) {
+                    reporter(emitter) {
                         emitter.on("modulesMissing", onModulesMissing);
                     },
-                }, function (err) {
-                    var expectedEvent = {
+                }, (err) => {
+                    const expectedEvent = {
                         infos: [sinon.match({ name: "servus.js" })],
                     };
 
@@ -296,21 +296,21 @@ describe("npm run()", function () {
             });
         });
 
-        describe("outdated", function () {
-            describe("if outdated modules were found", function () {
+        describe("outdated", () => {
+            describe("if outdated modules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onOutdated = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onOutdated = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("outdated", onOutdated);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
                         done(err);
@@ -318,21 +318,21 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if outdated modules were found with excluded one module", function () {
+            describe("if outdated modules were found with excluded one module", () => {
                 beforeEach(setupOutdated(npmFixtures.outdatedExclude));
                 afterEach(tearDown);
 
-                it("should be emitted without excluded module", function (done) {
-                    var onOutdated = sinon.spy();
+                it("should be emitted without excluded module", (done) => {
+                    const onOutdated = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         exclude: "servus.js",
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("outdated", onOutdated);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
                         done(err);
@@ -340,21 +340,21 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if outdated modules were found with excluded more modules", function () {
+            describe("if outdated modules were found with excluded more modules", () => {
                 beforeEach(setupOutdated(npmFixtures.outdatedExclude));
                 afterEach(tearDown);
 
-                it("should be emitted without excluded modules", function (done) {
-                    var onOutdated = sinon.spy();
+                it("should be emitted without excluded modules", (done) => {
+                    const onOutdated = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         exclude: "asdf, servus.js",
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("outdated", onOutdated);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
                         done(err);
@@ -362,20 +362,20 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if outdated modules were found with unstable modules", function () {
+            describe("if outdated modules were found with unstable modules", () => {
                 beforeEach(setupOutdated(npmFixtures.outdatedVersionGreaterThanLatest));
                 afterEach(tearDown);
 
-                it("should be emitted without unstable modules", function (done) {
-                    var onOutdated = sinon.spy();
+                it("should be emitted without unstable modules", (done) => {
+                    const onOutdated = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("outdated", onOutdated);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsVersionGreaterThanLatest);
                         done(err);
@@ -383,20 +383,20 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if outdated modules were found with unstable modules", function () {
+            describe("if outdated modules were found with unstable modules", () => {
                 beforeEach(setupOutdated(npmFixtures.outdatedUnstable));
                 afterEach(tearDown);
 
-                it("should be emitted without unstable modules", function (done) {
-                    var onOutdated = sinon.spy();
+                it("should be emitted without unstable modules", (done) => {
+                    const onOutdated = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("outdated", onOutdated);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsUnstable);
                         done(err);
@@ -404,20 +404,20 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if outdated modules with git submodules were found", function () {
+            describe("if outdated modules with git submodules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.outdatedWithGitDependencies));
                 afterEach(tearDown);
 
-                it("should be emitted without git submodules", function (done) {
-                    var onOutdated = sinon.spy();
+                it("should be emitted without git submodules", (done) => {
+                    const onOutdated = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("outdated", onOutdated);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
                         done(err);
@@ -426,73 +426,73 @@ describe("npm run()", function () {
             });
         });
 
-        describe("updating", function () {
-            describe("if outdated modules were found", function () {
+        describe("updating", () => {
+            describe("if outdated modules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
-                it("should be emitted with latest version to install", function (done) {
-                    var onUpdating = sinon.spy();
+                it("should be emitted with latest version to install", (done) => {
+                    const onUpdating = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updating", onUpdating);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
                         done(err);
                     });
                 });
 
-                it("should be emitted with wanted version to install", function (done) {
-                    var onUpdating = sinon.spy();
+                it("should be emitted with wanted version to install", (done) => {
+                    const onUpdating = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         wanted: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updating", onUpdating);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWanted);
                         done(err);
                     });
                 });
 
-                it("should be emitted with specified registry", function (done) {
-                    var onUpdating = sinon.spy();
+                it("should be emitted with specified registry", (done) => {
+                    const onUpdating = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         wanted: true,
                         registry: "https://custom.npm.registry",
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updating", onUpdating);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
                         done(err);
                     });
                 });
 
-                it("should be emitted with save exact param", function (done) {
-                    var onUpdating = sinon.spy();
+                it("should be emitted with save exact param", (done) => {
+                    const onUpdating = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         saveExact: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updating", onUpdating);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithSaveExact);
                         done(err);
@@ -500,20 +500,20 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if no outdated modules were found", function () {
+            describe("if no outdated modules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.noOutdated));
                 afterEach(tearDown);
 
-                it("should not be emitted", function (done) {
-                    var onUpdating = sinon.spy();
+                it("should not be emitted", (done) => {
+                    const onUpdating = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updating", onUpdating);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdating).to.not.have.been.called;
                         done(err);
                     });
@@ -521,21 +521,21 @@ describe("npm run()", function () {
             });
         });
 
-        describe("testing", function () {
-            describe("if outdated modules were found", function () {
+        describe("testing", () => {
+            describe("if outdated modules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onTesting = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onTesting = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("testing", onTesting);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onTesting).to.have.been.calledOnce;
                         expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
                         done(err);
@@ -544,22 +544,22 @@ describe("npm run()", function () {
             });
         });
 
-        describe("testing", function () {
-            describe("if custom test command is given", function () {
+        describe("testing", () => {
+            describe("if custom test command is given", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
-                it("should be emitted with correct command", function (done) {
-                    var onTesting = sinon.spy();
+                it("should be emitted with correct command", (done) => {
+                    const onTesting = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         testCmd: "npm run test",
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("testing", onTesting);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onTesting).to.have.been.calledOnce;
                         expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndCustomTestCmd);
                         done(err);
@@ -568,21 +568,21 @@ describe("npm run()", function () {
             });
         });
 
-        describe("rollback", function () {
-            describe("if tests are failing", function () {
+        describe("rollback", () => {
+            describe("if tests are failing", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onRollback = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onRollback = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("rollback", onRollback);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onRollback).to.have.been.calledOnce;
                         expect(onRollback).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
                         done(err);
@@ -590,20 +590,20 @@ describe("npm run()", function () {
                 });
             });
 
-            describe("if tests are passing", function () {
+            describe("if tests are passing", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated, true));
                 afterEach(tearDown);
 
-                it("should not be emitted", function (done) {
-                    var onRollback = sinon.spy();
+                it("should not be emitted", (done) => {
+                    const onRollback = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("rollback", onRollback);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onRollback).to.not.have.been.called;
                         done(err);
                     });
@@ -611,21 +611,21 @@ describe("npm run()", function () {
             });
         });
 
-        describe("rollbackDone", function () {
-            describe("if outdated modules were found", function () {
+        describe("rollbackDone", () => {
+            describe("if outdated modules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onRollbackDone = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onRollbackDone = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("rollbackDone", onRollbackDone);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onRollbackDone).to.have.been.calledOnce;
                         expect(onRollbackDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
                         done(err);
@@ -634,22 +634,22 @@ describe("npm run()", function () {
             });
         });
 
-        describe("testStdout", function () {
-            describe("if --test-stdout is set and update fails", function () {
+        describe("testStdout", () => {
+            describe("if --test-stdout is set and update fails", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onTestStdout = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onTestStdout = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         testStdout: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("testStdout", onTestStdout);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onTestStdout).to.have.been.calledOnce;
                         expect(onTestStdout).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndTestErrors);
                         done(err);
@@ -658,41 +658,41 @@ describe("npm run()", function () {
             });
         });
 
-        describe("updatingDone", function () {
-            describe("if tests are passing", function () {
+        describe("updatingDone", () => {
+            describe("if tests are passing", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated, true));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onUpdatingDone = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onUpdatingDone = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdatingDone).to.have.been.calledOnce;
                         expect(onUpdatingDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
                         done(err);
                     });
                 });
             });
-            describe("if tests are failing", function () {
+            describe("if tests are failing", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
-                it("should not be emitted", function (done) {
-                    var onUpdatingDone = sinon.spy();
+                it("should not be emitted", (done) => {
+                    const onUpdatingDone = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onUpdatingDone).to.not.have.been.called;
                         done(err);
                     });
@@ -700,22 +700,22 @@ describe("npm run()", function () {
             });
         });
 
-        describe("finished", function () {
-            describe("if outdated modules were found", function () {
+        describe("finished", () => {
+            describe("if outdated modules were found", () => {
                 beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
-                it("should be emitted", function (done) {
-                    var onFinished = sinon.spy();
+                it("should be emitted", (done) => {
+                    const onFinished = sinon.spy();
 
                     run({
                         cwd: process.cwd(),
                         forceNpm: true,
                         testStdout: true,
-                        reporter: function (emitter) {
+                        reporter(emitter) {
                             emitter.on("finished", onFinished);
                         },
-                    }, function (err) {
+                    }, (err) => {
                         expect(onFinished).to.have.been.calledOnce;
                         expect(onFinished).to.have.been.calledWithExactly();
                         done(err);
