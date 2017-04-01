@@ -5,53 +5,13 @@ var sinon = require("sinon");
 var chai = require("chai");
 var sinonChai = require("sinon-chai");
 var rewire = require("rewire");
+var yarnFixtures = require("./fixtures/yarn");
+
 var run = rewire("../lib/run");
 
 var expect = chai.expect;
 var execBackup;
-var noOutdatedModules = {};
-var outdatedModules = {
-    type: "table",
-    data: {
-        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
-        body: [
-            [
-                "unicons",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ]
-        ]
-    }
-};
-var outdatedModulesExclude = {
-    type: "table",
-    data: {
-        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
-        body: [
-            [
-                "servus.js",
-                "1.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ], [
-                "servus.jsShouldNotBeExclued",
-                "1.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ], [
-                "unicons",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ]
-        ]
-    }
-};
+var noOutdated = {};
 var expectedOptionsExclude = {
     infos: [
         {
@@ -61,7 +21,7 @@ var expectedOptionsExclude = {
             type: "dependencies",
             name: "servus.jsShouldNotBeExclued",
             saveCmd: "",
-            updateTo: "2.0.0"
+            updateTo: "2.0.0",
         },
         {
             current: "0.1.4",
@@ -70,43 +30,10 @@ var expectedOptionsExclude = {
             type: "dependencies",
             name: "unicons",
             saveCmd: "",
-            updateTo: "2.0.0"
-        }
+            updateTo: "2.0.0",
+        },
     ],
-    total: 2
-};
-var outdatedModulesUnstable = {
-    type: "table",
-    data: {
-        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
-        body: [
-            [
-                "servus.js",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0-beta",
-                "dependencies"
-            ], [
-                "xunit-file",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0-alpha",
-                "dependencies"
-            ], [
-                "npm-stats",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0-rc",
-                "dependencies"
-            ], [
-                "unicons",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ]
-        ]
-    }
+    total: 2,
 };
 var expectedOptionsUnstable = {
     infos: [{
@@ -116,71 +43,11 @@ var expectedOptionsUnstable = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     }],
-    total: 1
+    total: 1,
 };
-var outdatedModulesWithGitDependencies = {
-    type: "table",
-    data: {
-        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
-        body: [
-            [
-                "unicons",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ], [
-                "xunit-file",
-                "0.0.7",
-                "exotic",
-                "exotic",
-                "dependencies"
-            ], [
-                "servus.js",
-                "0.0.1",
-                "exotic",
-                "exotic",
-                "dependencies"
-            ]
-        ]
-    }
-};
-var outdatedModulesWithVersionGreaterThanLatestInstalled = {
-    type: "table",
-    data: {
-        head: ["Package", "Current", "Wanted", "Latest", "Package Type", "URL"],
-        body: [
-            [
-                "xunit-file",
-                "0.1.4",
-                "1.1.5",
-                "2.0.0",
-                "dependencies"
-            ], [
-                "unicons",
-                "0.1.0",
-                "0.0.5",
-                "0.0.5",
-                "dependencies"
-            ], [
-                "servus.js",
-                "0.1.0-alpha",
-                "0.0.5",
-                "0.0.5",
-                "dependencies"
-            ], [
-                "babel-eslint",
-                "6.0.0-beta.6",
-                "5.0.0",
-                "5.0.0",
-                "dependencies"
-            ]
-        ]
-    }
-};
-var expectedOptionsWithVersionGreaterThanLatestInstalled = {
+var expectedOptionsVersionGreaterThanLatest = {
     infos: [{
         current: "0.1.4",
         wanted: "1.1.5",
@@ -188,9 +55,9 @@ var expectedOptionsWithVersionGreaterThanLatestInstalled = {
         type: "dependencies",
         name: "xunit-file",
         saveCmd: "",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     }],
-    total: 1
+    total: 1,
 };
 var expectedOptions = {
     infos: [{
@@ -200,9 +67,9 @@ var expectedOptions = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     }],
-    total: 1
+    total: 1,
 };
 var expectedOptionsWithCurrentCountLatest = {
     current: 1,
@@ -214,10 +81,10 @@ var expectedOptionsWithCurrentCountLatest = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "yarn test",
-    installCmd: "yarn add"
+    installCmd: "yarn add",
 };
 var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     current: 1,
@@ -229,10 +96,10 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "yarn run test",
-    installCmd: "yarn add"
+    installCmd: "yarn add",
 };
 var expectedOptionsWithCurrentCountLatestAndTestErrors = {
     current: 1,
@@ -244,11 +111,11 @@ var expectedOptionsWithCurrentCountLatestAndTestErrors = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "yarn test",
     installCmd: "yarn add",
-    testStdout: "This is the test error stdout"
+    testStdout: "This is the test error stdout",
 };
 var expectedOptionsWithCurrentCountWanted = {
     current: 1,
@@ -260,10 +127,10 @@ var expectedOptionsWithCurrentCountWanted = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "",
-        updateTo: "1.1.5"
+        updateTo: "1.1.5",
     },
     testCmd: "yarn test",
-    installCmd: "yarn add"
+    installCmd: "yarn add",
 };
 
 function tearDown() {
@@ -282,7 +149,7 @@ function execMock(object, testsExpectToPass) {
     };
 }
 
-function setupOutdatedModules(obj, testsExpectToPass) {
+function setupOutdated(obj, testsExpectToPass) {
     return function () {
         execBackup = childProcess.exec;
         childProcess.exec = execMock(obj, testsExpectToPass);
@@ -295,7 +162,7 @@ describe("yarn run()", function () {
     var fsMock = {
         existsSync: function () {
             return true;
-        }
+        },
     };
 
     run.__set__("fs", fsMock);
@@ -312,7 +179,7 @@ describe("yarn run()", function () {
 
     describe("events", function () {
         describe("init", function () {
-            beforeEach(setupOutdatedModules(outdatedModules));
+            beforeEach(setupOutdated(yarnFixtures.outdated));
             afterEach(tearDown);
 
             it("should be emitted, if cwd is set", function (done) {
@@ -322,7 +189,7 @@ describe("yarn run()", function () {
                     cwd: process.cwd(),
                     reporter: function (emitter) {
                         emitter.on("init", onInit);
-                    }
+                    },
                 }, function (err) {
                     expect(onInit).to.have.been.calledOnce;
                     expect(onInit).to.have.been.calledWithExactly({ cwd: process.cwd() });
@@ -332,7 +199,7 @@ describe("yarn run()", function () {
         });
 
         describe("noop", function () {
-            beforeEach(setupOutdatedModules(noOutdatedModules));
+            beforeEach(setupOutdated(noOutdated));
             afterEach(tearDown);
 
             it("should be emitted if no outdated modules were found", function (done) {
@@ -342,7 +209,7 @@ describe("yarn run()", function () {
                     cwd: process.cwd(),
                     reporter: function (emitter) {
                         emitter.on("noop", onNoop);
-                    }
+                    },
                 }, function (err) {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
@@ -352,7 +219,7 @@ describe("yarn run()", function () {
         });
 
         describe("noop", function () {
-            beforeEach(setupOutdatedModules(undefined));
+            beforeEach(setupOutdated(undefined));
             afterEach(tearDown);
 
             it("should be emitted if npm outdated returns nothing", function (done) {
@@ -362,7 +229,7 @@ describe("yarn run()", function () {
                     cwd: process.cwd(),
                     reporter: function (emitter) {
                         emitter.on("noop", onNoop);
-                    }
+                    },
                 }, function (err) {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
@@ -373,7 +240,7 @@ describe("yarn run()", function () {
 
         describe("outdated", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(yarnFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -383,7 +250,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
@@ -393,7 +260,7 @@ describe("yarn run()", function () {
             });
 
             describe("if outdated modules were found with excluded one module", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesExclude));
+                beforeEach(setupOutdated(yarnFixtures.outdatedExclude));
                 afterEach(tearDown);
 
                 it("should be emitted without excluded module", function (done) {
@@ -404,7 +271,7 @@ describe("yarn run()", function () {
                         exclude: "servus.js",
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
@@ -414,7 +281,7 @@ describe("yarn run()", function () {
             });
 
             describe("if outdated modules were found with excluded more modules", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesExclude));
+                beforeEach(setupOutdated(yarnFixtures.outdatedExclude));
                 afterEach(tearDown);
 
                 it("should be emitted without excluded modules", function (done) {
@@ -425,7 +292,7 @@ describe("yarn run()", function () {
                         exclude: "asdf, servus.js",
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
@@ -435,7 +302,7 @@ describe("yarn run()", function () {
             });
 
             describe("if outdated modules were found with unstable modules", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesWithVersionGreaterThanLatestInstalled));
+                beforeEach(setupOutdated(yarnFixtures.outdatedVersionGreaterThanLatest));
                 afterEach(tearDown);
 
                 it("should be emitted without unstable modules", function (done) {
@@ -445,17 +312,17 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
-                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsWithVersionGreaterThanLatestInstalled);
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsVersionGreaterThanLatest);
                         done(err);
                     });
                 });
             });
 
             describe("if outdated modules were found with unstable modules", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesUnstable));
+                beforeEach(setupOutdated(yarnFixtures.outdatedUnstable));
                 afterEach(tearDown);
 
                 it("should be emitted without unstable modules", function (done) {
@@ -465,7 +332,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsUnstable);
@@ -475,7 +342,7 @@ describe("yarn run()", function () {
             });
 
             describe("if outdated modules with git submodules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesWithGitDependencies));
+                beforeEach(setupOutdated(yarnFixtures.outdatedWithGitDependencies));
                 afterEach(tearDown);
 
                 it("should be emitted without git submodules", function (done) {
@@ -485,7 +352,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
@@ -497,7 +364,7 @@ describe("yarn run()", function () {
 
         describe("updating", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(yarnFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted with latest version to install", function (done) {
@@ -507,7 +374,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -523,7 +390,7 @@ describe("yarn run()", function () {
                         wanted: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWanted);
@@ -536,7 +403,7 @@ describe("yarn run()", function () {
                         run({
                             cwd: process.cwd(),
                             wanted: true,
-                            registry: "https://custom.npm.registry"
+                            registry: "https://custom.npm.registry",
                         });
                     }
                     expect(runIt).to.throw(/`yarn add` does not support custom registries yet. Please use a .npmrc file to achieve this./);
@@ -545,7 +412,7 @@ describe("yarn run()", function () {
             });
 
             describe("if no outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(noOutdatedModules));
+                beforeEach(setupOutdated(noOutdated));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
@@ -555,7 +422,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.not.have.been.called;
                         done(err);
@@ -566,7 +433,7 @@ describe("yarn run()", function () {
 
         describe("testing", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(yarnFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -576,7 +443,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("testing", onTesting);
-                        }
+                        },
                     }, function (err) {
                         expect(onTesting).to.have.been.calledOnce;
                         expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -588,7 +455,7 @@ describe("yarn run()", function () {
 
         describe("testing", function () {
             describe("if custom test command is given", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(yarnFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted with correct command", function (done) {
@@ -599,7 +466,7 @@ describe("yarn run()", function () {
                         testCmd: "yarn run test",
                         reporter: function (emitter) {
                             emitter.on("testing", onTesting);
-                        }
+                        },
                     }, function (err) {
                         expect(onTesting).to.have.been.calledOnce;
                         expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndCustomTestCmd);
@@ -611,7 +478,7 @@ describe("yarn run()", function () {
 
         describe("rollback", function () {
             describe("if tests are failing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(yarnFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -621,7 +488,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("rollback", onRollback);
-                        }
+                        },
                     }, function (err) {
                         expect(onRollback).to.have.been.calledOnce;
                         expect(onRollback).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -631,7 +498,7 @@ describe("yarn run()", function () {
             });
 
             describe("if tests are passing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, true));
+                beforeEach(setupOutdated(yarnFixtures.outdated, true));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
@@ -641,7 +508,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("rollback", onRollback);
-                        }
+                        },
                     }, function (err) {
                         expect(onRollback).to.not.have.been.called;
                         done(err);
@@ -652,7 +519,7 @@ describe("yarn run()", function () {
 
         describe("rollbackDone", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(yarnFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -662,7 +529,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("rollbackDone", onRollbackDone);
-                        }
+                        },
                     }, function (err) {
                         expect(onRollbackDone).to.have.been.calledOnce;
                         expect(onRollbackDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -674,7 +541,7 @@ describe("yarn run()", function () {
 
         describe("testStdout", function () {
             describe("if --test-stdout is set and update fails", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(yarnFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -685,7 +552,7 @@ describe("yarn run()", function () {
                         testStdout: true,
                         reporter: function (emitter) {
                             emitter.on("testStdout", onTestStdout);
-                        }
+                        },
                     }, function (err) {
                         expect(onTestStdout).to.have.been.calledOnce;
                         expect(onTestStdout).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndTestErrors);
@@ -697,7 +564,7 @@ describe("yarn run()", function () {
 
         describe("updatingDone", function () {
             describe("if tests are passing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, true));
+                beforeEach(setupOutdated(yarnFixtures.outdated, true));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -707,7 +574,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdatingDone).to.have.been.calledOnce;
                         expect(onUpdatingDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -716,7 +583,7 @@ describe("yarn run()", function () {
                 });
             });
             describe("if tests are failing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(yarnFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
@@ -726,7 +593,7 @@ describe("yarn run()", function () {
                         cwd: process.cwd(),
                         reporter: function (emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdatingDone).to.not.have.been.called;
                         done(err);
@@ -737,7 +604,7 @@ describe("yarn run()", function () {
 
         describe("finished", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(yarnFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -748,7 +615,7 @@ describe("yarn run()", function () {
                         testStdout: true,
                         reporter: function (emitter) {
                             emitter.on("finished", onFinished);
-                        }
+                        },
                     }, function (err) {
                         expect(onFinished).to.have.been.calledOnce;
                         expect(onFinished).to.have.been.calledWithExactly();

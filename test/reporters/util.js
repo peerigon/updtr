@@ -13,10 +13,10 @@ describe("util", function () {
         it("should contain the list of missing modules", function () {
             var event = {
                 infos: [{
-                    name: "requests"
+                    name: "requests",
                 }, {
-                    name: "leftpad"
-                }]
+                    name: "leftpad",
+                }],
             };
 
             expect(modulesMissingMessage(event)).to.contain("requests, leftpad");

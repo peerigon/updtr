@@ -5,68 +5,21 @@ var sinon = require("sinon");
 var chai = require("chai");
 var sinonChai = require("sinon-chai");
 var run = require("../lib/run");
+var npmFixtures = require("./fixtures/npm");
 
 var expect = chai.expect;
 var execBackup;
-var noOutdatedModules = {};
-var outdatedModules = {
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    }
-};
-var outdatedModulesNotInstalled = {
-    "servus.js": {
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    }
-};
-var outdatedModulesExclude = {
-    "servus.js": {
-        current: "1.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "servus.jsShouldNotBeExclued": {
-        current: "1.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "servus.jsShouldNotBeExclued",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    }
-};
 var expectedOptionsExclude = {
     infos: [
         {
             current: "1.1.4",
             wanted: "1.1.5",
             latest: "2.0.0",
-            location: "servus.jsShouldNotBeExclued",
+            location: "servus.jsShouldNotBeExcluded",
             type: "dependencies",
-            name: "servus.jsShouldNotBeExclued",
+            name: "servus.jsShouldNotBeExcluded",
             saveCmd: "--save",
-            updateTo: "2.0.0"
+            updateTo: "2.0.0",
         },
         {
             current: "0.1.4",
@@ -76,40 +29,10 @@ var expectedOptionsExclude = {
             type: "dependencies",
             name: "unicons",
             saveCmd: "--save",
-            updateTo: "2.0.0"
-        }
+            updateTo: "2.0.0",
+        },
     ],
-    total: 2
-};
-var outdatedModulesUnstable = {
-    "servus.js": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0-beta",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "xunit-file": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0-alpha",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "npm-stats": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0-rc",
-        location: "unicons",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "unicons",
-        type: "dependencies"
-    }
+    total: 2,
 };
 var expectedOptionsUnstable = {
     infos: [{
@@ -120,58 +43,11 @@ var expectedOptionsUnstable = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     }],
-    total: 1
+    total: 1,
 };
-var outdatedModulesWithGitDependencies = {
-    unicons: outdatedModules.unicons,
-    "xunit-file": {
-        current: "0.0.7",
-        wanted: "git",
-        latest: "git",
-        location: "xunit-file",
-        type: "dependencies"
-    },
-    "servus.js": {
-        current: "0.0.1",
-        wanted: "git",
-        latest: "git",
-        location: "servus.js",
-        type: "dependencies"
-    }
-};
-var outdatedModulesWithVersionGreaterThanLatestInstalled = {
-    "xunit-file": {
-        current: "0.1.4",
-        wanted: "1.1.5",
-        latest: "2.0.0",
-        location: "xunit-file",
-        type: "dependencies"
-    },
-    unicons: {
-        current: "0.1.0",
-        wanted: "0.0.5",
-        latest: "0.0.5",
-        location: "unicons",
-        type: "dependencies"
-    },
-    "servus.js": {
-        current: "0.1.0-alpha",
-        wanted: "0.0.5",
-        latest: "0.0.5",
-        location: "servus.js",
-        type: "dependencies"
-    },
-    "babel-eslint": {
-        current: "6.0.0-beta.6",
-        wanted: "5.0.0",
-        latest: "5.0.0",
-        location: "babel-eslint",
-        type: "dependencies"
-    }
-};
-var expectedOptionsWithVersionGreaterThanLatestInstalled = {
+var expectedOptionsVersionGreaterThanLatest = {
     infos: [{
         current: "0.1.4",
         wanted: "1.1.5",
@@ -180,9 +56,9 @@ var expectedOptionsWithVersionGreaterThanLatestInstalled = {
         type: "dependencies",
         name: "xunit-file",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     }],
-    total: 1
+    total: 1,
 };
 var expectedOptions = {
     infos: [{
@@ -193,9 +69,9 @@ var expectedOptions = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     }],
-    total: 1
+    total: 1,
 };
 var expectedOptionsWithCurrentCountLatest = {
     current: 1,
@@ -208,10 +84,10 @@ var expectedOptionsWithCurrentCountLatest = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "npm test",
-    installCmd: "npm i"
+    installCmd: "npm i",
 };
 var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
     current: 1,
@@ -224,10 +100,10 @@ var expectedOptionsWithCurrentCountLatestAndCustomTestCmd = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "npm run test",
-    installCmd: "npm i"
+    installCmd: "npm i",
 };
 var expectedOptionsWithCurrentCountLatestAndTestErrors = {
     current: 1,
@@ -240,11 +116,11 @@ var expectedOptionsWithCurrentCountLatestAndTestErrors = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "npm test",
     installCmd: "npm i",
-    testStdout: "This is the test error stdout"
+    testStdout: "This is the test error stdout",
 };
 var expectedOptionsWithCurrentCountWanted = {
     current: 1,
@@ -257,10 +133,10 @@ var expectedOptionsWithCurrentCountWanted = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "1.1.5"
+        updateTo: "1.1.5",
     },
     testCmd: "npm test",
-    installCmd: "npm i"
+    installCmd: "npm i",
 };
 var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
     current: 1,
@@ -273,10 +149,10 @@ var expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "1.1.5"
+        updateTo: "1.1.5",
     },
     testCmd: "npm test",
-    installCmd: "npm i --registry https://custom.npm.registry"
+    installCmd: "npm i --registry https://custom.npm.registry",
 };
 var expectedOptionsWithSaveExact = {
     current: 1,
@@ -289,10 +165,10 @@ var expectedOptionsWithSaveExact = {
         type: "dependencies",
         name: "unicons",
         saveCmd: "--save",
-        updateTo: "2.0.0"
+        updateTo: "2.0.0",
     },
     testCmd: "npm test",
-    installCmd: "npm i --save-exact"
+    installCmd: "npm i --save-exact",
 };
 
 function tearDown() {
@@ -311,7 +187,7 @@ function execMock(object, testsExpectToPass) {
     };
 }
 
-function setupOutdatedModules(obj, testsExpectToPass) {
+function setupOutdated(obj, testsExpectToPass) {
     return function () {
         execBackup = childProcess.exec;
         childProcess.exec = execMock(obj, testsExpectToPass);
@@ -333,7 +209,7 @@ describe("npm run()", function () {
 
     describe("events", function () {
         describe("init", function () {
-            beforeEach(setupOutdatedModules(outdatedModules));
+            beforeEach(setupOutdated(npmFixtures.outdated));
             afterEach(tearDown);
 
             it("should be emitted, if cwd is set", function (done) {
@@ -344,7 +220,7 @@ describe("npm run()", function () {
                     forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("init", onInit);
-                    }
+                    },
                 }, function (err) {
                     expect(onInit).to.have.been.calledOnce;
                     expect(onInit).to.have.been.calledWithExactly({ cwd: process.cwd() });
@@ -354,7 +230,7 @@ describe("npm run()", function () {
         });
 
         describe("noop", function () {
-            beforeEach(setupOutdatedModules(noOutdatedModules));
+            beforeEach(setupOutdated(npmFixtures.noOutdated));
             afterEach(tearDown);
 
             it("should be emitted if no outdated modules were found", function (done) {
@@ -365,7 +241,7 @@ describe("npm run()", function () {
                     forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("noop", onNoop);
-                    }
+                    },
                 }, function (err) {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
@@ -375,7 +251,7 @@ describe("npm run()", function () {
         });
 
         describe("noop", function () {
-            beforeEach(setupOutdatedModules(undefined));
+            beforeEach(setupOutdated(undefined));
             afterEach(tearDown);
 
             it("should be emitted if npm outdated returns nothing", function (done) {
@@ -386,7 +262,7 @@ describe("npm run()", function () {
                     forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("noop", onNoop);
-                    }
+                    },
                 }, function (err) {
                     expect(onNoop).to.have.been.calledOnce;
                     expect(onNoop).to.have.been.calledWithExactly();
@@ -396,7 +272,7 @@ describe("npm run()", function () {
         });
 
         describe("modulesMissing", function () {
-            beforeEach(setupOutdatedModules(outdatedModulesNotInstalled));
+            beforeEach(setupOutdated(npmFixtures.outdatedNotInstalled));
             afterEach(tearDown);
 
             it("should be emitted if npm outdated returns at least one missing module", function (done) {
@@ -407,10 +283,10 @@ describe("npm run()", function () {
                     forceNpm: true,
                     reporter: function (emitter) {
                         emitter.on("modulesMissing", onModulesMissing);
-                    }
+                    },
                 }, function (err) {
                     var expectedEvent = {
-                        infos: [sinon.match({ name: "servus.js" })]
+                        infos: [sinon.match({ name: "servus.js" })],
                     };
 
                     expect(onModulesMissing).to.have.been.calledOnce;
@@ -422,7 +298,7 @@ describe("npm run()", function () {
 
         describe("outdated", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -433,7 +309,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
@@ -443,7 +319,7 @@ describe("npm run()", function () {
             });
 
             describe("if outdated modules were found with excluded one module", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesExclude));
+                beforeEach(setupOutdated(npmFixtures.outdatedExclude));
                 afterEach(tearDown);
 
                 it("should be emitted without excluded module", function (done) {
@@ -455,7 +331,7 @@ describe("npm run()", function () {
                         exclude: "servus.js",
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
@@ -465,7 +341,7 @@ describe("npm run()", function () {
             });
 
             describe("if outdated modules were found with excluded more modules", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesExclude));
+                beforeEach(setupOutdated(npmFixtures.outdatedExclude));
                 afterEach(tearDown);
 
                 it("should be emitted without excluded modules", function (done) {
@@ -477,7 +353,7 @@ describe("npm run()", function () {
                         exclude: "asdf, servus.js",
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsExclude);
@@ -487,7 +363,7 @@ describe("npm run()", function () {
             });
 
             describe("if outdated modules were found with unstable modules", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesWithVersionGreaterThanLatestInstalled));
+                beforeEach(setupOutdated(npmFixtures.outdatedVersionGreaterThanLatest));
                 afterEach(tearDown);
 
                 it("should be emitted without unstable modules", function (done) {
@@ -498,17 +374,17 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
-                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsWithVersionGreaterThanLatestInstalled);
+                        expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsVersionGreaterThanLatest);
                         done(err);
                     });
                 });
             });
 
             describe("if outdated modules were found with unstable modules", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesUnstable));
+                beforeEach(setupOutdated(npmFixtures.outdatedUnstable));
                 afterEach(tearDown);
 
                 it("should be emitted without unstable modules", function (done) {
@@ -519,7 +395,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptionsUnstable);
@@ -529,7 +405,7 @@ describe("npm run()", function () {
             });
 
             describe("if outdated modules with git submodules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModulesWithGitDependencies));
+                beforeEach(setupOutdated(npmFixtures.outdatedWithGitDependencies));
                 afterEach(tearDown);
 
                 it("should be emitted without git submodules", function (done) {
@@ -540,7 +416,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("outdated", onOutdated);
-                        }
+                        },
                     }, function (err) {
                         expect(onOutdated).to.have.been.calledOnce;
                         expect(onOutdated).to.have.been.calledWithExactly(expectedOptions);
@@ -552,7 +428,7 @@ describe("npm run()", function () {
 
         describe("updating", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted with latest version to install", function (done) {
@@ -563,7 +439,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -580,7 +456,7 @@ describe("npm run()", function () {
                         wanted: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWanted);
@@ -598,7 +474,7 @@ describe("npm run()", function () {
                         registry: "https://custom.npm.registry",
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountWantedAndSpecifiedRegistry);
@@ -615,7 +491,7 @@ describe("npm run()", function () {
                         saveExact: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.have.been.calledOnce;
                         expect(onUpdating).to.have.been.calledWithExactly(expectedOptionsWithSaveExact);
@@ -625,7 +501,7 @@ describe("npm run()", function () {
             });
 
             describe("if no outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(noOutdatedModules));
+                beforeEach(setupOutdated(npmFixtures.noOutdated));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
@@ -636,7 +512,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updating", onUpdating);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdating).to.not.have.been.called;
                         done(err);
@@ -647,7 +523,7 @@ describe("npm run()", function () {
 
         describe("testing", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -658,7 +534,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("testing", onTesting);
-                        }
+                        },
                     }, function (err) {
                         expect(onTesting).to.have.been.calledOnce;
                         expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -670,7 +546,7 @@ describe("npm run()", function () {
 
         describe("testing", function () {
             describe("if custom test command is given", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted with correct command", function (done) {
@@ -682,7 +558,7 @@ describe("npm run()", function () {
                         testCmd: "npm run test",
                         reporter: function (emitter) {
                             emitter.on("testing", onTesting);
-                        }
+                        },
                     }, function (err) {
                         expect(onTesting).to.have.been.calledOnce;
                         expect(onTesting).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndCustomTestCmd);
@@ -694,7 +570,7 @@ describe("npm run()", function () {
 
         describe("rollback", function () {
             describe("if tests are failing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -705,7 +581,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("rollback", onRollback);
-                        }
+                        },
                     }, function (err) {
                         expect(onRollback).to.have.been.calledOnce;
                         expect(onRollback).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -715,7 +591,7 @@ describe("npm run()", function () {
             });
 
             describe("if tests are passing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, true));
+                beforeEach(setupOutdated(npmFixtures.outdated, true));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
@@ -726,7 +602,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("rollback", onRollback);
-                        }
+                        },
                     }, function (err) {
                         expect(onRollback).to.not.have.been.called;
                         done(err);
@@ -737,7 +613,7 @@ describe("npm run()", function () {
 
         describe("rollbackDone", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -748,7 +624,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("rollbackDone", onRollbackDone);
-                        }
+                        },
                     }, function (err) {
                         expect(onRollbackDone).to.have.been.calledOnce;
                         expect(onRollbackDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -760,7 +636,7 @@ describe("npm run()", function () {
 
         describe("testStdout", function () {
             describe("if --test-stdout is set and update fails", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -772,7 +648,7 @@ describe("npm run()", function () {
                         testStdout: true,
                         reporter: function (emitter) {
                             emitter.on("testStdout", onTestStdout);
-                        }
+                        },
                     }, function (err) {
                         expect(onTestStdout).to.have.been.calledOnce;
                         expect(onTestStdout).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatestAndTestErrors);
@@ -784,7 +660,7 @@ describe("npm run()", function () {
 
         describe("updatingDone", function () {
             describe("if tests are passing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, true));
+                beforeEach(setupOutdated(npmFixtures.outdated, true));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -795,7 +671,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdatingDone).to.have.been.calledOnce;
                         expect(onUpdatingDone).to.have.been.calledWithExactly(expectedOptionsWithCurrentCountLatest);
@@ -804,7 +680,7 @@ describe("npm run()", function () {
                 });
             });
             describe("if tests are failing", function () {
-                beforeEach(setupOutdatedModules(outdatedModules, false));
+                beforeEach(setupOutdated(npmFixtures.outdated, false));
                 afterEach(tearDown);
 
                 it("should not be emitted", function (done) {
@@ -815,7 +691,7 @@ describe("npm run()", function () {
                         forceNpm: true,
                         reporter: function (emitter) {
                             emitter.on("updatingDone", onUpdatingDone);
-                        }
+                        },
                     }, function (err) {
                         expect(onUpdatingDone).to.not.have.been.called;
                         done(err);
@@ -826,7 +702,7 @@ describe("npm run()", function () {
 
         describe("finished", function () {
             describe("if outdated modules were found", function () {
-                beforeEach(setupOutdatedModules(outdatedModules));
+                beforeEach(setupOutdated(npmFixtures.outdated));
                 afterEach(tearDown);
 
                 it("should be emitted", function (done) {
@@ -838,7 +714,7 @@ describe("npm run()", function () {
                         testStdout: true,
                         reporter: function (emitter) {
                             emitter.on("finished", onFinished);
-                        }
+                        },
                     }, function (err) {
                         expect(onFinished).to.have.been.calledOnce;
                         expect(onFinished).to.have.been.calledWithExactly();
