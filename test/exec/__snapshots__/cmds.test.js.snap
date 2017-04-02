@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`cmds .npm .install() when a name, a version and a custom registry is given should match snapshot 1`] = `"npm install --registry http://example.com/registry some-module@1.0.0"`;
+
+exports[`cmds .npm .install() when just a name and a version is given should match snapshot 1`] = `"npm install some-module@1.0.0"`;
+
+exports[`cmds .npm .installMissing() should match snapshot 1`] = `"npm install"`;
+
+exports[`cmds .npm .outdated() should match snapshot 1`] = `"npm outdated --json --long --depth=0"`;
+
+exports[`cmds .npm .remove() should match snapshot 1`] = `"npm remove some-module"`;
+
+exports[`cmds .npm .test() should match snapshot 1`] = `"npm test"`;
+
+exports[`cmds .yarn .install() when a name, a version and a custom registry is given should match snapshot 1`] = `"yarn add --registry http://example.com/registry some-module@1.0.0"`;
+
+exports[`cmds .yarn .install() when just a name and a version is given should match snapshot 1`] = `"yarn add some-module@1.0.0"`;
+
+exports[`cmds .yarn .installMissing() should match snapshot 1`] = `"yarn add"`;
+
+exports[`cmds .yarn .outdated() should match snapshot 1`] = `"yarn outdated --json --flat"`;
+
+exports[`cmds .yarn .remove() should match snapshot 1`] = `"yarn remove some-module"`;
+
+exports[`cmds .yarn .test() should match snapshot 1`] = `"yarn test"`;
