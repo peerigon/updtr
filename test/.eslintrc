@@ -1,5 +1,8 @@
 {
-    "extends": "peerigon/tests",
+    "extends": [
+        "peerigon/tests",
+        "plugin:jest/recommended"
+    ],
     "plugins": [
         "jest"
     ],

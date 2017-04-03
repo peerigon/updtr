@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createInstance() .config should match the default shape 1`] = `
+Object {
+  "exclude": Array [],
+  "packageManager": "npm",
+  "registry": undefined,
+  "updateTo": "latest",
+}
+`;
+
+exports[`createInstance() should return an instance with expected shape 1`] = `
+Object {
+  "cmds": null,
+  "config": null,
+  "dispose": [Function],
+  "emit": [Function],
+  "exec": [Function],
+  "parse": null,
+}
+`;

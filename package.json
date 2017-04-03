@@ -28,7 +28,7 @@
   "devDependencies": {
     "chai": "^3.3.0",
     "eslint": "^3.18.0",
-    "eslint-config-peerigon": "^10.0.0",
+    "eslint-config-peerigon": "^10.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jest": "^19.0.1",
     "eslint-plugin-jsdoc": "^3.0.0",
