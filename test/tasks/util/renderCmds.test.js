@@ -1,7 +1,8 @@
 "use strict";
 
-const renderCmds = require("../../lib/tasks/util/renderCmds");
-const cmds = require("../../lib/exec/cmds");
+const dependencyTypes = require("../../../lib/dependencyTypes");
+const renderCmds = require("../../../lib/tasks/util/renderCmds");
+const cmds = require("../../../lib/exec/cmds");
 
 const baseInstanceMock = {
     cmds: {
@@ -17,7 +18,7 @@ describe("renderCmds", () => {
             name: "my-module",
             updateTo: "2.0.0",
             rollbackTo: "1.0.0",
-            type: 0,
+            type: dependencyTypes.REGULAR,
         };
 
         expect(renderCmds(instance, updateTask)).toEqual({
@@ -28,15 +29,15 @@ describe("renderCmds", () => {
     });
     describe("custom registry", () => {
         test("should return an object with pre-rendered commands", () => {
-            const instance = Object.assign({
-                registry: "http://example.com",
-            }, baseInstanceMock);
+            const instance = Object.assign({}, baseInstanceMock);
             const updateTask = {
                 name: "my-module",
                 updateTo: "2.0.0",
                 rollbackTo: "1.0.0",
-                type: 0,
+                type: dependencyTypes.REGULAR,
             };
+
+            instance.registry = "http://example.com";
 
             expect(renderCmds(instance, updateTask)).toEqual({
                 update: "npm install --registry http://example.com my-module@2.0.0",
