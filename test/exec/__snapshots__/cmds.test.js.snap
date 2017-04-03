@@ -16,7 +16,7 @@ exports[`cmds .yarn .install() when a name, a version and a custom registry is g
 
 exports[`cmds .yarn .install() when just a name and a version is given should match snapshot 1`] = `"yarn add some-module@1.0.0"`;
 
-exports[`cmds .yarn .installMissing() should match snapshot 1`] = `"yarn add"`;
+exports[`cmds .yarn .installMissing() should match snapshot 1`] = `"yarn"`;
 
 exports[`cmds .yarn .outdated() should match snapshot 1`] = `"yarn outdated --json --flat"`;
 
