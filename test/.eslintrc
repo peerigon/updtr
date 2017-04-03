@@ -1,3 +1,9 @@
 {
-    "extends": "peerigon/tests"
+    "extends": "peerigon/tests",
+    "plugins": [
+        "jest"
+    ],
+    "env": {
+        "jest/globals": true
+    }
 }
