@@ -16,79 +16,85 @@ const fixtureSetups = {
         const fixture = "empty";
         const pathToFixture = path.join(pathToFixtures, fixture);
 
-        return runOrSkipIfExists(
-            pathToFixture,
-            () => exec("npm init -y", fixture)
+        return runOrSkipIfExists(pathToFixture, () =>
+            exec("npm init -y", fixture)
                 .then(() => exec(createYarnLock, fixture))
                 .then(() => {
                     writeLog(fixture, "npm", "outdated");
                     writeLog(fixture, "yarn", "outdated");
-                })
-        );
+                }));
     },
     "no-outdated"() {
         const fixture = "no-outdated";
         const pathToFixture = path.join(pathToFixtures, fixture);
 
-        return runOrSkipIfExists(
-            pathToFixture,
-            () => exec("npm init -y", fixture)
-                .then(() => exec("npm i updtr-test-module-1 updtr-test-module-2 --save", fixture))
+        return runOrSkipIfExists(pathToFixture, () =>
+            exec("npm init -y", fixture)
+                .then(() =>
+                    exec(
+                        "npm i updtr-test-module-1 updtr-test-module-2 --save",
+                        fixture
+                    ))
                 .then(() => exec(createYarnLock, fixture))
                 .then(() => {
                     writeLog(fixture, "npm", "outdated");
                     writeLog(fixture, "yarn", "outdated");
-                })
-        );
+                }));
     },
     "no-outdated-dev"() {
         const fixture = "no-outdated-dev";
         const pathToFixture = path.join(pathToFixtures, fixture);
 
-        return runOrSkipIfExists(
-            pathToFixture,
-            () => exec("npm init -y", fixture)
-                .then(() => exec("npm i updtr-test-module-1 updtr-test-module-2 --save-dev", fixture))
+        return runOrSkipIfExists(pathToFixture, () =>
+            exec("npm init -y", fixture)
+                .then(() =>
+                    exec(
+                        "npm i updtr-test-module-1 updtr-test-module-2 --save-dev",
+                        fixture
+                    ))
                 .then(() => exec(createYarnLock, fixture))
                 .then(() => {
                     writeLog(fixture, "npm", "outdated");
                     writeLog(fixture, "yarn", "outdated");
-                })
-        );
+                }));
     },
-    "outdated"() {
+    outdated() {
         const fixture = "outdated";
         const pathToFixture = path.join(pathToFixtures, fixture);
 
-        return runOrSkipIfExists(
-            pathToFixture,
-            () => exec("npm init -y", fixture)
+        return runOrSkipIfExists(pathToFixture, () =>
+            exec("npm init -y", fixture)
                 // updtr-test-module-1's minor version is outdated (non-breaking),
                 // updtr-test-module-2's major version is outdated (breaking)
-                .then(() => exec("npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save", fixture))
+                .then(() =>
+                    exec(
+                        "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save",
+                        fixture
+                    ))
                 .then(() => exec(createYarnLock, fixture))
                 .then(() => {
                     writeLog(fixture, "npm", "outdated");
                     writeLog(fixture, "yarn", "outdated");
-                })
-        );
+                }));
     },
     "outdated-dev"() {
         const fixture = "outdated-dev";
         const pathToFixture = path.join(pathToFixtures, fixture);
 
-        return runOrSkipIfExists(
-            pathToFixture,
-            () => exec("npm init -y", fixture)
+        return runOrSkipIfExists(pathToFixture, () =>
+            exec("npm init -y", fixture)
                 // updtr-test-module-1's minor version is outdated (non-breaking),
                 // updtr-test-module-2's major version is outdated (breaking)
-                .then(() => exec("npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save-dev", fixture))
+                .then(() =>
+                    exec(
+                        "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save-dev",
+                        fixture
+                    ))
                 .then(() => exec(createYarnLock, fixture))
                 .then(() => {
                     writeLog(fixture, "npm", "outdated");
                     writeLog(fixture, "yarn", "outdated");
-                })
-        );
+                }));
     },
 };
 
@@ -119,7 +125,10 @@ function exec(cmd, fixture) {
             (err, stdout, stderr) => {
                 // If the outdated command was executed, err will be set because npm outdated exits
                 // with a non-zero code when there are outdated dependencies
-                if (err !== null && (err.code > 1 || / outdated/.test(cmd) === false)) {
+                if (
+                    err !== null &&
+                    (err.code > 1 || / outdated/.test(cmd) === false)
+                ) {
                     // Immediately stop the process
                     throw err;
                 }
@@ -131,10 +140,16 @@ function exec(cmd, fixture) {
 }
 
 function writeLog(fixture, packageManager, cmd) {
-    return exec(cmds[packageManager][cmd](), fixture)
-        .then(stdout => {
-            fs.writeFileSync(path.join(pathToFixtures, fixture, [cmd, packageManager, "log"].join(".")), stdout);
-        });
+    return exec(cmds[packageManager][cmd](), fixture).then(stdout => {
+        fs.writeFileSync(
+            path.join(
+                pathToFixtures,
+                fixture,
+                [cmd, packageManager, "log"].join(".")
+            ),
+            stdout
+        );
+    });
 }
 
 function setupFixtures() {

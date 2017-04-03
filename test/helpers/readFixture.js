@@ -27,14 +27,13 @@ function readFixture(fixture) {
 
             return void resolve(contents);
         });
-    })
-        .then(contents => {
-            if (cache.has(filename) === false) {
-                cache.set(filename, contents);
-            }
+    }).then(contents => {
+        if (cache.has(filename) === false) {
+            cache.set(filename, contents);
+        }
 
-            return contents;
-        });
+        return contents;
+    });
 }
 
 module.exports = readFixture;

@@ -23,14 +23,18 @@ describe("filterUpdateTask", () => {
 
             updateTask.updateTo = "git";
 
-            expect(filterUpdateTask(updateTask, baseInstanceConfigMock)).toBe(false);
+            expect(filterUpdateTask(updateTask, baseInstanceConfigMock)).toBe(
+                false
+            );
         });
         test("should filter git dependencies", () => {
             const updateTask = Object.assign({}, baseUpdateTaskMock);
 
             updateTask.updateTo = "exotic";
 
-            expect(filterUpdateTask(updateTask, baseInstanceConfigMock)).toBe(false);
+            expect(filterUpdateTask(updateTask, baseInstanceConfigMock)).toBe(
+                false
+            );
         });
     });
 });

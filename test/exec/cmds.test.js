@@ -17,27 +17,33 @@ describe("cmds", () => {
         describe(".install()", () => {
             describe("when just a name and a version is given", () => {
                 test("should match snapshot", () => {
-                    expect(cmds.npm.install({
-                        name: "some-module",
-                        version: "1.0.0",
-                    })).toMatchSnapshot();
+                    expect(
+                        cmds.npm.install({
+                            name: "some-module",
+                            version: "1.0.0",
+                        })
+                    ).toMatchSnapshot();
                 });
             });
             describe("when a name, a version and a custom registry is given", () => {
                 test("should match snapshot", () => {
-                    expect(cmds.npm.install({
-                        name: "some-module",
-                        version: "1.0.0",
-                        registry: "http://example.com/registry",
-                    })).toMatchSnapshot();
+                    expect(
+                        cmds.npm.install({
+                            name: "some-module",
+                            version: "1.0.0",
+                            registry: "http://example.com/registry",
+                        })
+                    ).toMatchSnapshot();
                 });
             });
         });
         describe(".remove()", () => {
             test("should match snapshot", () => {
-                expect(cmds.npm.remove({
-                    name: "some-module",
-                })).toMatchSnapshot();
+                expect(
+                    cmds.npm.remove({
+                        name: "some-module",
+                    })
+                ).toMatchSnapshot();
             });
         });
         describe(".test()", () => {
@@ -60,27 +66,33 @@ describe("cmds", () => {
         describe(".install()", () => {
             describe("when just a name and a version is given", () => {
                 test("should match snapshot", () => {
-                    expect(cmds.yarn.install({
-                        name: "some-module",
-                        version: "1.0.0",
-                    })).toMatchSnapshot();
+                    expect(
+                        cmds.yarn.install({
+                            name: "some-module",
+                            version: "1.0.0",
+                        })
+                    ).toMatchSnapshot();
                 });
             });
             describe("when a name, a version and a custom registry is given", () => {
                 test("should match snapshot", () => {
-                    expect(cmds.yarn.install({
-                        name: "some-module",
-                        version: "1.0.0",
-                        registry: "http://example.com/registry",
-                    })).toMatchSnapshot();
+                    expect(
+                        cmds.yarn.install({
+                            name: "some-module",
+                            version: "1.0.0",
+                            registry: "http://example.com/registry",
+                        })
+                    ).toMatchSnapshot();
                 });
             });
         });
         describe(".remove()", () => {
             test("should match snapshot", () => {
-                expect(cmds.yarn.remove({
-                    name: "some-module",
-                })).toMatchSnapshot();
+                expect(
+                    cmds.yarn.remove({
+                        name: "some-module",
+                    })
+                ).toMatchSnapshot();
             });
         });
         describe(".test()", () => {
