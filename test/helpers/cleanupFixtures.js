@@ -2,27 +2,24 @@
 
 const path = require("path");
 const rimraf = require("rimraf");
+const setupFixtures = require("./setupFixtures");
 
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
-const fixtures = [
-    "empty",
-    "no-outdated",
-    "outdated",
-    "outdated-dev",
-];
-const thingsToRemove = [
-    "node_modules",
-    "outdated.npm.log",
-    "outdated.yarn.log",
-    "yarn.lock",
-];
+const fixtures = Object.keys(setupFixtures);
 
-function cleanupFixtures() {
-    fixtures.forEach(fixture => {
-        thingsToRemove.forEach(thing => {
-            rimraf.sync(path.join(pathToFixtures, fixture, thing));
+function remove(fixture) {
+    return new Promise((resolve, reject) => {
+        rimraf(path.join(pathToFixtures, fixture), err => {
+            if (err) {
+                throw err;
+            }
+            resolve();
         });
     });
+}
+
+function cleanupFixtures() {
+    fixtures.forEach(remove);
 }
 
 if (!module.parent) {
