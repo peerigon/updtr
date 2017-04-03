@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createUpdateTask() if the 'wanted' flag is set should return a valid update task 1`] = `
+Object {
+  "name": "some-module",
+  "rollbackTo": "1.0.0",
+  "type": 0,
+  "updateTo": "1.8.0",
+}
+`;
+
+exports[`createUpdateTask() should return a valid update task 1`] = `
+Object {
+  "name": "some-module",
+  "rollbackTo": "1.0.0",
+  "type": 0,
+  "updateTo": "2.0.0",
+}
+`;
