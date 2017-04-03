@@ -8,7 +8,9 @@
     "posttest": "npm run lint",
     "test:watch": "npm run test -- -w -G",
     "coverage": "istanbul cover _mocha -- -R spec",
-    "lint": "eslint bin lib test"
+    "lint": "eslint bin lib test",
+    "ensure-fixtures": "node ./test/helpers/setupFixtures.js",
+    "rebuild-fixtures": "node ./test/helpers/cleanupFixtures.js; npm run ensure-fixtures"
   },
   "author": "peerigon",
   "license": "Unlicense",
@@ -28,10 +30,14 @@
     "eslint": "^3.18.0",
     "eslint-config-peerigon": "^10.0.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "^19.0.1",
     "eslint-plugin-jsdoc": "^3.0.0",
     "istanbul": "^0.4.5",
+    "jest": "^19.0.2",
+    "mkdirp": "^0.5.1",
     "mocha": "^3.2.0",
     "rewire": "^2.5.2",
+    "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0"
   },
