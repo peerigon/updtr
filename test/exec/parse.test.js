@@ -8,6 +8,25 @@ const parse = require("../../lib/exec/parse");
 const fixtures = Object.keys(setupFixtures);
 const stdoutLogs = new Map();
 
+function testUnexpectedInput(parse) {
+    describe("unexpected input", () => {
+        describe("malformed JSON", () => {
+            test("should throw with a helpful error message", () => {
+                expect(() => parse("{", "my-cmd"))
+                    .toThrow("Error when trying to parse stdout from command 'my-cmd': Unexpected end of JSON input");
+            });
+        });
+        describe("unexpected data format", () => {
+            test("should throw with a helpful error message", () => {
+                expect(() => parse(JSON.stringify({ some: { randomData: true } }), "my-cmd"))
+                    // We don't really want to test for the actual error message here,
+                    // but just whether there is an error message at all.
+                    .toThrow(/Error when trying to parse stdout from command 'my-cmd': \w+/);
+            });
+        });
+    });
+}
+
 beforeAll(() => {
     const stdoutLogKeys = fixtures
         .reduce((arr, fixture) => arr.concat(
@@ -98,6 +117,7 @@ describe("parse", () => {
                     ]);
                 });
             });
+            testUnexpectedInput(parse.npm.outdated);
         });
     });
     describe(".yarn", () => {
@@ -176,6 +196,7 @@ describe("parse", () => {
                     ]);
                 });
             });
+            testUnexpectedInput(parse.yarn.outdated);
         });
     });
 });
