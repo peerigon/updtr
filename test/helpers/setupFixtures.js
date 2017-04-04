@@ -11,14 +11,15 @@ const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 // https://github.com/yarnpkg/yarn/issues/683
 // https://github.com/yarnpkg/website/issues/261
 const createYarnLock = "yarn --mutex network";
-const fixtureSetups = {
+
+export const fixtureSetups = {
     async empty() {
         const fixture = "empty";
         const pathToFixture = path.join(pathToFixtures, fixture);
 
         await runOrSkipIfExists(pathToFixture, async () => {
-            await execCmd("npm init -y", fixture);
-            await execCmd(createYarnLock, fixture);
+            await execFixtureCmd(fixture, "npm init -y");
+            await execFixtureCmd(fixture, createYarnLock);
             await Promise.all([
                 writeStdoutLog(fixture, "npm", "outdated"),
                 writeStdoutLog(fixture, "yarn", "outdated"),
@@ -30,12 +31,12 @@ const fixtureSetups = {
         const pathToFixture = path.join(pathToFixtures, fixture);
 
         await runOrSkipIfExists(pathToFixture, async () => {
-            await execCmd("npm init -y", fixture);
-            await execCmd(
-                "npm i updtr-test-module-1 updtr-test-module-2 --save",
-                fixture
+            await execFixtureCmd(fixture, "npm init -y");
+            await execFixtureCmd(
+                fixture,
+                "npm i updtr-test-module-1 updtr-test-module-2 --save"
             );
-            await execCmd(createYarnLock, fixture);
+            await execFixtureCmd(fixture, createYarnLock);
             await Promise.all([
                 writeStdoutLog(fixture, "npm", "outdated"),
                 writeStdoutLog(fixture, "yarn", "outdated"),
@@ -47,12 +48,12 @@ const fixtureSetups = {
         const pathToFixture = path.join(pathToFixtures, fixture);
 
         await runOrSkipIfExists(pathToFixture, async () => {
-            await execCmd("npm init -y", fixture);
-            await execCmd(
-                "npm i updtr-test-module-1 updtr-test-module-2 --save-dev",
-                fixture
+            await execFixtureCmd(fixture, "npm init -y");
+            await execFixtureCmd(
+                fixture,
+                "npm i updtr-test-module-1 updtr-test-module-2 --save-dev"
             );
-            await execCmd(createYarnLock, fixture);
+            await execFixtureCmd(fixture, createYarnLock);
             await Promise.all([
                 writeStdoutLog(fixture, "npm", "outdated"),
                 writeStdoutLog(fixture, "yarn", "outdated"),
@@ -64,14 +65,14 @@ const fixtureSetups = {
         const pathToFixture = path.join(pathToFixtures, fixture);
 
         await runOrSkipIfExists(pathToFixture, async () => {
-            await execCmd("npm init -y", fixture);
-            await execCmd(
+            await execFixtureCmd(fixture, "npm init -y");
+            await execFixtureCmd(
+                fixture,
                 // updtr-test-module-1's minor version is outdated (non-breaking),
                 // updtr-test-module-2's major version is outdated (breaking)
-                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save",
-                fixture
+                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save"
             );
-            await execCmd(createYarnLock, fixture);
+            await execFixtureCmd(fixture, createYarnLock);
             await Promise.all([
                 writeStdoutLog(fixture, "npm", "outdated"),
                 writeStdoutLog(fixture, "yarn", "outdated"),
@@ -83,14 +84,14 @@ const fixtureSetups = {
         const pathToFixture = path.join(pathToFixtures, fixture);
 
         await runOrSkipIfExists(pathToFixture, async () => {
-            await execCmd("npm init -y", fixture);
-            await execCmd(
+            await execFixtureCmd(fixture, "npm init -y");
+            await execFixtureCmd(
+                fixture,
                 // updtr-test-module-1's minor version is outdated (non-breaking),
                 // updtr-test-module-2's major version is outdated (breaking)
-                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save-dev",
-                fixture
+                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save-dev"
             );
-            await execCmd(createYarnLock, fixture);
+            await execFixtureCmd(fixture, createYarnLock);
             await Promise.all([
                 writeStdoutLog(fixture, "npm", "outdated"),
                 writeStdoutLog(fixture, "yarn", "outdated"),
@@ -120,7 +121,7 @@ async function runOrSkipIfExists(path, fn) {
     }
 }
 
-async function execCmd(cmd, fixture) {
+async function execFixtureCmd(fixture, cmd) {
     const cwd = path.join(pathToFixtures, fixture);
 
     console.log(cwd, cmd);
@@ -138,7 +139,7 @@ async function execCmd(cmd, fixture) {
 }
 
 async function writeStdoutLog(fixture, packageManager, cmd) {
-    const stdout = await execCmd(cmds[packageManager][cmd](), fixture);
+    const stdout = await execFixtureCmd(fixture, cmds[packageManager][cmd]());
     const filename = path.join(
         pathToFixtures,
         fixture,
@@ -148,7 +149,7 @@ async function writeStdoutLog(fixture, packageManager, cmd) {
     await writeFile(filename, stdout);
 }
 
-async function setupFixtures() {
+async function setupAllFixtures() {
     await gracefulMkdir(pathToFixtures);
 
     return Promise.all(
@@ -157,11 +158,11 @@ async function setupFixtures() {
 }
 
 if (!module.parent) {
-    setupFixtures().catch(err => {
+    setupAllFixtures().catch(err => {
         setImmediate(() => {
             throw err;
         });
     });
 }
 
-module.exports = fixtureSetups;
+export default setupAllFixtures;

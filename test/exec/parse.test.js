@@ -1,10 +1,10 @@
 import path from "path";
 import { REGULAR, DEV } from "../../src/constants/dependencyTypes";
-import setupFixtures from "../helpers/setupFixtures";
+import { fixtureSetups } from "../helpers/setupFixtures";
 import readFixture from "../helpers/readFixture";
 import parse from "../../src/exec/parse";
 
-const fixtures = Object.keys(setupFixtures);
+const fixtures = Object.keys(fixtureSetups);
 const stdoutLogs = new Map();
 
 function testUnexpectedInput(parse) {

@@ -1,9 +1,9 @@
 import path from "path";
 import rimraf from "rimraf";
-import setupFixtures from "./setupFixtures";
+import { fixtureSetups } from "./setupFixtures";
 
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
-const fixtures = Object.keys(setupFixtures);
+const fixtures = Object.keys(fixtureSetups);
 
 function remove(fixture) {
     return new Promise((resolve, reject) => {
