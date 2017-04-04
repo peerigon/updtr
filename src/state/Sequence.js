@@ -1,5 +1,3 @@
-"use strict";
-
 class Sequence {
     constructor(instance, baseEvent) {
         this.instance = instance;
@@ -12,23 +10,23 @@ class Sequence {
             Object.assign(event === undefined ? {} : event, this.baseEvent)
         );
     }
-    exec(step, cmd) {
-        return new Promise(resolve => {
-            this.emit(step, { cmd });
-            resolve(this.instance.exec(cmd));
-        }).then(
-            result => {
-                this.stdouts.set(step, result.stdout);
+    async exec(step, cmd) {
+        let resultOrError;
 
-                return result;
-            },
-            err => {
-                this.stdouts.set(step, err.stdout);
+        this.emit(step, { cmd });
 
-                throw err;
-            }
-        );
+        try {
+            resultOrError = await this.instance.exec(cmd);
+
+            return resultOrError;
+        } catch (err) {
+            resultOrError = err;
+
+            throw err;
+        } finally {
+            this.stdouts.set(step, resultOrError.stdout);
+        }
     }
 }
 
-module.exports = Sequence;
+export default Sequence;
