@@ -1,37 +1,9 @@
 import init from "../../src/tasks/init";
-import Updtr from "../../src/Updtr";
 import readFixtures from "../helpers/readFixtures";
+import FakeUpdtr from "../helpers/FakeUpdtr";
+import ExecError from "../helpers/ExecError";
 
-const baseUpdtrConfig = {
-    cwd: __dirname,
-};
 let stdoutLogs;
-
-class ExecError extends Error {
-    constructor({ message, stdout, stderr, exitCode }) {
-        super(message);
-        this.stdout = stdout;
-        this.stderr = stderr;
-        this.code = exitCode;
-    }
-}
-
-class FakeUpdtr extends Updtr {
-    constructor(execResults, updtrConfig = { ...baseUpdtrConfig }) {
-        super(updtrConfig);
-        this.emittedEvents = [];
-        this.execArgs = [];
-        this.execResults = execResults;
-    }
-    exec(...args) {
-        this.execArgs.push(args);
-
-        return this.execResults.shift();
-    }
-    emit(...args) {
-        this.emittedEvents.push(args);
-    }
-}
 
 beforeAll(async () => {
     stdoutLogs = await readFixtures([
@@ -90,7 +62,7 @@ describe("init()", () => {
                     }), // outdated
                 ];
                 const updtr = new FakeUpdtr(execResults, {
-                    ...baseUpdtrConfig,
+                    ...FakeUpdtr.baseConfig,
                     packageManager: "yarn",
                 });
 
@@ -110,7 +82,7 @@ describe("init()", () => {
                 }), // outdated
             ];
             const updtr = new FakeUpdtr(execResults, {
-                ...baseUpdtrConfig,
+                ...FakeUpdtr.baseConfig,
                 exclude: ["updtr-test-module-1", "updtr-test-module-2"],
             });
 

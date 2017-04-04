@@ -16,7 +16,7 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [
         "updtr-test-module-1",
         "updtr-test-module-2",
@@ -30,7 +30,7 @@ Array [
     "init/install-missing",
     Object {
       "cmd": "npm install",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [
         "updtr-test-module-1",
         "updtr-test-module-2",
@@ -44,7 +44,7 @@ Array [
     "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [
         "updtr-test-module-1",
         "updtr-test-module-2",
@@ -57,7 +57,7 @@ Array [
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [
         "updtr-test-module-1",
         "updtr-test-module-2",
@@ -87,7 +87,7 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -98,7 +98,7 @@ Array [
     "init/install-missing",
     Object {
       "cmd": "npm install",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -109,7 +109,7 @@ Array [
     "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -119,7 +119,7 @@ Array [
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -146,7 +146,7 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -157,7 +157,7 @@ Array [
     "init/install-missing",
     Object {
       "cmd": "npm install",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -168,7 +168,7 @@ Array [
     "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -178,7 +178,7 @@ Array [
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -218,7 +218,7 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "yarn",
       "registry": undefined,
@@ -229,7 +229,7 @@ Array [
     "init/install-missing",
     Object {
       "cmd": "yarn",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "yarn",
       "registry": undefined,
@@ -240,7 +240,7 @@ Array [
     "init/collect",
     Object {
       "cmd": "yarn outdated --json --flat",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "yarn",
       "registry": undefined,
@@ -250,7 +250,7 @@ Array [
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
       "exclude": Array [],
       "packageManager": "yarn",
       "registry": undefined,
