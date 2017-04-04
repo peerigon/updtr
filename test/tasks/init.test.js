@@ -98,4 +98,25 @@ describe("init()", () => {
             });
         });
     });
+    describe("when there are excluded dependencies", () => {
+        test("should emit expected events and execute expected commands", async () => {
+            const execResults = [
+                Promise.resolve({ stdout: "" }), // installMissing
+                Promise.resolve({
+                    stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
+                }), // outdated
+            ];
+            const instance = new FakeInstance(execResults);
+
+            instance.config.exclude = [
+                "updtr-test-module-1",
+                "updtr-test-module-2",
+            ];
+
+            await init(instance);
+
+            expect(instance.execArgs).toMatchSnapshot();
+            expect(instance.emittedEvents).toMatchSnapshot();
+        });
+    });
 });
