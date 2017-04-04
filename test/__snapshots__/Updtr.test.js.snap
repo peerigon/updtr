@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`new Instance() .config should match the default shape 1`] = `
+exports[`new Updtr() .config should match the default shape 1`] = `
 Object {
-  "cwd": "/Users/jhnns/dev/peerigon/updtr/test/state",
+  "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
   "exclude": Array [],
   "packageManager": "npm",
   "registry": undefined,

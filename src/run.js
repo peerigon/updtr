@@ -1,19 +1,19 @@
 "use strict";
 
-const createInstance = require("./createInstance");
+const createUpdtr = require("./createUpdtr");
 const tasks = require("./tasks");
 
 function run(config, done) {
-    let instance;
+    let updtr;
 
     return Promise.resolve()
         .then(() => {
-            instance = createInstance(config);
+            updtr = createUpdtr(config);
 
-            return tasks.init(instance);
+            return tasks.init(updtr);
         })
-        .then(updateTasks => tasks.update(instance, updateTasks))
-        .then(() => instance.emit("done"));
+        .then(updateTasks => tasks.update(updtr, updateTasks))
+        .then(() => updtr.emit("done"));
 }
 
 module.exports = run;

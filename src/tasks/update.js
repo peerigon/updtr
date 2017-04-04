@@ -3,7 +3,7 @@
 const renderCmds = require("../renderCmds");
 const createSequence = require("../createSequence");
 
-function updateSingle(instance, updateTask, index, total) {
+function updateSingle(updtr, updateTask, index, total) {
     let baseEvent;
     let sequence;
     let cmds;
@@ -17,8 +17,8 @@ function updateSingle(instance, updateTask, index, total) {
                 },
                 updateTask
             );
-            sequence = createSequence(instance, baseEvent);
-            cmds = renderCmds(instance, updateTask);
+            sequence = createSequence(updtr, baseEvent);
+            cmds = renderCmds(updtr, updateTask);
 
             return sequence.exec("updating", cmds.update);
         })
@@ -32,7 +32,7 @@ function updateSingle(instance, updateTask, index, total) {
         () => sequence.exec("rollback", cmds.rollback).then(() => {
             sequence.emit("rollbackDone");
 
-            if (instance.testStdout) {
+            if (updtr.testStdout) {
                 sequence.emit("testStdout", {
                     testStdout: sequence.stdouts.test,
                 });
@@ -43,7 +43,7 @@ function updateSingle(instance, updateTask, index, total) {
         );
 }
 
-function update(instance, updateTasks) {
+function update(updtr, updateTasks) {
     const updateReport = new Map();
 
     return updateTasks.reduce(
@@ -56,7 +56,7 @@ function update(instance, updateTasks) {
                 }
 
                 return updateSingle(
-                    instance,
+                    updtr,
                     updateTask,
                     index,
                     updateTasks.length

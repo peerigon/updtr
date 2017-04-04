@@ -21,9 +21,9 @@ function isConsistent(updateTask) {
     return semver.lt(updateTask.rollbackTo, updateTask.updateTo);
 }
 
-export default function filterUpdateTask(updateTask, instanceConfig) {
+export default function filterUpdateTask(updateTask, updtrConfig) {
     return isExoticDependency(updateTask) === false &&
         isStable(updateTask) === true &&
-        isExcluded(updateTask, instanceConfig.exclude) === false &&
+        isExcluded(updateTask, updtrConfig.exclude) === false &&
         isConsistent(updateTask) === true;
 }

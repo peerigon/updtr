@@ -1,38 +1,38 @@
 import Sequence from "../../../src/tasks/util/Sequence";
-import Instance from "../../../src/state/Instance";
+import Updtr from "../../../src/Updtr";
 
 const baseEvent = {
     a: true,
     b: true,
 };
-const baseInstanceConfig = {
+const baseUpdtrConfig = {
     cwd: __dirname,
 };
 
 describe("new Sequence()", () => {
-    describe(".instance", () => {
-        test("should be the given instance", () => {
-            const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence("test", instance, baseEvent);
+    describe(".updtr", () => {
+        test("should be the given updtr", () => {
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr, baseEvent);
 
-            expect(sequence.instance).toBe(instance);
+            expect(sequence.updtr).toBe(updtr);
         });
     });
     describe(".baseEvent", () => {
         test("should be the given baseEvent", () => {
-            const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence("test", instance, baseEvent);
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr, baseEvent);
 
             expect(sequence.baseEvent).toBe(baseEvent);
         });
     });
     describe(".emit()", () => {
-        test("should emit an event on the instance under the given namespace", () => {
-            const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence("test", instance, baseEvent);
+        test("should emit an event on the updtr under the given namespace", () => {
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr, baseEvent);
             let hasBeenCalled = false;
 
-            instance.on("test/test", () => {
+            updtr.on("test/test", () => {
                 hasBeenCalled = true;
             });
 
@@ -41,11 +41,11 @@ describe("new Sequence()", () => {
             expect(hasBeenCalled).toBe(true);
         });
         test("should not emit the base event itself but a copy of it when no event object is given", () => {
-            const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence("test", instance, baseEvent);
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr, baseEvent);
             let givenEvent;
 
-            instance.on("test/test", event => {
+            updtr.on("test/test", event => {
                 givenEvent = event;
             });
 
@@ -54,13 +54,13 @@ describe("new Sequence()", () => {
             expect(givenEvent).not.toBe(baseEvent);
             expect(givenEvent).toEqual(baseEvent);
         });
-        test("should emit an event on the instance with the properties of the given base event", () => {
-            const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence("test", instance, baseEvent);
+        test("should emit an event on the updtr with the properties of the given base event", () => {
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr, baseEvent);
             const event = { b: false, c: true };
             let givenEvent;
 
-            instance.on("test/test", event => {
+            updtr.on("test/test", event => {
                 givenEvent = event;
             });
 
@@ -70,19 +70,19 @@ describe("new Sequence()", () => {
         });
     });
     describe(".exec()", () => {
-        test("should emit an event on the instance for each step with the given command", async () => {
-            const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence("test", instance, baseEvent);
+        test("should emit an event on the updtr for each step with the given command", async () => {
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr, baseEvent);
             const emittedEvents = [];
 
             function saveEmittedEvent(event) {
                 emittedEvents.push(event);
             }
 
-            instance.exec = () => Promise.resolve({});
+            updtr.exec = () => Promise.resolve({});
 
-            instance.on("test/step-a", saveEmittedEvent);
-            instance.on("test/step-b", saveEmittedEvent);
+            updtr.on("test/step-a", saveEmittedEvent);
+            updtr.on("test/step-b", saveEmittedEvent);
 
             await sequence.exec("step-a", "cmd-a");
             await sequence.exec("step-b", "cmd-b");

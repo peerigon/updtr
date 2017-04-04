@@ -1,26 +1,26 @@
 import EventEmitter from "events";
 import os from "os";
-import { UPDATE_TO_WANTED } from "../../src/constants/updateTask";
-import Instance from "../../src/state/Instance";
+import { UPDATE_TO_WANTED } from "../src/constants/updateTask";
+import Updtr from "../src/Updtr";
 
 const baseConfig = {
     cwd: __dirname,
 };
 
-describe("new Instance()", () => {
-    test("should return an instance with expected shape", () => {
-        const instance = new Instance(baseConfig);
+describe("new Updtr()", () => {
+    test("should return an updtr with expected shape", () => {
+        const updtr = new Updtr(baseConfig);
 
-        expect(instance).toBeInstanceOf(EventEmitter);
+        expect(updtr).toBeInstanceOf(EventEmitter);
         // Check for properties that are not tested in this unit test
-        expect(instance).toHaveProperty("cmds");
-        expect(instance).toHaveProperty("parse");
+        expect(updtr).toHaveProperty("cmds");
+        expect(updtr).toHaveProperty("parse");
     });
     describe(".config", () => {
         test("should match the default shape", () => {
-            const instance = new Instance(baseConfig);
+            const updtr = new Updtr(baseConfig);
 
-            expect(instance.config).toMatchSnapshot();
+            expect(updtr.config).toMatchSnapshot();
         });
         describe(".updateTo", () => {
             test("should be 'wanted' if the wanted flag is set", () => {
@@ -28,9 +28,9 @@ describe("new Instance()", () => {
 
                 config.wanted = true;
 
-                const instance = new Instance(config);
+                const updtr = new Updtr(config);
 
-                expect(instance.config).toHaveProperty(
+                expect(updtr.config).toHaveProperty(
                     "updateTo",
                     UPDATE_TO_WANTED
                 );
@@ -42,13 +42,9 @@ describe("new Instance()", () => {
 
                 config.exclude = ["a", "b", "c"];
 
-                const instance = new Instance(config);
+                const updtr = new Updtr(config);
 
-                expect(instance.config).toHaveProperty("exclude", [
-                    "a",
-                    "b",
-                    "c",
-                ]);
+                expect(updtr.config).toHaveProperty("exclude", ["a", "b", "c"]);
             });
         });
         describe(".registry", () => {
@@ -57,9 +53,9 @@ describe("new Instance()", () => {
 
                 config.registry = "http://example.com";
 
-                const instance = new Instance(config);
+                const updtr = new Updtr(config);
 
-                expect(instance.config).toHaveProperty(
+                expect(updtr.config).toHaveProperty(
                     "registry",
                     "http://example.com"
                 );
@@ -71,33 +67,30 @@ describe("new Instance()", () => {
 
                 config.packageManager = "yarn";
 
-                const instance = new Instance(config);
+                const updtr = new Updtr(config);
 
-                expect(instance.config).toHaveProperty(
-                    "packageManager",
-                    "yarn"
-                );
+                expect(updtr.config).toHaveProperty("packageManager", "yarn");
             });
         });
     });
     describe(".exec()", () => {
         test("should exec the command in the given cwd", async () => {
-            const instance = new Instance(baseConfig);
+            const updtr = new Updtr(baseConfig);
             const cmd = "node -e 'console.log(process.cwd())'";
-            const result = await instance.exec(cmd);
+            const result = await updtr.exec(cmd);
 
             expect(result.stdout).toBe(baseConfig.cwd + os.EOL);
         });
     });
     describe(".dispose()", () => {
         test("should remove all event listeners", () => {
-            const instance = new Instance(baseConfig);
+            const updtr = new Updtr(baseConfig);
 
-            instance.on("test", () => {
+            updtr.on("test", () => {
                 throw new Error("Should not be called");
             });
-            instance.dispose();
-            instance.emit("test");
+            updtr.dispose();
+            updtr.emit("test");
         });
     });
     describe("errors", () => {
@@ -106,7 +99,7 @@ describe("new Instance()", () => {
 
             delete config.cwd;
 
-            expect(() => new Instance(config)).toThrow(
+            expect(() => new Updtr(config)).toThrow(
                 "Cannot create updtr instance: cwd is missing"
             );
         });
@@ -116,7 +109,7 @@ describe("new Instance()", () => {
             config.registry = "http://example.com";
             config.packageManager = "yarn";
 
-            expect(() => new Instance(config)).toThrow(
+            expect(() => new Updtr(config)).toThrow(
                 "Cannot create updtr instance: yarn does not support custom registries yet. Please use a .npmrc file to achieve this"
             );
         });

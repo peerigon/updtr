@@ -2,25 +2,25 @@ import Sequence from "./util/Sequence";
 import createUpdateTask from "./util/createUpdateTask";
 import filterUpdateTask from "./util/filterUpdateTask";
 
-function getUpdateTasksFromStdout(instance, outdatedCmd, stdout) {
+function getUpdateTasksFromStdout(updtr, outdatedCmd, stdout) {
     if (stdout.length === 0) {
         // When there is not stdout, there is nothing to update
         return [];
     }
 
-    return instance.parse
+    return updtr.parse
         .outdated(stdout, outdatedCmd)
-        .map(outdated => createUpdateTask(outdated, instance.config))
-        .filter(updateTask => filterUpdateTask(updateTask, instance.config));
+        .map(outdated => createUpdateTask(outdated, updtr.config))
+        .filter(updateTask => filterUpdateTask(updateTask, updtr.config));
 }
 
-export default (async function init(instance) {
-    const baseEvent = instance.config;
-    const outdatedCmd = instance.cmds.outdated();
-    const sequence = new Sequence("init", instance, baseEvent);
+export default (async function init(updtr) {
+    const baseEvent = updtr.config;
+    const outdatedCmd = updtr.cmds.outdated();
+    const sequence = new Sequence("init", updtr, baseEvent);
     let stdout;
 
-    await sequence.exec("installMissing", instance.cmds.installMissing());
+    await sequence.exec("installMissing", updtr.cmds.installMissing());
 
     try {
         stdout = (await sequence.exec("collect", outdatedCmd)).stdout;
@@ -33,12 +33,12 @@ export default (async function init(instance) {
     }
 
     const updateTasks = getUpdateTasksFromStdout(
-        instance,
+        updtr,
         outdatedCmd,
         stdout.trim()
     );
 
-    instance.emit("initDone", {
+    updtr.emit("initDone", {
         updateTasks,
     });
 

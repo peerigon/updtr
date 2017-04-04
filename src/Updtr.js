@@ -1,9 +1,9 @@
 import EventEmitter from "events";
-import { UPDATE_TO_LATEST, UPDATE_TO_WANTED } from "../constants/updateTask";
-import exec from "../exec/exec";
-import { SUPPORTED } from "../constants/packageManagers";
-import cmds from "../exec/cmds";
-import parse from "../exec/parse";
+import { UPDATE_TO_LATEST, UPDATE_TO_WANTED } from "./constants/updateTask";
+import exec from "./exec/exec";
+import { SUPPORTED } from "./constants/packageManagers";
+import cmds from "./exec/cmds";
+import parse from "./exec/parse";
 
 function checkCwd(cwd) {
     if (typeof cwd !== "string") {
@@ -27,7 +27,7 @@ function checkForYarnWithCustomReg(packageManager, registry) {
     }
 }
 
-export default class Instance extends EventEmitter {
+export default class Updtr extends EventEmitter {
     constructor(config) {
         super();
 

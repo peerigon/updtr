@@ -8,24 +8,24 @@ const baseOutdated = {
     latest: "2.0.0",
     wanted: "1.8.0",
 };
-const baseInstanceConfig = {
+const baseUpdtrConfig = {
     updateTo: "latest",
 };
 
 describe("createUpdateTask()", () => {
     test("should return a valid update task", () => {
         expect(
-            createUpdateTask(baseOutdated, baseInstanceConfig)
+            createUpdateTask(baseOutdated, baseUpdtrConfig)
         ).toMatchSnapshot();
     });
     describe("if the 'wanted' flag is set", () => {
         test("should return a valid update task", () => {
-            const instanceConfig = { ...baseInstanceConfig };
+            const updtrConfig = { ...baseUpdtrConfig };
 
-            instanceConfig.updateTo = "wanted";
+            updtrConfig.updateTo = "wanted";
 
             expect(
-                createUpdateTask(baseOutdated, instanceConfig)
+                createUpdateTask(baseOutdated, updtrConfig)
             ).toMatchSnapshot();
         });
     });

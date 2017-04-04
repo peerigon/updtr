@@ -1,8 +1,8 @@
 import init from "../../src/tasks/init";
-import Instance from "../../src/state/Instance";
+import Updtr from "../../src/Updtr";
 import readFixtures from "../helpers/readFixtures";
 
-const baseInstanceConfig = {
+const baseUpdtrConfig = {
     cwd: __dirname,
 };
 let stdoutLogs;
@@ -16,9 +16,9 @@ class ExecError extends Error {
     }
 }
 
-class FakeInstance extends Instance {
-    constructor(execResults, instanceConfig = { ...baseInstanceConfig }) {
-        super(instanceConfig);
+class FakeUpdtr extends Updtr {
+    constructor(execResults, updtrConfig = { ...baseUpdtrConfig }) {
+        super(updtrConfig);
         this.emittedEvents = [];
         this.execArgs = [];
         this.execResults = execResults;
@@ -51,12 +51,12 @@ describe("init()", () => {
                     stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
                 }), // outdated
             ];
-            const instance = new FakeInstance(execResults);
+            const updtr = new FakeUpdtr(execResults);
 
-            await init(instance);
+            await init(updtr);
 
-            expect(instance.execArgs).toMatchSnapshot();
-            expect(instance.emittedEvents).toMatchSnapshot();
+            expect(updtr.execArgs).toMatchSnapshot();
+            expect(updtr.emittedEvents).toMatchSnapshot();
         });
     });
     describe("when there are outdated dependencies", () => {
@@ -72,12 +72,12 @@ describe("init()", () => {
                         })
                     ), // outdated
                 ];
-                const instance = new FakeInstance(execResults);
+                const updtr = new FakeUpdtr(execResults);
 
-                await init(instance);
+                await init(updtr);
 
-                expect(instance.execArgs).toMatchSnapshot();
-                expect(instance.emittedEvents).toMatchSnapshot();
+                expect(updtr.execArgs).toMatchSnapshot();
+                expect(updtr.emittedEvents).toMatchSnapshot();
             });
         });
         describe("using yarn", () => {
@@ -89,15 +89,15 @@ describe("init()", () => {
                         stdout: stdoutLogs.get("outdated/outdated.yarn.log"),
                     }), // outdated
                 ];
-                const instance = new FakeInstance(execResults, {
-                    ...baseInstanceConfig,
+                const updtr = new FakeUpdtr(execResults, {
+                    ...baseUpdtrConfig,
                     packageManager: "yarn",
                 });
 
-                await init(instance);
+                await init(updtr);
 
-                expect(instance.execArgs).toMatchSnapshot();
-                expect(instance.emittedEvents).toMatchSnapshot();
+                expect(updtr.execArgs).toMatchSnapshot();
+                expect(updtr.emittedEvents).toMatchSnapshot();
             });
         });
     });
@@ -109,15 +109,15 @@ describe("init()", () => {
                     stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
                 }), // outdated
             ];
-            const instance = new FakeInstance(execResults, {
-                ...baseInstanceConfig,
+            const updtr = new FakeUpdtr(execResults, {
+                ...baseUpdtrConfig,
                 exclude: ["updtr-test-module-1", "updtr-test-module-2"],
             });
 
-            await init(instance);
+            await init(updtr);
 
-            expect(instance.execArgs).toMatchSnapshot();
-            expect(instance.emittedEvents).toMatchSnapshot();
+            expect(updtr.execArgs).toMatchSnapshot();
+            expect(updtr.emittedEvents).toMatchSnapshot();
         });
     });
     describe("unexpected errors", () => {
@@ -126,11 +126,11 @@ describe("init()", () => {
             const execResults = [
                 Promise.reject(execErr), // installMissing
             ];
-            const instance = new FakeInstance(execResults);
+            const updtr = new FakeUpdtr(execResults);
             let givenErr;
 
             try {
-                await init(instance);
+                await init(updtr);
             } catch (err) {
                 givenErr = err;
             }
@@ -143,11 +143,11 @@ describe("init()", () => {
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.reject(execErr), // installMissing
             ];
-            const instance = new FakeInstance(execResults);
+            const updtr = new FakeUpdtr(execResults);
             let givenErr;
 
             try {
-                await init(instance);
+                await init(updtr);
             } catch (err) {
                 givenErr = err;
             }
@@ -159,11 +159,11 @@ describe("init()", () => {
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.resolve({ stdout: "Nonsense" }), // outdated
             ];
-            const instance = new FakeInstance(execResults);
+            const updtr = new FakeUpdtr(execResults);
             let givenErr;
 
             try {
-                await init(instance);
+                await init(updtr);
             } catch (err) {
                 givenErr = err;
             }
