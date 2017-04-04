@@ -4,34 +4,36 @@ import filterUpdateTask from "../tasks/util/filterUpdateTask";
 
 function init(instance) {
     const baseEvent = instance.config;
+    const outdatedCmd = instance.cmds.outdated();
     let sequence;
 
     return Promise.resolve()
         .then(() => {
-            sequence = new Sequence(instance, baseEvent);
+            sequence = new Sequence("init", instance, baseEvent);
 
             return sequence.exec(
                 "installMissing",
                 instance.cmds.installMissing()
             );
         })
-        .then(() =>
-            sequence.exec("collect", instance.cmds.outdated()).catch(err => {
-                if (err.code > 1) {
-                    throw err;
-                }
-            }))
-        .then(() => {
-            const stdout = sequence.stdouts.get("collect").trim();
+        .then(() => sequence.exec("collect", outdatedCmd).catch(err => {
+            if (err.code > 1) {
+                throw err;
+            }
 
-            if (stdout.length === 0) {
+            return err;
+        }))
+        .then(({ stdout }) => {
+            const stdoutTrimmed = stdout.trim();
+
+            if (stdoutTrimmed.length === 0) {
                 // The result of the init task is an array of update tasks.
                 // Hence, we're returning an empty array when there's nothing outdated.
                 return [];
             }
 
             return instance.parse
-                .outdated(stdout)
+                .outdated(stdoutTrimmed, outdatedCmd)
                 .map(outdated => createUpdateTask(outdated, instance.config))
                 .filter(updateTask =>
                     filterUpdateTask(updateTask, instance.config));

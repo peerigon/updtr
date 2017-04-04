@@ -120,4 +120,58 @@ describe("init()", () => {
             expect(instance.emittedEvents).toMatchSnapshot();
         });
     });
+    describe("unexpected errors", () => {
+        test("should fail when installMissing cmd exits with a non-zero exit code", async () => {
+            const execErr = new ExecError({ message: "Oops", exitCode: 1 });
+            const execResults = [
+                Promise.reject(execErr), // installMissing
+            ];
+            const instance = new FakeInstance(execResults);
+            let givenErr;
+
+            try {
+                await init(instance);
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toBe(execErr);
+        });
+        test("should fail when the outdated cmd exits with an exit code above 1", async () => {
+            const execErr = new ExecError({ message: "Oops", exitCode: 2 });
+            const execResults = [
+                Promise.resolve({ stdout: "" }), // installMissing
+                Promise.reject(execErr), // installMissing
+            ];
+            const instance = new FakeInstance(execResults);
+            let givenErr;
+
+            try {
+                await init(instance);
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toBe(execErr);
+        });
+        test("should fail with a parse error when the stdout could not be parsed", async () => {
+            const execResults = [
+                Promise.resolve({ stdout: "" }), // installMissing
+                Promise.resolve({ stdout: "Nonsense" }), // outdated
+            ];
+            const instance = new FakeInstance(execResults);
+            let givenErr;
+
+            try {
+                await init(instance);
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toBeInstanceOf(SyntaxError);
+            expect(givenErr.message).toBe(
+                "Error when trying to parse stdout from command 'npm outdated --json --long --depth=0': Unexpected token N in JSON at position 0"
+            );
+        });
+    });
 });

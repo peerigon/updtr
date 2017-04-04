@@ -14,7 +14,7 @@ Array [
 exports[`init() when there are excluded dependencies should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "installMissing",
+    "init/installMissing",
     Object {
       "cmd": "npm install",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -28,7 +28,7 @@ Array [
     },
   ],
   Array [
-    "collect",
+    "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -64,7 +64,7 @@ Array [
 exports[`init() when there are no outdated dependencies should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "installMissing",
+    "init/installMissing",
     Object {
       "cmd": "npm install",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -75,7 +75,7 @@ Array [
     },
   ],
   Array [
-    "collect",
+    "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -108,7 +108,7 @@ Array [
 exports[`init() when there are outdated dependencies using npm should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "installMissing",
+    "init/installMissing",
     Object {
       "cmd": "npm install",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -119,7 +119,7 @@ Array [
     },
   ],
   Array [
-    "collect",
+    "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -165,7 +165,7 @@ Array [
 exports[`init() when there are outdated dependencies using yarn should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "installMissing",
+    "init/installMissing",
     Object {
       "cmd": "yarn",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -176,7 +176,7 @@ Array [
     },
   ],
   Array [
-    "collect",
+    "init/collect",
     Object {
       "cmd": "yarn outdated --json --flat",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
