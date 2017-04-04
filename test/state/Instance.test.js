@@ -1,4 +1,6 @@
-"use strict";
+const updateTask = require("../../lib/constants/updateTask");
+
+("use strict");
 
 const EventEmitter = require("events");
 const os = require("os");
@@ -31,7 +33,10 @@ describe("new Instance()", () => {
 
                 const instance = new Instance(config);
 
-                expect(instance.config).toHaveProperty("updateTo", "wanted");
+                expect(instance.config).toHaveProperty(
+                    "updateTo",
+                    updateTask.WANTED
+                );
             });
         });
         describe(".exclude", () => {
