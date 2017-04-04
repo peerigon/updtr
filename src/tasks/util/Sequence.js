@@ -3,9 +3,21 @@ export default class Sequence {
         this.name = name;
         this.updtr = updtr;
         this.baseEvent = baseEvent;
+        this.isRunning = false;
+    }
+    start() {
+        this.isRunning = true;
+        this.emit("start");
     }
     emit(eventName, event = {}) {
-        this.updtr.emit(this.name + "/" + eventName, {
+        const fullEventName = this.name + "/" + eventName;
+
+        if (this.isRunning === false) {
+            throw new Error(
+                `Cannot emit event ${ fullEventName }: sequence is not running`
+            );
+        }
+        this.updtr.emit(fullEventName, {
             ...this.baseEvent,
             ...event,
         });
@@ -14,5 +26,9 @@ export default class Sequence {
         this.emit(step, { cmd });
 
         return this.updtr.exec(cmd);
+    }
+    end(result) {
+        this.emit("end", result);
+        this.isRunning = false;
     }
 }
