@@ -2,8 +2,8 @@
 
 const EventEmitter = require("events");
 const os = require("os");
-const updateTask = require("../../lib/constants/updateTask");
-const Instance = require("../../lib/state/Instance");
+const updateTask = require("../../src/constants/updateTask");
+const Instance = require("../../src/state/Instance");
 
 const baseConfig = {
     cwd: __dirname,

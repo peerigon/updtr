@@ -1,7 +1,7 @@
 "use strict";
 
-const Sequence = require("../../lib/state/Sequence");
-const Instance = require("../../lib/state/Instance");
+const Sequence = require("../../src/state/Sequence");
+const Instance = require("../../src/state/Instance");
 
 const baseEvent = {
     a: true,

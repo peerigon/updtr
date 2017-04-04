@@ -4,7 +4,7 @@ const childProcess = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const mkdirp = require("mkdirp");
-const cmds = require("../../lib/exec/cmds");
+const cmds = require("../../src/exec/cmds");
 
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 // mutex network is required because yarn has concurrency issues

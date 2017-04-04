@@ -1,7 +1,7 @@
 "use strict";
 
-const dependencyTypes = require("../../../lib/constants/dependencyTypes");
-const createUpdateTask = require("../../../lib/tasks/util/createUpdateTask");
+const dependencyTypes = require("../../../src/constants/dependencyTypes");
+const createUpdateTask = require("../../../src/tasks/util/createUpdateTask");
 
 const baseOutdated = {
     name: "some-module",

@@ -1,7 +1,7 @@
 "use strict";
 
-const filterUpdateTask = require("../../../lib/tasks/util/filterUpdateTask");
-const dependencyTypes = require("../../../lib/constants/dependencyTypes");
+const filterUpdateTask = require("../../../src/tasks/util/filterUpdateTask");
+const dependencyTypes = require("../../../src/constants/dependencyTypes");
 
 const baseUpdateTask = {
     name: "some-module",

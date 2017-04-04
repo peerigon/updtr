@@ -1,8 +1,8 @@
 "use strict";
 
-const dependencyTypes = require("../../../lib/constants/dependencyTypes");
-const renderCmds = require("../../../lib/tasks/util/renderCmds");
-const cmds = require("../../../lib/exec/cmds");
+const dependencyTypes = require("../../../src/constants/dependencyTypes");
+const renderCmds = require("../../../src/tasks/util/renderCmds");
+const cmds = require("../../../src/exec/cmds");
 
 const baseInstanceMock = {
     cmds: {

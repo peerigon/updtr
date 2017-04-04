@@ -1,10 +1,10 @@
 "use strict";
 
 const path = require("path");
-const dependencyTypes = require("../../lib/constants/dependencyTypes");
+const dependencyTypes = require("../../src/constants/dependencyTypes");
 const setupFixtures = require("../helpers/setupFixtures");
 const readFixture = require("../helpers/readFixture");
-const parse = require("../../lib/exec/parse");
+const parse = require("../../src/exec/parse");
 
 const fixtures = Object.keys(setupFixtures);
 const stdoutLogs = new Map();

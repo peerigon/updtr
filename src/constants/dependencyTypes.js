@@ -1,10 +1,8 @@
-"use strict";
+export const REGULAR = "regular";
+export const DEV = "dev";
+export const OPTIONAL = "optional";
 
-const REGULAR = "regular";
-const DEV = "dev";
-const OPTIONAL = "optional";
-
-function fromNpm(type) {
+export function fromNpm(type) {
     switch (type) {
         case "dependencies":
             return REGULAR;
@@ -17,10 +15,7 @@ function fromNpm(type) {
     }
 }
 
-exports.REGULAR = REGULAR;
-exports.DEV = DEV;
-exports.OPTIONAL = OPTIONAL;
-
-exports.fromNpm = fromNpm;
-// yarn uses the same strings. Change this if necessary.
-exports.fromYarn = fromNpm;
+export {
+    // yarn uses the same strings. Change this if necessary.
+    fromNpm as fromYarn,
+};

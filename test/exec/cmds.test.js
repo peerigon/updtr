@@ -1,6 +1,6 @@
 "use strict";
 
-const cmds = require("../../lib/exec/cmds");
+const cmds = require("../../src/exec/cmds");
 
 describe("cmds", () => {
     describe(".npm", () => {

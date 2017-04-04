@@ -1,29 +1,30 @@
-"use strict";
+import childProcess from "child_process";
 
-const childProcess = require("child_process");
-
-function exec(cwd, cmd) {
-    return new Promise((resolve, reject) => {
+function promiseExec(cwd, cmd) {
+    return new Promise(resolve => {
         childProcess.exec(
             cmd,
             { maxBuffer: Infinity, encoding: "utf8", cwd },
-            (err, s, e) => {
-                // stdout and stderr should always be strings, just to make this sure
-                const stdout = s || "";
-                const stderr = e || "";
-
-                if (err) {
-                    err.stdout = stdout;
-                    err.stderr = stderr;
-                    reject(err);
-
-                    return;
-                }
-
-                resolve({ stdout, stderr });
-            }
+            (err, stdout, stderr) => void resolve({ err, stdout, stderr })
         );
     });
 }
 
-module.exports = exec;
+async function exec(cwd, cmd) {
+    const {
+        err,
+        stdout = "",
+        stderr = "",
+    } = await promiseExec(cwd, cmd);
+
+    if (err) {
+        err.stdout = stdout;
+        err.stderr = stderr;
+
+        return err;
+    }
+
+    return { stdout, stderr };
+}
+
+export default exec;

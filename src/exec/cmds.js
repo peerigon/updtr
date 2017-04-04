@@ -1,6 +1,4 @@
-"use strict";
-
-module.exports = {
+export default {
     npm: {
         outdated: () => "npm outdated --json --long --depth=0",
         installMissing: () => "npm install",
