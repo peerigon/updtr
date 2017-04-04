@@ -1,11 +1,11 @@
 import path from "path";
 import { REGULAR, DEV } from "../../src/constants/dependencyTypes";
 import { fixtureSetups } from "../helpers/setupFixtures";
-import readFixture from "../helpers/readFixture";
+import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
 
 const fixtures = Object.keys(fixtureSetups);
-const stdoutLogs = new Map();
+let stdoutLogs;
 
 function testUnexpectedInput(parse) {
     describe("unexpected input", () => {
@@ -34,19 +34,16 @@ function testUnexpectedInput(parse) {
 }
 
 beforeAll(async () => {
-    const stdoutLogKeys = fixtures.reduce(
-        (arr, fixture) =>
-            arr.concat(
-                path.join(fixture, "outdated.npm.log"),
-                path.join(fixture, "outdated.yarn.log")
-            ),
-        []
+    stdoutLogs = await readFixtures(
+        fixtures.reduce(
+            (arr, fixture) =>
+                arr.concat(
+                    path.join(fixture, "outdated.npm.log"),
+                    path.join(fixture, "outdated.yarn.log")
+                ),
+            []
+        )
     );
-    const fixtureContents = await Promise.all(stdoutLogKeys.map(readFixture));
-
-    fixtureContents.forEach((fixtureContent, index) => {
-        stdoutLogs.set(stdoutLogKeys[index], fixtureContent);
-    });
 });
 
 describe("parse", () => {

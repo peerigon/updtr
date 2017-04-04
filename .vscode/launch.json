@@ -8,7 +8,7 @@
             "name": "Current Test",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/node_modules/jest-cli/bin/jest.js",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
             "stopOnEntry": false,
             "args": [
                 "${file}",

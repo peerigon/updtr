@@ -6,7 +6,7 @@ const readFile = pify(fs.readFile);
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 const cache = new Map();
 
-export default (async function readFixture(fixture) {
+async function readFixture(fixture) {
     const filename = path.join(pathToFixtures, fixture);
     const cached = cache.get(filename);
 
@@ -21,4 +21,15 @@ export default (async function readFixture(fixture) {
     }
 
     return contents;
+}
+
+export default (async function readFixtures(pathToFixtures) {
+    const fixtures = new Map();
+    const contents = await Promise.all(pathToFixtures.map(readFixture));
+
+    contents.forEach((content, index) => {
+        fixtures.set(pathToFixtures[index], content);
+    });
+
+    return fixtures;
 });
