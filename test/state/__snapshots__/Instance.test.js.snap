@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`new Instance() .config should match the default shape 1`] = `
+Object {
+  "cwd": "/Users/jhnns/dev/peerigon/updtr/test/state",
+  "exclude": Array [],
+  "packageManager": "npm",
+  "registry": undefined,
+  "updateTo": "latest",
+}
+`;
+
+exports[`new Instance() should return an instance with expected shape 1`] = `
+Instance {
+  "_events": Object {},
+  "_eventsCount": 0,
+  "_maxListeners": undefined,
+  "cmds": null,
+  "config": null,
+  "domain": null,
+  "parse": null,
+}
+`;

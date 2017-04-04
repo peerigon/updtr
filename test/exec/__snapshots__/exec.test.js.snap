@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exec() should return a promise that resolves to an object of expected shape 1`] = `
+Object {
+  "stderr": "",
+  "stdout": "",
+}
+`;
+
+exports[`exec() when the command fails should reject the promise with an error of expected shape 1`] = `
+[Error: Command failed: node -e 'throw "fail"'
+
+[eval]:1
+throw "fail"
+^
+fail
+]
+`;

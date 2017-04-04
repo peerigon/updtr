@@ -1,7 +1,7 @@
 "use strict";
 
 const path = require("path");
-const dependencyTypes = require("../../lib/dependencyTypes");
+const dependencyTypes = require("../../lib/constants/dependencyTypes");
 const setupFixtures = require("../helpers/setupFixtures");
 const readFixture = require("../helpers/readFixture");
 const parse = require("../../lib/exec/parse");

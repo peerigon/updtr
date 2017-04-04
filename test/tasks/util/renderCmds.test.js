@@ -1,6 +1,6 @@
 "use strict";
 
-const dependencyTypes = require("../../../lib/dependencyTypes");
+const dependencyTypes = require("../../../lib/constants/dependencyTypes");
 const renderCmds = require("../../../lib/tasks/util/renderCmds");
 const cmds = require("../../../lib/exec/cmds");
 
