@@ -1,10 +1,11 @@
 export default class Sequence {
-    constructor(instance, baseEvent) {
+    constructor(name, instance, baseEvent) {
+        this.name = name;
         this.instance = instance;
         this.baseEvent = baseEvent;
     }
     emit(eventName, event = {}) {
-        this.instance.emit(eventName, {
+        this.instance.emit(this.name + "/" + eventName, {
             ...this.baseEvent,
             ...event,
         });

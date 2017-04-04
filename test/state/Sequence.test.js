@@ -13,7 +13,7 @@ describe("new Sequence()", () => {
     describe(".instance", () => {
         test("should be the given instance", () => {
             const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence(instance, baseEvent);
+            const sequence = new Sequence("test", instance, baseEvent);
 
             expect(sequence.instance).toBe(instance);
         });
@@ -21,18 +21,31 @@ describe("new Sequence()", () => {
     describe(".baseEvent", () => {
         test("should be the given baseEvent", () => {
             const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence(instance, baseEvent);
+            const sequence = new Sequence("test", instance, baseEvent);
 
             expect(sequence.baseEvent).toBe(baseEvent);
         });
     });
     describe(".emit()", () => {
+        test("should emit an event on the instance under the given namespace", () => {
+            const instance = new Instance(baseInstanceConfig);
+            const sequence = new Sequence("test", instance, baseEvent);
+            let hasBeenCalled = false;
+
+            instance.on("test/test", () => {
+                hasBeenCalled = true;
+            });
+
+            sequence.emit("test");
+
+            expect(hasBeenCalled).toBe(true);
+        });
         test("should not emit the base event itself but a copy of it when no event object is given", () => {
             const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence(instance, baseEvent);
+            const sequence = new Sequence("test", instance, baseEvent);
             let givenEvent;
 
-            instance.on("test", event => {
+            instance.on("test/test", event => {
                 givenEvent = event;
             });
 
@@ -43,11 +56,11 @@ describe("new Sequence()", () => {
         });
         test("should emit an event on the instance with the properties of the given base event", () => {
             const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence(instance, baseEvent);
+            const sequence = new Sequence("test", instance, baseEvent);
             const event = { b: false, c: true };
             let givenEvent;
 
-            instance.on("test", event => {
+            instance.on("test/test", event => {
                 givenEvent = event;
             });
 
@@ -57,9 +70,9 @@ describe("new Sequence()", () => {
         });
     });
     describe(".exec()", () => {
-        test("should emit each step with the given command", async () => {
+        test("should emit an event on the instance for each step with the given command", async () => {
             const instance = new Instance(baseInstanceConfig);
-            const sequence = new Sequence(instance, baseEvent);
+            const sequence = new Sequence("test", instance, baseEvent);
             const emittedEvents = [];
 
             function saveEmittedEvent(event) {
@@ -68,8 +81,8 @@ describe("new Sequence()", () => {
 
             instance.exec = () => Promise.resolve({});
 
-            instance.on("step-a", saveEmittedEvent);
-            instance.on("step-b", saveEmittedEvent);
+            instance.on("test/step-a", saveEmittedEvent);
+            instance.on("test/step-b", saveEmittedEvent);
 
             await sequence.exec("step-a", "cmd-a");
             await sequence.exec("step-b", "cmd-b");
