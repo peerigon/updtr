@@ -21,7 +21,7 @@ async function exec(cwd, cmd) {
         err.stdout = stdout;
         err.stderr = stderr;
 
-        return err;
+        throw err;
     }
 
     return { stdout, stderr };

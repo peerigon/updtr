@@ -26,15 +26,12 @@ describe("exec()", () => {
     test("should not fail with 'stdout maxBuffer exceeded' if stdout is pretty big", () =>
         exec(cwd, logMemoryCmd));
     describe("when the command fails", () => {
-        test.only(
-            "should reject the promise with an error of expected shape",
-            () =>
-                exec(cwd, throwCmd).then(
-                    () => {
-                        throw new Error("Should not resolve");
-                    },
-                    err => expect(err).toMatchSnapshot()
-                )
-        );
+        test("should reject the promise with an error of expected shape", () =>
+            exec(cwd, throwCmd).then(
+                () => {
+                    throw new Error("Should not resolve");
+                },
+                err => expect(err).toMatchSnapshot()
+            ));
     });
 });
