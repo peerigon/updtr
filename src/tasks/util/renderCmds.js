@@ -1,21 +1,20 @@
-"use strict";
-
-function renderCmds(instance, updateTask) {
+export default function renderCmds(
+    { cmds, registry },
+    { name, type, updateTo, rollbackTo }
+) {
     return {
-        update: instance.cmds.install({
-            registry: instance.registry,
-            name: updateTask.name,
-            version: updateTask.updateTo,
-            type: updateTask.type,
+        update: cmds.install({
+            registry,
+            name,
+            version: updateTo,
+            type,
         }),
-        test: instance.cmds.test(),
-        rollback: instance.cmds.install({
-            registry: instance.registry,
-            name: updateTask.name,
-            version: updateTask.rollbackTo,
-            type: updateTask.type,
+        test: cmds.test(),
+        rollback: cmds.install({
+            registry,
+            name,
+            version: rollbackTo,
+            type,
         }),
     };
 }
-
-module.exports = renderCmds;

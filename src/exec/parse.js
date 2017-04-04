@@ -39,7 +39,7 @@ function arrToObj(arr, keys) {
     );
 }
 
-module.exports = {
+export default {
     npm: {
         outdated: tryParse(parsed => {
             if (parsed === null) {
@@ -63,14 +63,14 @@ module.exports = {
                 parsed === null ?
                     [] :
                     parsed.data.body
-                          .map(row => arrToObj(row, parsed.data.head))
-                          .map(dep => ({
-                              name: dep.Package,
-                              current: dep.Current,
-                              wanted: dep.Wanted,
-                              latest: dep.Latest,
-                              type: fromYarn(dep["Package Type"]),
-                          }))
+                        .map(row => arrToObj(row, parsed.data.head))
+                        .map(dep => ({
+                            name: dep.Package,
+                            current: dep.Current,
+                            wanted: dep.Wanted,
+                            latest: dep.Latest,
+                            type: fromYarn(dep["Package Type"]),
+                        }))
         ),
     },
 };

@@ -1,12 +1,8 @@
-"use strict";
-
-function createUpdateTask(outdated, instanceConfig) {
+export default function createUpdateTask(outdated, { updateTo }) {
     return {
         name: outdated.name,
         type: outdated.type,
-        updateTo: outdated[instanceConfig.updateTo],
+        updateTo: outdated[updateTo],
         rollbackTo: outdated.current,
     };
 }
-
-module.exports = createUpdateTask;

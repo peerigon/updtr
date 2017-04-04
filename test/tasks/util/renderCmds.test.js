@@ -1,8 +1,6 @@
-"use strict";
-
-const dependencyTypes = require("../../../src/constants/dependencyTypes");
-const renderCmds = require("../../../src/tasks/util/renderCmds");
-const cmds = require("../../../src/exec/cmds");
+import { REGULAR } from "../../../src/constants/dependencyTypes";
+import renderCmds from "../../../src/tasks/util/renderCmds";
+import cmds from "../../../src/exec/cmds";
 
 const baseInstanceMock = {
     cmds: {
@@ -18,7 +16,7 @@ describe("renderCmds", () => {
             name: "my-module",
             updateTo: "2.0.0",
             rollbackTo: "1.0.0",
-            type: dependencyTypes.REGULAR,
+            type: REGULAR,
         };
 
         expect(renderCmds(instance, updateTask)).toEqual({
@@ -34,7 +32,7 @@ describe("renderCmds", () => {
                 name: "my-module",
                 updateTo: "2.0.0",
                 rollbackTo: "1.0.0",
-                type: dependencyTypes.REGULAR,
+                type: REGULAR,
             };
 
             instance.registry = "http://example.com";

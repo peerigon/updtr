@@ -1,4 +1,4 @@
-class Sequence {
+export default class Sequence {
     constructor(instance, baseEvent) {
         this.instance = instance;
         this.baseEvent = baseEvent;
@@ -28,5 +28,3 @@ class Sequence {
         }
     }
 }
-
-export default Sequence;

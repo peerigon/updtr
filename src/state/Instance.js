@@ -27,7 +27,7 @@ function checkForYarnWithCustomReg(packageManager, registry) {
     }
 }
 
-class Instance extends EventEmitter {
+export default class Instance extends EventEmitter {
     constructor(config) {
         super();
 
@@ -60,5 +60,3 @@ class Instance extends EventEmitter {
         this.removeAllListeners();
     }
 }
-
-export default Instance;

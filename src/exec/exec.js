@@ -10,7 +10,7 @@ function promiseExec(cwd, cmd) {
     });
 }
 
-async function exec(cwd, cmd) {
+export default (async function exec(cwd, cmd) {
     const {
         err,
         stdout = "",
@@ -25,6 +25,4 @@ async function exec(cwd, cmd) {
     }
 
     return { stdout, stderr };
-}
-
-export default exec;
+});

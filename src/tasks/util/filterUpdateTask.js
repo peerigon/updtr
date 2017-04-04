@@ -1,6 +1,4 @@
-"use strict";
-
-const semver = require("semver");
+import semver from "semver";
 
 const exoticDependencies = ["git", "exotic"];
 
@@ -23,11 +21,9 @@ function isConsistent(updateTask) {
     return semver.lt(updateTask.rollbackTo, updateTask.updateTo);
 }
 
-function filterUpdateTask(updateTask, instanceConfig) {
+export default function filterUpdateTask(updateTask, instanceConfig) {
     return isExoticDependency(updateTask) === false &&
         isStable(updateTask) === true &&
         isExcluded(updateTask, instanceConfig.exclude) === false &&
         isConsistent(updateTask) === true;
 }
-
-module.exports = filterUpdateTask;

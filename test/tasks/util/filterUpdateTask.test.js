@@ -1,11 +1,9 @@
-"use strict";
-
-const filterUpdateTask = require("../../../src/tasks/util/filterUpdateTask");
-const dependencyTypes = require("../../../src/constants/dependencyTypes");
+import filterUpdateTask from "../../../src/tasks/util/filterUpdateTask";
+import { REGULAR } from "../../../src/constants/dependencyTypes";
 
 const baseUpdateTask = {
     name: "some-module",
-    type: dependencyTypes.REGULAR,
+    type: REGULAR,
     updateTo: "2.0.0",
     rollbackTo: "1.0.0",
 };
