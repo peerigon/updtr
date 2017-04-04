@@ -9,15 +9,3 @@ Object {
   "updateTo": "latest",
 }
 `;
-
-exports[`new Instance() should return an instance with expected shape 1`] = `
-Instance {
-  "_events": Object {},
-  "_eventsCount": 0,
-  "_maxListeners": undefined,
-  "cmds": null,
-  "config": null,
-  "domain": null,
-  "parse": null,
-}
-`;

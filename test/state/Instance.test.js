@@ -1,7 +1,8 @@
 "use strict";
 
-const Instance = require("../../lib/state/Instance");
 const EventEmitter = require("events");
+const os = require("os");
+const Instance = require("../../lib/state/Instance");
 
 const baseConfig = {
     cwd: __dirname,
@@ -12,15 +13,9 @@ describe("new Instance()", () => {
         const instance = new Instance(baseConfig);
 
         expect(instance).toBeInstanceOf(EventEmitter);
-        expect(instance).toHaveProperty("config");
+        // Check for properties that are not tested in this unit test
         expect(instance).toHaveProperty("cmds");
         expect(instance).toHaveProperty("parse");
-
-        // We don't want to snapshot these nested objects because they are tested separately
-        instance.config = null;
-        instance.cmds = null;
-        instance.parse = null;
-        expect(instance).toMatchSnapshot();
     });
     describe(".config", () => {
         test("should match the default shape", () => {
@@ -81,6 +76,28 @@ describe("new Instance()", () => {
                     "yarn"
                 );
             });
+        });
+    });
+    describe(".exec()", () => {
+        test("should exec the command in the given cwd", () => {
+            const instance = new Instance(baseConfig);
+            const cmd = "node -e 'console.log(process.cwd())'";
+
+            return instance
+                .exec(cmd)
+                .then(result =>
+                    expect(result.stdout).toBe(baseConfig.cwd + os.EOL));
+        });
+    });
+    describe(".dispose()", () => {
+        test("should remove all event listeners", () => {
+            const instance = new Instance(baseConfig);
+
+            instance.on("test", () => {
+                throw new Error("Should not be called");
+            });
+            instance.dispose();
+            instance.emit("test");
         });
     });
     describe("errors", () => {
