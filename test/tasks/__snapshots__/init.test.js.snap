@@ -42,7 +42,7 @@ Array [
     },
   ],
   Array [
-    "collectDone",
+    "initDone",
     Object {
       "updateTasks": Array [],
     },
@@ -86,7 +86,7 @@ Array [
     },
   ],
   Array [
-    "collectDone",
+    "initDone",
     Object {
       "updateTasks": Array [],
     },
@@ -130,7 +130,7 @@ Array [
     },
   ],
   Array [
-    "collectDone",
+    "initDone",
     Object {
       "updateTasks": Array [
         Object {
@@ -187,7 +187,7 @@ Array [
     },
   ],
   Array [
-    "collectDone",
+    "initDone",
     Object {
       "updateTasks": Array [
         Object {
