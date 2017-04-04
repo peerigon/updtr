@@ -1,6 +1,4 @@
-"use strict";
-
-const cmds = require("../../src/exec/cmds");
+import cmds from "../../src/exec/cmds";
 
 describe("cmds", () => {
     describe(".npm", () => {
