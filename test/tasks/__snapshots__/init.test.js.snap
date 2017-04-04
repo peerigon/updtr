@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init() when there are no outdated dependencies should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install",
+  ],
+  Array [
+    "npm outdated --json --long --depth=0",
+  ],
+]
+`;
+
+exports[`init() when there are no outdated dependencies should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "installMissing",
+    Object {
+      "cmd": "npm install",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "collect",
+    Object {
+      "cmd": "npm outdated --json --long --depth=0",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "collectDone",
+    Object {
+      "updateTasks": Array [],
+    },
+  ],
+]
+`;
+
+exports[`init() when there are outdated dependencies should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install",
+  ],
+  Array [
+    "npm outdated --json --long --depth=0",
+  ],
+]
+`;
+
+exports[`init() when there are outdated dependencies should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "installMissing",
+    Object {
+      "cmd": "npm install",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "collect",
+    Object {
+      "cmd": "npm outdated --json --long --depth=0",
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "collectDone",
+    Object {
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "type": "regular",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "type": "regular",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+]
+`;

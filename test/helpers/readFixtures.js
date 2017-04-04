@@ -23,13 +23,13 @@ async function readFixture(fixture) {
     return contents;
 }
 
-export default (async function readFixtures(pathToFixtures) {
-    const fixtures = new Map();
-    const contents = await Promise.all(pathToFixtures.map(readFixture));
+export default (async function readFixtures(fixtures) {
+    const fixturesMap = new Map();
+    const contents = await Promise.all(fixtures.map(readFixture));
 
     contents.forEach((content, index) => {
-        fixtures.set(pathToFixtures[index], content);
+        fixturesMap.set(fixtures[index], content);
     });
 
-    return fixtures;
+    return fixturesMap;
 });

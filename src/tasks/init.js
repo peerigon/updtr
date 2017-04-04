@@ -22,7 +22,7 @@ function init(instance) {
                 }
             }))
         .then(() => {
-            const stdout = sequence.stdouts.outdated.trim();
+            const stdout = sequence.stdouts.get("collect").trim();
 
             if (stdout.length === 0) {
                 // The result of the init task is an array of update tasks.
@@ -32,7 +32,7 @@ function init(instance) {
 
             return instance.parse
                 .outdated(stdout)
-                .map(outdated => createUpdateTask(instance, outdated))
+                .map(outdated => createUpdateTask(outdated, instance.config))
                 .filter(updateTask =>
                     filterUpdateTask(updateTask, instance.config));
         })
