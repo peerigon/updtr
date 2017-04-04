@@ -2,31 +2,27 @@ export default {
     npm: {
         outdated: () => "npm outdated --json --long --depth=0",
         installMissing: () => "npm install",
-        install: args =>
+        install: ({ registry, modules }) =>
             [
                 "npm install",
-                args.registry ? ` --registry ${ args.registry } ` : " ",
-                args.name,
-                "@",
-                args.version,
+                registry ? ` --registry ${ registry } ` : " ",
+                ...modules.map(({ name, version }) => name + "@" + version),
             ].join(""),
-        remove: args => ["npm remove ", args.name].join(""),
+        // remove: ({ name }) => ["npm remove ", name].join(""),
         test: () => "npm test",
     },
     yarn: {
         outdated: () => "yarn outdated --json --flat",
         installMissing: () => "yarn",
-        install: args =>
+        install: ({ registry, modules }) =>
             [
                 "yarn add",
                 // yarn does not support custom registries yet,
                 // this will always evaluate to false
-                args.registry ? ` --registry ${ args.registry } ` : " ",
-                args.name,
-                "@",
-                args.version,
+                registry ? ` --registry ${ registry } ` : " ",
+                ...modules.map(({ name, version }) => name + "@" + version),
             ].join(""),
-        remove: args => ["yarn remove ", args.name].join(""),
+        // remove: ({ name }) => ["yarn remove ", name].join(""),
         test: () => "yarn test",
     },
 };
