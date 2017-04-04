@@ -1,9 +1,8 @@
-const updateTask = require("../../lib/constants/updateTask");
-
-("use strict");
+"use strict";
 
 const EventEmitter = require("events");
 const os = require("os");
+const updateTask = require("../../lib/constants/updateTask");
 const Instance = require("../../lib/state/Instance");
 
 const baseConfig = {
@@ -35,7 +34,7 @@ describe("new Instance()", () => {
 
                 expect(instance.config).toHaveProperty(
                     "updateTo",
-                    updateTask.WANTED
+                    updateTask.UPDATE_TO_WANTED
                 );
             });
         });
