@@ -1,0 +1,6 @@
+{
+    "extends": [
+        // We don't transpile the test helpers with babel
+        "peerigon/node"
+    ]
+}
