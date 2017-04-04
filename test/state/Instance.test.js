@@ -1,9 +1,7 @@
-"use strict";
-
-const EventEmitter = require("events");
-const os = require("os");
-const updateTask = require("../../src/constants/updateTask");
-const Instance = require("../../src/state/Instance");
+import EventEmitter from "events";
+import os from "os";
+import { UPDATE_TO_WANTED } from "../../src/constants/updateTask";
+import Instance from "../../src/state/Instance";
 
 const baseConfig = {
     cwd: __dirname,
@@ -34,7 +32,7 @@ describe("new Instance()", () => {
 
                 expect(instance.config).toHaveProperty(
                     "updateTo",
-                    updateTask.UPDATE_TO_WANTED
+                    UPDATE_TO_WANTED
                 );
             });
         });

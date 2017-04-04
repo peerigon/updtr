@@ -1,11 +1,9 @@
-"use strict";
-
-const EventEmitter = require("events");
-const updateTask = require("../constants/updateTask");
-const exec = require("../exec/exec");
-const packageManagers = require("../constants/packageManagers");
-const cmds = require("../exec/cmds");
-const parse = require("../exec/parse");
+import EventEmitter from "events";
+import { UPDATE_TO_LATEST, UPDATE_TO_WANTED } from "../constants/updateTask";
+import exec from "../exec/exec";
+import { SUPPORTED } from "../constants/packageManagers";
+import cmds from "../exec/cmds";
+import parse from "../exec/parse";
 
 function checkCwd(cwd) {
     if (typeof cwd !== "string") {
@@ -14,7 +12,7 @@ function checkCwd(cwd) {
 }
 
 function checkPackagerManager(packageManager) {
-    if (packageManagers.SUPPORTED.indexOf(packageManager) === -1) {
+    if (SUPPORTED.indexOf(packageManager) === -1) {
         throw new Error(
             `Cannot create updtr instance: unsupported packager manager ${ packageManager }`
         );
@@ -38,9 +36,7 @@ class Instance extends EventEmitter {
         const packageManager = config.packageManager === undefined ?
             "npm" :
             config.packageManager;
-        const updateTo = config.wanted ?
-            updateTask.UPDATE_TO_WANTED :
-            updateTask.UPDATE_TO_LATEST;
+        const updateTo = config.wanted ? UPDATE_TO_WANTED : UPDATE_TO_LATEST;
         const exclude = Array.isArray(config.exclude) ? config.exclude : [];
 
         checkCwd(cwd);
@@ -65,4 +61,4 @@ class Instance extends EventEmitter {
     }
 }
 
-module.exports = Instance;
+export default Instance;
