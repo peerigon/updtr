@@ -1,10 +1,8 @@
-"use strict";
-
-const path = require("path");
-const dependencyTypes = require("../../src/constants/dependencyTypes");
-const setupFixtures = require("../helpers/setupFixtures");
-const readFixture = require("../helpers/readFixture");
-const parse = require("../../src/exec/parse");
+import path from "path";
+import { REGULAR, DEV } from "../../src/constants/dependencyTypes";
+import setupFixtures from "../helpers/setupFixtures";
+import readFixture from "../helpers/readFixture";
+import parse from "../../src/exec/parse";
 
 const fixtures = Object.keys(setupFixtures);
 const stdoutLogs = new Map();
@@ -112,14 +110,14 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: dependencyTypes.REGULAR,
+                            type: REGULAR,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: dependencyTypes.REGULAR,
+                            type: REGULAR,
                         },
                     ]);
                 });
@@ -144,14 +142,14 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: dependencyTypes.DEV,
+                            type: DEV,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: dependencyTypes.DEV,
+                            type: DEV,
                         },
                     ]);
                 });
@@ -219,14 +217,14 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: dependencyTypes.REGULAR,
+                            type: REGULAR,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: dependencyTypes.REGULAR,
+                            type: REGULAR,
                         },
                     ]);
                 });
@@ -251,14 +249,14 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: dependencyTypes.DEV,
+                            type: DEV,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: dependencyTypes.DEV,
+                            type: DEV,
                         },
                     ]);
                 });

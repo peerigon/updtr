@@ -1,6 +1,4 @@
-"use strict";
-
-const dependencyTypes = require("../constants/dependencyTypes");
+import { fromNpm, fromYarn } from "../../src/constants/dependencyTypes";
 
 /**
  * Applies JSON.parse on the str.
@@ -55,7 +53,7 @@ module.exports = {
                 current: dep.current,
                 wanted: dep.wanted,
                 latest: dep.latest,
-                type: dependencyTypes.fromNpm(dep.type),
+                type: fromNpm(dep.type),
             }));
         }),
     },
@@ -71,9 +69,7 @@ module.exports = {
                               current: dep.Current,
                               wanted: dep.Wanted,
                               latest: dep.Latest,
-                              type: dependencyTypes.fromYarn(
-                                  dep["Package Type"]
-                              ),
+                              type: fromYarn(dep["Package Type"]),
                           }))
         ),
     },
