@@ -20,7 +20,9 @@ export default (async function init(updtr) {
     const sequence = new Sequence("init", updtr, baseEvent);
     let stdout;
 
-    await sequence.exec("installMissing", updtr.cmds.installMissing());
+    sequence.start();
+
+    await sequence.exec("install-missing", updtr.cmds.installMissing());
 
     try {
         stdout = (await sequence.exec("collect", outdatedCmd)).stdout;
@@ -38,7 +40,7 @@ export default (async function init(updtr) {
         stdout.trim()
     );
 
-    updtr.emit("initDone", {
+    sequence.end({
         updateTasks,
     });
 

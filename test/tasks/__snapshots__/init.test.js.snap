@@ -14,7 +14,20 @@ Array [
 exports[`init() when there are excluded dependencies should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "init/installMissing",
+    "init/start",
+    Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [
+        "updtr-test-module-1",
+        "updtr-test-module-2",
+      ],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "init/install-missing",
     Object {
       "cmd": "npm install",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -42,9 +55,17 @@ Array [
     },
   ],
   Array [
-    "initDone",
+    "init/end",
     Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [
+        "updtr-test-module-1",
+        "updtr-test-module-2",
+      ],
+      "packageManager": "npm",
+      "registry": undefined,
       "updateTasks": Array [],
+      "updateTo": "latest",
     },
   ],
 ]
@@ -64,7 +85,17 @@ Array [
 exports[`init() when there are no outdated dependencies should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "init/installMissing",
+    "init/start",
+    Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "init/install-missing",
     Object {
       "cmd": "npm install",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -86,9 +117,14 @@ Array [
     },
   ],
   Array [
-    "initDone",
+    "init/end",
     Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
       "updateTasks": Array [],
+      "updateTo": "latest",
     },
   ],
 ]
@@ -108,7 +144,17 @@ Array [
 exports[`init() when there are outdated dependencies using npm should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "init/installMissing",
+    "init/start",
+    Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "init/install-missing",
     Object {
       "cmd": "npm install",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -130,8 +176,12 @@ Array [
     },
   ],
   Array [
-    "initDone",
+    "init/end",
     Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
@@ -146,6 +196,7 @@ Array [
           "updateTo": "2.1.1",
         },
       ],
+      "updateTo": "latest",
     },
   ],
 ]
@@ -165,7 +216,17 @@ Array [
 exports[`init() when there are outdated dependencies using yarn should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
-    "init/installMissing",
+    "init/start",
+    Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "yarn",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  ],
+  Array [
+    "init/install-missing",
     Object {
       "cmd": "yarn",
       "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
@@ -187,8 +248,12 @@ Array [
     },
   ],
   Array [
-    "initDone",
+    "init/end",
     Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test/tasks",
+      "exclude": Array [],
+      "packageManager": "yarn",
+      "registry": undefined,
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
@@ -203,6 +268,7 @@ Array [
           "updateTo": "2.1.1",
         },
       ],
+      "updateTo": "latest",
     },
   ],
 ]
