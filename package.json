@@ -9,8 +9,8 @@
     "posttest": "npm run lint",
     "coverage": "istanbul cover _mocha -- -R spec",
     "lint": "eslint bin lib test",
-    "fixtures:ensure": "node ./test/helpers/setupFixtures.js",
-    "fixtures:rebuild": "node ./test/helpers/cleanupFixtures.js; npm run ensure-fixtures"
+    "fixtures:ensure": "babel-node ./test/helpers/setupFixtures.js",
+    "fixtures:rebuild": "babel-node ./test/helpers/cleanupFixtures.js; npm run fixtures:ensure"
   },
   "author": "peerigon",
   "license": "Unlicense",
@@ -26,6 +26,7 @@
     "unicons": "0.0.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
     "babel-eslint": "^7.2.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -40,6 +41,7 @@
     "jest": "^19.0.2",
     "mkdirp": "^0.5.1",
     "mocha": "^3.2.0",
+    "pify": "^2.3.0",
     "rewire": "^2.5.2",
     "rimraf": "^2.6.1",
     "sinon": "^2.1.0",

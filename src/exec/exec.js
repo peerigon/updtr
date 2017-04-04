@@ -5,7 +5,8 @@ function promiseExec(cwd, cmd) {
         childProcess.exec(
             cmd,
             { maxBuffer: Infinity, encoding: "utf8", cwd },
-            (err, stdout, stderr) => void resolve({ err, stdout, stderr })
+            (err, stdout = "", stderr = "") =>
+                void resolve({ err, stdout, stderr })
         );
     });
 }
@@ -13,8 +14,8 @@ function promiseExec(cwd, cmd) {
 export default (async function exec(cwd, cmd) {
     const {
         err,
-        stdout = "",
-        stderr = "",
+        stdout,
+        stderr,
     } = await promiseExec(cwd, cmd);
 
     if (err) {

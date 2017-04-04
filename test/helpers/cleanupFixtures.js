@@ -1,29 +1,27 @@
-"use strict";
-
-const path = require("path");
-const rimraf = require("rimraf");
-const setupFixtures = require("./setupFixtures");
+import path from "path";
+import rimraf from "rimraf";
+import setupFixtures from "./setupFixtures";
 
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 const fixtures = Object.keys(setupFixtures);
 
 function remove(fixture) {
     return new Promise((resolve, reject) => {
-        rimraf(path.join(pathToFixtures, fixture), err => {
-            if (err) {
-                throw err;
-            }
-            resolve();
-        });
+        rimraf(
+            path.join(pathToFixtures, fixture),
+            err => err ? reject(err) : resolve
+        );
     });
 }
 
-function cleanupFixtures() {
-    fixtures.forEach(remove);
+export default function cleanupFixtures() {
+    return Promise.all(fixtures.map(remove));
 }
 
 if (!module.parent) {
-    cleanupFixtures();
+    cleanupFixtures().catch(err => {
+        setImmediate(() => {
+            throw err;
+        });
+    });
 }
-
-module.exports = cleanupFixtures;

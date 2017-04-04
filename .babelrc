@@ -13,5 +13,6 @@
         "transform-runtime",
         "transform-object-rest-spread"
     ],
-    "sourceMaps": "both"
+    "sourceMaps": "inline",
+    "retainLines": true
 }
