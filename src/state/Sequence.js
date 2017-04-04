@@ -2,7 +2,6 @@ export default class Sequence {
     constructor(instance, baseEvent) {
         this.instance = instance;
         this.baseEvent = baseEvent;
-        this.stdouts = new Map();
     }
     emit(eventName, event = {}) {
         this.instance.emit(eventName, {
@@ -10,21 +9,9 @@ export default class Sequence {
             ...event,
         });
     }
-    async exec(step, cmd) {
-        let resultOrError;
-
+    exec(step, cmd) {
         this.emit(step, { cmd });
 
-        try {
-            resultOrError = await this.instance.exec(cmd);
-
-            return resultOrError;
-        } catch (err) {
-            resultOrError = err;
-
-            throw err;
-        } finally {
-            this.stdouts.set(step, resultOrError.stdout);
-        }
+        return this.instance.exec(cmd);
     }
 }
