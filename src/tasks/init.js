@@ -1,8 +1,6 @@
-"use strict";
-
-const createSequence = require("../createSequence");
-const createUpdateTask = require("../createUpdateTask");
-const filterUpdateTask = require("../filterUpdateTask");
+import Sequence from "../state/Sequence";
+import createUpdateTask from "../tasks/util/createUpdateTask";
+import filterUpdateTask from "../tasks/util/filterUpdateTask";
 
 function init(instance) {
     const baseEvent = instance.config;
@@ -10,7 +8,7 @@ function init(instance) {
 
     return Promise.resolve()
         .then(() => {
-            sequence = createSequence(instance, baseEvent);
+            sequence = new Sequence(instance, baseEvent);
 
             return sequence.exec(
                 "installMissing",
