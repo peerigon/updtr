@@ -1,5 +1,5 @@
-import Sequence from "../../src/state/Sequence";
-import Instance from "../../src/state/Instance";
+import Sequence from "../../../src/tasks/util/Sequence";
+import Instance from "../../../src/state/Instance";
 
 const baseEvent = {
     a: true,

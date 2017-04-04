@@ -1,6 +1,6 @@
-import Sequence from "../state/Sequence";
-import createUpdateTask from "../tasks/util/createUpdateTask";
-import filterUpdateTask from "../tasks/util/filterUpdateTask";
+import Sequence from "./util/Sequence";
+import createUpdateTask from "./util/createUpdateTask";
+import filterUpdateTask from "./util/filterUpdateTask";
 
 function getUpdateTasksFromStdout(instance, outdatedCmd, stdout) {
     if (stdout.length === 0) {
