@@ -7,9 +7,18 @@ const instanceBaseConfig = {
 };
 let stdoutLogs;
 
+class ExecError extends Error {
+    constructor({ message, stdout, stderr, exitCode }) {
+        super(message);
+        this.stdout = stdout;
+        this.stderr = stderr;
+        this.code = exitCode;
+    }
+}
+
 class FakeInstance extends Instance {
-    constructor(execResults) {
-        super({ ...instanceBaseConfig });
+    constructor(execResults, packageManager = "npm") {
+        super({ ...instanceBaseConfig, packageManager });
         this.execArgs = [];
         this.execResults = execResults;
         this.emittedEvents = [];
@@ -36,12 +45,13 @@ beforeAll(async () => {
 describe("init()", () => {
     describe("when there are no outdated dependencies", () => {
         test("should emit expected events and execute expected commands", async () => {
-            const instance = new FakeInstance([
+            const execResults = [
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.resolve({
                     stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
                 }), // outdated
-            ]);
+            ];
+            const instance = new FakeInstance(execResults);
 
             await init(instance);
 
@@ -50,18 +60,42 @@ describe("init()", () => {
         });
     });
     describe("when there are outdated dependencies", () => {
-        test("should emit expected events and execute expected commands", async () => {
-            const instance = new FakeInstance([
-                Promise.resolve({ stdout: "" }), // installMissing
-                Promise.resolve({
-                    stdout: stdoutLogs.get("outdated/outdated.npm.log"),
-                }), // outdated
-            ]);
+        describe("using npm", () => {
+            test("should emit expected events and execute expected commands", async () => {
+                const execResults = [
+                    Promise.resolve({ stdout: "" }), // installMissing
+                    // npm exits with exit code 1 when there are outdated dependencies
+                    Promise.reject(
+                        new ExecError({
+                            stdout: stdoutLogs.get("outdated/outdated.npm.log"),
+                            exitCode: 1,
+                        })
+                    ), // outdated
+                ];
+                const instance = new FakeInstance(execResults);
 
-            await init(instance);
+                await init(instance);
 
-            expect(instance.execArgs).toMatchSnapshot();
-            expect(instance.emittedEvents).toMatchSnapshot();
+                expect(instance.execArgs).toMatchSnapshot();
+                expect(instance.emittedEvents).toMatchSnapshot();
+            });
+        });
+        describe("using yarn", () => {
+            test("should emit expected events and execute expected commands", async () => {
+                const execResults = [
+                    Promise.resolve({ stdout: "" }), // installMissing
+                    // npm exits with exit code 1 when there are outdated dependencies
+                    Promise.resolve({
+                        stdout: stdoutLogs.get("outdated/outdated.yarn.log"),
+                    }), // outdated
+                ];
+                const instance = new FakeInstance(execResults, "yarn");
+
+                await init(instance);
+
+                expect(instance.execArgs).toMatchSnapshot();
+                expect(instance.emittedEvents).toMatchSnapshot();
+            });
         });
     });
 });
