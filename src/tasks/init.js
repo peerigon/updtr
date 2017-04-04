@@ -45,4 +45,4 @@ function init(instance) {
         });
 }
 
-module.exports = init;
+export default init;

@@ -2,7 +2,7 @@ import init from "../../src/tasks/init";
 import Instance from "../../src/state/Instance";
 import readFixtures from "../helpers/readFixtures";
 
-const instanceBaseConfig = {
+const baseInstanceConfig = {
     cwd: __dirname,
 };
 let stdoutLogs;
@@ -17,11 +17,11 @@ class ExecError extends Error {
 }
 
 class FakeInstance extends Instance {
-    constructor(execResults, packageManager = "npm") {
-        super({ ...instanceBaseConfig, packageManager });
+    constructor(execResults, instanceConfig = { ...baseInstanceConfig }) {
+        super(instanceConfig);
+        this.emittedEvents = [];
         this.execArgs = [];
         this.execResults = execResults;
-        this.emittedEvents = [];
     }
     exec(...args) {
         this.execArgs.push(args);
@@ -89,7 +89,10 @@ describe("init()", () => {
                         stdout: stdoutLogs.get("outdated/outdated.yarn.log"),
                     }), // outdated
                 ];
-                const instance = new FakeInstance(execResults, "yarn");
+                const instance = new FakeInstance(execResults, {
+                    ...baseInstanceConfig,
+                    packageManager: "yarn",
+                });
 
                 await init(instance);
 
@@ -106,12 +109,10 @@ describe("init()", () => {
                     stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
                 }), // outdated
             ];
-            const instance = new FakeInstance(execResults);
-
-            instance.config.exclude = [
-                "updtr-test-module-1",
-                "updtr-test-module-2",
-            ];
+            const instance = new FakeInstance(execResults, {
+                ...baseInstanceConfig,
+                exclude: ["updtr-test-module-1", "updtr-test-module-2"],
+            });
 
             await init(instance);
 
