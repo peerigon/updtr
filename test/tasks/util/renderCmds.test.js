@@ -11,7 +11,7 @@ const baseInstanceMock = {
 
 describe("renderCmds", () => {
     test("should return an object with pre-rendered commands", () => {
-        const instance = Object.assign({}, baseInstanceMock);
+        const instance = { ...baseInstanceMock };
         const updateTask = {
             name: "my-module",
             updateTo: "2.0.0",
@@ -27,7 +27,7 @@ describe("renderCmds", () => {
     });
     describe("custom registry", () => {
         test("should return an object with pre-rendered commands", () => {
-            const instance = Object.assign({}, baseInstanceMock);
+            const instance = { ...baseInstanceMock };
             const updateTask = {
                 name: "my-module",
                 updateTo: "2.0.0",

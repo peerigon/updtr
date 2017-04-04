@@ -24,7 +24,7 @@ describe("new Instance()", () => {
         });
         describe(".updateTo", () => {
             test("should be 'wanted' if the wanted flag is set", () => {
-                const config = Object.assign({}, baseConfig);
+                const config = { ...baseConfig };
 
                 config.wanted = true;
 
@@ -38,7 +38,7 @@ describe("new Instance()", () => {
         });
         describe(".exclude", () => {
             test("should match the given exclude array", () => {
-                const config = Object.assign({}, baseConfig);
+                const config = { ...baseConfig };
 
                 config.exclude = ["a", "b", "c"];
 
@@ -53,7 +53,7 @@ describe("new Instance()", () => {
         });
         describe(".registry", () => {
             test("should be set if a custom registry was given", () => {
-                const config = Object.assign({}, baseConfig);
+                const config = { ...baseConfig };
 
                 config.registry = "http://example.com";
 
@@ -67,7 +67,7 @@ describe("new Instance()", () => {
         });
         describe(".packageManager", () => {
             test("should be 'yarn' if specified", () => {
-                const config = Object.assign({}, baseConfig);
+                const config = { ...baseConfig };
 
                 config.packageManager = "yarn";
 
@@ -104,7 +104,7 @@ describe("new Instance()", () => {
     });
     describe("errors", () => {
         test("should throw if a cwd is missing", () => {
-            const config = Object.assign({}, baseConfig);
+            const config = { ...baseConfig };
 
             delete config.cwd;
 
@@ -113,7 +113,7 @@ describe("new Instance()", () => {
             );
         });
         test("should throw if packageManager is yarn and there is a custom registry set", () => {
-            const config = Object.assign({}, baseConfig);
+            const config = { ...baseConfig };
 
             config.registry = "http://example.com";
             config.packageManager = "yarn";

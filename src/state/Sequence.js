@@ -4,11 +4,11 @@ export default class Sequence {
         this.baseEvent = baseEvent;
         this.stdouts = new Map();
     }
-    emit(eventName, event) {
-        this.instance.emit(
-            eventName,
-            Object.assign(event === undefined ? {} : event, this.baseEvent)
-        );
+    emit(eventName, event = {}) {
+        this.instance.emit(eventName, {
+            ...this.baseEvent,
+            ...event,
+        });
     }
     async exec(step, cmd) {
         let resultOrError;

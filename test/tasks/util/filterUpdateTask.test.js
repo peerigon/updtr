@@ -17,7 +17,7 @@ describe("filterUpdateTask()", () => {
     });
     describe("exotic dependencies", () => {
         test("should filter git dependencies", () => {
-            const updateTask = Object.assign({}, baseUpdateTask);
+            const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "git";
 
@@ -26,7 +26,7 @@ describe("filterUpdateTask()", () => {
             );
         });
         test("should filter exotic dependencies", () => {
-            const updateTask = Object.assign({}, baseUpdateTask);
+            const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "exotic";
 
@@ -37,7 +37,7 @@ describe("filterUpdateTask()", () => {
     });
     describe("unstable dependencies", () => {
         test("should filter pre-releases according to semver", () => {
-            const updateTask = Object.assign({}, baseUpdateTask);
+            const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "2.0.0-alpha";
             expect(filterUpdateTask(updateTask, baseInstanceConfig)).toBe(
@@ -55,7 +55,7 @@ describe("filterUpdateTask()", () => {
     });
     describe("excluded dependencies", () => {
         test("should honor the given exclude filter", () => {
-            const instanceConfig = Object.assign({}, baseInstanceConfig);
+            const instanceConfig = { ...baseUpdateTask };
 
             instanceConfig.exclude = [baseUpdateTask.name];
             expect(filterUpdateTask(baseUpdateTask, instanceConfig)).toBe(
@@ -65,7 +65,7 @@ describe("filterUpdateTask()", () => {
     });
     describe("inconsistent update tasks", () => {
         test("should filter if rollbackTo is the same as updateTo", () => {
-            const updateTask = Object.assign({}, baseUpdateTask);
+            const updateTask = { ...baseUpdateTask };
 
             updateTask.rollbackTo = "2.0.0";
             expect(filterUpdateTask(updateTask, baseInstanceConfig)).toBe(
@@ -73,7 +73,7 @@ describe("filterUpdateTask()", () => {
             );
         });
         test("should filter if rollbackTo is greater than updateTo", () => {
-            const updateTask = Object.assign({}, baseUpdateTask);
+            const updateTask = { ...baseUpdateTask };
 
             updateTask.rollbackTo = "3.0.0";
             expect(filterUpdateTask(updateTask, baseInstanceConfig)).toBe(

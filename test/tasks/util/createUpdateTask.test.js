@@ -20,7 +20,7 @@ describe("createUpdateTask()", () => {
     });
     describe("if the 'wanted' flag is set", () => {
         test("should return a valid update task", () => {
-            const instanceConfig = Object.assign({}, baseInstanceConfig);
+            const instanceConfig = { ...baseInstanceConfig };
 
             instanceConfig.updateTo = "wanted";
 

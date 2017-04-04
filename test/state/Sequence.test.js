@@ -3,6 +3,7 @@ import Instance from "../../src/state/Instance";
 
 const baseEvent = {
     a: true,
+    b: true,
 };
 const baseInstanceConfig = {
     cwd: __dirname,
@@ -35,7 +36,7 @@ describe("new Sequence()", () => {
         test("should emit an event on the instance with the properties of the given base event", () => {
             const instance = new Instance(baseInstanceConfig);
             const sequence = new Sequence(instance, baseEvent);
-            const event = { b: true };
+            const event = { b: false, c: true };
             let givenEvent;
 
             instance.on("test", event => {
@@ -44,7 +45,7 @@ describe("new Sequence()", () => {
 
             sequence.emit("test", event);
 
-            expect(givenEvent).toEqual(Object.assign({}, event, baseEvent));
+            expect(givenEvent).toEqual({ ...baseEvent, ...event });
         });
     });
     describe(".exec()", () => {
@@ -67,8 +68,8 @@ describe("new Sequence()", () => {
                 sequence.exec("step-b", "cmd-b"),
             ]).then(() => {
                 expect(emittedEvents).toEqual([
-                    Object.assign({ cmd: "cmd-a" }, baseEvent),
-                    Object.assign({ cmd: "cmd-b" }, baseEvent),
+                    { ...baseEvent, cmd: "cmd-a" },
+                    { ...baseEvent, cmd: "cmd-b" },
                 ]);
             });
         });
