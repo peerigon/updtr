@@ -49,7 +49,7 @@ describe("new Sequence()", () => {
         });
     });
     describe(".exec()", () => {
-        test("should emit each step with the given command", () => {
+        test("should emit each step with the given command", async () => {
             const instance = new Instance(baseInstanceConfig);
             const sequence = new Sequence(instance, baseEvent);
             const emittedEvents = [];
@@ -63,17 +63,15 @@ describe("new Sequence()", () => {
             instance.on("step-a", saveEmittedEvent);
             instance.on("step-b", saveEmittedEvent);
 
-            return Promise.resolve([
-                sequence.exec("step-a", "cmd-a"),
-                sequence.exec("step-b", "cmd-b"),
-            ]).then(() => {
-                expect(emittedEvents).toEqual([
-                    { ...baseEvent, cmd: "cmd-a" },
-                    { ...baseEvent, cmd: "cmd-b" },
-                ]);
-            });
+            await sequence.exec("step-a", "cmd-a");
+            await sequence.exec("step-b", "cmd-b");
+
+            expect(emittedEvents).toEqual([
+                { ...baseEvent, cmd: "cmd-a" },
+                { ...baseEvent, cmd: "cmd-b" },
+            ]);
         });
-        test("should save each exec stdout in stdouts under the given name", () => {
+        test("should save each exec stdout in stdouts under the given name", async () => {
             const instance = new Instance(baseInstanceConfig);
             const sequence = new Sequence(instance, baseEvent);
 
@@ -84,25 +82,29 @@ describe("new Sequence()", () => {
 
             instance.exec = () => execResults.shift();
 
-            return Promise.resolve([
-                sequence.exec("step-a", "cmd-a"),
-                sequence.exec("step-b", "cmd-b"),
-            ]).then(() => {
-                expect(sequence.stdouts.get("step-a")).toBe("a");
-                expect(sequence.stdouts.get("step-b")).toBe("b");
-            });
+            await sequence.exec("step-a", "cmd-a");
+            await sequence.exec("step-b", "cmd-b");
+
+            expect(sequence.stdouts.get("step-a")).toBe("a");
+            expect(sequence.stdouts.get("step-b")).toBe("b");
         });
-        test("should also save the stdout of failed commands", () => {
+        test("should also save the stdout of failed commands", async () => {
             const instance = new Instance(baseInstanceConfig);
             const sequence = new Sequence(instance, baseEvent);
             const err = new Error();
+            let givenErr;
 
             err.stdout = "a";
             instance.exec = () => Promise.reject(err);
 
-            return sequence.exec("step-a", "cmd-a").catch(() => {
-                expect(sequence.stdouts.get("step-a")).toBe("a");
-            });
+            try {
+                await sequence.exec("step-a", "cmd-a");
+            } catch (e) {
+                givenErr = e;
+            }
+
+            expect(givenErr).toBe(err);
+            expect(sequence.stdouts.get("step-a")).toBe("a");
         });
     });
 });

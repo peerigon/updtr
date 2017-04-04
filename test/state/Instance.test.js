@@ -81,14 +81,12 @@ describe("new Instance()", () => {
         });
     });
     describe(".exec()", () => {
-        test("should exec the command in the given cwd", () => {
+        test("should exec the command in the given cwd", async () => {
             const instance = new Instance(baseConfig);
             const cmd = "node -e 'console.log(process.cwd())'";
+            const result = await instance.exec(cmd);
 
-            return instance
-                .exec(cmd)
-                .then(result =>
-                    expect(result.stdout).toBe(baseConfig.cwd + os.EOL));
+            expect(result.stdout).toBe(baseConfig.cwd + os.EOL);
         });
     });
     describe(".dispose()", () => {

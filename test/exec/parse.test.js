@@ -33,7 +33,7 @@ function testUnexpectedInput(parse) {
     });
 }
 
-beforeAll(() => {
+beforeAll(async () => {
     const stdoutLogKeys = fixtures.reduce(
         (arr, fixture) =>
             arr.concat(
@@ -42,11 +42,11 @@ beforeAll(() => {
             ),
         []
     );
+    const fixtureContents = await Promise.all(stdoutLogKeys.map(readFixture));
 
-    return Promise.all(stdoutLogKeys.map(readFixture)).then(fixtureContents =>
-        fixtureContents.forEach((fixtureContent, index) => {
-            stdoutLogs.set(stdoutLogKeys[index], fixtureContent);
-        }));
+    fixtureContents.forEach((fixtureContent, index) => {
+        stdoutLogs.set(stdoutLogKeys[index], fixtureContent);
+    });
 });
 
 describe("parse", () => {
