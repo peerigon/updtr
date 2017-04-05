@@ -108,7 +108,7 @@ describe("sequentialUpdate()", () => {
             describe("when the tests succeed", () => {
                 test("should return the expected update results", async () => {
                     const updtr = new FakeUpdtr({
-                        packageManager: "yarn",
+                        use: "yarn",
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
@@ -143,7 +143,7 @@ describe("sequentialUpdate()", () => {
                         exitCode: 1,
                     });
                     const updtr = new FakeUpdtr({
-                        packageManager: "yarn",
+                        use: "yarn",
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 

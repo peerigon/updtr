@@ -65,7 +65,7 @@ describe("new Updtr()", () => {
             test("should be 'yarn' if specified", () => {
                 const config = { ...baseConfig };
 
-                config.packageManager = "yarn";
+                config.use = "yarn";
 
                 const updtr = new Updtr(config);
 
@@ -107,7 +107,7 @@ describe("new Updtr()", () => {
             const config = { ...baseConfig };
 
             config.registry = "http://example.com";
-            config.packageManager = "yarn";
+            config.use = "yarn";
 
             expect(() => new Updtr(config)).toThrow(
                 "Cannot create updtr instance: yarn does not support custom registries yet. Please use a .npmrc file to achieve this"

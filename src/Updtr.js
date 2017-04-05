@@ -28,14 +28,20 @@ function checkForYarnWithCustomReg(packageManager, registry) {
 }
 
 export default class Updtr extends EventEmitter {
+    /**
+     * The config passed-in here should look identically to the CLI config.
+     * Dash-cased properties should be renamed to camelCased.
+     * The goal is to replicate the API of the CLI as close as possible so users don't
+     * have to guess the options.
+     *
+     * @param {UpdtrConfig} config
+     */
     constructor(config) {
         super();
 
         const cwd = config.cwd;
         const registry = config.registry;
-        const packageManager = config.packageManager === undefined ?
-            "npm" :
-            config.packageManager;
+        const packageManager = config.use === undefined ? "npm" : config.use;
         const updateTo = config.wanted ? UPDATE_TO_WANTED : UPDATE_TO_LATEST;
         const exclude = Array.isArray(config.exclude) ? config.exclude : [];
 

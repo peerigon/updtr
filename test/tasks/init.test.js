@@ -57,7 +57,7 @@ describe("init()", () => {
         describe("using yarn", () => {
             test("should emit expected events and execute expected commands", async () => {
                 const updtr = new FakeUpdtr({
-                    packageManager: "yarn",
+                    use: "yarn",
                 });
 
                 updtr.execResults = [
