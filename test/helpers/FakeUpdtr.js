@@ -15,7 +15,18 @@ export default class FakeUpdtr extends Updtr {
     exec(...args) {
         this.execArgs.push(args);
 
-        return this.execResults[this.execCounter++];
+        const execResult = this.execResults[this.execCounter++];
+
+        if (execResult === undefined) {
+            throw new Error(
+                "updtr.exec() was called more often than execResults are available"
+            );
+        }
+        if (execResult instanceof Error === true) {
+            return Promise.reject(execResult);
+        }
+
+        return Promise.resolve(execResult);
     }
     emit(...args) {
         this.emittedEvents.push(args);

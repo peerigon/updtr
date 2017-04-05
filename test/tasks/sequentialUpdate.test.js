@@ -3,7 +3,14 @@ import FakeUpdtr from "../helpers/FakeUpdtr";
 import createUpdateTask from "../../src/tasks/util/createUpdateTask";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
-import ExecError from "../helpers/ExecError";
+import {
+    execResultsReady,
+    execError,
+    updateTestPass,
+    updateTestFail,
+    errorExecUpdate,
+    errorExecRollback,
+} from "../fixtures/execResults";
 
 let stdoutLogs;
 
@@ -21,6 +28,7 @@ beforeAll(async () => {
         "outdated/outdated.npm.log",
         "outdated/outdated.yarn.log",
     ]);
+    await execResultsReady;
 });
 
 describe("sequentialUpdate()", () => {
@@ -41,12 +49,7 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = [
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // test
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // testing
-                    ];
+                    updtr.execResults = updateTestPass.concat(updateTestPass);
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -67,20 +70,10 @@ describe("sequentialUpdate()", () => {
             });
             describe("when the first test fails and the rest succeeds", () => {
                 test("should emit expected events and execute expected commands", async () => {
-                    const execErr = new ExecError({
-                        stdout: "Oh noez",
-                        exitCode: 1,
-                    });
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = [
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.reject(execErr), // test
-                        Promise.resolve({ stdout: "" }), // rollback
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // testing
-                    ];
+                    updtr.execResults = updateTestFail.concat(updateTestPass);
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -112,12 +105,7 @@ describe("sequentialUpdate()", () => {
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = [
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // test
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // testing
-                    ];
+                    updtr.execResults = updateTestPass.concat(updateTestPass);
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -138,22 +126,12 @@ describe("sequentialUpdate()", () => {
             });
             describe("when the first test fails and the rest succeeds", () => {
                 test("should emit expected events and execute expected commands", async () => {
-                    const execErr = new ExecError({
-                        stdout: "Oh noez",
-                        exitCode: 1,
-                    });
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = [
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.reject(execErr), // test
-                        Promise.resolve({ stdout: "" }), // rollback
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // testing
-                    ];
+                    updtr.execResults = updateTestFail.concat(updateTestPass);
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -182,15 +160,9 @@ describe("sequentialUpdate()", () => {
         test("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
-            const execErr = new ExecError({
-                exitCode: 1,
-                stderr: "Something bad happened",
-            });
             let givenErr;
 
-            updtr.execResults = [
-                Promise.reject(execErr), // update
-            ];
+            updtr.execResults = errorExecUpdate;
 
             try {
                 await sequentialUpdate(updtr, updateTasks);
@@ -198,24 +170,16 @@ describe("sequentialUpdate()", () => {
                 givenErr = err;
             }
 
-            expect(givenErr).toBe(execErr);
+            expect(givenErr).toBe(execError);
             // emitted events: start, updating
             expect(updtr.emittedEvents.length).toBe(2);
         });
         test("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
-            const execErr = new ExecError({
-                exitCode: 1,
-                stderr: "Something bad happened",
-            });
             let givenErr;
 
-            updtr.execResults = [
-                Promise.resolve({ stdout: "" }), // update
-                Promise.resolve({ stdout: "Everything ok" }), // test
-                Promise.reject(execErr), // rollback
-            ];
+            updtr.execResults = errorExecRollback;
 
             try {
                 await sequentialUpdate(updtr, updateTasks);
@@ -223,7 +187,7 @@ describe("sequentialUpdate()", () => {
                 givenErr = err;
             }
 
-            expect(givenErr).toBe(execErr);
+            expect(givenErr).toBe(execError);
             // emitted events: start, updating, testing, testResult, rollback
             expect(updtr.emittedEvents.length).toBe(5);
         });
