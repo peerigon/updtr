@@ -98,6 +98,104 @@ Array [
 ]
 `;
 
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the first test fails and the rest succeeds should emit expected events and execute expected commands 1`] = `
+Array [
+  Object {
+    "current": "1.1.1",
+    "name": "updtr-test-module-1",
+    "success": false,
+  },
+  Object {
+    "current": "2.1.1",
+    "name": "updtr-test-module-2",
+    "success": true,
+  },
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "yarn add updtr-test-module-1@2.0.0",
+  ],
+  Array [
+    "yarn test",
+  ],
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "sequentialUpdate/start",
+    Object {},
+  ],
+  Array [
+    "sequentialUpdate/updating",
+    Object {
+      "cmd": "yarn add updtr-test-module-1@2.0.0",
+      "current": 1,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "total": 1,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testing",
+    Object {
+      "cmd": "yarn test",
+      "current": 1,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "total": 1,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testResult",
+    Object {
+      "current": 1,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "stdout": "Everything ok",
+      "success": true,
+      "total": 1,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/end",
+    Object {
+      "current": 1,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "total": 1,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should return the expected update results 1`] = `
+Array [
+  Object {
+    "current": "2.0.0",
+    "name": "updtr-test-module-1",
+    "success": true,
+  },
+  Object {
+    "current": "2.1.1",
+    "name": "updtr-test-module-2",
+    "success": true,
+  },
+]
+`;
+
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 1`] = `Array []`;
 
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `
