@@ -31,7 +31,7 @@ describe("init()", () => {
             expect(updtr.execArgs).toMatchSnapshot();
             expect(updtr.emittedEvents).toMatchSnapshot();
         });
-        test("should return an empty array", async () => {
+        test("should return the results as emitted with the 'init/end' event", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = [
@@ -41,9 +41,12 @@ describe("init()", () => {
                 }), // outdated
             ];
 
-            const updateTasks = await init(updtr);
+            const returnedResults = await init(updtr);
+            const [name, endEvent] = updtr.emittedEvents.pop();
 
-            expect(updateTasks.length).toBe(0);
+            expect(name).toBe("init/end");
+            // The emitted event has additional properties like the config
+            expect(endEvent).toEqual(expect.objectContaining(returnedResults));
         });
     });
     describe("when there are outdated dependencies", () => {
@@ -67,7 +70,7 @@ describe("init()", () => {
                 expect(updtr.execArgs).toMatchSnapshot();
                 expect(updtr.emittedEvents).toMatchSnapshot();
             });
-            test("should return an array of update tasks", async () => {
+            test("should return the results as emitted with the 'init/end' event", async () => {
                 const updtr = new FakeUpdtr();
 
                 updtr.execResults = [
@@ -81,13 +84,14 @@ describe("init()", () => {
                     ), // outdated
                 ];
 
-                // We already check the shape of the emitted update tasks so let's just
-                // check if the returned tasks are the same as the emitted ones.
-                const returnedUpdateTasks = await init(updtr);
+                const returnedResults = await init(updtr);
                 const [name, endEvent] = updtr.emittedEvents.pop();
 
-                expect(name).toBe("init/end"); // Sanity check
-                expect(returnedUpdateTasks).toBe(endEvent.updateTasks);
+                expect(name).toBe("init/end");
+                // The emitted event has additional properties like the config
+                expect(endEvent).toEqual(
+                    expect.objectContaining(returnedResults)
+                );
             });
         });
         describe("using yarn", () => {

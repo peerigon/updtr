@@ -39,10 +39,11 @@ export default (async function init(updtr) {
         outdatedCmd,
         stdout.trim()
     );
-
-    sequence.end({
+    const result = {
         updateTasks,
-    });
+    };
 
-    return updateTasks;
+    sequence.end(result);
+
+    return result;
 });
