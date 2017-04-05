@@ -16,56 +16,64 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [
-        "updtr-test-module-1",
-        "updtr-test-module-2",
-      ],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/install-missing",
     Object {
       "cmd": "npm install",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [
-        "updtr-test-module-1",
-        "updtr-test-module-2",
-      ],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [
-        "updtr-test-module-1",
-        "updtr-test-module-2",
-      ],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [
-        "updtr-test-module-1",
-        "updtr-test-module-2",
-      ],
-      "packageManager": "npm",
-      "registry": undefined,
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
       "updateTasks": Array [],
-      "updateTo": "latest",
     },
   ],
 ]
@@ -87,44 +95,52 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/install-missing",
     Object {
       "cmd": "npm install",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
       "updateTasks": Array [],
-      "updateTo": "latest",
     },
   ],
 ]
@@ -146,42 +162,51 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/install-missing",
     Object {
       "cmd": "npm install",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/collect",
     Object {
       "cmd": "npm outdated --json --long --depth=0",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "npm",
-      "registry": undefined,
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "npm",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
@@ -196,7 +221,6 @@ Array [
           "updateTo": "2.1.1",
         },
       ],
-      "updateTo": "latest",
     },
   ],
 ]
@@ -218,42 +242,51 @@ Array [
   Array [
     "init/start",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "yarn",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "yarn",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/install-missing",
     Object {
       "cmd": "yarn",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "yarn",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "yarn",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/collect",
     Object {
       "cmd": "yarn outdated --json --flat",
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "yarn",
-      "registry": undefined,
-      "updateTo": "latest",
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "yarn",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
     },
   ],
   Array [
     "init/end",
     Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
-      "exclude": Array [],
-      "packageManager": "yarn",
-      "registry": undefined,
+      "config": Object {
+        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "exclude": Array [],
+        "packageManager": "yarn",
+        "registry": undefined,
+        "updateTo": "latest",
+      },
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
@@ -268,7 +301,6 @@ Array [
           "updateTo": "2.1.1",
         },
       ],
-      "updateTo": "latest",
     },
   ],
 ]

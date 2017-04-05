@@ -15,7 +15,7 @@ function getUpdateTasksFromStdout(updtr, outdatedCmd, stdout) {
 }
 
 export default (async function init(updtr) {
-    const baseEvent = updtr.config;
+    const baseEvent = { config: updtr.config };
     const outdatedCmd = updtr.cmds.outdated();
     const sequence = new Sequence("init", updtr, baseEvent);
     let stdout;
