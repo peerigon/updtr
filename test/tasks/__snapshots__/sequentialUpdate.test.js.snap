@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the wanted flag is not set when the tests succeed should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install updtr-test-module-1@2.0.0",
+  ],
+  Array [
+    "npm test",
+  ],
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the wanted flag is not set when the tests succeed should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "sequentialUpdate/start",
+    Object {},
+  ],
+  Array [
+    "sequentialUpdate/updating",
+    Object {
+      "cmd": "npm install updtr-test-module-1@2.0.0",
+      "current": NaN,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "total": undefined,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testing",
+    Object {
+      "cmd": "npm test",
+      "current": NaN,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "total": undefined,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testResult",
+    Object {
+      "current": NaN,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "stdout": "Everything ok",
+      "success": true,
+      "total": undefined,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/end",
+    Object {
+      "current": NaN,
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "total": undefined,
+      "type": "regular",
+      "updateTo": "2.0.0",
+    },
+  ],
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 1`] = `Array []`;
+
+exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `
+Array [
+  Array [
+    "sequentialUpdate/start",
+    Object {},
+  ],
+  Array [
+    "sequentialUpdate/end",
+    Object {},
+  ],
+]
+`;

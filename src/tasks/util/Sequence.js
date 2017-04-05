@@ -1,5 +1,5 @@
 export default class Sequence {
-    constructor(name, updtr, baseEvent) {
+    constructor(name, updtr, baseEvent = {}) {
         this.name = name;
         this.updtr = updtr;
         this.baseEvent = baseEvent;

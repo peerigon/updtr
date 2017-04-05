@@ -27,6 +27,12 @@ describe("new Sequence()", () => {
         });
     });
     describe(".baseEvent", () => {
+        test("should be an empty object by default", () => {
+            const updtr = new Updtr(baseUpdtrConfig);
+            const sequence = new Sequence("test", updtr);
+
+            expect(sequence.baseEvent).toEqual({});
+        });
         test("should be the given baseEvent", () => {
             const updtr = new Updtr(baseUpdtrConfig);
             const sequence = new Sequence("test", updtr, baseEvent);
