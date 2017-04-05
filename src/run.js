@@ -1,19 +1,16 @@
-"use strict";
+import init from "./tasks/init";
+import sequentialUpdate from "./tasks/sequentialUpdate";
 
-const createUpdtr = require("./createUpdtr");
-const tasks = require("./tasks");
+export default (async function run(updtr) {
+    updtr.emit("start", {
+        config: updtr.config,
+    });
 
-function run(config, done) {
-    let updtr;
+    const { updateTasks } = await init(updtr);
+    const updateResults = await sequentialUpdate(updtr, updateTasks);
 
-    return Promise.resolve()
-        .then(() => {
-            updtr = createUpdtr(config);
-
-            return tasks.init(updtr);
-        })
-        .then(updateTasks => tasks.update(updtr, updateTasks))
-        .then(() => updtr.emit("done"));
-}
-
-module.exports = run;
+    updtr.emit("end", {
+        config: updtr.config,
+        results: updateResults,
+    });
+});

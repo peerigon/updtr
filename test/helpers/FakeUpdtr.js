@@ -13,13 +13,14 @@ export default class FakeUpdtr extends Updtr {
         this.execCounter = 0;
     }
     exec(...args) {
-        this.execArgs.push(args);
+        const currentCall = this.execCounter++;
+        const execResult = this.execResults[currentCall];
 
-        const execResult = this.execResults[this.execCounter++];
+        this.execArgs.push(args);
 
         if (execResult === undefined) {
             throw new Error(
-                "updtr.exec() was called more often than execResults are available"
+                `No execResults for call number ${ currentCall }: ${ args.join("") }`
             );
         }
         if (execResult instanceof Error === true) {

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`run() should emit a start event of expected shape 1`] = `
+Array [
+  "start",
+  Object {
+    "config": Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+  },
+]
+`;
+
+exports[`run() when there are no outdated dependencies should emit an end event of expected shape 1`] = `
+Array [
+  "end",
+  Object {
+    "config": Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+    "results": Array [],
+  },
+]
+`;
