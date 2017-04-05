@@ -178,4 +178,54 @@ describe("sequentialUpdate()", () => {
             });
         });
     });
+    describe("unexpected errors", () => {
+        test("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
+            const updtr = new FakeUpdtr();
+            const updateTasks = createUpdateTasks(updtr.config);
+            const execErr = new ExecError({
+                exitCode: 1,
+                stderr: "Something bad happened",
+            });
+            let givenErr;
+
+            updtr.execResults = [
+                Promise.reject(execErr), // update
+            ];
+
+            try {
+                await sequentialUpdate(updtr, updateTasks);
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toBe(execErr);
+            // emitted events: start, updating
+            expect(updtr.emittedEvents.length).toBe(2);
+        });
+        test("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
+            const updtr = new FakeUpdtr();
+            const updateTasks = createUpdateTasks(updtr.config);
+            const execErr = new ExecError({
+                exitCode: 1,
+                stderr: "Something bad happened",
+            });
+            let givenErr;
+
+            updtr.execResults = [
+                Promise.resolve({ stdout: "" }), // update
+                Promise.resolve({ stdout: "Everything ok" }), // test
+                Promise.reject(execErr), // rollback
+            ];
+
+            try {
+                await sequentialUpdate(updtr, updateTasks);
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toBe(execErr);
+            // emitted events: start, updating, testing, testResult, rollback
+            expect(updtr.emittedEvents.length).toBe(5);
+        });
+    });
 });
