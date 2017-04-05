@@ -10,11 +10,12 @@ export default class FakeUpdtr extends Updtr {
         this.emittedEvents = [];
         this.execArgs = [];
         this.execResults = null;
+        this.execCounter = 0;
     }
     exec(...args) {
         this.execArgs.push(args);
 
-        return this.execResults.shift();
+        return this.execResults[this.execCounter++];
     }
     emit(...args) {
         this.emittedEvents.push(args);
