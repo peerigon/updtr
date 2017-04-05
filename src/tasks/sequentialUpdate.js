@@ -40,9 +40,11 @@ export default (async function sequentialUpdate(updtr, updateTasks) {
 
     sequence.start();
 
-    for (const updateTask of updateTasks) {
+    for (let i = 0; i < updateTasks.length; i++) {
         // This must be sequential, thus await inside the loop is ok
-        updateResults.push(await updateSingle(sequence, updateTask)); // eslint-disable-line no-await-in-loop
+        updateResults.push(
+            await updateSingle(sequence, updateTasks[i], i, updateTasks.length) // eslint-disable-line no-await-in-loop
+        );
     }
 
     sequence.end();

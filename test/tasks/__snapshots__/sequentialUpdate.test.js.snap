@@ -21,10 +21,10 @@ Array [
     "sequentialUpdate/updating",
     Object {
       "cmd": "npm install updtr-test-module-1@2.0.0",
-      "current": NaN,
+      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": undefined,
+      "total": 1,
       "type": "regular",
       "updateTo": "2.0.0",
     },
@@ -33,10 +33,10 @@ Array [
     "sequentialUpdate/testing",
     Object {
       "cmd": "npm test",
-      "current": NaN,
+      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": undefined,
+      "total": 1,
       "type": "regular",
       "updateTo": "2.0.0",
     },
@@ -44,12 +44,12 @@ Array [
   Array [
     "sequentialUpdate/testResult",
     Object {
-      "current": NaN,
+      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
       "stdout": "Everything ok",
       "success": true,
-      "total": undefined,
+      "total": 1,
       "type": "regular",
       "updateTo": "2.0.0",
     },
@@ -57,10 +57,10 @@ Array [
   Array [
     "sequentialUpdate/end",
     Object {
-      "current": NaN,
+      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": undefined,
+      "total": 1,
       "type": "regular",
       "updateTo": "2.0.0",
     },
