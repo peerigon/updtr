@@ -17,13 +17,14 @@ beforeAll(async () => {
 describe("init()", () => {
     describe("when there are no outdated dependencies", () => {
         test("should emit expected events and execute expected commands", async () => {
-            const execResults = [
+            const updtr = new FakeUpdtr();
+
+            updtr.execResults = [
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.resolve({
                     stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
                 }), // outdated
             ];
-            const updtr = new FakeUpdtr(execResults);
 
             await init(updtr);
 
@@ -34,7 +35,9 @@ describe("init()", () => {
     describe("when there are outdated dependencies", () => {
         describe("using npm", () => {
             test("should emit expected events and execute expected commands", async () => {
-                const execResults = [
+                const updtr = new FakeUpdtr();
+
+                updtr.execResults = [
                     Promise.resolve({ stdout: "" }), // installMissing
                     // npm exits with exit code 1 when there are outdated dependencies
                     Promise.reject(
@@ -44,7 +47,6 @@ describe("init()", () => {
                         })
                     ), // outdated
                 ];
-                const updtr = new FakeUpdtr(execResults);
 
                 await init(updtr);
 
@@ -54,17 +56,17 @@ describe("init()", () => {
         });
         describe("using yarn", () => {
             test("should emit expected events and execute expected commands", async () => {
-                const execResults = [
+                const updtr = new FakeUpdtr({
+                    packageManager: "yarn",
+                });
+
+                updtr.execResults = [
                     Promise.resolve({ stdout: "" }), // installMissing
                     // npm exits with exit code 1 when there are outdated dependencies
                     Promise.resolve({
                         stdout: stdoutLogs.get("outdated/outdated.yarn.log"),
                     }), // outdated
                 ];
-                const updtr = new FakeUpdtr(execResults, {
-                    ...FakeUpdtr.baseConfig,
-                    packageManager: "yarn",
-                });
 
                 await init(updtr);
 
@@ -75,16 +77,16 @@ describe("init()", () => {
     });
     describe("when there are excluded dependencies", () => {
         test("should emit expected events and execute expected commands", async () => {
-            const execResults = [
+            const updtr = new FakeUpdtr({
+                exclude: ["updtr-test-module-1", "updtr-test-module-2"],
+            });
+
+            updtr.execResults = [
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.resolve({
                     stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
                 }), // outdated
             ];
-            const updtr = new FakeUpdtr(execResults, {
-                ...FakeUpdtr.baseConfig,
-                exclude: ["updtr-test-module-1", "updtr-test-module-2"],
-            });
 
             await init(updtr);
 
@@ -95,11 +97,12 @@ describe("init()", () => {
     describe("unexpected errors", () => {
         test("should fail when installMissing cmd exits with a non-zero exit code", async () => {
             const execErr = new ExecError({ message: "Oops", exitCode: 1 });
-            const execResults = [
+            const updtr = new FakeUpdtr();
+            let givenErr;
+
+            updtr.execResults = [
                 Promise.reject(execErr), // installMissing
             ];
-            const updtr = new FakeUpdtr(execResults);
-            let givenErr;
 
             try {
                 await init(updtr);
@@ -111,12 +114,13 @@ describe("init()", () => {
         });
         test("should fail when the outdated cmd exits with an exit code above 1", async () => {
             const execErr = new ExecError({ message: "Oops", exitCode: 2 });
-            const execResults = [
+            const updtr = new FakeUpdtr();
+            let givenErr;
+
+            updtr.execResults = [
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.reject(execErr), // installMissing
             ];
-            const updtr = new FakeUpdtr(execResults);
-            let givenErr;
 
             try {
                 await init(updtr);
@@ -127,12 +131,13 @@ describe("init()", () => {
             expect(givenErr).toBe(execErr);
         });
         test("should fail with a parse error when the stdout could not be parsed", async () => {
-            const execResults = [
+            const updtr = new FakeUpdtr();
+            let givenErr;
+
+            updtr.execResults = [
                 Promise.resolve({ stdout: "" }), // installMissing
                 Promise.resolve({ stdout: "Nonsense" }), // outdated
             ];
-            const updtr = new FakeUpdtr(execResults);
-            let givenErr;
 
             try {
                 await init(updtr);

@@ -2,14 +2,14 @@ import path from "path";
 import Updtr from "../../src/Updtr";
 
 export default class FakeUpdtr extends Updtr {
-    constructor(execResults, updtrConfig) {
+    constructor(updtrConfig = {}) {
         super({
             ...FakeUpdtr.baseConfig,
-            updtrConfig,
+            ...updtrConfig,
         });
         this.emittedEvents = [];
         this.execArgs = [];
-        this.execResults = execResults;
+        this.execResults = null;
     }
     exec(...args) {
         this.execArgs.push(args);

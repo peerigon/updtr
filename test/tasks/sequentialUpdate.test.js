@@ -25,8 +25,7 @@ beforeAll(async () => {
 describe("sequentialUpdate()", () => {
     describe("when the given updateTasks array is empty", () => {
         test("should resolve immediately without emitting events", async () => {
-            const execResults = [];
-            const updtr = new FakeUpdtr(execResults);
+            const updtr = new FakeUpdtr();
 
             await sequentialUpdate(updtr, []);
 
@@ -39,14 +38,15 @@ describe("sequentialUpdate()", () => {
             describe("when the wanted flag is not set", () => {
                 describe("when the tests succeed", () => {
                     test("should emit expected events and execute expected commands", async () => {
-                        const execResults = [
-                            Promise.resolve({ stdout: "" }), // update
-                            Promise.resolve({ stdout: "Everything ok" }), // testing
-                        ];
-                        const updtr = new FakeUpdtr(execResults, {
+                        const updtr = new FakeUpdtr({
                             wanted: false,
                         });
                         const updateTasks = createUpdateTasks(updtr.config);
+
+                        updtr.execResults = [
+                            Promise.resolve({ stdout: "" }), // update
+                            Promise.resolve({ stdout: "Everything ok" }), // testing
+                        ];
 
                         // Truncate the updateTasks for this test because we only want to test the sequence of one test
                         // Makes it easier to read the snapshot
