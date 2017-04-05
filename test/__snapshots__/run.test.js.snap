@@ -30,3 +30,30 @@ Array [
   },
 ]
 `;
+
+exports[`run() when there are outdated dependencies should emit an end event of expected shape 1`] = `
+Array [
+  "end",
+  Object {
+    "config": Object {
+      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+    "results": Array [
+      Object {
+        "name": "updtr-test-module-1",
+        "success": true,
+        "version": "2.0.0",
+      },
+      Object {
+        "name": "updtr-test-module-2",
+        "success": true,
+        "version": "2.1.1",
+      },
+    ],
+  },
+]
+`;

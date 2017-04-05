@@ -35,6 +35,10 @@ export default (async function sequentialUpdate(updtr, updateTasks) {
     });
     const updateResults = [];
 
+    if (updateTasks.length === 0) {
+        return updateResults;
+    }
+
     sequence.start();
 
     for (let i = 0; i < updateTasks.length; i++) {

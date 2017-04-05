@@ -326,22 +326,7 @@ Array [
 
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 1`] = `Array []`;
 
-exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `
-Array [
-  Array [
-    "sequential-update/start",
-    Object {
-      "updateTasks": Array [],
-    },
-  ],
-  Array [
-    "sequential-update/end",
-    Object {
-      "updateResults": Array [],
-    },
-  ],
-]
-`;
+exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `Array []`;
 
 exports[`updateResults one fail 1`] = `
 Array [
