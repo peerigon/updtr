@@ -3,7 +3,7 @@
 exports[`emittedEvents npm 1`] = `
 Array [
   Array [
-    "sequentialUpdate/start",
+    "sequential-update/start",
     Object {
       "updateTasks": Array [
         Object {
@@ -22,7 +22,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/updating",
+    "sequential-update/updating",
     Object {
       "cmd": "npm install updtr-test-module-1@2.0.0",
       "name": "updtr-test-module-1",
@@ -36,7 +36,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testing",
+    "sequential-update/testing",
     Object {
       "cmd": "npm test",
       "name": "updtr-test-module-1",
@@ -50,7 +50,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testResult",
+    "sequential-update/test-result",
     Object {
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
@@ -65,7 +65,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/rollback",
+    "sequential-update/rollback",
     Object {
       "cmd": "npm install updtr-test-module-1@1.1.1",
       "name": "updtr-test-module-1",
@@ -80,7 +80,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/updating",
+    "sequential-update/updating",
     Object {
       "cmd": "npm install updtr-test-module-2@2.1.1",
       "name": "updtr-test-module-2",
@@ -94,7 +94,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testing",
+    "sequential-update/testing",
     Object {
       "cmd": "npm test",
       "name": "updtr-test-module-2",
@@ -108,7 +108,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testResult",
+    "sequential-update/test-result",
     Object {
       "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
@@ -123,7 +123,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/end",
+    "sequential-update/end",
     Object {
       "updateResults": Array [
         Object {
@@ -145,7 +145,7 @@ Array [
 exports[`emittedEvents yarn 1`] = `
 Array [
   Array [
-    "sequentialUpdate/start",
+    "sequential-update/start",
     Object {
       "updateTasks": Array [
         Object {
@@ -164,7 +164,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/updating",
+    "sequential-update/updating",
     Object {
       "cmd": "yarn add updtr-test-module-1@2.0.0",
       "name": "updtr-test-module-1",
@@ -178,7 +178,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testing",
+    "sequential-update/testing",
     Object {
       "cmd": "yarn test",
       "name": "updtr-test-module-1",
@@ -192,7 +192,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testResult",
+    "sequential-update/test-result",
     Object {
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
@@ -207,7 +207,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/rollback",
+    "sequential-update/rollback",
     Object {
       "cmd": "yarn add updtr-test-module-1@1.1.1",
       "name": "updtr-test-module-1",
@@ -222,7 +222,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/updating",
+    "sequential-update/updating",
     Object {
       "cmd": "yarn add updtr-test-module-2@2.1.1",
       "name": "updtr-test-module-2",
@@ -236,7 +236,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testing",
+    "sequential-update/testing",
     Object {
       "cmd": "yarn test",
       "name": "updtr-test-module-2",
@@ -250,7 +250,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/testResult",
+    "sequential-update/test-result",
     Object {
       "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
@@ -265,7 +265,7 @@ Array [
     },
   ],
   Array [
-    "sequentialUpdate/end",
+    "sequential-update/end",
     Object {
       "updateResults": Array [
         Object {
@@ -329,13 +329,13 @@ exports[`sequentialUpdate() when the given updateTasks array is empty should res
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `
 Array [
   Array [
-    "sequentialUpdate/start",
+    "sequential-update/start",
     Object {
       "updateTasks": Array [],
     },
   ],
   Array [
-    "sequentialUpdate/end",
+    "sequential-update/end",
     Object {
       "updateResults": Array [],
     },

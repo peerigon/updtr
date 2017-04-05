@@ -18,7 +18,7 @@ async function updateSingle(sequence, updateTask) {
 
     sequence.baseEvent.success = success;
 
-    sequence.emit("testResult", {
+    sequence.emit("test-result", {
         stdout: testResult.stdout,
     });
 
@@ -30,7 +30,7 @@ async function updateSingle(sequence, updateTask) {
 }
 
 export default (async function sequentialUpdate(updtr, updateTasks) {
-    const sequence = new Sequence("sequentialUpdate", updtr, {
+    const sequence = new Sequence("sequential-update", updtr, {
         updateTasks,
     });
     const updateResults = [];
