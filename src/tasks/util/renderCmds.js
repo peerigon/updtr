@@ -18,7 +18,7 @@ export default function renderCmds(updtr, updateTask) {
             modules: [
                 {
                     name: updateTask.name,
-                    version: updateTask.updateTo,
+                    version: updateTask.rollbackTo,
                 },
             ],
         }),

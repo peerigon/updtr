@@ -1,46 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the first test fails and the rest succeeds should emit expected events and execute expected commands 1`] = `
-Array [
-  Object {
-    "current": "1.1.1",
-    "name": "updtr-test-module-1",
-    "success": false,
-  },
-  Object {
-    "current": "2.1.1",
-    "name": "updtr-test-module-2",
-    "success": true,
-  },
-]
-`;
-
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should emit expected events and execute expected commands 1`] = `
-Array [
-  Array [
-    "npm install updtr-test-module-1@2.0.0",
-  ],
-  Array [
-    "npm test",
-  ],
-]
-`;
-
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should emit expected events and execute expected commands 2`] = `
+exports[`emittedEvents npm 1`] = `
 Array [
   Array [
     "sequentialUpdate/start",
-    Object {},
+    Object {
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "type": "regular",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "type": "regular",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
   ],
   Array [
     "sequentialUpdate/updating",
     Object {
       "cmd": "npm install updtr-test-module-1@2.0.0",
-      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": 1,
       "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
       "updateTo": "2.0.0",
     },
   ],
@@ -48,97 +39,141 @@ Array [
     "sequentialUpdate/testing",
     Object {
       "cmd": "npm test",
-      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": 1,
       "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
       "updateTo": "2.0.0",
     },
   ],
   Array [
     "sequentialUpdate/testResult",
     Object {
-      "current": 1,
       "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "stdout": "Oh noez",
+      "success": false,
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/rollback",
+    Object {
+      "cmd": "npm install updtr-test-module-1@1.1.1",
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "success": false,
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/updating",
+    Object {
+      "cmd": "npm install updtr-test-module-2@2.1.1",
+      "name": "updtr-test-module-2",
+      "rollbackTo": "1.1.1",
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 2,
+        "total": 2,
+      },
+      "updateTo": "2.1.1",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testing",
+    Object {
+      "cmd": "npm test",
+      "name": "updtr-test-module-2",
+      "rollbackTo": "1.1.1",
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 2,
+        "total": 2,
+      },
+      "updateTo": "2.1.1",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testResult",
+    Object {
+      "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
       "stdout": "Everything ok",
       "success": true,
-      "total": 1,
       "type": "regular",
-      "updateTo": "2.0.0",
+      "updateTasks": Object {
+        "current": 2,
+        "total": 2,
+      },
+      "updateTo": "2.1.1",
     },
   ],
   Array [
     "sequentialUpdate/end",
     Object {
-      "current": 1,
-      "name": "updtr-test-module-1",
-      "rollbackTo": "1.1.1",
-      "total": 1,
-      "type": "regular",
-      "updateTo": "2.0.0",
+      "updateResults": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "success": false,
+          "version": "1.1.1",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "success": true,
+          "version": "2.1.1",
+        },
+      ],
     },
   ],
 ]
 `;
 
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should return the expected update results 1`] = `
-Array [
-  Object {
-    "current": "2.0.0",
-    "name": "updtr-test-module-1",
-    "success": true,
-  },
-  Object {
-    "current": "2.1.1",
-    "name": "updtr-test-module-2",
-    "success": true,
-  },
-]
-`;
-
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the first test fails and the rest succeeds should emit expected events and execute expected commands 1`] = `
-Array [
-  Object {
-    "current": "1.1.1",
-    "name": "updtr-test-module-1",
-    "success": false,
-  },
-  Object {
-    "current": "2.1.1",
-    "name": "updtr-test-module-2",
-    "success": true,
-  },
-]
-`;
-
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should emit expected events and execute expected commands 1`] = `
-Array [
-  Array [
-    "yarn add updtr-test-module-1@2.0.0",
-  ],
-  Array [
-    "yarn test",
-  ],
-]
-`;
-
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should emit expected events and execute expected commands 2`] = `
+exports[`emittedEvents yarn 1`] = `
 Array [
   Array [
     "sequentialUpdate/start",
-    Object {},
+    Object {
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "type": "regular",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "type": "regular",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
   ],
   Array [
     "sequentialUpdate/updating",
     Object {
       "cmd": "yarn add updtr-test-module-1@2.0.0",
-      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": 1,
       "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
       "updateTo": "2.0.0",
     },
   ],
@@ -146,53 +181,146 @@ Array [
     "sequentialUpdate/testing",
     Object {
       "cmd": "yarn test",
-      "current": 1,
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "total": 1,
       "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
       "updateTo": "2.0.0",
     },
   ],
   Array [
     "sequentialUpdate/testResult",
     Object {
-      "current": 1,
       "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "stdout": "Oh noez",
+      "success": false,
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/rollback",
+    Object {
+      "cmd": "yarn add updtr-test-module-1@1.1.1",
+      "name": "updtr-test-module-1",
+      "rollbackTo": "1.1.1",
+      "success": false,
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 1,
+        "total": 2,
+      },
+      "updateTo": "2.0.0",
+    },
+  ],
+  Array [
+    "sequentialUpdate/updating",
+    Object {
+      "cmd": "yarn add updtr-test-module-2@2.1.1",
+      "name": "updtr-test-module-2",
+      "rollbackTo": "1.1.1",
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 2,
+        "total": 2,
+      },
+      "updateTo": "2.1.1",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testing",
+    Object {
+      "cmd": "yarn test",
+      "name": "updtr-test-module-2",
+      "rollbackTo": "1.1.1",
+      "type": "regular",
+      "updateTasks": Object {
+        "current": 2,
+        "total": 2,
+      },
+      "updateTo": "2.1.1",
+    },
+  ],
+  Array [
+    "sequentialUpdate/testResult",
+    Object {
+      "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
       "stdout": "Everything ok",
       "success": true,
-      "total": 1,
       "type": "regular",
-      "updateTo": "2.0.0",
+      "updateTasks": Object {
+        "current": 2,
+        "total": 2,
+      },
+      "updateTo": "2.1.1",
     },
   ],
   Array [
     "sequentialUpdate/end",
     Object {
-      "current": 1,
-      "name": "updtr-test-module-1",
-      "rollbackTo": "1.1.1",
-      "total": 1,
-      "type": "regular",
-      "updateTo": "2.0.0",
+      "updateResults": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "success": false,
+          "version": "1.1.1",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "success": true,
+          "version": "2.1.1",
+        },
+      ],
     },
   ],
 ]
 `;
 
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should return the expected update results 1`] = `
+exports[`execArgs npm 1`] = `
 Array [
-  Object {
-    "current": "2.0.0",
-    "name": "updtr-test-module-1",
-    "success": true,
-  },
-  Object {
-    "current": "2.1.1",
-    "name": "updtr-test-module-2",
-    "success": true,
-  },
+  Array [
+    "npm install updtr-test-module-1@2.0.0",
+  ],
+  Array [
+    "npm test",
+  ],
+  Array [
+    "npm install updtr-test-module-1@1.1.1",
+  ],
+  Array [
+    "npm install updtr-test-module-2@2.1.1",
+  ],
+  Array [
+    "npm test",
+  ],
+]
+`;
+
+exports[`execArgs yarn 1`] = `
+Array [
+  Array [
+    "yarn add updtr-test-module-1@2.0.0",
+  ],
+  Array [
+    "yarn test",
+  ],
+  Array [
+    "yarn add updtr-test-module-1@1.1.1",
+  ],
+  Array [
+    "yarn add updtr-test-module-2@2.1.1",
+  ],
+  Array [
+    "yarn test",
+  ],
 ]
 `;
 
@@ -202,11 +330,75 @@ exports[`sequentialUpdate() when the given updateTasks array is empty should res
 Array [
   Array [
     "sequentialUpdate/start",
-    Object {},
+    Object {
+      "updateTasks": Array [],
+    },
   ],
   Array [
     "sequentialUpdate/end",
-    Object {},
+    Object {
+      "updateResults": Array [],
+    },
   ],
+]
+`;
+
+exports[`updateResults one fail 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "success": false,
+    "version": "1.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "success": true,
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`updateResults one fail rest pass 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "success": false,
+    "version": "1.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "success": true,
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`updateResults success 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "success": true,
+    "version": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "success": true,
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`updateResults success 2`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "success": true,
+    "version": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "success": true,
+    "version": "2.1.1",
+  },
 ]
 `;

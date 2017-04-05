@@ -37,23 +37,6 @@ describe("sequentialUpdate()", () => {
     describe("when the given updateTasks array contains update tasks", () => {
         describe("using npm", () => {
             describe("when the tests succeed", () => {
-                test("should emit expected events and execute expected commands", async () => {
-                    const updtr = new FakeUpdtr();
-                    const updateTasks = createUpdateTasks(updtr.config);
-
-                    updtr.execResults = [
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // test
-                    ];
-
-                    // Truncate the updateTasks for this test because we only want to test the sequence
-                    // of one update task. This makes it easier to read and compare the snapshot.
-                    updateTasks.length = 1;
-                    await sequentialUpdate(updtr, updateTasks);
-
-                    expect(updtr.execArgs).toMatchSnapshot();
-                    expect(updtr.emittedEvents).toMatchSnapshot();
-                });
                 test("should return the expected update results", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
@@ -70,12 +53,14 @@ describe("sequentialUpdate()", () => {
                         updateTasks
                     );
 
-                    expect(updateResults).toMatchSnapshot();
+                    expect(updateResults).toMatchSnapshot(
+                        "updateResults success"
+                    );
                     // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].current).toBe(
+                    expect(updateResults[0].version).toBe(
                         updateTasks[0].updateTo
                     );
-                    expect(updateResults[1].current).toBe(
+                    expect(updateResults[1].version).toBe(
                         updateTasks[1].updateTo
                     );
                 });
@@ -102,12 +87,18 @@ describe("sequentialUpdate()", () => {
                         updateTasks
                     );
 
-                    expect(updateResults).toMatchSnapshot();
+                    expect(updtr.execArgs).toMatchSnapshot("execArgs npm");
+                    expect(updtr.emittedEvents).toMatchSnapshot(
+                        "emittedEvents npm"
+                    );
+                    expect(updateResults).toMatchSnapshot(
+                        "updateResults one fail"
+                    );
                     // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].current).toBe(
+                    expect(updateResults[0].version).toBe(
                         updateTasks[0].rollbackTo
                     );
-                    expect(updateResults[1].current).toBe(
+                    expect(updateResults[1].version).toBe(
                         updateTasks[1].updateTo
                     );
                 });
@@ -115,25 +106,6 @@ describe("sequentialUpdate()", () => {
         });
         describe("using yarn", () => {
             describe("when the tests succeed", () => {
-                test("should emit expected events and execute expected commands", async () => {
-                    const updtr = new FakeUpdtr({
-                        packageManager: "yarn",
-                    });
-                    const updateTasks = createUpdateTasks(updtr.config);
-
-                    updtr.execResults = [
-                        Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // test
-                    ];
-
-                    // Truncate the updateTasks for this test because we only want to test the sequence
-                    // of one update task. This makes it easier to read and compare the snapshot.
-                    updateTasks.length = 1;
-                    await sequentialUpdate(updtr, updateTasks);
-
-                    expect(updtr.execArgs).toMatchSnapshot();
-                    expect(updtr.emittedEvents).toMatchSnapshot();
-                });
                 test("should return the expected update results", async () => {
                     const updtr = new FakeUpdtr({
                         packageManager: "yarn",
@@ -152,12 +124,14 @@ describe("sequentialUpdate()", () => {
                         updateTasks
                     );
 
-                    expect(updateResults).toMatchSnapshot();
+                    expect(updateResults).toMatchSnapshot(
+                        "updateResults success"
+                    );
                     // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].current).toBe(
+                    expect(updateResults[0].version).toBe(
                         updateTasks[0].updateTo
                     );
-                    expect(updateResults[1].current).toBe(
+                    expect(updateResults[1].version).toBe(
                         updateTasks[1].updateTo
                     );
                 });
@@ -186,12 +160,18 @@ describe("sequentialUpdate()", () => {
                         updateTasks
                     );
 
-                    expect(updateResults).toMatchSnapshot();
+                    expect(updtr.execArgs).toMatchSnapshot("execArgs yarn");
+                    expect(updtr.emittedEvents).toMatchSnapshot(
+                        "emittedEvents yarn"
+                    );
+                    expect(updateResults).toMatchSnapshot(
+                        "updateResults one fail rest pass"
+                    );
                     // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].current).toBe(
+                    expect(updateResults[0].version).toBe(
                         updateTasks[0].rollbackTo
                     );
-                    expect(updateResults[1].current).toBe(
+                    expect(updateResults[1].version).toBe(
                         updateTasks[1].updateTo
                     );
                 });

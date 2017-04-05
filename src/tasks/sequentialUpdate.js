@@ -2,15 +2,9 @@ import renderCmds from "./util/renderCmds";
 import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
 
-async function updateSingle(sequence, updateTask, index, total) {
+async function updateSingle(sequence, updateTask) {
     const cmds = renderCmds(sequence.updtr, updateTask);
     let testResult;
-
-    sequence.baseEvent = {
-        ...updateTask,
-        current: index + 1,
-        total,
-    };
 
     await sequence.exec("updating", cmds.update);
 
@@ -22,8 +16,9 @@ async function updateSingle(sequence, updateTask, index, total) {
 
     const success = testResult instanceof Error === false;
 
+    sequence.baseEvent.success = success;
+
     sequence.emit("testResult", {
-        success,
         stdout: testResult.stdout,
     });
 
@@ -35,17 +30,32 @@ async function updateSingle(sequence, updateTask, index, total) {
 }
 
 export default (async function sequentialUpdate(updtr, updateTasks) {
-    const sequence = new Sequence("sequentialUpdate", updtr);
+    const sequence = new Sequence("sequentialUpdate", updtr, {
+        updateTasks,
+    });
     const updateResults = [];
 
     sequence.start();
 
     for (let i = 0; i < updateTasks.length; i++) {
+        const updateTask = updateTasks[i];
+
+        sequence.baseEvent = {
+            updateTasks: {
+                current: i + 1,
+                total: updateTasks.length,
+            },
+            ...updateTask,
+        };
         // This must be sequential, thus await inside the loop is ok
         updateResults.push(
-            await updateSingle(sequence, updateTasks[i], i, updateTasks.length) // eslint-disable-line no-await-in-loop
+            await updateSingle(sequence, updateTask) // eslint-disable-line no-await-in-loop
         );
     }
+
+    sequence.baseEvent = {
+        updateResults,
+    };
 
     sequence.end();
 
