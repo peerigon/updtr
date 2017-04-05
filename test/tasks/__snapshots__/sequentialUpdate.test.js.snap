@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the wanted flag is not set when the tests succeed should emit expected events and execute expected commands 1`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should emit expected events and execute expected commands 1`] = `
 Array [
   Array [
     "npm install updtr-test-module-1@2.0.0",
@@ -11,7 +11,7 @@ Array [
 ]
 `;
 
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the wanted flag is not set when the tests succeed should emit expected events and execute expected commands 2`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should emit expected events and execute expected commands 2`] = `
 Array [
   Array [
     "sequentialUpdate/start",
@@ -68,7 +68,7 @@ Array [
 ]
 `;
 
-exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the wanted flag is not set when the tests succeed should return the expected update results 1`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should return the expected update results 1`] = `
 Array [
   Object {
     "current": "2.0.0",
