@@ -31,6 +31,20 @@ describe("init()", () => {
             expect(updtr.execArgs).toMatchSnapshot();
             expect(updtr.emittedEvents).toMatchSnapshot();
         });
+        test("should return an empty array", async () => {
+            const updtr = new FakeUpdtr();
+
+            updtr.execResults = [
+                Promise.resolve({ stdout: "" }), // installMissing
+                Promise.resolve({
+                    stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
+                }), // outdated
+            ];
+
+            const updateTasks = await init(updtr);
+
+            expect(updateTasks.length).toBe(0);
+        });
     });
     describe("when there are outdated dependencies", () => {
         describe("using npm", () => {
@@ -53,6 +67,28 @@ describe("init()", () => {
                 expect(updtr.execArgs).toMatchSnapshot();
                 expect(updtr.emittedEvents).toMatchSnapshot();
             });
+            test("should return an array of update tasks", async () => {
+                const updtr = new FakeUpdtr();
+
+                updtr.execResults = [
+                    Promise.resolve({ stdout: "" }), // installMissing
+                    // npm exits with exit code 1 when there are outdated dependencies
+                    Promise.reject(
+                        new ExecError({
+                            stdout: stdoutLogs.get("outdated/outdated.npm.log"),
+                            exitCode: 1,
+                        })
+                    ), // outdated
+                ];
+
+                // We already check the shape of the emitted update tasks so let's just
+                // check if the returned tasks are the same as the emitted ones.
+                const returnedUpdateTasks = await init(updtr);
+                const [name, endEvent] = updtr.emittedEvents.pop();
+
+                expect(name).toBe("init/end"); // Sanity check
+                expect(returnedUpdateTasks).toBe(endEvent.updateTasks);
+            });
         });
         describe("using yarn", () => {
             test("should emit expected events and execute expected commands", async () => {
@@ -73,6 +109,7 @@ describe("init()", () => {
                 expect(updtr.execArgs).toMatchSnapshot();
                 expect(updtr.emittedEvents).toMatchSnapshot();
             });
+            // We don't test for everything here because we assume that the rest works the same as with npm
         });
     });
     describe("when there are excluded dependencies", () => {
