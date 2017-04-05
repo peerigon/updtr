@@ -3,6 +3,7 @@ import FakeUpdtr from "../helpers/FakeUpdtr";
 import createUpdateTask from "../../src/tasks/util/createUpdateTask";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
+import ExecError from "../helpers/ExecError";
 
 let stdoutLogs;
 
@@ -42,7 +43,7 @@ describe("sequentialUpdate()", () => {
 
                     updtr.execResults = [
                         Promise.resolve({ stdout: "" }), // update
-                        Promise.resolve({ stdout: "Everything ok" }), // testing
+                        Promise.resolve({ stdout: "Everything ok" }), // test
                     ];
 
                     // Truncate the updateTasks for this test because we only want to test the sequence
@@ -57,11 +58,12 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTasks.reduce(execResults =>
-                        execResults.concat(
-                            Promise.resolve({ stdout: "" }), // update
-                            Promise.resolve({ stdout: "Everything ok" }) // testing
-                        ), []);
+                    updtr.execResults = [
+                        Promise.resolve({ stdout: "" }), // update
+                        Promise.resolve({ stdout: "Everything ok" }), // test
+                        Promise.resolve({ stdout: "" }), // update
+                        Promise.resolve({ stdout: "Everything ok" }), // testing
+                    ];
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -69,12 +71,45 @@ describe("sequentialUpdate()", () => {
                     );
 
                     expect(updateResults).toMatchSnapshot();
-                    expect(updateResults.length).toBe(2);
-                    updateResults.forEach((updateResult, index) => {
-                        expect(updateResult.current).toBe(
-                            updateTasks[index].updateTo
-                        );
+                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
+                    expect(updateResults[0].current).toBe(
+                        updateTasks[0].updateTo
+                    );
+                    expect(updateResults[1].current).toBe(
+                        updateTasks[1].updateTo
+                    );
+                });
+            });
+            describe("when the first test fails and the rest succeeds", () => {
+                test("should emit expected events and execute expected commands", async () => {
+                    const execErr = new ExecError({
+                        stdout: "Oh noez",
+                        exitCode: 1,
                     });
+                    const updtr = new FakeUpdtr();
+                    const updateTasks = createUpdateTasks(updtr.config);
+
+                    updtr.execResults = [
+                        Promise.resolve({ stdout: "" }), // update
+                        Promise.reject(execErr), // test
+                        Promise.resolve({ stdout: "" }), // rollback
+                        Promise.resolve({ stdout: "" }), // update
+                        Promise.resolve({ stdout: "Everything ok" }), // testing
+                    ];
+
+                    const updateResults = await sequentialUpdate(
+                        updtr,
+                        updateTasks
+                    );
+
+                    expect(updateResults).toMatchSnapshot();
+                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
+                    expect(updateResults[0].current).toBe(
+                        updateTasks[0].rollbackTo
+                    );
+                    expect(updateResults[1].current).toBe(
+                        updateTasks[1].updateTo
+                    );
                 });
             });
         });

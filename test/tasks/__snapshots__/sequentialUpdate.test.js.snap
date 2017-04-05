@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the first test fails and the rest succeeds should emit expected events and execute expected commands 1`] = `
+Array [
+  Object {
+    "current": "1.1.1",
+    "name": "updtr-test-module-1",
+    "success": false,
+  },
+  Object {
+    "current": "2.1.1",
+    "name": "updtr-test-module-2",
+    "success": true,
+  },
+]
+`;
+
 exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should emit expected events and execute expected commands 1`] = `
 Array [
   Array [
