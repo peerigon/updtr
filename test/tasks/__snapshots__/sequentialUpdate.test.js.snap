@@ -68,6 +68,21 @@ Array [
 ]
 `;
 
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the wanted flag is not set when the tests succeed should return the expected update results 1`] = `
+Array [
+  Object {
+    "current": "2.0.0",
+    "name": "updtr-test-module-1",
+    "success": true,
+  },
+  Object {
+    "current": "2.1.1",
+    "name": "updtr-test-module-2",
+    "success": true,
+  },
+]
+`;
+
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 1`] = `Array []`;
 
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `

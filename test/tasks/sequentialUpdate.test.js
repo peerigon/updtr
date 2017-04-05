@@ -48,21 +48,41 @@ describe("sequentialUpdate()", () => {
                             Promise.resolve({ stdout: "Everything ok" }), // testing
                         ];
 
-                        // Truncate the updateTasks for this test because we only want to test the sequence of one test
-                        // Makes it easier to read the snapshot
+                        // Truncate the updateTasks for this test because we only want to test the sequence
+                        // of one update task. This makes it easier to read and compare the snapshot.
                         updateTasks.length = 1;
                         await sequentialUpdate(updtr, updateTasks);
 
                         expect(updtr.execArgs).toMatchSnapshot();
                         expect(updtr.emittedEvents).toMatchSnapshot();
                     });
+                    test("should return the expected update results", async () => {
+                        const updtr = new FakeUpdtr({
+                            wanted: false,
+                        });
+                        const updateTasks = createUpdateTasks(updtr.config);
+
+                        updtr.execResults = updateTasks.reduce(execResults =>
+                            execResults.concat(
+                                Promise.resolve({ stdout: "" }), // update
+                                Promise.resolve({ stdout: "Everything ok" }) // testing
+                            ), []);
+
+                        const updateResults = await sequentialUpdate(
+                            updtr,
+                            updateTasks
+                        );
+
+                        expect(updateResults).toMatchSnapshot();
+                        expect(updateResults.length).toBe(2);
+                        updateResults.forEach((updateResult, index) => {
+                            expect(updateResult.current).toBe(
+                                updateTasks[index].updateTo
+                            );
+                        });
+                    });
                 });
             });
         });
     });
 });
-
-// const execResults = updateTasks.reduce(execResults => execResults.concat(
-//                                 Promise.resolve({ stdout: "" }), // update
-//                                 Promise.resolve({ stdout: "Everything ok" }), // testing
-//                             ), []);
