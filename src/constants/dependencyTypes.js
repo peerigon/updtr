@@ -1,6 +1,6 @@
-export const REGULAR = "regular";
-export const DEV = "dev";
-export const OPTIONAL = "optional";
+export const REGULAR = "dependencies";
+export const DEV = "devDependencies";
+export const OPTIONAL = "optionalDependencies";
 
 export function fromNpm(type) {
     switch (type) {

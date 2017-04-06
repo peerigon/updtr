@@ -211,13 +211,13 @@ Array [
         Object {
           "name": "updtr-test-module-1",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.1.1",
         },
       ],
@@ -291,13 +291,13 @@ Array [
         Object {
           "name": "updtr-test-module-1",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.1.1",
         },
       ],

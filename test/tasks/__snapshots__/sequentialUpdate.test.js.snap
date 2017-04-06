@@ -9,13 +9,13 @@ Array [
         Object {
           "name": "updtr-test-module-1",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.1.1",
         },
       ],
@@ -27,7 +27,7 @@ Array [
       "cmd": "npm install updtr-test-module-1@2.0.0",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -41,7 +41,7 @@ Array [
       "cmd": "npm test",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -56,7 +56,7 @@ Array [
       "rollbackTo": "1.1.1",
       "stdout": "Oh noez",
       "success": false,
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -71,7 +71,7 @@ Array [
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
       "success": false,
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -85,7 +85,7 @@ Array [
       "cmd": "npm install updtr-test-module-2@2.1.1",
       "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 2,
         "total": 2,
@@ -99,7 +99,7 @@ Array [
       "cmd": "npm test",
       "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 2,
         "total": 2,
@@ -114,7 +114,7 @@ Array [
       "rollbackTo": "1.1.1",
       "stdout": "Everything ok",
       "success": true,
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 2,
         "total": 2,
@@ -151,13 +151,13 @@ Array [
         Object {
           "name": "updtr-test-module-1",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
           "rollbackTo": "1.1.1",
-          "type": "regular",
+          "type": "dependencies",
           "updateTo": "2.1.1",
         },
       ],
@@ -169,7 +169,7 @@ Array [
       "cmd": "yarn add updtr-test-module-1@2.0.0",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -183,7 +183,7 @@ Array [
       "cmd": "yarn test",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -198,7 +198,7 @@ Array [
       "rollbackTo": "1.1.1",
       "stdout": "Oh noez",
       "success": false,
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -213,7 +213,7 @@ Array [
       "name": "updtr-test-module-1",
       "rollbackTo": "1.1.1",
       "success": false,
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 1,
         "total": 2,
@@ -227,7 +227,7 @@ Array [
       "cmd": "yarn add updtr-test-module-2@2.1.1",
       "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 2,
         "total": 2,
@@ -241,7 +241,7 @@ Array [
       "cmd": "yarn test",
       "name": "updtr-test-module-2",
       "rollbackTo": "1.1.1",
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 2,
         "total": 2,
@@ -256,7 +256,7 @@ Array [
       "rollbackTo": "1.1.1",
       "stdout": "Everything ok",
       "success": true,
-      "type": "regular",
+      "type": "dependencies",
       "updateTasks": Object {
         "current": 2,
         "total": 2,
