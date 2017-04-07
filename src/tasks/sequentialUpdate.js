@@ -3,7 +3,7 @@ import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
 
 async function updateSingle(sequence, updateTask) {
-    const cmds = renderCmds(sequence.updtr, updateTask);
+    const cmds = renderCmds(sequence.updtr, [updateTask]);
     let testResult;
 
     await sequence.exec("updating", cmds.update);

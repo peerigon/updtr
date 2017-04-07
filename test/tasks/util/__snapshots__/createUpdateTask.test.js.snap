@@ -4,7 +4,6 @@ exports[`createUpdateTask() if the 'wanted' flag is set should return a valid up
 Object {
   "name": "some-module",
   "rollbackTo": "1.0.0",
-  "type": "dependencies",
   "updateTo": "1.8.0",
 }
 `;
@@ -13,7 +12,6 @@ exports[`createUpdateTask() should return a valid update task 1`] = `
 Object {
   "name": "some-module",
   "rollbackTo": "1.0.0",
-  "type": "dependencies",
   "updateTo": "2.0.0",
 }
 `;

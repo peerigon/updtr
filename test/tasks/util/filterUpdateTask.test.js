@@ -1,9 +1,7 @@
 import filterUpdateTask from "../../../src/tasks/util/filterUpdateTask";
-import { REGULAR } from "../../../src/constants/dependencyTypes";
 
 const baseUpdateTask = {
     name: "some-module",
-    type: REGULAR,
     updateTo: "2.0.0",
     rollbackTo: "1.0.0",
 };
@@ -21,18 +19,14 @@ describe("filterUpdateTask()", () => {
 
             updateTask.updateTo = "git";
 
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
         });
         test("should filter exotic dependencies", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "exotic";
 
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
         });
     });
     describe("unstable dependencies", () => {
@@ -40,17 +34,11 @@ describe("filterUpdateTask()", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "2.0.0-alpha";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
             updateTask.updateTo = "2.0.0-beta";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
             updateTask.updateTo = "2.0.0-some-other-cryptic-thing";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
         });
     });
     describe("excluded dependencies", () => {
@@ -58,9 +46,7 @@ describe("filterUpdateTask()", () => {
             const updtrConfig = { ...baseUpdateTask };
 
             updtrConfig.exclude = [baseUpdateTask.name];
-            expect(filterUpdateTask(baseUpdateTask, updtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(baseUpdateTask, updtrConfig)).toBe(false);
         });
     });
     describe("inconsistent update tasks", () => {
@@ -68,17 +54,13 @@ describe("filterUpdateTask()", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.rollbackTo = "2.0.0";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
         });
         test("should filter if rollbackTo is greater than updateTo", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.rollbackTo = "3.0.0";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                false
-            );
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(false);
         });
     });
 });

@@ -1,4 +1,3 @@
-import { REGULAR, DEV } from "../../src/constants/dependencyTypes";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
 
@@ -125,14 +124,12 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: REGULAR,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: REGULAR,
                         },
                     ]);
                 });
@@ -157,14 +154,12 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: DEV,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: DEV,
                         },
                     ]);
                 });
@@ -251,14 +246,12 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: REGULAR,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: REGULAR,
                         },
                     ]);
                 });
@@ -283,14 +276,12 @@ describe("parse", () => {
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.0.0",
-                            type: DEV,
                         },
                         {
                             name: "updtr-test-module-2",
                             current: "1.1.1",
                             wanted: "1.1.1",
                             latest: "2.1.1",
-                            type: DEV,
                         },
                     ]);
                 });

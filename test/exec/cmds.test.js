@@ -13,7 +13,7 @@ describe("cmds", () => {
             });
         });
         describe(".install()", () => {
-            describe("when just a name and a version is given", () => {
+            describe("one module", () => {
                 test("should match snapshot", () => {
                     expect(
                         cmds.npm.install({
@@ -26,30 +26,58 @@ describe("cmds", () => {
                         })
                     ).toMatchSnapshot();
                 });
+                describe("custom registry", () => {
+                    test("should match snapshot", () => {
+                        expect(
+                            cmds.npm.install({
+                                registry: "http://example.com/registry",
+                                modules: [
+                                    {
+                                        name: "some-module",
+                                        version: "1.0.0",
+                                    },
+                                ],
+                            })
+                        ).toMatchSnapshot();
+                    });
+                });
             });
-            describe("when a name, a version and a custom registry is given", () => {
+            describe("multiple modules", () => {
                 test("should match snapshot", () => {
                     expect(
                         cmds.npm.install({
-                            registry: "http://example.com/registry",
                             modules: [
                                 {
-                                    name: "some-module",
+                                    name: "some-module-1",
+                                    version: "1.0.0",
+                                },
+                                {
+                                    name: "some-module-2",
                                     version: "1.0.0",
                                 },
                             ],
                         })
                     ).toMatchSnapshot();
                 });
-            });
-        });
-        describe.skip(".remove()", () => {
-            test("should match snapshot", () => {
-                expect(
-                    cmds.npm.remove({
-                        name: "some-module",
-                    })
-                ).toMatchSnapshot();
+                describe("custom registry", () => {
+                    test("should match snapshot", () => {
+                        expect(
+                            cmds.npm.install({
+                                registry: "http://example.com/registry",
+                                modules: [
+                                    {
+                                        name: "some-module-1",
+                                        version: "1.0.0",
+                                    },
+                                    {
+                                        name: "some-module-2",
+                                        version: "1.0.0",
+                                    },
+                                ],
+                            })
+                        ).toMatchSnapshot();
+                    });
+                });
             });
         });
         describe(".test()", () => {
@@ -70,7 +98,7 @@ describe("cmds", () => {
             });
         });
         describe(".install()", () => {
-            describe("when just a name and a version is given", () => {
+            describe("one module", () => {
                 test("should match snapshot", () => {
                     expect(
                         cmds.yarn.install({
@@ -83,30 +111,58 @@ describe("cmds", () => {
                         })
                     ).toMatchSnapshot();
                 });
+                describe("custom registry", () => {
+                    test("should match snapshot", () => {
+                        expect(
+                            cmds.yarn.install({
+                                registry: "http://example.com/registry",
+                                modules: [
+                                    {
+                                        name: "some-module",
+                                        version: "1.0.0",
+                                    },
+                                ],
+                            })
+                        ).toMatchSnapshot();
+                    });
+                });
             });
-            describe("when a name, a version and a custom registry is given", () => {
+            describe("multiple modules", () => {
                 test("should match snapshot", () => {
                     expect(
                         cmds.yarn.install({
-                            registry: "http://example.com/registry",
                             modules: [
                                 {
-                                    name: "some-module",
+                                    name: "some-module-1",
+                                    version: "1.0.0",
+                                },
+                                {
+                                    name: "some-module-2",
                                     version: "1.0.0",
                                 },
                             ],
                         })
                     ).toMatchSnapshot();
                 });
-            });
-        });
-        describe.skip(".remove()", () => {
-            test("should match snapshot", () => {
-                expect(
-                    cmds.yarn.remove({
-                        name: "some-module",
-                    })
-                ).toMatchSnapshot();
+                describe("custom registry", () => {
+                    test("should match snapshot", () => {
+                        expect(
+                            cmds.yarn.install({
+                                registry: "http://example.com/registry",
+                                modules: [
+                                    {
+                                        name: "some-module-1",
+                                        version: "1.0.0",
+                                    },
+                                    {
+                                        name: "some-module-2",
+                                        version: "1.0.0",
+                                    },
+                                ],
+                            })
+                        ).toMatchSnapshot();
+                    });
+                });
             });
         });
         describe(".test()", () => {

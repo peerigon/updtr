@@ -1,4 +1,4 @@
-import { fromNpm, fromYarn } from "../../src/constants/dependencyTypes";
+const STRING_PROPERTIES = ["name", "current", "wanted", "latest"];
 
 /**
  * Applies JSON.parse on the str.
@@ -15,6 +15,16 @@ function parse(str) {
     }
 
     return JSON.parse(trimmed);
+}
+
+function returnIfValid(result) {
+    STRING_PROPERTIES.forEach(prop => {
+        if (typeof result[prop] !== "string") {
+            throw new Error("Unexpected output format of package manager");
+        }
+    });
+
+    return result;
 }
 
 function tryParse(normalizer) {
@@ -48,13 +58,13 @@ export default {
 
             const names = Object.keys(parsed);
 
-            return names.map(name => parsed[name]).map((dep, index) => ({
-                name: names[index],
-                current: dep.current,
-                wanted: dep.wanted,
-                latest: dep.latest,
-                type: fromNpm(dep.type),
-            }));
+            return names.map(name => parsed[name]).map((dep, index) =>
+                returnIfValid({
+                    name: names[index],
+                    current: dep.current,
+                    wanted: dep.wanted,
+                    latest: dep.latest,
+                }));
         }),
     },
     yarn: {
@@ -64,13 +74,13 @@ export default {
                     [] :
                     parsed.data.body
                         .map(row => arrToObj(row, parsed.data.head))
-                        .map(dep => ({
-                            name: dep.Package,
-                            current: dep.Current,
-                            wanted: dep.Wanted,
-                            latest: dep.Latest,
-                            type: fromYarn(dep["Package Type"]),
-                        }))
+                        .map(dep =>
+                              returnIfValid({
+                                  name: dep.Package,
+                                  current: dep.Current,
+                                  wanted: dep.Wanted,
+                                  latest: dep.Latest,
+                              }))
         ),
     },
 };

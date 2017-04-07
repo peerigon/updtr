@@ -137,9 +137,7 @@ describe("init()", () => {
             }
 
             expect(givenErr).toBeInstanceOf(SyntaxError);
-            expect(givenErr.message).toBe(
-                "Error when trying to parse stdout from command 'npm outdated --json --long --depth=0': Unexpected token N in JSON at position 0"
-            );
+            expect(givenErr.message).toMatchSnapshot();
         });
     });
 });
