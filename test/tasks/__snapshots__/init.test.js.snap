@@ -19,7 +19,7 @@ Array [
     "init/start",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
@@ -35,7 +35,7 @@ Array [
     Object {
       "cmd": "npm install",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
@@ -51,7 +51,7 @@ Array [
     Object {
       "cmd": "npm outdated --json --depth=0",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
@@ -66,7 +66,7 @@ Array [
     "init/end",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
@@ -98,7 +98,7 @@ Array [
     "init/start",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -111,7 +111,7 @@ Array [
     Object {
       "cmd": "npm install",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -124,7 +124,7 @@ Array [
     Object {
       "cmd": "npm outdated --json --depth=0",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -136,7 +136,7 @@ Array [
     "init/end",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -165,7 +165,7 @@ Array [
     "init/start",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -178,7 +178,7 @@ Array [
     Object {
       "cmd": "npm install",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -191,7 +191,7 @@ Array [
     Object {
       "cmd": "npm outdated --json --depth=0",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -203,7 +203,7 @@ Array [
     "init/end",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "npm",
         "registry": undefined,
@@ -243,7 +243,7 @@ Array [
     "init/start",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "yarn",
         "registry": undefined,
@@ -256,7 +256,7 @@ Array [
     Object {
       "cmd": "yarn",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "yarn",
         "registry": undefined,
@@ -269,7 +269,7 @@ Array [
     Object {
       "cmd": "yarn outdated --json --flat",
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "yarn",
         "registry": undefined,
@@ -281,7 +281,7 @@ Array [
     "init/end",
     Object {
       "config": Object {
-        "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+        "cwd": "/updtr/test/cwd",
         "exclude": Array [],
         "packageManager": "yarn",
         "registry": undefined,

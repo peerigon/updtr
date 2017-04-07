@@ -5,7 +5,7 @@ Array [
   "start",
   Object {
     "config": Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+      "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -20,7 +20,7 @@ Array [
   "end",
   Object {
     "config": Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+      "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,
@@ -36,7 +36,7 @@ Array [
   "end",
   Object {
     "config": Object {
-      "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
+      "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "packageManager": "npm",
       "registry": undefined,

@@ -1,4 +1,3 @@
-import path from "path";
 import Updtr from "../../src/Updtr";
 
 export default class FakeUpdtr extends Updtr {
@@ -35,5 +34,5 @@ export default class FakeUpdtr extends Updtr {
 }
 
 FakeUpdtr.baseConfig = {
-    cwd: path.resolve(__dirname, ".."),
+    cwd: "/updtr/test/cwd",
 };
