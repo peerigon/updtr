@@ -37,7 +37,13 @@ function tryVersionRangeUpdate(parsedOldRange, parsedNewVersion) {
         newPatch = patch;
     }
 
-    return operator + parsedNewVersion.major + "." + newMinor + "." + newPatch;
+    return operator +
+        parsedNewVersion.major +
+        "." +
+        newMinor +
+        "." +
+        newPatch +
+        parsedNewVersion.release;
 }
 
 function fallbackRange(newVersion) {
