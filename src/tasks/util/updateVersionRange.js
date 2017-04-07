@@ -1,10 +1,45 @@
 import semver from "semver";
 
-// Matches a semver version range that can be transformed to the new version
+// Matches a semver version range that can be transformed to the new version in a safe manner
 const matchPreservableRange = /^(~|>=|)\d+\.(\d+|x|\*)\.(\d+|x|\*)$/;
 // Matches parts of an exact semver version (no range)
 const matchExactVersion = /^(\d+)\.(\d+)\.(\d+)(-[^\s]+)?$/;
 const matchNumber = /^\d+$/;
+
+function assembleNewRange(oldMatch, newMatch) {
+    const oldOperator = oldMatch[1];
+    const oldMinor = oldMatch[2];
+    const oldPatch = oldMatch[3];
+
+    if (matchNumber.test(oldMinor) === false) {
+        newMatch[2] = oldMinor;
+        newMatch[3] = matchNumber.test(oldPatch) === true ? oldMinor : oldPatch;
+    } else if (matchNumber.test(oldPatch) === false) {
+        newMatch[3] = oldPatch;
+    }
+
+    return oldOperator + newMatch[1] + "." + newMatch[2] + "." + newMatch[3];
+}
+
+function tryVersionRangeUpdate(oldRange, newVersion) {
+    const oldMatch = oldRange.match(matchPreservableRange);
+    const newMatch = newVersion.match(matchExactVersion);
+
+    if (oldMatch !== null && newMatch !== null) {
+        const newVersionRange = assembleNewRange(oldMatch, newMatch);
+
+        // All this is kind of error prone so let's do a sanity check if everything's ok
+        if (semver.satisfies(newVersion, newVersionRange) === true) {
+            return newVersionRange;
+        }
+    }
+
+    return null;
+}
+
+function fallbackRange(newVersion) {
+    return "^" + newVersion;
+}
 
 /**
  * Tries to apply the newMinVersion while maintaining the range (see https://github.com/peerigon/updtr/issues/47)
@@ -13,52 +48,23 @@ const matchNumber = /^\d+$/;
  * we opt-out to npm's default caret operator.
  *
  * @param {string} oldRange
- * @param {string} newMinVersion
+ * @param {string} newVersion
  * @returns {string}
  */
-export default function updateVersionRange(oldRange, newMinVersion) {
+export default function updateVersionRange(oldRange, newVersion) {
     if (semver.validRange(oldRange) === null) {
-        // Very rare, but just to be sure
-        return "^" + newMinVersion;
+        // Not very likely because other tools would have already complained about this but just to be sure
+        return fallbackRange(newVersion);
     }
 
     if (matchExactVersion.test(oldRange) === true) {
         // The old version was pinned, so the new should also pinned
-        return newMinVersion;
+        return newVersion;
     }
 
-    const oldMatch = oldRange.match(matchPreservableRange);
-    const newMatch = newMinVersion.match(matchExactVersion);
+    const newVersionRange = tryVersionRangeUpdate(oldRange, newVersion);
 
-    if (oldMatch !== null && newMatch !== null) {
-        const oldOperator = oldMatch[1];
-        const oldMinor = oldMatch[2];
-        const oldPatch = oldMatch[3];
-
-        if (matchNumber.test(oldMinor) === false) {
-            newMatch[2] = oldMinor;
-            newMatch[3] = matchNumber.test(oldPatch) === true ?
-                oldMinor :
-                oldPatch;
-        } else if (matchNumber.test(oldPatch) === false) {
-            newMatch[3] = oldPatch;
-        }
-
-        const newVersionRange = oldOperator +
-            newMatch[1] +
-            "." +
-            newMatch[2] +
-            "." +
-            newMatch[3];
-
-        // This is kind of error prone so let's do a sanity check if everything's ok
-        if (
-            semver.validRange(newVersionRange) !== null &&
-            semver.satisfies(newMinVersion, newVersionRange) === true
-        ) {
-            return newVersionRange;
-        }
-    }
-
-    return "^" + newMinVersion;
+    return newVersionRange === null ?
+        fallbackRange(newVersion) :
+        newVersionRange;
 }
