@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createUpdatedPackageJson() dependencies should write the versions of the successful updates to the package json 1`] = `
+Object {
+  "dependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "1.0.0",
+  },
+}
+`;
+
+exports[`createUpdatedPackageJson() devDependencies should write the versions of the successful updates to the package json 1`] = `
+Object {
+  "devDependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "1.0.0",
+  },
+}
+`;
+
+exports[`createUpdatedPackageJson() optionalDependencies should write the versions of the successful updates to the package json 1`] = `
+Object {
+  "optionalDependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "1.0.0",
+  },
+}
+`;
+
+exports[`createUpdatedPackageJson() when a library is listed in more than one dependency map should update all dependency maps 1`] = `
+Object {
+  "dependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+  },
+  "devDependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+  },
+  "optionalDependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+  },
+}
+`;
+
+exports[`createUpdatedPackageJson() when the updated libraries are not listed in any dependency map should save the modules as regular dependency 1`] = `
+Object {
+  "dependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "2.2.1",
+  },
+}
+`;
