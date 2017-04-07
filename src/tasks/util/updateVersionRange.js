@@ -1,32 +1,63 @@
 import semver from "semver";
 
+// Add ignore case
+
 // Matches a semver version range that can be transformed to the new version in a safe manner
-const matchPreservableRange = /^(~|>=|)\d+\.(\d+|x|\*)\.(\d+|x|\*)$/;
+const updateableRangePattern = /^(~|>=|)(\d+)\.(\d+|x|\*)\.(\d+|x|\*)$/;
 // Matches parts of an exact semver version (no range)
-const matchExactVersion = /^(\d+)\.(\d+)\.(\d+)(-[^\s]+)?$/;
-const matchNumber = /^\d+$/;
+const exactVersionPattern = /^(\d+)\.(\d+)\.(\d+)(-[a-z][a-z\-.\d]+|)$/;
+const numberPattern = /^\d+$/;
 
-function assembleNewRange(oldMatch, newMatch) {
-    const oldOperator = oldMatch[1];
-    const oldMinor = oldMatch[2];
-    const oldPatch = oldMatch[3];
+function parseUpdateableRange(range) {
+    const match = range.match(updateableRangePattern);
 
-    if (matchNumber.test(oldMinor) === false) {
-        newMatch[2] = oldMinor;
-        newMatch[3] = matchNumber.test(oldPatch) === true ? oldMinor : oldPatch;
-    } else if (matchNumber.test(oldPatch) === false) {
-        newMatch[3] = oldPatch;
+    return match === null ?
+        null :
+    {
+        operator: match[1],
+        major: match[2],
+        minor: match[3],
+        patch: match[4],
+    };
+}
+
+function parseExactVersion(version) {
+    const match = version.match(exactVersionPattern);
+
+    return match === null ?
+        null :
+    {
+        major: match[1],
+        minor: match[2],
+        patch: match[3],
+        release: match[4],
+    };
+}
+
+function assembleNewRange(parsedOldRange, parsedNewVersion) {
+    const { minor, patch, operator } = parsedOldRange;
+    let newMinor = parsedNewVersion.minor;
+    let newPatch = parsedNewVersion.patch;
+
+    if (numberPattern.test(minor) === false) {
+        newMinor = minor;
+        newPatch = numberPattern.test(patch) === true ? minor : patch;
+    } else if (numberPattern.test(patch) === false) {
+        newPatch = patch;
     }
 
-    return oldOperator + newMatch[1] + "." + newMatch[2] + "." + newMatch[3];
+    return operator + parsedNewVersion.major + "." + newMinor + "." + newPatch;
 }
 
 function tryVersionRangeUpdate(oldRange, newVersion) {
-    const oldMatch = oldRange.match(matchPreservableRange);
-    const newMatch = newVersion.match(matchExactVersion);
+    const parsedOldRange = parseUpdateableRange(oldRange);
+    const parsedNewVersion = parseExactVersion(newVersion);
 
-    if (oldMatch !== null && newMatch !== null) {
-        const newVersionRange = assembleNewRange(oldMatch, newMatch);
+    if (parsedOldRange !== null && parsedNewVersion !== null) {
+        const newVersionRange = assembleNewRange(
+            parsedOldRange,
+            parsedNewVersion
+        );
 
         // All this is kind of error prone so let's do a sanity check if everything's ok
         if (semver.satisfies(newVersion, newVersionRange) === true) {
@@ -52,17 +83,19 @@ function fallbackRange(newVersion) {
  * @returns {string}
  */
 export default function updateVersionRange(oldRange, newVersion) {
-    if (semver.validRange(oldRange) === null) {
+    const oldRangeTrimmed = oldRange.trim();
+
+    if (semver.validRange(oldRangeTrimmed) === null) {
         // Not very likely because other tools would have already complained about this but just to be sure
         return fallbackRange(newVersion);
     }
 
-    if (matchExactVersion.test(oldRange) === true) {
+    if (exactVersionPattern.test(oldRangeTrimmed) === true) {
         // The old version was pinned, so the new should also pinned
         return newVersion;
     }
 
-    const newVersionRange = tryVersionRangeUpdate(oldRange, newVersion);
+    const newVersionRange = tryVersionRangeUpdate(oldRangeTrimmed, newVersion);
 
     return newVersionRange === null ?
         fallbackRange(newVersion) :
