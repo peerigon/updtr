@@ -2,8 +2,7 @@ import run from "../src/run";
 import FakeUpdtr from "./helpers/FakeUpdtr";
 import pickEventNames from "./helpers/pickEventNames";
 import {
-    execResultsReady,
-    execError,
+    ready as execResultsReady,
     npmNoOutdated,
     npmOutdated,
     updateTestPass,

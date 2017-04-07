@@ -1,7 +1,7 @@
 import init from "../../src/tasks/init";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import {
-    execResultsReady,
+    ready as execResultsReady,
     execError,
     npmNoOutdated,
     npmOutdated,

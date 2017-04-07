@@ -4,7 +4,7 @@ import createUpdateTask from "../../src/tasks/util/createUpdateTask";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
 import {
-    execResultsReady,
+    ready as execResultsReady,
     execError,
     updateTestPass,
     updateTestFail,
