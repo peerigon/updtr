@@ -1,11 +1,10 @@
 import semver from "semver";
 
-// Add ignore case
-
 // Matches a semver version range that can be transformed to the new version in a safe manner
-const updateableRangePattern = /^(~|>=|)(\d+)\.(\d+|x|\*)\.(\d+|x|\*)$/;
+// The caret operator is omitted here because it's our fallbackRange anyway
+const updateableRangePattern = /^(~|>=|)(\d+)\.(\d+|x|\*)\.(\d+|x|\*)(-[a-z][a-z\-.\d]+|)$/i;
 // Matches parts of an exact semver version (no range)
-const exactVersionPattern = /^(\d+)\.(\d+)\.(\d+)(-[a-z][a-z\-.\d]+|)$/;
+const exactVersionPattern = /^(\d+)\.(\d+)\.(\d+)(-[a-z][a-z\-.\d]+|)$/i;
 const numberPattern = /^\d+$/;
 
 function parseUpdateableRange(range) {
@@ -18,6 +17,7 @@ function parseUpdateableRange(range) {
         major: match[2],
         minor: match[3],
         patch: match[4],
+        release: match[5],
     };
 }
 
@@ -86,7 +86,7 @@ export default function updateVersionRange(oldRange, newVersion) {
     const oldRangeTrimmed = oldRange.trim();
 
     if (semver.validRange(oldRangeTrimmed) === null) {
-        // Not very likely because other tools would have already complained about this but just to be sure
+        // Filter unusual ranges. There is no way to transform them in a safer manner.
         return fallbackRange(newVersion);
     }
 
