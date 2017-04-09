@@ -1,9 +1,15 @@
 import EventEmitter from "events";
+import fs from "fs";
 import { UPDATE_TO_LATEST, UPDATE_TO_WANTED } from "./constants/updateTask";
 import exec from "./exec/exec";
 import { SUPPORTED } from "./constants/packageManagers";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
+import pify from "pify";
+import path from "path";
+
+const readFile = pify(fs.readFile);
+const writeFile = pify(fs.writeFile);
 
 function checkCwd(cwd) {
     if (typeof cwd !== "string") {
@@ -61,6 +67,12 @@ export default class Updtr extends EventEmitter {
     }
     exec(cmd) {
         return exec(this.config.cwd, cmd);
+    }
+    readFile(filenameInCwd) {
+        return readFile(path.join(this.config.cwd, filenameInCwd), "utf8");
+    }
+    writeFile(filenameInCwd, contents) {
+        return writeFile(path.join(this.config.cwd, filenameInCwd), contents);
     }
     dispose() {
         this.removeAllListeners();

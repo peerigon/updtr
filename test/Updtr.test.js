@@ -1,7 +1,16 @@
 import EventEmitter from "events";
 import os from "os";
+import fs from "fs";
+import temp from "temp";
+import pify from "pify";
+import path from "path";
 import { UPDATE_TO_WANTED } from "../src/constants/updateTask";
 import Updtr from "../src/Updtr";
+
+const mkdir = pify(temp.mkdir);
+const cleanup = pify(temp.cleanup);
+const writeFile = pify(fs.writeFile);
+const readFile = pify(fs.readFile);
 
 const baseConfig = {
     cwd: __dirname,
@@ -82,6 +91,70 @@ describe("new Updtr()", () => {
             expect(result.stdout).toBe(baseConfig.cwd + os.EOL);
         });
     });
+    describe("readFile()", () => {
+        it("should read a file as utf8 string relative to cwd", async () => {
+            const testContent = "This is a test";
+            const testJs = "test.js";
+            const cwd = await mkdir("updtr-readFile-1");
+            const updtr = new Updtr({
+                cwd,
+            });
+
+            await writeFile(path.join(cwd, testJs), testContent);
+            expect(await updtr.readFile(testJs)).toBe(testContent);
+        });
+        it("should not swallow errors", async () => {
+            const testJs = "test.js";
+            const cwd = await mkdir("updtr-readFile-2");
+            const updtr = new Updtr({
+                cwd,
+            });
+            let givenErr;
+
+            try {
+                await updtr.readFile(testJs);
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toHaveProperty("message");
+            expect(givenErr.message).toMatch(/no such file or directory/);
+        });
+    });
+    describe("writeFile()", () => {
+        it("should write a file as utf8 string relative to cwd", async () => {
+            const testContent = "This is a test";
+            const testJs = "test.js";
+            const cwd = await mkdir("updtr-writeFile-1");
+            const updtr = new Updtr({
+                cwd,
+            });
+
+            await updtr.writeFile(testJs, testContent);
+
+            expect(await readFile(path.join(cwd, testJs), "utf8")).toBe(
+                testContent
+            );
+        });
+        it("should not swallow errors", async () => {
+            const cwd = await mkdir("updtr-writeFile-2");
+            const updtr = new Updtr({
+                cwd,
+            });
+            let givenErr;
+
+            try {
+                await updtr.writeFile("");
+            } catch (err) {
+                givenErr = err;
+            }
+
+            expect(givenErr).toHaveProperty("message");
+            expect(givenErr.message).toMatch(
+                /illegal operation on a directory/
+            );
+        });
+    });
     describe(".dispose()", () => {
         test("should remove all event listeners", () => {
             const updtr = new Updtr(baseConfig);
@@ -115,3 +188,5 @@ describe("new Updtr()", () => {
         });
     });
 });
+
+afterAll(cleanup);
