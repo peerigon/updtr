@@ -33,7 +33,7 @@ Object {
 }
 `;
 
-exports[`createUpdatedPackageJson() when a library is listed in more than one dependency map should update all dependency maps 1`] = `
+exports[`createUpdatedPackageJson() when a module is listed in more than one dependency type should update all dependency occurrences 1`] = `
 Object {
   "dependencies": Object {
     "updtr-test-module-1": "2.0.0",
@@ -47,7 +47,7 @@ Object {
 }
 `;
 
-exports[`createUpdatedPackageJson() when the updated libraries are not listed in any dependency map should save the modules as regular dependency 1`] = `
+exports[`createUpdatedPackageJson() when the updated modules are not listed as any dependency type should save the modules as regular dependency 1`] = `
 Object {
   "dependencies": Object {
     "updtr-test-module-1": "2.0.0",

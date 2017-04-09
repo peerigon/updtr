@@ -93,8 +93,8 @@ describe("createUpdatedPackageJson()", () => {
         });
     });
     // This is usually an error, but we don't care
-    describe("when a library is listed in more than one dependency map", () => {
-        it("should update all dependency maps", () => {
+    describe("when a module is listed in more than one dependency type", () => {
+        it("should update all dependency occurrences", () => {
             const updateResults = [testModule1Success];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
@@ -114,7 +114,7 @@ describe("createUpdatedPackageJson()", () => {
             expect(newPackageJson).toMatchSnapshot();
         });
     });
-    describe("when the updated libraries are not listed in any dependency map", () => {
+    describe("when the updated modules are not listed as any dependency type", () => {
         it("should save the modules as regular dependency", () => {
             const updateResults = [testModule1Success, testModule2Success];
             const newPackageJson = createUpdatedPackageJson(
