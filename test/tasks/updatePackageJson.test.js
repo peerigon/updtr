@@ -49,7 +49,7 @@ describe("updatePackageJson()", () => {
 
         expect(packageJson).toMatchSnapshot();
     });
-    it("should not alter the format", async () => {
+    it("should not alter the formatting", async () => {
         await packageJsonsReady;
 
         const updtr = new FakeUpdtr();

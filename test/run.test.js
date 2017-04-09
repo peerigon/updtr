@@ -18,7 +18,7 @@ describe("run()", () => {
 
         await run(updtr);
 
-        expect(updtr.emittedEvents.shift()).toMatchSnapshot();
+        expect(updtr.emit.args.shift()).toMatchSnapshot();
     });
     describe("when there are no outdated dependencies", () => {
         test("should emit init sequence events", async () => {
@@ -29,7 +29,7 @@ describe("run()", () => {
 
             await run(updtr);
 
-            expect(pickEventNames(eventNames, updtr.emittedEvents)).toEqual(
+            expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(
                 eventNames
             );
         });
@@ -41,7 +41,7 @@ describe("run()", () => {
             await run(updtr);
 
             expect(
-                pickEventNames(["sequential-update/start"], updtr.emittedEvents)
+                pickEventNames(["sequential-update/start"], updtr.emit.args)
             ).toEqual([]);
         });
         test("should emit an end event of expected shape", async () => {
@@ -51,7 +51,7 @@ describe("run()", () => {
 
             await run(updtr);
 
-            expect(updtr.emittedEvents.pop()).toMatchSnapshot();
+            expect(updtr.emit.args.pop()).toMatchSnapshot();
         });
     });
     describe("when there are outdated dependencies", () => {
@@ -69,7 +69,7 @@ describe("run()", () => {
 
             await run(updtr);
 
-            expect(pickEventNames(eventNames, updtr.emittedEvents)).toEqual(
+            expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(
                 eventNames
             );
         });
@@ -83,7 +83,7 @@ describe("run()", () => {
 
             await run(updtr);
 
-            expect(updtr.emittedEvents.pop()).toMatchSnapshot();
+            expect(updtr.emit.args.pop()).toMatchSnapshot();
         });
     });
 });

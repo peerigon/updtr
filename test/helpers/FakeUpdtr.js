@@ -7,7 +7,6 @@ export default class FakeUpdtr extends Updtr {
             ...FakeUpdtr.baseConfig,
             ...updtrConfig,
         });
-        this.emittedEvents = [];
         this.execArgs = [];
         this.execResults = null;
         this.execCounter = 0;
@@ -31,9 +30,6 @@ export default class FakeUpdtr extends Updtr {
         }
 
         return Promise.resolve(execResult);
-    }
-    emit(...args) {
-        this.emittedEvents.push(args);
     }
 }
 

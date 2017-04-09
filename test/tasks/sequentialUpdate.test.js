@@ -39,7 +39,7 @@ describe("sequentialUpdate()", () => {
             await sequentialUpdate(updtr, []);
 
             expect(updtr.execArgs).toMatchSnapshot();
-            expect(updtr.emittedEvents).toMatchSnapshot();
+            expect(updtr.emit.args).toMatchSnapshot();
         });
     });
     describe("when the given updateTasks array contains update tasks", () => {
@@ -81,7 +81,7 @@ describe("sequentialUpdate()", () => {
                     );
 
                     expect(updtr.execArgs).toMatchSnapshot("execArgs npm");
-                    expect(updtr.emittedEvents).toMatchSnapshot(
+                    expect(updtr.emit.args).toMatchSnapshot(
                         "emittedEvents npm"
                     );
                     expect(updateResults).toMatchSnapshot(
@@ -139,7 +139,7 @@ describe("sequentialUpdate()", () => {
                     );
 
                     expect(updtr.execArgs).toMatchSnapshot("execArgs yarn");
-                    expect(updtr.emittedEvents).toMatchSnapshot(
+                    expect(updtr.emit.args).toMatchSnapshot(
                         "emittedEvents yarn"
                     );
                     expect(updateResults).toMatchSnapshot(
@@ -172,7 +172,7 @@ describe("sequentialUpdate()", () => {
 
             expect(givenErr).toBe(execError);
             // emitted events: start, updating
-            expect(updtr.emittedEvents.length).toBe(2);
+            expect(updtr.emit.args.length).toBe(2);
         });
         test("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
@@ -189,7 +189,7 @@ describe("sequentialUpdate()", () => {
 
             expect(givenErr).toBe(execError);
             // emitted events: start, updating, testing, testResult, rollback
-            expect(updtr.emittedEvents.length).toBe(5);
+            expect(updtr.emit.args.length).toBe(5);
         });
     });
 });

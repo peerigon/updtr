@@ -23,7 +23,7 @@ describe("init()", () => {
             await init(updtr);
 
             expect(updtr.execArgs).toMatchSnapshot();
-            expect(updtr.emittedEvents).toMatchSnapshot();
+            expect(updtr.emit.args).toMatchSnapshot();
         });
         test("should return the results as emitted with the 'init/end' event", async () => {
             const updtr = new FakeUpdtr();
@@ -31,7 +31,7 @@ describe("init()", () => {
             updtr.execResults = npmNoOutdated;
 
             const returnedResults = await init(updtr);
-            const [name, endEvent] = updtr.emittedEvents.pop();
+            const [name, endEvent] = updtr.emit.args.pop();
 
             expect(name).toBe("init/end");
             // The emitted event has additional properties like the config
@@ -48,7 +48,7 @@ describe("init()", () => {
                 await init(updtr);
 
                 expect(updtr.execArgs).toMatchSnapshot();
-                expect(updtr.emittedEvents).toMatchSnapshot();
+                expect(updtr.emit.args).toMatchSnapshot();
             });
             test("should return the results as emitted with the 'init/end' event", async () => {
                 const updtr = new FakeUpdtr();
@@ -56,7 +56,7 @@ describe("init()", () => {
                 updtr.execResults = npmOutdated;
 
                 const returnedResults = await init(updtr);
-                const [name, endEvent] = updtr.emittedEvents.pop();
+                const [name, endEvent] = updtr.emit.args.pop();
 
                 expect(name).toBe("init/end");
                 // The emitted event has additional properties like the config
@@ -76,7 +76,7 @@ describe("init()", () => {
                 await init(updtr);
 
                 expect(updtr.execArgs).toMatchSnapshot();
-                expect(updtr.emittedEvents).toMatchSnapshot();
+                expect(updtr.emit.args).toMatchSnapshot();
             });
             // We don't test for everything here because we assume that the rest works the same as with npm
         });
@@ -92,7 +92,7 @@ describe("init()", () => {
             await init(updtr);
 
             expect(updtr.execArgs).toMatchSnapshot();
-            expect(updtr.emittedEvents).toMatchSnapshot();
+            expect(updtr.emit.args).toMatchSnapshot();
         });
     });
     describe("unexpected errors", () => {
