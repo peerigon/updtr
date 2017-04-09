@@ -1,4 +1,5 @@
 import Updtr from "../../src/Updtr";
+import sinon from "sinon";
 
 export default class FakeUpdtr extends Updtr {
     constructor(updtrConfig = {}) {
@@ -10,6 +11,9 @@ export default class FakeUpdtr extends Updtr {
         this.execArgs = [];
         this.execResults = null;
         this.execCounter = 0;
+        this.readFile = sinon.stub();
+        this.writeFile = sinon.stub();
+        this.emit = sinon.stub();
     }
     exec(...args) {
         const currentCall = this.execCounter++;

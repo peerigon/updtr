@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`updatePackageJson() should save a package.json with expected shape to the cwd 1`] = `
+Object {
+  "dependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "1.0.x",
+  },
+  "devDependencies": Object {
+    "updtr-test-module-1": "~2.0.x",
+    "updtr-test-module-2": "1.0.x",
+  },
+}
+`;
