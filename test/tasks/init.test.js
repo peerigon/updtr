@@ -22,7 +22,7 @@ describe("init()", () => {
 
             await init(updtr);
 
-            expect(updtr.execArgs).toMatchSnapshot();
+            expect(updtr.exec.args).toMatchSnapshot();
             expect(updtr.emit.args).toMatchSnapshot();
         });
         test("should return the results as emitted with the 'init/end' event", async () => {
@@ -47,7 +47,7 @@ describe("init()", () => {
 
                 await init(updtr);
 
-                expect(updtr.execArgs).toMatchSnapshot();
+                expect(updtr.exec.args).toMatchSnapshot();
                 expect(updtr.emit.args).toMatchSnapshot();
             });
             test("should return the results as emitted with the 'init/end' event", async () => {
@@ -75,7 +75,7 @@ describe("init()", () => {
 
                 await init(updtr);
 
-                expect(updtr.execArgs).toMatchSnapshot();
+                expect(updtr.exec.args).toMatchSnapshot();
                 expect(updtr.emit.args).toMatchSnapshot();
             });
             // We don't test for everything here because we assume that the rest works the same as with npm
@@ -91,7 +91,7 @@ describe("init()", () => {
 
             await init(updtr);
 
-            expect(updtr.execArgs).toMatchSnapshot();
+            expect(updtr.exec.args).toMatchSnapshot();
             expect(updtr.emit.args).toMatchSnapshot();
         });
     });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`emittedEvents npm 1`] = `
+exports[`emit.args npm 1`] = `
 Array [
   Array [
     "sequential-update/start",
@@ -133,7 +133,7 @@ Array [
 ]
 `;
 
-exports[`emittedEvents yarn 1`] = `
+exports[`emit.args yarn 1`] = `
 Array [
   Array [
     "sequential-update/start",
@@ -266,7 +266,7 @@ Array [
 ]
 `;
 
-exports[`execArgs npm 1`] = `
+exports[`exec.args npm 1`] = `
 Array [
   Array [
     "npm install updtr-test-module-1@2.0.0",
@@ -286,7 +286,7 @@ Array [
 ]
 `;
 
-exports[`execArgs yarn 1`] = `
+exports[`exec.args yarn 1`] = `
 Array [
   Array [
     "yarn add updtr-test-module-1@2.0.0",

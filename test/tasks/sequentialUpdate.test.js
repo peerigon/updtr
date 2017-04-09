@@ -38,7 +38,7 @@ describe("sequentialUpdate()", () => {
 
             await sequentialUpdate(updtr, []);
 
-            expect(updtr.execArgs).toMatchSnapshot();
+            expect(updtr.exec.args).toMatchSnapshot();
             expect(updtr.emit.args).toMatchSnapshot();
         });
     });
@@ -80,10 +80,8 @@ describe("sequentialUpdate()", () => {
                         updateTasks
                     );
 
-                    expect(updtr.execArgs).toMatchSnapshot("execArgs npm");
-                    expect(updtr.emit.args).toMatchSnapshot(
-                        "emittedEvents npm"
-                    );
+                    expect(updtr.exec.args).toMatchSnapshot("exec.args npm");
+                    expect(updtr.emit.args).toMatchSnapshot("emit.args npm");
                     expect(updateResults).toMatchSnapshot(
                         "updateResults one fail"
                     );
@@ -138,10 +136,8 @@ describe("sequentialUpdate()", () => {
                         updateTasks
                     );
 
-                    expect(updtr.execArgs).toMatchSnapshot("execArgs yarn");
-                    expect(updtr.emit.args).toMatchSnapshot(
-                        "emittedEvents yarn"
-                    );
+                    expect(updtr.exec.args).toMatchSnapshot("exec.args yarn");
+                    expect(updtr.emit.args).toMatchSnapshot("emit.args yarn");
                     expect(updateResults).toMatchSnapshot(
                         "updateResults one fail rest pass"
                     );

@@ -1,5 +1,5 @@
-import Updtr from "../../src/Updtr";
 import sinon from "sinon";
+import Updtr from "../../src/Updtr";
 
 export default class FakeUpdtr extends Updtr {
     constructor(updtrConfig = {}) {
@@ -7,29 +7,21 @@ export default class FakeUpdtr extends Updtr {
             ...FakeUpdtr.baseConfig,
             ...updtrConfig,
         });
-        this.execArgs = [];
-        this.execResults = null;
-        this.execCounter = 0;
         this.readFile = sinon.stub();
         this.writeFile = sinon.stub();
         this.emit = sinon.stub();
+        this.exec = sinon.stub();
     }
-    exec(...args) {
-        const currentCall = this.execCounter++;
-        const execResult = this.execResults[currentCall];
+    set execResults(execResults) {
+        execResults.forEach((execResult, index) => {
+            const call = this.exec.onCall(index);
 
-        this.execArgs.push(args);
-
-        if (execResult === undefined) {
-            throw new Error(
-                `No execResults for call number ${ currentCall }: ${ args.join("") }`
-            );
-        }
-        if (execResult instanceof Error === true) {
-            return Promise.reject(execResult);
-        }
-
-        return Promise.resolve(execResult);
+            if (execResult instanceof Error) {
+                call.rejects(execResult);
+            } else {
+                call.resolves(execResult);
+            }
+        });
     }
 }
 
