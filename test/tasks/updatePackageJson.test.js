@@ -1,12 +1,7 @@
 import updatePackageJson from "../../src/tasks/updatePackageJson";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import pickEventNames from "../helpers/pickEventNames";
-import {
-    testModule1Success,
-    testModule1Fail,
-    testModule2Success,
-    testModule2Fail,
-} from "../fixtures/updateResults";
+import { testModule1Success, testModule2Fail } from "../fixtures/updateResults";
 import {
     ready as packageJsonsReady,
     outdatedRegular,
@@ -89,5 +84,50 @@ describe("updatePackageJson()", () => {
         await updatePackageJson(updtr, updateResults);
 
         expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(eventNames);
+    });
+    describe("errors", () => {
+        it("should enhance the error message in case the package json could not been read", async () => {
+            const updtr = new FakeUpdtr();
+            const updateResults = [];
+            let givenErr;
+
+            updtr.readFile.returns(Promise.reject(new Error("Oops")));
+
+            try {
+                await updatePackageJson(updtr, updateResults);
+            } catch (err) {
+                givenErr = err;
+            }
+            expect(givenErr.message).toMatchSnapshot();
+        });
+        it("should enhance the error message in case the package json could not been parsed", async () => {
+            const updtr = new FakeUpdtr();
+            const updateResults = [];
+            let givenErr;
+
+            updtr.readFile.returns(Promise.resolve("Invalid JSON"));
+
+            try {
+                await updatePackageJson(updtr, updateResults);
+            } catch (err) {
+                givenErr = err;
+            }
+            expect(givenErr.message).toMatchSnapshot();
+        });
+        it("should enhance the error message in case the package json could not been written", async () => {
+            const updtr = new FakeUpdtr();
+            const updateResults = [];
+            let givenErr;
+
+            updtr.readFile.returns(Promise.resolve(JSON.stringify({})));
+            updtr.writeFile.returns(Promise.reject(new Error("Oops")));
+
+            try {
+                await updatePackageJson(updtr, updateResults);
+            } catch (err) {
+                givenErr = err;
+            }
+            expect(givenErr.message).toMatchSnapshot();
+        });
     });
 });
