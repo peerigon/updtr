@@ -102,10 +102,10 @@ describe("createUpdatedPackageJson()", () => {
                         "updtr-test-module-1": "1.0.0",
                     },
                     devDependencies: {
-                        "updtr-test-module-1": "1.0.0",
+                        "updtr-test-module-1": "^1.0.0",
                     },
                     optionalDependencies: {
-                        "updtr-test-module-1": "1.0.0",
+                        "updtr-test-module-1": "1.x.x",
                     },
                 }),
                 updateResults

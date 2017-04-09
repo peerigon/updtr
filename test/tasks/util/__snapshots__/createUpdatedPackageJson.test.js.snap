@@ -39,10 +39,10 @@ Object {
     "updtr-test-module-1": "2.0.0",
   },
   "devDependencies": Object {
-    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-1": "^2.0.0",
   },
   "optionalDependencies": Object {
-    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-1": "2.x.x",
   },
 }
 `;
