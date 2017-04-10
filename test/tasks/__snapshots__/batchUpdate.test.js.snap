@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`batchUpdate() when the given updateTasks array contains update tasks using npm when the test fails should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install updtr-test-module-1@2.0.0 updtr-test-module-2@2.1.1",
+  ],
+  Array [
+    "npm test",
+  ],
+  Array [
+    "npm install updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+  ],
+]
+`;
+
+exports[`batchUpdate() when the given updateTasks array contains update tasks using npm when the test fails should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "batch-update/start",
+    Object {
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/updating",
+    Object {
+      "cmd": "npm install updtr-test-module-1@2.0.0 updtr-test-module-2@2.1.1",
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/testing",
+    Object {
+      "cmd": "npm test",
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/test-result",
+    Object {
+      "stdout": "Oh noez",
+      "success": false,
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/rollback",
+    Object {
+      "cmd": "npm install updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+      "success": false,
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/end",
+    Object {
+      "success": false,
+    },
+  ],
+]
+`;
+
+exports[`batchUpdate() when the given updateTasks array contains update tasks using yarn when the test fails should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "yarn add updtr-test-module-1@2.0.0 updtr-test-module-2@2.1.1",
+  ],
+  Array [
+    "yarn test",
+  ],
+  Array [
+    "yarn add updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+  ],
+]
+`;
+
+exports[`batchUpdate() when the given updateTasks array contains update tasks using yarn when the test fails should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "batch-update/start",
+    Object {
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/updating",
+    Object {
+      "cmd": "yarn add updtr-test-module-1@2.0.0 updtr-test-module-2@2.1.1",
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/testing",
+    Object {
+      "cmd": "yarn test",
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/test-result",
+    Object {
+      "stdout": "Oh noez",
+      "success": false,
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/rollback",
+    Object {
+      "cmd": "yarn add updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+      "success": false,
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "1.1.1",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+  Array [
+    "batch-update/end",
+    Object {
+      "success": false,
+    },
+  ],
+]
+`;
+
+exports[`batchUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 1`] = `Array []`;
+
+exports[`batchUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `Array []`;

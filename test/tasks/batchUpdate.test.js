@@ -1,4 +1,4 @@
-import sequentialUpdate from "../../src/tasks/sequentialUpdate";
+import batchUpdate from "../../src/tasks/batchUpdate";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import createUpdateTask from "../../src/tasks/util/createUpdateTask";
 import readFixtures from "../helpers/readFixtures";
@@ -31,12 +31,12 @@ beforeAll(async () => {
     await execResultsReady;
 });
 
-describe("sequentialUpdate()", () => {
+describe("batchUpdate()", () => {
     describe("when the given updateTasks array is empty", () => {
         test("should resolve immediately without emitting events", async () => {
             const updtr = new FakeUpdtr();
 
-            await sequentialUpdate(updtr, []);
+            await batchUpdate(updtr, []);
 
             expect(updtr.exec.args).toMatchSnapshot();
             expect(updtr.emit.args).toMatchSnapshot();
@@ -51,47 +51,23 @@ describe("sequentialUpdate()", () => {
 
                     updtr.execResults = updateTestPass.concat(updateTestPass);
 
-                    const updateResults = await sequentialUpdate(
-                        updtr,
-                        updateTasks
-                    );
+                    const success = await batchUpdate(updtr, updateTasks);
 
-                    expect(updateResults).toMatchSnapshot(
-                        "updateResults success"
-                    );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].updateTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
-                    );
+                    expect(success).toBe(true);
                 });
             });
-            describe("when the first test fails and the rest succeeds", () => {
+            describe("when the test fails", () => {
                 test("should emit expected events and execute expected commands", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestFail.concat(updateTestPass);
+                    updtr.execResults = updateTestFail;
 
-                    const updateResults = await sequentialUpdate(
-                        updtr,
-                        updateTasks
-                    );
+                    const success = await batchUpdate(updtr, updateTasks);
 
-                    expect(updtr.exec.args).toMatchSnapshot("exec.args npm");
-                    expect(updtr.emit.args).toMatchSnapshot("emit.args npm");
-                    expect(updateResults).toMatchSnapshot(
-                        "updateResults one fail rest pass"
-                    );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].rollbackTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
-                    );
+                    expect(updtr.exec.args).toMatchSnapshot();
+                    expect(updtr.emit.args).toMatchSnapshot();
+                    expect(success).toBe(false);
                 });
             });
         });
@@ -105,49 +81,25 @@ describe("sequentialUpdate()", () => {
 
                     updtr.execResults = updateTestPass.concat(updateTestPass);
 
-                    const updateResults = await sequentialUpdate(
-                        updtr,
-                        updateTasks
-                    );
+                    const success = await batchUpdate(updtr, updateTasks);
 
-                    expect(updateResults).toMatchSnapshot(
-                        "updateResults success"
-                    );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].updateTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
-                    );
+                    expect(success).toBe(true);
                 });
             });
-            describe("when the first test fails and the rest succeeds", () => {
+            describe("when the test fails", () => {
                 test("should emit expected events and execute expected commands", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestFail.concat(updateTestPass);
+                    updtr.execResults = updateTestFail;
 
-                    const updateResults = await sequentialUpdate(
-                        updtr,
-                        updateTasks
-                    );
+                    const success = await batchUpdate(updtr, updateTasks);
 
-                    expect(updtr.exec.args).toMatchSnapshot("exec.args yarn");
-                    expect(updtr.emit.args).toMatchSnapshot("emit.args yarn");
-                    expect(updateResults).toMatchSnapshot(
-                        "updateResults one fail rest pass"
-                    );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].rollbackTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
-                    );
+                    expect(updtr.exec.args).toMatchSnapshot();
+                    expect(updtr.emit.args).toMatchSnapshot();
+                    expect(success).toBe(false);
                 });
             });
         });
@@ -161,7 +113,7 @@ describe("sequentialUpdate()", () => {
             updtr.execResults = errorExecUpdate;
 
             try {
-                await sequentialUpdate(updtr, updateTasks);
+                await batchUpdate(updtr, updateTasks);
             } catch (err) {
                 givenErr = err;
             }
@@ -178,7 +130,7 @@ describe("sequentialUpdate()", () => {
             updtr.execResults = errorExecRollback;
 
             try {
-                await sequentialUpdate(updtr, updateTasks);
+                await batchUpdate(updtr, updateTasks);
             } catch (err) {
                 givenErr = err;
             }

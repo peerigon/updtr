@@ -310,7 +310,7 @@ exports[`sequentialUpdate() when the given updateTasks array is empty should res
 
 exports[`sequentialUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `Array []`;
 
-exports[`updateResults one fail 1`] = `
+exports[`updateResults one fail rest pass 1`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
@@ -325,7 +325,7 @@ Array [
 ]
 `;
 
-exports[`updateResults one fail rest pass 1`] = `
+exports[`updateResults one fail rest pass 2`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
