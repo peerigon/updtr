@@ -9,7 +9,7 @@ Array [
     "npm test",
   ],
   Array [
-    "npm install updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+    "npm install updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0",
   ],
 ]
 `;
@@ -22,12 +22,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -40,12 +40,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -58,12 +58,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -77,12 +77,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -91,17 +91,17 @@ Array [
   Array [
     "batch-update/rollback",
     Object {
-      "cmd": "npm install updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+      "cmd": "npm install updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0",
       "success": false,
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -125,7 +125,7 @@ Array [
     "yarn test",
   ],
   Array [
-    "yarn add updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+    "yarn add updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0",
   ],
 ]
 `;
@@ -138,12 +138,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -156,12 +156,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -174,12 +174,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -193,12 +193,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -207,17 +207,17 @@ Array [
   Array [
     "batch-update/rollback",
     Object {
-      "cmd": "yarn add updtr-test-module-1@1.1.1 updtr-test-module-2@1.1.1",
+      "cmd": "yarn add updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0",
       "success": false,
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],

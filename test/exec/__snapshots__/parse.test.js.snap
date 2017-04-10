@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse .npm .outdated outdated fixture should return an array with normalized outdated data 1`] = `
+Array [
+  Object {
+    "current": "1.0.0",
+    "latest": "2.0.0",
+    "name": "updtr-test-module-1",
+    "wanted": "1.1.1",
+  },
+  Object {
+    "current": "2.0.0",
+    "latest": "2.1.1",
+    "name": "updtr-test-module-2",
+    "wanted": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .npm .outdated outdated-dev fixture should return an array with normalized outdated data 1`] = `
+Array [
+  Object {
+    "current": "1.0.0",
+    "latest": "2.0.0",
+    "name": "updtr-test-module-1",
+    "wanted": "1.1.1",
+  },
+  Object {
+    "current": "2.0.0",
+    "latest": "2.1.1",
+    "name": "updtr-test-module-2",
+    "wanted": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .yarn .outdated outdated fixture should return an array with normalized outdated data 1`] = `
+Array [
+  Object {
+    "current": "1.0.0",
+    "latest": "2.0.0",
+    "name": "updtr-test-module-1",
+    "wanted": "1.0.0",
+  },
+  Object {
+    "current": "2.0.0",
+    "latest": "2.1.1",
+    "name": "updtr-test-module-2",
+    "wanted": "2.0.0",
+  },
+]
+`;
+
+exports[`parse .yarn .outdated outdated-dev fixture should return an array with normalized outdated data 1`] = `
+Array [
+  Object {
+    "current": "1.0.0",
+    "latest": "2.0.0",
+    "name": "updtr-test-module-1",
+    "wanted": "1.0.0",
+  },
+  Object {
+    "current": "2.0.0",
+    "latest": "2.1.1",
+    "name": "updtr-test-module-2",
+    "wanted": "2.0.0",
+  },
+]
+`;

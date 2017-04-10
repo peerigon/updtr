@@ -118,20 +118,7 @@ describe("parse", () => {
                         parse.npm.outdated(
                             stdoutLogs.get("outdated/outdated.npm.log")
                         )
-                    ).toEqual([
-                        {
-                            name: "updtr-test-module-1",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.0.0",
-                        },
-                        {
-                            name: "updtr-test-module-2",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.1.1",
-                        },
-                    ]);
+                    ).toMatchSnapshot();
                 });
             });
             describe("outdated-dev fixture", () => {
@@ -148,20 +135,7 @@ describe("parse", () => {
                         parse.npm.outdated(
                             stdoutLogs.get("outdated-dev/outdated.npm.log")
                         )
-                    ).toEqual([
-                        {
-                            name: "updtr-test-module-1",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.0.0",
-                        },
-                        {
-                            name: "updtr-test-module-2",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.1.1",
-                        },
-                    ]);
+                    ).toMatchSnapshot();
                 });
             });
             testUnexpectedInput(parse.npm.outdated);
@@ -240,20 +214,7 @@ describe("parse", () => {
                         parse.yarn.outdated(
                             stdoutLogs.get("outdated/outdated.yarn.log")
                         )
-                    ).toEqual([
-                        {
-                            name: "updtr-test-module-1",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.0.0",
-                        },
-                        {
-                            name: "updtr-test-module-2",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.1.1",
-                        },
-                    ]);
+                    ).toMatchSnapshot();
                 });
             });
             describe("outdated-dev fixture", () => {
@@ -270,20 +231,7 @@ describe("parse", () => {
                         parse.yarn.outdated(
                             stdoutLogs.get("outdated-dev/outdated.yarn.log")
                         )
-                    ).toEqual([
-                        {
-                            name: "updtr-test-module-1",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.0.0",
-                        },
-                        {
-                            name: "updtr-test-module-2",
-                            current: "1.1.1",
-                            wanted: "1.1.1",
-                            latest: "2.1.1",
-                        },
-                    ]);
+                    ).toMatchSnapshot();
                 });
             });
             testUnexpectedInput(parse.yarn.outdated);

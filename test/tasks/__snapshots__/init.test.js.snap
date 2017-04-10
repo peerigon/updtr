@@ -212,12 +212,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],
@@ -290,12 +290,12 @@ Array [
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "1.0.0",
           "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
-          "rollbackTo": "1.1.1",
+          "rollbackTo": "2.0.0",
           "updateTo": "2.1.1",
         },
       ],

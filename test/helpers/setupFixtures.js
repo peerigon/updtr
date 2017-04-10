@@ -6,11 +6,8 @@ import exec from "../../src/exec/exec";
 
 const mkdir = pify(fs.mkdir);
 const writeFile = pify(fs.writeFile);
+const readFile = pify(fs.readFile);
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
-// mutex network is required because yarn has concurrency issues
-// https://github.com/yarnpkg/yarn/issues/683
-// https://github.com/yarnpkg/website/issues/261
-const createYarnLock = "yarn --mutex network";
 
 export const fixtureSetups = {
     async empty() {
@@ -19,11 +16,9 @@ export const fixtureSetups = {
 
         await runOrSkipIfExists(pathToFixture, async () => {
             await execFixtureCmd(fixture, "npm init -y");
-            await execFixtureCmd(fixture, createYarnLock);
-            await Promise.all([
-                writeStdoutLog(fixture, "npm", "outdated"),
-                writeStdoutLog(fixture, "yarn", "outdated"),
-            ]);
+            await execFixtureCmd(fixture, yarn()); // create lock file
+            await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "yarn", "outdated");
         });
     },
     async "no-outdated"() {
@@ -36,11 +31,10 @@ export const fixtureSetups = {
                 fixture,
                 "npm i updtr-test-module-1 updtr-test-module-2 --save"
             );
-            await execFixtureCmd(fixture, createYarnLock);
-            await Promise.all([
-                writeStdoutLog(fixture, "npm", "outdated"),
-                writeStdoutLog(fixture, "yarn", "outdated"),
-            ]);
+            await execFixtureCmd(fixture, yarn()); // create lock file
+            await writeStdoutLog(fixture, "yarn", "outdated");
+            await addCaretRange(fixture);
+            await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
     async "no-outdated-dev"() {
@@ -53,11 +47,10 @@ export const fixtureSetups = {
                 fixture,
                 "npm i updtr-test-module-1 updtr-test-module-2 --save-dev"
             );
-            await execFixtureCmd(fixture, createYarnLock);
-            await Promise.all([
-                writeStdoutLog(fixture, "npm", "outdated"),
-                writeStdoutLog(fixture, "yarn", "outdated"),
-            ]);
+            await execFixtureCmd(fixture, yarn()); // create lock file
+            await writeStdoutLog(fixture, "yarn", "outdated");
+            await addCaretRange(fixture);
+            await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
     async outdated() {
@@ -66,17 +59,19 @@ export const fixtureSetups = {
 
         await runOrSkipIfExists(pathToFixture, async () => {
             await execFixtureCmd(fixture, "npm init -y");
+            // We install with yarn to get the lock file with the outdated versions
             await execFixtureCmd(
                 fixture,
-                // updtr-test-module-1's minor version is outdated (non-breaking),
-                // updtr-test-module-2's major version is outdated (breaking)
-                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save"
+                // updtr-test-module-1's major version is outdated (breaking)
+                // updtr-test-module-2's minor version is outdated (non-breaking)
+                yarn(
+                    "add",
+                    "updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+                )
             );
-            await execFixtureCmd(fixture, createYarnLock);
-            await Promise.all([
-                writeStdoutLog(fixture, "npm", "outdated"),
-                writeStdoutLog(fixture, "yarn", "outdated"),
-            ]);
+            await writeStdoutLog(fixture, "yarn", "outdated");
+            await addCaretRange(fixture);
+            await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
     async "outdated-dev"() {
@@ -85,20 +80,43 @@ export const fixtureSetups = {
 
         await runOrSkipIfExists(pathToFixture, async () => {
             await execFixtureCmd(fixture, "npm init -y");
+            // We install with yarn to get the lock file with the outdated versions
             await execFixtureCmd(
                 fixture,
-                // updtr-test-module-1's minor version is outdated (non-breaking),
-                // updtr-test-module-2's major version is outdated (breaking)
-                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@1.0.0 --save-dev"
+                // updtr-test-module-1's major version is outdated (breaking)
+                // updtr-test-module-2's minor version is outdated (non-breaking)
+                yarn(
+                    "add",
+                    "updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+                )
             );
-            await execFixtureCmd(fixture, createYarnLock);
-            await Promise.all([
-                writeStdoutLog(fixture, "npm", "outdated"),
-                writeStdoutLog(fixture, "yarn", "outdated"),
-            ]);
+            await writeStdoutLog(fixture, "yarn", "outdated");
+            await addCaretRange(fixture);
+            await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
 };
+
+function yarn(cmd = "", appendix = "") {
+    // mutex network is required because yarn has concurrency issues
+    // https://github.com/yarnpkg/yarn/issues/683
+    // https://github.com/yarnpkg/website/issues/261
+    return `yarn ${ cmd } --mutex network ${ appendix }`;
+}
+
+async function addCaretRange(fixture) {
+    const pathToPackageJson = path.join(
+        pathToFixtures,
+        fixture,
+        "package.json"
+    );
+    const packageJson = await readFile(pathToPackageJson, "utf8");
+
+    await writeFile(
+        pathToPackageJson,
+        packageJson.replace(/("updtr-test-module-\d+": ")(\d+)/g, "$1^$2")
+    );
+}
 
 // Returns true if it actually created a directory
 // Returns false if the directory was already there
