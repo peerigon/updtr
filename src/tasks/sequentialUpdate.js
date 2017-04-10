@@ -1,15 +1,15 @@
-import renderCmds from "./util/renderCmds";
+import { renderUpdate, renderTest, renderRollback } from "./util/renderCmds";
 import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
 
 async function updateSingle(sequence, updateTask) {
-    const cmds = renderCmds(sequence.updtr, [updateTask]);
+    const updtr = sequence.updtr;
     let testResult;
 
-    await sequence.exec("updating", cmds.update);
+    await sequence.exec("updating", renderUpdate(updtr, [updateTask]));
 
     try {
-        testResult = await sequence.exec("testing", cmds.test);
+        testResult = await sequence.exec("testing", renderTest(updtr));
     } catch (err) {
         testResult = err;
     }
@@ -23,7 +23,7 @@ async function updateSingle(sequence, updateTask) {
     });
 
     if (success === false) {
-        await sequence.exec("rollback", cmds.rollback);
+        await sequence.exec("rollback", renderRollback(updtr, [updateTask]));
     }
 
     return createUpdateResult(updateTask, success);

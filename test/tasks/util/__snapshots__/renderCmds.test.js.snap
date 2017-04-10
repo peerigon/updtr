@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renderCmds should return an object with pre-rendered commands 1`] = `
-Object {
-  "rollback": "npm install --registry http://example.com module-1@1.0.0 module-2@1.0.0",
-  "test": "npm test",
-  "update": "npm install --registry http://example.com module-1@2.0.0 module-2@2.0.0",
-}
-`;
+exports[`renderCmds .renderRollback() should return an object with pre-rendered commands 1`] = `"npm install --registry http://example.com module-1@1.0.0 module-2@1.0.0"`;
+
+exports[`renderCmds .renderTest() should return an object with pre-rendered commands 1`] = `"npm test"`;
+
+exports[`renderCmds .renderUpdate() should return an object with pre-rendered commands 1`] = `"npm install --registry http://example.com module-1@2.0.0 module-2@2.0.0"`;

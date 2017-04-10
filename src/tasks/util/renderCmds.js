@@ -1,22 +1,23 @@
-export default function renderCmds(updtr, updateTasks) {
-    const cmds = updtr.cmds;
-    const registry = updtr.config.registry;
+export function renderUpdate(updtr, updateTasks) {
+    return updtr.cmds.install({
+        registry: updtr.config.registry,
+        modules: updateTasks.map(updateTask => ({
+            name: updateTask.name,
+            version: updateTask.updateTo,
+        })),
+    });
+}
 
-    return {
-        update: cmds.install({
-            registry,
-            modules: updateTasks.map(updateTask => ({
-                name: updateTask.name,
-                version: updateTask.updateTo,
-            })),
-        }),
-        test: cmds.test(),
-        rollback: cmds.install({
-            registry,
-            modules: updateTasks.map(updateTask => ({
-                name: updateTask.name,
-                version: updateTask.rollbackTo,
-            })),
-        }),
-    };
+export function renderTest(updtr) {
+    return updtr.cmds.test();
+}
+
+export function renderRollback(updtr, updateTasks) {
+    return updtr.cmds.install({
+        registry: updtr.config.registry,
+        modules: updateTasks.map(updateTask => ({
+            name: updateTask.name,
+            version: updateTask.rollbackTo,
+        })),
+    });
 }
