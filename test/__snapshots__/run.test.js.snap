@@ -57,3 +57,65 @@ Array [
   },
 ]
 `;
+
+exports[`run() when there are outdated dependencies should emit batch-update events for non-breaking updates 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "updateTo": "2.1.1",
+  },
+]
+`;
+
+exports[`run() when there are outdated dependencies should emit sequential-update events for breaking updates 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "updateTo": "2.0.0",
+  },
+]
+`;
+
+exports[`run() when there are outdated dependencies when the batch-update fails should emit an end event of expected shape 1`] = `
+Array [
+  "end",
+  Object {
+    "config": Object {
+      "cwd": "/updtr/test/cwd",
+      "exclude": Array [],
+      "packageManager": "npm",
+      "registry": undefined,
+      "updateTo": "latest",
+    },
+    "results": Array [
+      Object {
+        "name": "updtr-test-module-2",
+        "success": false,
+        "version": "2.0.0",
+      },
+      Object {
+        "name": "updtr-test-module-1",
+        "success": true,
+        "version": "2.0.0",
+      },
+    ],
+  },
+]
+`;
+
+exports[`run() when there are outdated dependencies when the batch-update fails should run the sequential-update for all dependencies 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "updateTo": "2.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "updateTo": "2.0.0",
+  },
+]
+`;

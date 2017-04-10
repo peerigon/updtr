@@ -6,6 +6,7 @@ import {
     npmNoOutdated,
     npmOutdated,
     updateTestPass,
+    updateTestFail,
 } from "./fixtures/execResults";
 
 beforeAll(() => execResultsReady);
@@ -73,8 +74,7 @@ describe("run()", () => {
             expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(
                 eventNames
             );
-            expect(batchUpdateEvent.updateTasks[0].name) ===
-                "updtr-test-module-2";
+            expect(batchUpdateEvent.updateTasks).toMatchSnapshot();
         });
         test("should emit sequential-update events for breaking updates", async () => {
             const updtr = new FakeUpdtr();
@@ -97,8 +97,7 @@ describe("run()", () => {
             expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(
                 eventNames
             );
-            expect(sequentialUpdateEvent.updateTasks[0].name) ===
-                "updtr-test-module-1";
+            expect(sequentialUpdateEvent.updateTasks).toMatchSnapshot();
         });
         test("should emit an end event of expected shape", async () => {
             const updtr = new FakeUpdtr();
@@ -111,6 +110,38 @@ describe("run()", () => {
             await run(updtr);
 
             expect(updtr.emit.args.pop()).toMatchSnapshot();
+        });
+        describe("when the batch-update fails", () => {
+            test("should run the sequential-update for all dependencies", async () => {
+                const updtr = new FakeUpdtr();
+
+                updtr.execResults = npmOutdated.concat(
+                    updateTestFail,
+                    updateTestFail,
+                    updateTestPass
+                );
+
+                await run(updtr);
+
+                const sequentialUpdateEvent = updtr.emit.args.find(
+                    ([eventName]) => eventName === "sequential-update/start"
+                )[1];
+
+                expect(sequentialUpdateEvent.updateTasks).toMatchSnapshot();
+            });
+            test("should emit an end event of expected shape", async () => {
+                const updtr = new FakeUpdtr();
+
+                updtr.execResults = npmOutdated.concat(
+                    updateTestFail,
+                    updateTestFail,
+                    updateTestPass
+                );
+
+                await run(updtr);
+
+                expect(updtr.emit.args.pop()).toMatchSnapshot();
+            });
         });
     });
 });

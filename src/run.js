@@ -11,8 +11,8 @@ export default (async function run(updtr) {
 
     const { updateTasks } = await init(updtr);
     const { breaking, nonBreaking } = splitUpdateTasks(updateTasks);
-    const batchSuccess = batchUpdate(updtr, nonBreaking);
-    const batchUpdateResults = batchSuccess ?
+    const batchSuccess = await batchUpdate(updtr, nonBreaking);
+    const batchUpdateResults = batchSuccess === true ?
         nonBreaking.map(updateTask => createUpdateResult(updateTask, true)) :
         [];
     const sequentialUpdateResults = await sequentialUpdate(
