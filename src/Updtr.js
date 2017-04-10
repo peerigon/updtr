@@ -1,12 +1,12 @@
 import EventEmitter from "events";
 import fs from "fs";
+import path from "path";
+import pify from "pify";
 import { UPDATE_TO_LATEST, UPDATE_TO_WANTED } from "./constants/updateTask";
 import exec from "./exec/exec";
 import { SUPPORTED } from "./constants/packageManagers";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
-import pify from "pify";
-import path from "path";
 
 const readFile = pify(fs.readFile);
 const writeFile = pify(fs.writeFile);
