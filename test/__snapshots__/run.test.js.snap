@@ -44,14 +44,14 @@ Array [
     },
     "results": Array [
       Object {
-        "name": "updtr-test-module-1",
-        "success": true,
-        "version": "2.0.0",
-      },
-      Object {
         "name": "updtr-test-module-2",
         "success": true,
         "version": "2.1.1",
+      },
+      Object {
+        "name": "updtr-test-module-1",
+        "success": true,
+        "version": "2.0.0",
       },
     ],
   },

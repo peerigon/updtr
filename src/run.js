@@ -1,5 +1,8 @@
 import init from "./tasks/init";
 import sequentialUpdate from "./tasks/sequentialUpdate";
+import splitUpdateTasks from "./tasks/util/splitUpdateTasks";
+import batchUpdate from "./tasks/batchUpdate";
+import createUpdateResult from "./tasks/util/createUpdateResult";
 
 export default (async function run(updtr) {
     updtr.emit("start", {
@@ -7,10 +10,18 @@ export default (async function run(updtr) {
     });
 
     const { updateTasks } = await init(updtr);
-    const updateResults = await sequentialUpdate(updtr, updateTasks);
+    const { breaking, nonBreaking } = splitUpdateTasks(updateTasks);
+    const batchSuccess = batchUpdate(updtr, nonBreaking);
+    const batchUpdateResults = batchSuccess ?
+        nonBreaking.map(updateTask => createUpdateResult(updateTask, true)) :
+        [];
+    const sequentialUpdateResults = await sequentialUpdate(
+        updtr,
+        (batchSuccess ? [] : nonBreaking).concat(breaking)
+    );
 
     updtr.emit("end", {
         config: updtr.config,
-        results: updateResults,
+        results: batchUpdateResults.concat(sequentialUpdateResults),
     });
 });

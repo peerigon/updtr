@@ -55,7 +55,28 @@ describe("run()", () => {
         });
     });
     describe("when there are outdated dependencies", () => {
-        test("should emit sequentialUpdate events", async () => {
+        test("should emit batch-update events for non-breaking updates", async () => {
+            const updtr = new FakeUpdtr();
+            const eventNames = ["batch-update/start", "batch-update/end"];
+
+            updtr.execResults = npmOutdated.concat(
+                updateTestPass,
+                updateTestPass
+            );
+
+            await run(updtr);
+
+            const batchUpdateEvent = updtr.emit.args.find(
+                ([eventName]) => eventName === "batch-update/start"
+            )[1];
+
+            expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(
+                eventNames
+            );
+            expect(batchUpdateEvent.updateTasks[0].name) ===
+                "updtr-test-module-2";
+        });
+        test("should emit sequential-update events for breaking updates", async () => {
             const updtr = new FakeUpdtr();
             const eventNames = [
                 "sequential-update/start",
@@ -69,9 +90,15 @@ describe("run()", () => {
 
             await run(updtr);
 
+            const sequentialUpdateEvent = updtr.emit.args.find(
+                ([eventName]) => eventName === "sequential-update/start"
+            )[1];
+
             expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(
                 eventNames
             );
+            expect(sequentialUpdateEvent.updateTasks[0].name) ===
+                "updtr-test-module-1";
         });
         test("should emit an end event of expected shape", async () => {
             const updtr = new FakeUpdtr();
