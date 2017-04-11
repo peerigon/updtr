@@ -1,6 +1,17 @@
 import run from "./run";
-import reporters from "./reporters";
+import Updtr from "./Updtr";
 
-// CommonJS exports because this is our final module export
-exports.run = run;
-exports.reporters = reporters;
+function start(config) {
+    const updtr = new Updtr(config);
+    const reporter = config.reporter;
+
+    if (reporter !== undefined) {
+        reporter(updtr);
+    }
+
+    return run(updtr);
+}
+
+// For CommonJS compatibility
+module.exports = start;
+export default start;
