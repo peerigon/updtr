@@ -9,6 +9,7 @@ function start() {
     const cwd = process.cwd();
     const pathToYarnLock = path.join(cwd, "yarn.lock");
     const config = { ...argv };
+    const reporterConfig = { testStdout: argv.testStdout };
     const reporter = reporters[argv.reporter];
 
     config.cwd = cwd;
@@ -18,7 +19,7 @@ function start() {
 
     const updtr = create(config);
 
-    reporter(updtr);
+    reporter(updtr, reporterConfig);
     run(updtr);
 }
 

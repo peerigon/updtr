@@ -8,7 +8,6 @@ Object {
   "registry": undefined,
   "saveExact": false,
   "test": undefined,
-  "testStdout": false,
   "use": "npm",
 }
 `;

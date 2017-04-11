@@ -11,7 +11,6 @@ Array [
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
-      "testStdout": false,
       "use": "npm",
     },
   },
@@ -29,7 +28,6 @@ Array [
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
-      "testStdout": false,
       "use": "npm",
     },
     "results": Array [
@@ -59,7 +57,6 @@ Array [
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
-      "testStdout": false,
       "use": "npm",
     },
     "results": Array [],
@@ -78,7 +75,6 @@ Array [
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
-      "testStdout": false,
       "use": "npm",
     },
     "results": Array [
@@ -108,7 +104,6 @@ Array [
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
-      "testStdout": false,
       "use": "npm",
     },
     "results": Array [
@@ -138,7 +133,6 @@ Array [
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
-      "testStdout": false,
       "use": "npm",
     },
     "results": Array [

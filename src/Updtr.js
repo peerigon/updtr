@@ -53,7 +53,6 @@ export default class Updtr extends EventEmitter {
         const exclude = Array.isArray(config.exclude) === true ?
             config.exclude :
             [];
-        const testStdout = Boolean(config.testStdout);
         const saveExact = Boolean(config.saveExact);
 
         checkCwd(cwd);
@@ -67,7 +66,6 @@ export default class Updtr extends EventEmitter {
             test: config.test,
             registry,
             nonBreaking,
-            testStdout,
             saveExact,
         };
         this.cmds = cmds[packageManager];
