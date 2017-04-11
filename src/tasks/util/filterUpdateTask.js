@@ -7,6 +7,8 @@ import {
     EXOTIC,
 } from "../../../src/constants/filterReasons";
 
+// We use an empty string as false flag so that our test functions do always return a string.
+// This way they can be optimized by the compiler.
 const FALSE = "";
 const prePattern = /^pre/;
 const tests = [
