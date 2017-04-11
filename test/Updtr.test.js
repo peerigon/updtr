@@ -32,10 +32,7 @@ describe("new Updtr()", () => {
         });
         describe(".nonBreaking", () => {
             test("should be true if the nonBreaking flag is set", () => {
-                const config = { ...baseConfig };
-
-                config.nonBreaking = true;
-
+                const config = { ...baseConfig, nonBreaking: true };
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("nonBreaking", true);
@@ -43,10 +40,7 @@ describe("new Updtr()", () => {
         });
         describe(".exclude", () => {
             test("should match the given exclude array", () => {
-                const config = { ...baseConfig };
-
-                config.exclude = ["a", "b", "c"];
-
+                const config = { ...baseConfig, exclude: ["a", "b", "c"] };
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("exclude", ["a", "b", "c"]);
@@ -54,10 +48,10 @@ describe("new Updtr()", () => {
         });
         describe(".registry", () => {
             test("should be set if a custom registry was given", () => {
-                const config = { ...baseConfig };
-
-                config.registry = "http://example.com";
-
+                const config = {
+                    ...baseConfig,
+                    registry: "http://example.com",
+                };
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty(
@@ -68,13 +62,23 @@ describe("new Updtr()", () => {
         });
         describe(".use", () => {
             test("should be 'yarn' if specified", () => {
-                const config = { ...baseConfig };
-
-                config.use = "yarn";
-
+                const config = { ...baseConfig, use: "yarn" };
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("use", "yarn");
+            });
+        });
+    });
+    describe(".cmds", () => {
+        describe(".test()", () => {
+            describe("when a custom test command was given", () => {
+                test("should return the custom test command", () => {
+                    const test = "custom test command";
+                    const config = { ...baseConfig, test };
+                    const updtr = new Updtr(config);
+
+                    expect(updtr.cmds.test()).toBe(test);
+                });
             });
         });
     });

@@ -2,11 +2,7 @@ import EventEmitter from "events";
 import fs from "fs";
 import path from "path";
 import pify from "pify";
-import {
-    UPDATE_TO_LATEST,
-    UPDATE_TO_WANTED,
-    SUPPORTED_PACKAGE_MANAGERS,
-} from "./constants/config";
+import { SUPPORTED_PACKAGE_MANAGERS } from "./constants/config";
 import exec from "./exec/exec";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
@@ -76,6 +72,13 @@ export default class Updtr extends EventEmitter {
         };
         this.cmds = cmds[packageManager];
         this.parse = parse[packageManager];
+
+        if (typeof config.test === "string") {
+            this.cmds = {
+                ...this.cmds,
+                test: () => config.test,
+            };
+        }
     }
     exec(cmd) {
         return exec(this.config.cwd, cmd);
