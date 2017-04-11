@@ -2,7 +2,7 @@ import semver from "semver";
 import {
     GIT,
     UNSTABLE,
-    NOT_OUTDATED,
+    NOT_DESIRED,
     EXCLUDED,
     EXOTIC,
 } from "../../../src/constants/filterReasons";
@@ -21,11 +21,10 @@ const tests = [
             EXCLUDED :
             FALSE;
     },
-    function isNotOutdated(updateTask) {
-        // In rare cases (reasons unknown), the installed version is not lower than the version we are about to updateTo
-        // This is the last safe guard against updating to "wrong" versions
-        return semver.lt(updateTask.rollbackTo, updateTask.updateTo) === false ?
-            NOT_OUTDATED :
+    function isNotDesired(updateTask) {
+        // In case the nonBreaking flag was set, updateTo might be the same as rollbackTo
+        return semver.gt(updateTask.updateTo, updateTask.rollbackTo) === false ?
+            NOT_DESIRED :
             FALSE;
     },
     function isUnstable(updateTask) {
