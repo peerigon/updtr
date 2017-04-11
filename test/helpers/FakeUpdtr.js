@@ -10,11 +10,11 @@ export default class FakeUpdtr extends Updtr {
         this.readFile = sinon.stub();
         this.writeFile = sinon.stub();
         this.emit = sinon.stub();
-        this.exec = sinon.stub();
+        this._exec = sinon.stub();
     }
     set execResults(execResults) {
         execResults.forEach((execResult, index) => {
-            const call = this.exec.onCall(index);
+            const call = this._exec.onCall(index);
 
             if (execResult instanceof Error) {
                 call.rejects(execResult);
@@ -22,6 +22,15 @@ export default class FakeUpdtr extends Updtr {
                 call.resolves(execResult);
             }
         });
+    }
+    async exec(...args) {
+        const result = await this._exec(...args);
+
+        if (result === undefined) {
+            throw new Error("Not enough execResults for FakeUpdtr");
+        }
+
+        return result;
     }
 }
 
