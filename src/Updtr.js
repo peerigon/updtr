@@ -29,7 +29,7 @@ function checkPackagerManager(packageManager) {
 }
 
 function checkForYarnWithCustomReg(packageManager, registry) {
-    if (packageManager === "yarn" && registry) {
+    if (packageManager === "yarn" && registry !== undefined) {
         throw new Error(
             "Cannot create updtr instance: yarn does not support custom registries yet. Please use a .npmrc file to achieve this"
         );

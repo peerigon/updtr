@@ -1,17 +1,16 @@
-import run from "../src/run";
-import reporters from "../src/reporters";
-
 const index = require("../src");
 
 describe("index", () => {
-    describe(".run", () => {
-        test("should be the run function", () => {
-            expect(index).toHaveProperty("run", run);
+    describe(".create", () => {
+        test("should be a function", () => {
+            expect(typeof index.create).toBe("function");
         });
     });
-    describe(".reporters", () => {
-        test("should be the reporters object", () => {
-            expect(index).toHaveProperty("reporters", reporters);
+    describe(".run", () => {
+        test("should be a function", () => {
+            expect(typeof index.run).toBe("function");
         });
     });
 });
+
+export default {};
