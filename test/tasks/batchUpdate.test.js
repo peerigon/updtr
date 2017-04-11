@@ -6,8 +6,9 @@ import parse from "../../src/exec/parse";
 import {
     ready as execResultsReady,
     execError,
-    updateTestPass,
-    updateTestFail,
+    update,
+    testPass,
+    testFail,
     errorExecUpdate,
     errorExecRollback,
 } from "../fixtures/execResults";
@@ -49,7 +50,7 @@ describe("batchUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestPass.concat(updateTestPass);
+                    updtr.execResults = update.concat(testPass);
 
                     const success = await batchUpdate(updtr, updateTasks);
 
@@ -61,7 +62,7 @@ describe("batchUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestFail;
+                    updtr.execResults = update.concat(testFail);
 
                     const success = await batchUpdate(updtr, updateTasks);
 
@@ -79,7 +80,7 @@ describe("batchUpdate()", () => {
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestPass.concat(updateTestPass);
+                    updtr.execResults = update.concat(testPass);
 
                     const success = await batchUpdate(updtr, updateTasks);
 
@@ -93,7 +94,7 @@ describe("batchUpdate()", () => {
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestFail;
+                    updtr.execResults = update.concat(testFail);
 
                     const success = await batchUpdate(updtr, updateTasks);
 

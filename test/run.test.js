@@ -6,8 +6,9 @@ import ExecError from "./helpers/ExecError";
 import {
     ready as execResultsReady,
     npmNoOutdated,
-    updateTestPass,
-    updateTestFail,
+    update,
+    testPass,
+    testFail,
 } from "./fixtures/execResults";
 
 function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
@@ -98,7 +99,8 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
-                updateTestPass
+                update,
+                testPass
             );
 
             await run(updtr);
@@ -121,7 +123,8 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
-                updateTestPass
+                update,
+                testPass
             );
 
             await run(updtr);
@@ -134,8 +137,10 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ breaking: 2 }).concat(
-                updateTestPass,
-                updateTestFail
+                update,
+                testPass,
+                update,
+                testFail
             );
 
             await run(updtr);
@@ -159,8 +164,10 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ breaking: 2 }).concat(
-                updateTestPass,
-                updateTestFail
+                update,
+                testPass,
+                update,
+                testFail
             );
 
             await run(updtr);
@@ -173,7 +180,8 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
-                updateTestPass
+                update,
+                testPass
             );
 
             await run(updtr);
@@ -197,7 +205,8 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
-                updateTestPass
+                update,
+                testPass
             );
 
             await run(updtr);
@@ -210,9 +219,11 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
-                updateTestFail,
-                updateTestFail,
-                updateTestPass
+                update,
+                testFail,
+                update,
+                testFail,
+                testPass
             );
 
             await run(updtr);
@@ -239,9 +250,11 @@ describe("run()", () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
-                updateTestFail,
-                updateTestFail,
-                updateTestPass
+                update,
+                testFail,
+                update,
+                testFail,
+                testPass
             );
 
             await run(updtr);

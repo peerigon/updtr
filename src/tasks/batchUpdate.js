@@ -1,5 +1,24 @@
-import { renderUpdate, renderTest, renderRollback } from "./util/renderCmds";
 import Sequence from "./util/Sequence";
+import updateTo from "./util/updateTo";
+import rollbackTo from "./util/rollbackTo";
+
+function renderUpdate(updtr, updateTask) {
+    return updtr.cmds.install({
+        registry: updtr.config.registry,
+        modules: updateTask.map(updateTo),
+    });
+}
+
+function renderTest(updtr) {
+    return updtr.cmds.test();
+}
+
+function renderRollback(updtr, failedUpdateTasks) {
+    return updtr.cmds.install({
+        registry: updtr.config.registry,
+        modules: failedUpdateTasks.map(rollbackTo),
+    });
+}
 
 async function update(sequence, updateTasks) {
     const updtr = sequence.updtr;

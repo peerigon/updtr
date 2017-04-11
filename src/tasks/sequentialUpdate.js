@@ -1,19 +1,7 @@
 import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
-
-function updateTo(updateTask) {
-    return {
-        name: updateTask.name,
-        version: updateTask.updateTo,
-    };
-}
-
-function rollbackTo(updateTask) {
-    return {
-        name: updateTask.name,
-        version: updateTask.rollbackTo,
-    };
-}
+import updateTo from "./util/updateTo";
+import rollbackTo from "./util/rollbackTo";
 
 function renderUpdate(updtr, updateTask) {
     return updtr.cmds.install({

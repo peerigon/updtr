@@ -11,6 +11,7 @@ export default class FakeUpdtr extends Updtr {
         this.writeFile = sinon.stub();
         this.emit = sinon.stub();
         this._exec = sinon.stub();
+        this.exec.args = this._exec.args;
     }
     set execResults(execResults) {
         execResults.forEach((execResult, index) => {
