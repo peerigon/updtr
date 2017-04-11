@@ -26,6 +26,9 @@ export default (async function init(updtr) {
     try {
         stdout = (await sequence.exec("collect", outdatedCmd)).stdout;
     } catch (err) {
+        // npm exits with zero code 1 when there are outdated dependencies
+        // We don't check for the package manager here because yarn might change their
+        // behavior in the future to be npm-compatible.
         if (err.code > 1) {
             throw err;
         }
