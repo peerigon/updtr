@@ -10,8 +10,7 @@ function getUpdateTasksFromStdout(updtr, outdatedCmd, stdout) {
 
     return updtr.parse
         .outdated(stdout, outdatedCmd)
-        .map(outdated => createUpdateTask(outdated, updtr.config))
-        .filter(updateTask => filterUpdateTask(updateTask, updtr.config));
+        .map(outdated => createUpdateTask(outdated, updtr.config));
 }
 
 export default (async function init(updtr) {
@@ -34,13 +33,32 @@ export default (async function init(updtr) {
         stdout = err.stdout;
     }
 
-    const updateTasks = getUpdateTasksFromStdout(
+    const allUpdateTasks = getUpdateTasksFromStdout(
         updtr,
         outdatedCmd,
         stdout.trim()
     );
+    const filterResults = allUpdateTasks.map(updateTask =>
+        filterUpdateTask(updateTask, updtr.config));
     const result = {
-        updateTasks,
+        updateTasks: allUpdateTasks.filter(
+            (updateTask, index) => filterResults[index] === null
+        ),
+        excluded: allUpdateTasks.reduce(
+            (excluded, updateTask, index) => {
+                const reason = filterResults[index];
+
+                if (reason === null) {
+                    return excluded;
+                }
+
+                return excluded.concat({
+                    ...updateTask,
+                    reason,
+                });
+            },
+            []
+        ),
     };
 
     sequence.end(result);

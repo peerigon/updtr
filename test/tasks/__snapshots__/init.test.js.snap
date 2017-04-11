@@ -75,6 +75,20 @@ Array [
         "registry": undefined,
         "updateTo": "latest",
       },
+      "excluded": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "reason": "excluded",
+          "rollbackTo": "1.0.0",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "reason": "excluded",
+          "rollbackTo": "2.0.0",
+          "updateTo": "2.1.1",
+        },
+      ],
       "updateTasks": Array [],
     },
   ],
@@ -142,6 +156,7 @@ Array [
         "registry": undefined,
         "updateTo": "latest",
       },
+      "excluded": Array [],
       "updateTasks": Array [],
     },
   ],
@@ -209,6 +224,7 @@ Array [
         "registry": undefined,
         "updateTo": "latest",
       },
+      "excluded": Array [],
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
@@ -287,6 +303,7 @@ Array [
         "registry": undefined,
         "updateTo": "latest",
       },
+      "excluded": Array [],
       "updateTasks": Array [
         Object {
           "name": "updtr-test-module-1",
