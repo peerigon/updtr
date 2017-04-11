@@ -1,5 +1,6 @@
 import run from "../src/run";
 import reporters from "../src/reporters";
+
 const index = require("../src");
 
 describe("index", () => {
