@@ -4,7 +4,7 @@ import { YARN } from "../../src/constants/config";
 
 const projectPath = path.resolve(__dirname, "..", "..");
 const pathToBabelNode = require.resolve(".bin/babel-node");
-const pathToRunBin = require.resolve("../helpers/runBin");
+const pathToRunBin = require.resolve("../helpers/runBinMock");
 
 async function execBin({ cwd = __dirname, args = [] } = {}) {
     const execResult = await exec(
