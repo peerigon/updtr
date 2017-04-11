@@ -6,8 +6,9 @@ import parse from "../../src/exec/parse";
 import {
     ready as execResultsReady,
     execError,
-    updateTestPass,
-    updateTestFail,
+    update,
+    testPass,
+    testFail,
     errorExecUpdate,
     errorExecRollback,
 } from "../fixtures/execResults";
@@ -49,7 +50,11 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestPass.concat(updateTestPass);
+                    updtr.execResults = update.concat(
+                        testPass,
+                        update,
+                        testPass
+                    );
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -73,7 +78,7 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestFail.concat(updateTestPass);
+                    updtr.execResults = update.concat(testFail, testPass);
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -103,7 +108,11 @@ describe("sequentialUpdate()", () => {
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestPass.concat(updateTestPass);
+                    updtr.execResults = update.concat(
+                        testPass,
+                        update,
+                        testPass
+                    );
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -129,7 +138,7 @@ describe("sequentialUpdate()", () => {
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = updateTestFail.concat(updateTestPass);
+                    updtr.execResults = update.concat(testFail, testPass);
 
                     const updateResults = await sequentialUpdate(
                         updtr,

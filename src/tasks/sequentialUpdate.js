@@ -1,32 +1,42 @@
-import { renderUpdate, renderTest, renderRollback } from "./util/renderCmds";
 import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
 
-async function updateSingle(sequence, updateTask) {
-    const updtr = sequence.updtr;
-    let testResult;
+function updateTo(updateTask) {
+    return {
+        name: updateTask.name,
+        version: updateTask.updateTo,
+    };
+}
 
-    await sequence.exec("updating", renderUpdate(updtr, [updateTask]));
+function rollbackTo(updateTask) {
+    return {
+        name: updateTask.name,
+        version: updateTask.rollbackTo,
+    };
+}
 
-    try {
-        testResult = await sequence.exec("testing", renderTest(updtr));
-    } catch (err) {
-        testResult = err;
-    }
-
-    const success = testResult instanceof Error === false;
-
-    sequence.baseEvent.success = success;
-
-    sequence.emit("test-result", {
-        stdout: testResult.stdout,
+function renderUpdate(updtr, updateTask) {
+    return updtr.cmds.install({
+        registry: updtr.config.registry,
+        modules: [updateTo(updateTask)],
     });
+}
 
-    if (success === false) {
-        await sequence.exec("rollback", renderRollback(updtr, [updateTask]));
+function renderTest(updtr) {
+    return updtr.cmds.test();
+}
+
+function renderRollback(updtr, failedUpdateTask, nextUpdateTask) {
+    const modules = [rollbackTo(failedUpdateTask)];
+
+    if (nextUpdateTask !== undefined) {
+        modules.push(updateTo(nextUpdateTask));
     }
 
-    return createUpdateResult(updateTask, success);
+    return updtr.cmds.install({
+        registry: updtr.config.registry,
+        modules,
+    });
 }
 
 export default (async function sequentialUpdate(updtr, updateTasks) {
@@ -51,10 +61,34 @@ export default (async function sequentialUpdate(updtr, updateTasks) {
             },
             ...updateTask,
         };
-        // This must be sequential, thus await inside the loop is ok
-        updateResults.push(
-            await updateSingle(sequence, updateTask) // eslint-disable-line no-await-in-loop
-        );
+        const updtr = sequence.updtr;
+        let testResult;
+
+        if (i === 0 || updateResults[i - 1].success === true) {
+            await sequence.exec("updating", renderUpdate(updtr, updateTask));
+        }
+
+        try {
+            testResult = await sequence.exec("testing", renderTest(updtr));
+        } catch (err) {
+            testResult = err;
+        }
+
+        const success = testResult instanceof Error === false;
+
+        sequence.baseEvent.success = success;
+        sequence.emit("test-result", {
+            stdout: testResult.stdout,
+        });
+
+        if (success === false) {
+            await sequence.exec(
+                "rollback",
+                renderRollback(updtr, updateTask, updateTasks[i + 1])
+            );
+        }
+
+        updateResults.push(createUpdateResult(updateTask, success));
     }
 
     sequence.baseEvent = {

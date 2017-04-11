@@ -62,7 +62,7 @@ Array [
   Array [
     "sequential-update/rollback",
     Object {
-      "cmd": "npm install updtr-test-module-1@1.0.0",
+      "cmd": "npm install updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.0.0",
       "success": false,
@@ -71,19 +71,6 @@ Array [
         "total": 2,
       },
       "updateTo": "2.0.0",
-    },
-  ],
-  Array [
-    "sequential-update/updating",
-    Object {
-      "cmd": "npm install updtr-test-module-2@2.1.1",
-      "name": "updtr-test-module-2",
-      "rollbackTo": "2.0.0",
-      "updateTasks": Object {
-        "current": 2,
-        "total": 2,
-      },
-      "updateTo": "2.1.1",
     },
   ],
   Array [
@@ -195,7 +182,7 @@ Array [
   Array [
     "sequential-update/rollback",
     Object {
-      "cmd": "yarn add updtr-test-module-1@1.0.0",
+      "cmd": "yarn add updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.0.0",
       "success": false,
@@ -204,19 +191,6 @@ Array [
         "total": 2,
       },
       "updateTo": "2.0.0",
-    },
-  ],
-  Array [
-    "sequential-update/updating",
-    Object {
-      "cmd": "yarn add updtr-test-module-2@2.1.1",
-      "name": "updtr-test-module-2",
-      "rollbackTo": "2.0.0",
-      "updateTasks": Object {
-        "current": 2,
-        "total": 2,
-      },
-      "updateTo": "2.1.1",
     },
   ],
   Array [
@@ -275,10 +249,7 @@ Array [
     "npm test",
   ],
   Array [
-    "npm install updtr-test-module-1@1.0.0",
-  ],
-  Array [
-    "npm install updtr-test-module-2@2.1.1",
+    "npm install updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
   ],
   Array [
     "npm test",
@@ -295,10 +266,7 @@ Array [
     "yarn test",
   ],
   Array [
-    "yarn add updtr-test-module-1@1.0.0",
-  ],
-  Array [
-    "yarn add updtr-test-module-2@2.1.1",
+    "yarn add updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
   ],
   Array [
     "yarn test",
