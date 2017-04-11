@@ -27,57 +27,70 @@ function renderRollback(updtr, failedUpdateTask, nextUpdateTask) {
     });
 }
 
+async function runUpdateTask(sequence, updateTasks, i, previous) {
+    const updateResults = await previous;
+    const updateTask = updateTasks[i];
+    // If the previous update was a failure, we don't need to update now because
+    // during the rollback, the next update is also installed in parallel
+    const updateNecessary = i === 0 || updateResults[i - 1].success === true;
+
+    sequence.baseEvent = {
+        updateTasks: {
+            current: i + 1,
+            total: updateTasks.length,
+        },
+        ...updateTask,
+    };
+    const updtr = sequence.updtr;
+    let testResult;
+
+    if (updateNecessary === true) {
+        await sequence.exec("updating", renderUpdate(updtr, updateTask));
+    }
+
+    try {
+        testResult = await sequence.exec("testing", renderTest(updtr));
+    } catch (err) {
+        testResult = err;
+    }
+
+    const success = testResult instanceof Error === false;
+
+    sequence.baseEvent.success = success;
+    sequence.emit("test-result", {
+        stdout: testResult.stdout,
+    });
+
+    if (success === false) {
+        const nextUpdateTask = i + 1 < updateTasks.length ?
+            updateTasks[i + 1] :
+            undefined;
+
+        await sequence.exec(
+            "rollback",
+            renderRollback(updtr, updateTask, nextUpdateTask)
+        );
+    }
+
+    return updateResults.concat(createUpdateResult(updateTask, success));
+}
+
 export default (async function sequentialUpdate(updtr, updateTasks) {
     const sequence = new Sequence("sequential-update", updtr, {
         updateTasks,
     });
-    const updateResults = [];
 
     if (updateTasks.length === 0) {
-        return updateResults;
+        return [];
     }
 
     sequence.start();
 
-    for (let i = 0; i < updateTasks.length; i++) {
-        const updateTask = updateTasks[i];
-
-        sequence.baseEvent = {
-            updateTasks: {
-                current: i + 1,
-                total: updateTasks.length,
-            },
-            ...updateTask,
-        };
-        const updtr = sequence.updtr;
-        let testResult;
-
-        if (i === 0 || updateResults[i - 1].success === true) {
-            await sequence.exec("updating", renderUpdate(updtr, updateTask));
-        }
-
-        try {
-            testResult = await sequence.exec("testing", renderTest(updtr));
-        } catch (err) {
-            testResult = err;
-        }
-
-        const success = testResult instanceof Error === false;
-
-        sequence.baseEvent.success = success;
-        sequence.emit("test-result", {
-            stdout: testResult.stdout,
-        });
-
-        if (success === false) {
-            await sequence.exec(
-                "rollback",
-                renderRollback(updtr, updateTask, updateTasks[i + 1])
-            );
-        }
-
-        updateResults.push(createUpdateResult(updateTask, success));
-    }
+    const updateResults = await updateTasks.reduce(
+        (updateResults, updateTask, i) =>
+            runUpdateTask(sequence, updateTasks, i, updateResults),
+        []
+    );
 
     sequence.baseEvent = {
         updateResults,

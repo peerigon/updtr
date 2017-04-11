@@ -25,7 +25,6 @@ async function update(sequence, updateTasks) {
     let testResult;
 
     await sequence.exec("updating", renderUpdate(updtr, updateTasks));
-
     try {
         testResult = await sequence.exec("testing", renderTest(updtr));
     } catch (err) {
@@ -35,11 +34,9 @@ async function update(sequence, updateTasks) {
     const success = testResult instanceof Error === false;
 
     sequence.baseEvent.success = success;
-
     sequence.emit("test-result", {
         stdout: testResult.stdout,
     });
-
     if (success === false) {
         await sequence.exec("rollback", renderRollback(updtr, updateTasks));
     }
@@ -63,7 +60,6 @@ export default (async function batchUpdate(updtr, updateTasks) {
     sequence.baseEvent = {
         success,
     };
-
     sequence.end();
 
     return success;
