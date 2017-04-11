@@ -43,7 +43,8 @@ export default (async function updatePackageJson(updtr, updateResults) {
 
     const newPackageJson = createUpdatedPackageJson(
         oldPackageJson,
-        updateResults
+        updateResults,
+        updtr.config
     );
 
     await enhanceErrorMessage(

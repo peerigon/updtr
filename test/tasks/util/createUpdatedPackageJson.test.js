@@ -7,6 +7,7 @@ import {
     testModule1Fail,
     testModule2Fail,
 } from "../../fixtures/updateResults";
+import FakeUpdtr from "../../helpers/FakeUpdtr";
 
 // Freezes the essential parts of the package.json to detect changes on the input object
 function cloneAndFreeze(packageJson) {
@@ -24,7 +25,8 @@ describe("createUpdatedPackageJson()", () => {
         const updateResults = [];
         const newPackageJson = createUpdatedPackageJson(
             Object.freeze({}),
-            updateResults
+            updateResults,
+            FakeUpdtr.baseConfig
         );
 
         expect(newPackageJson).toEqual({});
@@ -33,7 +35,8 @@ describe("createUpdatedPackageJson()", () => {
         const updateResults = [testModule1Fail, testModule2Fail];
         const newPackageJson = createUpdatedPackageJson(
             Object.freeze({}),
-            updateResults
+            updateResults,
+            FakeUpdtr.baseConfig
         );
 
         expect(newPackageJson).toEqual({});
@@ -50,10 +53,29 @@ describe("createUpdatedPackageJson()", () => {
                         "updtr-test-module-2": "1.0.0",
                     },
                 }),
-                updateResults
+                updateResults,
+                FakeUpdtr.baseConfig
             );
 
             expect(newPackageJson).toMatchSnapshot();
+        });
+        describe("when the saveExact flag is set on the updtr config", () => {
+            it("should save the exact version", () => {
+                const updateResults = [testModule1Success];
+                const newPackageJson = createUpdatedPackageJson(
+                    cloneAndFreeze({
+                        dependencies: {
+                            "updtr-test-module-1": "^1.0.0",
+                        },
+                    }),
+                    updateResults,
+                    { ...FakeUpdtr.baseConfig, saveExact: true }
+                );
+
+                expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
+                    testModule1Success.version
+                );
+            });
         });
     });
     describe("devDependencies", () => {
@@ -68,10 +90,29 @@ describe("createUpdatedPackageJson()", () => {
                         "updtr-test-module-2": "1.0.0",
                     },
                 }),
-                updateResults
+                updateResults,
+                FakeUpdtr.baseConfig
             );
 
             expect(newPackageJson).toMatchSnapshot();
+        });
+        describe("when the saveExact flag is set on the updtr config", () => {
+            it("should save the exact version", () => {
+                const updateResults = [testModule1Success];
+                const newPackageJson = createUpdatedPackageJson(
+                    cloneAndFreeze({
+                        devDependencies: {
+                            "updtr-test-module-1": "^1.0.0",
+                        },
+                    }),
+                    updateResults,
+                    { ...FakeUpdtr.baseConfig, saveExact: true }
+                );
+
+                expect(
+                    newPackageJson.devDependencies["updtr-test-module-1"]
+                ).toBe(testModule1Success.version);
+            });
         });
     });
     describe("optionalDependencies", () => {
@@ -86,10 +127,29 @@ describe("createUpdatedPackageJson()", () => {
                         "updtr-test-module-2": "1.0.0",
                     },
                 }),
-                updateResults
+                updateResults,
+                FakeUpdtr.baseConfig
             );
 
             expect(newPackageJson).toMatchSnapshot();
+        });
+        describe("when the saveExact flag is set on the updtr config", () => {
+            it("should save the exact version", () => {
+                const updateResults = [testModule1Success];
+                const newPackageJson = createUpdatedPackageJson(
+                    cloneAndFreeze({
+                        optionalDependencies: {
+                            "updtr-test-module-1": "^1.0.0",
+                        },
+                    }),
+                    updateResults,
+                    { ...FakeUpdtr.baseConfig, saveExact: true }
+                );
+
+                expect(
+                    newPackageJson.optionalDependencies["updtr-test-module-1"]
+                ).toBe(testModule1Success.version);
+            });
         });
     });
     // This is usually an error, but we don't care
@@ -108,7 +168,8 @@ describe("createUpdatedPackageJson()", () => {
                         "updtr-test-module-1": "1.x.x",
                     },
                 }),
-                updateResults
+                updateResults,
+                FakeUpdtr.baseConfig
             );
 
             expect(newPackageJson).toMatchSnapshot();
@@ -119,7 +180,8 @@ describe("createUpdatedPackageJson()", () => {
             const updateResults = [testModule1Success, testModule2Success];
             const newPackageJson = createUpdatedPackageJson(
                 Object.freeze({}),
-                updateResults
+                updateResults,
+                FakeUpdtr.baseConfig
             );
 
             expect(newPackageJson).toMatchSnapshot();

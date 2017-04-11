@@ -6,9 +6,20 @@ const dependencyTypes = [
     "optionalDependencies",
 ];
 
+function newVersionRange(updtrConfig, oldVersionRange, update) {
+    if (update === undefined) {
+        return oldVersionRange;
+    } else if (updtrConfig.saveExact === true) {
+        return update.version;
+    }
+
+    return updateVersionRange(oldVersionRange, update.version);
+}
+
 export default function createUpdatedPackageJson(
     oldPackageJson,
-    updateResults
+    updateResults,
+    updtrConfig
 ) {
     const newPackageJson = { ...oldPackageJson };
     const successfulUpdates = updateResults.filter(
@@ -29,9 +40,11 @@ export default function createUpdatedPackageJson(
                 const update = successfulUpdates[updateIndex];
                 const oldVersionRange = dependencies[moduleName];
 
-                newDependencies[moduleName] = update === undefined ?
-                    oldVersionRange :
-                    updateVersionRange(oldVersionRange, update.version);
+                newDependencies[moduleName] = newVersionRange(
+                    updtrConfig,
+                    oldVersionRange,
+                    update
+                );
 
                 dependenciesToSave.splice(updateIndex, 1);
             });
