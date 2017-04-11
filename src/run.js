@@ -33,4 +33,6 @@ export default (async function run(updtr) {
         config: updtr.config,
         results,
     });
+
+    return results;
 });

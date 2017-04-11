@@ -84,14 +84,16 @@ describe("run()", () => {
                 pickEventNames(["sequential-update/start"], updtr.emit.args)
             ).toHaveLength(0);
         });
-        test("should emit an end event of expected shape", async () => {
+        test("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmNoOutdated;
 
-            await run(updtr);
+            const results = await run(updtr);
+            const endEventArgs = updtr.emit.args.pop();
 
-            expect(updtr.emit.args.pop()).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot();
+            expect(results).toBe(endEventArgs[1].results);
         });
     });
     describe("when there is just one non-breaking update", () => {
@@ -119,7 +121,7 @@ describe("run()", () => {
                 "updtr-test-module-0",
             ]);
         });
-        test("should emit an end event of expected shape", async () => {
+        test("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
@@ -127,9 +129,11 @@ describe("run()", () => {
                 testPass
             );
 
-            await run(updtr);
+            const results = await run(updtr);
+            const endEventArgs = updtr.emit.args.pop();
 
-            expect(updtr.emit.args.pop()).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot();
+            expect(results).toBe(endEventArgs[1].results);
         });
     });
     describe("when there are just breaking updates", () => {
@@ -160,7 +164,7 @@ describe("run()", () => {
                 "updtr-test-module-1",
             ]);
         });
-        test("should emit an end event of expected shape", async () => {
+        test("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ breaking: 2 }).concat(
@@ -170,9 +174,11 @@ describe("run()", () => {
                 testFail
             );
 
-            await run(updtr);
+            const results = await run(updtr);
+            const endEventArgs = updtr.emit.args.pop();
 
-            expect(updtr.emit.args.pop()).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot();
+            expect(results).toBe(endEventArgs[1].results);
         });
     });
     describe("when there are two non-breaking updates and the update is ok", () => {
@@ -201,7 +207,7 @@ describe("run()", () => {
             ]);
             expect(sequentialUpdateEvents).toHaveLength(0);
         });
-        test("should emit an end event of expected shape", async () => {
+        test("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
@@ -209,9 +215,11 @@ describe("run()", () => {
                 testPass
             );
 
-            await run(updtr);
+            const results = await run(updtr);
+            const endEventArgs = updtr.emit.args.pop();
 
-            expect(updtr.emit.args.pop()).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot();
+            expect(results).toBe(endEventArgs[1].results);
         });
     });
     describe("when there are two non-breaking updates and the update is not ok", () => {
@@ -246,7 +254,7 @@ describe("run()", () => {
                 "updtr-test-module-1",
             ]);
         });
-        test("should emit an end event of expected shape", async () => {
+        test("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
@@ -257,9 +265,11 @@ describe("run()", () => {
                 testPass
             );
 
-            await run(updtr);
+            const results = await run(updtr);
+            const endEventArgs = updtr.emit.args.pop();
 
-            expect(updtr.emit.args.pop()).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot();
+            expect(results).toBe(endEventArgs[1].results);
         });
     });
 });

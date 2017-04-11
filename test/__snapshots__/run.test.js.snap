@@ -17,7 +17,7 @@ Array [
 ]
 `;
 
-exports[`run() when there are just breaking updates should emit an end event of expected shape 1`] = `
+exports[`run() when there are just breaking updates should emit an end event of expected shape and return the results 1`] = `
 Array [
   "end",
   Object {
@@ -46,7 +46,7 @@ Array [
 ]
 `;
 
-exports[`run() when there are no outdated dependencies should emit an end event of expected shape 1`] = `
+exports[`run() when there are no outdated dependencies should emit an end event of expected shape and return the results 1`] = `
 Array [
   "end",
   Object {
@@ -64,7 +64,7 @@ Array [
 ]
 `;
 
-exports[`run() when there are two non-breaking updates and the update is not ok should emit an end event of expected shape 1`] = `
+exports[`run() when there are two non-breaking updates and the update is not ok should emit an end event of expected shape and return the results 1`] = `
 Array [
   "end",
   Object {
@@ -93,7 +93,7 @@ Array [
 ]
 `;
 
-exports[`run() when there are two non-breaking updates and the update is ok should emit an end event of expected shape 1`] = `
+exports[`run() when there are two non-breaking updates and the update is ok should emit an end event of expected shape and return the results 1`] = `
 Array [
   "end",
   Object {
@@ -122,7 +122,7 @@ Array [
 ]
 `;
 
-exports[`run() when there is just one non-breaking update should emit an end event of expected shape 1`] = `
+exports[`run() when there is just one non-breaking update should emit an end event of expected shape and return the results 1`] = `
 Array [
   "end",
   Object {
