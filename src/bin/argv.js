@@ -34,8 +34,7 @@ export default yargs
         alias: "e",
     })
     .option("test", {
-        describe: "Specify the test command",
-        default: `[${ SUPPORTED_PACKAGE_MANAGERS.join("|") }] test`,
+        describe: "Specify a custom test command",
         alias: "t",
     })
     .option("registry", {

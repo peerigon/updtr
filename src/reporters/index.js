@@ -1,7 +1,5 @@
-"use strict";
-
-module.exports = {
-    default: require("./default.js"),
+export default {
+    chatty: require("./chatty.js"),
     shy: require("./shy.js"),
     simple: require("./simple.js"),
 };

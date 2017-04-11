@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bin when all arguments have been specified should run updtr with the expected config 1`] = `
+Object {
+  "reporter": "simple",
+  "reporterConfig": Object {
+    "testStdout": true,
+  },
+  "updtrConfig": Object {
+    "cwd": "//test/bin",
+    "exclude": Array [
+      "a",
+      "b",
+      "c",
+    ],
+    "nonBreaking": true,
+    "saveExact": true,
+    "test": "jest -b",
+    "use": "yarn",
+  },
+}
+`;
+
+exports[`bin when no arguments have been specified should run updtr with the default config 1`] = `
+Object {
+  "reporter": "chatty",
+  "reporterConfig": Object {
+    "testStdout": false,
+  },
+  "updtrConfig": Object {
+    "cwd": "//test/bin",
+    "exclude": Array [],
+    "nonBreaking": false,
+    "saveExact": false,
+    "use": "npm",
+  },
+}
+`;
