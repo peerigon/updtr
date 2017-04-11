@@ -1,6 +1,6 @@
-"use strict";
+import run from "./run";
+import reporters from "./reporters";
 
-const run = require("./run.js");
-
+// CommonJS exports because this is our final module export
 exports.run = run;
-exports.reporters = require("./reporters");
+exports.reporters = reporters;
