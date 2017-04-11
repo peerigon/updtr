@@ -4,7 +4,6 @@ import fs from "fs";
 import temp from "temp";
 import pify from "pify";
 import path from "path";
-import { UPDATE_TO_WANTED } from "../src/constants/config";
 import Updtr from "../src/Updtr";
 
 const mkdir = pify(temp.mkdir);
@@ -31,18 +30,15 @@ describe("new Updtr()", () => {
 
             expect(updtr.config).toMatchSnapshot();
         });
-        describe(".updateTo", () => {
-            test("should be 'wanted' if the wanted flag is set", () => {
+        describe(".nonBreaking", () => {
+            test("should be true if the nonBreaking flag is set", () => {
                 const config = { ...baseConfig };
 
-                config.wanted = true;
+                config.nonBreaking = true;
 
                 const updtr = new Updtr(config);
 
-                expect(updtr.config).toHaveProperty(
-                    "updateTo",
-                    UPDATE_TO_WANTED
-                );
+                expect(updtr.config).toHaveProperty("nonBreaking", true);
             });
         });
         describe(".exclude", () => {

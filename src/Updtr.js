@@ -51,7 +51,9 @@ export default class Updtr extends EventEmitter {
         const cwd = config.cwd;
         const registry = config.registry;
         const packageManager = config.use === undefined ? "npm" : config.use;
-        const updateTo = config.wanted ? UPDATE_TO_WANTED : UPDATE_TO_LATEST;
+        const nonBreaking = config.nonBreaking === undefined ?
+            false :
+            config.nonBreaking;
         const exclude = Array.isArray(config.exclude) ? config.exclude : [];
 
         checkCwd(cwd);
@@ -60,7 +62,7 @@ export default class Updtr extends EventEmitter {
 
         this.config = {
             cwd,
-            updateTo,
+            nonBreaking,
             exclude,
             registry,
             packageManager,

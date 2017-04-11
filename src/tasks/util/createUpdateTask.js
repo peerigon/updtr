@@ -1,7 +1,7 @@
-export default function createUpdateTask(outdated, { updateTo }) {
+export default function createUpdateTask(outdated, { nonBreaking }) {
     return {
         name: outdated.name,
-        updateTo: outdated[updateTo],
+        updateTo: nonBreaking === true ? outdated.wanted : outdated.latest,
         rollbackTo: outdated.current,
     };
 }

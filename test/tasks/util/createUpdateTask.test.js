@@ -16,11 +16,11 @@ describe("createUpdateTask()", () => {
             createUpdateTask(baseOutdated, baseUpdtrConfig)
         ).toMatchSnapshot();
     });
-    describe("if the 'wanted' flag is set", () => {
+    describe("if the nonBreaking flag is set", () => {
         test("should return a valid update task", () => {
             const updtrConfig = { ...baseUpdtrConfig };
 
-            updtrConfig.updateTo = "wanted";
+            updtrConfig.nonBreaking = true;
 
             expect(
                 createUpdateTask(baseOutdated, updtrConfig)

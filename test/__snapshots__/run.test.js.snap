@@ -7,9 +7,9 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "nonBreaking": false,
       "packageManager": "npm",
       "registry": undefined,
-      "updateTo": "latest",
     },
   },
 ]
@@ -22,9 +22,9 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "nonBreaking": false,
       "packageManager": "npm",
       "registry": undefined,
-      "updateTo": "latest",
     },
     "results": Array [
       Object {
@@ -49,9 +49,9 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "nonBreaking": false,
       "packageManager": "npm",
       "registry": undefined,
-      "updateTo": "latest",
     },
     "results": Array [],
   },
@@ -65,9 +65,9 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "nonBreaking": false,
       "packageManager": "npm",
       "registry": undefined,
-      "updateTo": "latest",
     },
     "results": Array [
       Object {
@@ -92,9 +92,9 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "nonBreaking": false,
       "packageManager": "npm",
       "registry": undefined,
-      "updateTo": "latest",
     },
     "results": Array [
       Object {
@@ -119,9 +119,9 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "nonBreaking": false,
       "packageManager": "npm",
       "registry": undefined,
-      "updateTo": "latest",
     },
     "results": Array [
       Object {
