@@ -5,7 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Current Test",
+            "type": "node",
+            "request": "launch",
+            "name": "Bin",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/babel-node",
+            "program": "${workspaceRoot}/src/bin/index.js"
+        },
+        {
+            "name": "Current test",
             "type": "node",
             "request": "launch",
             "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
