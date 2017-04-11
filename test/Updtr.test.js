@@ -66,7 +66,7 @@ describe("new Updtr()", () => {
                 );
             });
         });
-        describe(".packageManager", () => {
+        describe(".use", () => {
             test("should be 'yarn' if specified", () => {
                 const config = { ...baseConfig };
 
@@ -74,7 +74,7 @@ describe("new Updtr()", () => {
 
                 const updtr = new Updtr(config);
 
-                expect(updtr.config).toHaveProperty("packageManager", "yarn");
+                expect(updtr.config).toHaveProperty("use", "yarn");
             });
         });
     });

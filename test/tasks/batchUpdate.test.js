@@ -16,7 +16,7 @@ import {
 let stdoutLogs;
 
 function createUpdateTasks(updtrConfig) {
-    const packageManager = updtrConfig.packageManager;
+    const packageManager = updtrConfig.use;
     const outdated = parse[packageManager].outdated(
         stdoutLogs.get(`outdated/outdated.${ packageManager }.log`)
     );

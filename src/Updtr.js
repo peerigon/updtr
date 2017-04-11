@@ -54,7 +54,11 @@ export default class Updtr extends EventEmitter {
         const nonBreaking = config.nonBreaking === undefined ?
             false :
             config.nonBreaking;
-        const exclude = Array.isArray(config.exclude) ? config.exclude : [];
+        const exclude = Array.isArray(config.exclude) === true ?
+            config.exclude :
+            [];
+        const testStdout = Boolean(config.testStdout);
+        const saveExact = Boolean(config.saveExact);
 
         checkCwd(cwd);
         checkPackagerManager(packageManager);
@@ -62,10 +66,13 @@ export default class Updtr extends EventEmitter {
 
         this.config = {
             cwd,
-            nonBreaking,
+            use: packageManager,
             exclude,
+            test: config.test,
             registry,
-            packageManager,
+            nonBreaking,
+            testStdout,
+            saveExact,
         };
         this.cmds = cmds[packageManager];
         this.parse = parse[packageManager];

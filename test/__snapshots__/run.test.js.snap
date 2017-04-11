@@ -8,8 +8,11 @@ Array [
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "nonBreaking": false,
-      "packageManager": "npm",
       "registry": undefined,
+      "saveExact": false,
+      "test": undefined,
+      "testStdout": false,
+      "use": "npm",
     },
   },
 ]
@@ -23,8 +26,11 @@ Array [
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "nonBreaking": false,
-      "packageManager": "npm",
       "registry": undefined,
+      "saveExact": false,
+      "test": undefined,
+      "testStdout": false,
+      "use": "npm",
     },
     "results": Array [
       Object {
@@ -50,8 +56,11 @@ Array [
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "nonBreaking": false,
-      "packageManager": "npm",
       "registry": undefined,
+      "saveExact": false,
+      "test": undefined,
+      "testStdout": false,
+      "use": "npm",
     },
     "results": Array [],
   },
@@ -66,8 +75,11 @@ Array [
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "nonBreaking": false,
-      "packageManager": "npm",
       "registry": undefined,
+      "saveExact": false,
+      "test": undefined,
+      "testStdout": false,
+      "use": "npm",
     },
     "results": Array [
       Object {
@@ -93,8 +105,11 @@ Array [
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "nonBreaking": false,
-      "packageManager": "npm",
       "registry": undefined,
+      "saveExact": false,
+      "test": undefined,
+      "testStdout": false,
+      "use": "npm",
     },
     "results": Array [
       Object {
@@ -120,8 +135,11 @@ Array [
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
       "nonBreaking": false,
-      "packageManager": "npm",
       "registry": undefined,
+      "saveExact": false,
+      "test": undefined,
+      "testStdout": false,
+      "use": "npm",
     },
     "results": Array [
       Object {

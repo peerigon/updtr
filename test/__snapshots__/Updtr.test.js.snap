@@ -5,7 +5,10 @@ Object {
   "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
   "exclude": Array [],
   "nonBreaking": false,
-  "packageManager": "npm",
   "registry": undefined,
+  "saveExact": false,
+  "test": undefined,
+  "testStdout": false,
+  "use": "npm",
 }
 `;
