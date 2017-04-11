@@ -2,9 +2,12 @@ import EventEmitter from "events";
 import fs from "fs";
 import path from "path";
 import pify from "pify";
-import { UPDATE_TO_LATEST, UPDATE_TO_WANTED } from "./constants/updateTask";
+import {
+    UPDATE_TO_LATEST,
+    UPDATE_TO_WANTED,
+    SUPPORTED_PACKAGE_MANAGERS,
+} from "./constants/config";
 import exec from "./exec/exec";
-import { SUPPORTED } from "./constants/packageManagers";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
 
@@ -18,7 +21,7 @@ function checkCwd(cwd) {
 }
 
 function checkPackagerManager(packageManager) {
-    if (SUPPORTED.indexOf(packageManager) === -1) {
+    if (SUPPORTED_PACKAGE_MANAGERS.indexOf(packageManager) === -1) {
         throw new Error(
             `Cannot create updtr instance: unsupported packager manager ${ packageManager }`
         );

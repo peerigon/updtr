@@ -4,7 +4,7 @@ import fs from "fs";
 import temp from "temp";
 import pify from "pify";
 import path from "path";
-import { UPDATE_TO_WANTED } from "../src/constants/updateTask";
+import { UPDATE_TO_WANTED } from "../src/constants/config";
 import Updtr from "../src/Updtr";
 
 const mkdir = pify(temp.mkdir);
