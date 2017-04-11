@@ -26,4 +26,16 @@ describe("updateVersionRange()", () => {
             expect(comparisons).toMatchSnapshot();
         });
     });
+    describe("unexpected input", () => {
+        describe("when the new version is a parseable range", () => {
+            test("should just return the range", () => {
+                expect(updateVersionRange("^1.0.0", "^5.0.0")).toBe("^5.0.0");
+            });
+        });
+        describe("when the new version is not parseable", () => {
+            test("should just return the new range", () => {
+                expect(updateVersionRange("^1.0.0", "5.x")).toBe("5.x");
+            });
+        });
+    });
 });

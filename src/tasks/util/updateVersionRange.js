@@ -46,6 +46,10 @@ function tryVersionRangeUpdate(parsedOldRange, parsedNewVersion) {
         parsedNewVersion.release;
 }
 
+function isExpectedNewVersion(parsedNewVersion) {
+    return parsedNewVersion !== null && parsedNewVersion.operator === "";
+}
+
 function fallbackRange(newVersion) {
     return "^" + newVersion;
 }
@@ -71,16 +75,18 @@ export default function updateVersionRange(oldRange, newVersion) {
 
         const parsedNewVersion = parse(newVersion);
 
-        if (parsedNewVersion !== null) {
-            const newVersionRange = tryVersionRangeUpdate(
-                parsedOldRange,
-                parsedNewVersion
-            );
+        if (isExpectedNewVersion(parsedNewVersion) === false) {
+            return newVersion;
+        }
 
-            // All this is kind of error prone so let's do a sanity check if everything's ok
-            if (semver.satisfies(newVersion, newVersionRange) === true) {
-                return newVersionRange;
-            }
+        const newVersionRange = tryVersionRangeUpdate(
+            parsedOldRange,
+            parsedNewVersion
+        );
+
+        // All this is kind of error prone so let's do a sanity check if everything's ok
+        if (semver.satisfies(newVersion, newVersionRange) === true) {
+            return newVersionRange;
         }
     }
 

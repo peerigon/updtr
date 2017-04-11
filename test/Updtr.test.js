@@ -5,6 +5,7 @@ import temp from "temp";
 import pify from "pify";
 import path from "path";
 import Updtr from "../src/Updtr";
+import { YARN } from "../src/constants/config";
 
 const mkdir = pify(temp.mkdir);
 const cleanup = pify(temp.cleanup);
@@ -62,10 +63,10 @@ describe("new Updtr()", () => {
         });
         describe(".use", () => {
             test("should be 'yarn' if specified", () => {
-                const config = { ...baseConfig, use: "yarn" };
+                const config = { ...baseConfig, use: YARN };
                 const updtr = new Updtr(config);
 
-                expect(updtr.config).toHaveProperty("use", "yarn");
+                expect(updtr.config).toHaveProperty("use", YARN);
             });
         });
     });
@@ -176,11 +177,19 @@ describe("new Updtr()", () => {
                 "Cannot create updtr instance: cwd is missing"
             );
         });
-        test("should throw if packageManager is yarn and there is a custom registry set", () => {
-            const config = { ...baseConfig };
+        test("should throw if the package manager is not supported", () => {
+            const config = { ...baseConfig, use: "bower" };
 
-            config.registry = "http://example.com";
-            config.use = "yarn";
+            expect(() => new Updtr(config)).toThrow(
+                "Cannot create updtr instance: unsupported packager manager bower"
+            );
+        });
+        test("should throw if packageManager is yarn and there is a custom registry set", () => {
+            const config = {
+                ...baseConfig,
+                registry: "http://example.com",
+                use: YARN,
+            };
 
             expect(() => new Updtr(config)).toThrow(
                 "Cannot create updtr instance: yarn does not support custom registries yet. Please use a .npmrc file to achieve this"
