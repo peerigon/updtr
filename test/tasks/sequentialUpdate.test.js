@@ -64,13 +64,6 @@ describe("sequentialUpdate()", () => {
                     expect(updateResults).toMatchSnapshot(
                         "updateResults success"
                     );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].updateTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
-                    );
                 });
             });
             describe("when the first test fails and the rest succeeds", () => {
@@ -89,13 +82,6 @@ describe("sequentialUpdate()", () => {
                     expect(updtr.emit.args).toMatchSnapshot("emit.args npm");
                     expect(updateResults).toMatchSnapshot(
                         "updateResults one fail rest pass"
-                    );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].rollbackTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
                     );
                 });
             });
@@ -122,13 +108,6 @@ describe("sequentialUpdate()", () => {
                     expect(updateResults).toMatchSnapshot(
                         "updateResults success"
                     );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].updateTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
-                    );
                 });
             });
             describe("when the first test fails and the rest succeeds", () => {
@@ -149,13 +128,6 @@ describe("sequentialUpdate()", () => {
                     expect(updtr.emit.args).toMatchSnapshot("emit.args yarn");
                     expect(updateResults).toMatchSnapshot(
                         "updateResults one fail rest pass"
-                    );
-                    // Additional sanity check since comparing version numbers in the snapshot can be error prone
-                    expect(updateResults[0].version).toBe(
-                        updateTasks[0].rollbackTo
-                    );
-                    expect(updateResults[1].version).toBe(
-                        updateTasks[1].updateTo
                     );
                 });
             });

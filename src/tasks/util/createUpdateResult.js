@@ -1,7 +1,8 @@
 export default function createUpdateResult(updateTask, success) {
     return {
         name: updateTask.name,
-        version: success ? updateTask.updateTo : updateTask.rollbackTo,
+        updateTo: updateTask.updateTo,
+        rollbackTo: updateTask.rollbackTo,
         success,
     };
 }

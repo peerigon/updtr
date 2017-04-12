@@ -4,4 +4,7 @@ export default [
     "batch-update/updating",
     "batch-update/testing",
     "batch-update/rollback",
+    "sequential-update/updating",
+    "sequential-update/testing",
+    "sequential-update/rollback",
 ];

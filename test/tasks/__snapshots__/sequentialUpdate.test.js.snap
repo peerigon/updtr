@@ -106,13 +106,15 @@ Array [
       "updateResults": Array [
         Object {
           "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
           "success": false,
-          "version": "1.0.0",
+          "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
           "success": true,
-          "version": "2.1.1",
+          "updateTo": "2.1.1",
         },
       ],
     },
@@ -226,13 +228,15 @@ Array [
       "updateResults": Array [
         Object {
           "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
           "success": false,
-          "version": "1.0.0",
+          "updateTo": "2.0.0",
         },
         Object {
           "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
           "success": true,
-          "version": "2.1.1",
+          "updateTo": "2.1.1",
         },
       ],
     },
@@ -282,13 +286,15 @@ exports[`updateResults one fail rest pass 1`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
     "success": false,
-    "version": "1.0.0",
+    "updateTo": "2.0.0",
   },
   Object {
     "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
     "success": true,
-    "version": "2.1.1",
+    "updateTo": "2.1.1",
   },
 ]
 `;
@@ -297,13 +303,15 @@ exports[`updateResults one fail rest pass 2`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
     "success": false,
-    "version": "1.0.0",
+    "updateTo": "2.0.0",
   },
   Object {
     "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
     "success": true,
-    "version": "2.1.1",
+    "updateTo": "2.1.1",
   },
 ]
 `;
@@ -312,13 +320,15 @@ exports[`updateResults success 1`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
     "success": true,
-    "version": "2.0.0",
+    "updateTo": "2.0.0",
   },
   Object {
     "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
     "success": true,
-    "version": "2.1.1",
+    "updateTo": "2.1.1",
   },
 ]
 `;
@@ -327,13 +337,15 @@ exports[`updateResults success 2`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
     "success": true,
-    "version": "2.0.0",
+    "updateTo": "2.0.0",
   },
   Object {
     "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
     "success": true,
-    "version": "2.1.1",
+    "updateTo": "2.1.1",
   },
 ]
 `;

@@ -1,4 +1,5 @@
 import chatty from "./chatty";
 import simple from "./simple";
 
-export default { chatty, simple };
+// export default { chatty, simple };
+export default { simple };

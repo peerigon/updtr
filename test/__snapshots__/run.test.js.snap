@@ -33,13 +33,15 @@ Array [
     "results": Array [
       Object {
         "name": "updtr-test-module-0",
+        "rollbackTo": "1.0.0",
         "success": true,
-        "version": "2.0.0",
+        "updateTo": "2.0.0",
       },
       Object {
         "name": "updtr-test-module-1",
+        "rollbackTo": "1.0.0",
         "success": false,
-        "version": "1.0.0",
+        "updateTo": "2.0.0",
       },
     ],
   },
@@ -80,13 +82,15 @@ Array [
     "results": Array [
       Object {
         "name": "updtr-test-module-0",
+        "rollbackTo": "2.0.0",
         "success": false,
-        "version": "2.0.0",
+        "updateTo": "2.1.1",
       },
       Object {
         "name": "updtr-test-module-1",
+        "rollbackTo": "2.0.0",
         "success": true,
-        "version": "2.1.1",
+        "updateTo": "2.1.1",
       },
     ],
   },
@@ -109,13 +113,15 @@ Array [
     "results": Array [
       Object {
         "name": "updtr-test-module-0",
+        "rollbackTo": "2.0.0",
         "success": true,
-        "version": "2.1.1",
+        "updateTo": "2.1.1",
       },
       Object {
         "name": "updtr-test-module-1",
+        "rollbackTo": "2.0.0",
         "success": true,
-        "version": "2.1.1",
+        "updateTo": "2.1.1",
       },
     ],
   },
@@ -138,8 +144,9 @@ Array [
     "results": Array [
       Object {
         "name": "updtr-test-module-0",
+        "rollbackTo": "2.0.0",
         "success": true,
-        "version": "2.1.1",
+        "updateTo": "2.1.1",
       },
     ],
   },
