@@ -3,16 +3,16 @@ import {
     EXOTIC,
     UNSTABLE,
     EXCLUDED,
-    NOT_DESIRED,
-    ALL,
+    NOT_WANTED,
 } from "../../constants/filterReasons";
 
+const REASONS = [GIT, EXOTIC, UNSTABLE, EXCLUDED, NOT_WANTED];
 const reasonNames = {
     [GIT]: "Git dependencies",
     [EXOTIC]: "Exotic dependencies",
     [UNSTABLE]: "Update to unstable version",
     [EXCLUDED]: "In exclude list",
-    [NOT_DESIRED]: "Breaking update",
+    [NOT_WANTED]: "Breaking update",
 };
 
 export default function excludedList(excluded) {
@@ -20,7 +20,7 @@ export default function excludedList(excluded) {
         excluded
             .reduce(
             (excludedByReason, updateTask) => {
-                const reasonIndex = ALL.indexOf(updateTask.reason);
+                const reasonIndex = REASONS.indexOf(updateTask.reason);
                 const excluded = excludedByReason[reasonIndex];
 
                 if (excluded === undefined) {
@@ -35,7 +35,9 @@ export default function excludedList(excluded) {
             )
             .map(
             (excludedByReason, index) =>
-                    reasonNames[ALL[index]] + ": " + excludedByReason.join(", ")
+                    reasonNames[REASONS[index]] +
+                    ": " +
+                    excludedByReason.join(", ")
             )
             // Filter undefined values in sparse array
             .filter(s => typeof s === "string")
