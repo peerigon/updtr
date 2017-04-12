@@ -1,0 +1,1 @@
+{"name":"outdated","version":"1.0.0","description":"","main":"index.js","scripts":{"test":"exit 0"},"keywords":[],"author":"","license":"ISC","dependencies":{"updtr-test-module-1":"1.0.0","updtr-test-module-2":"2.0.0"}}

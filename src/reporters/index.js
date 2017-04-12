@@ -1,5 +1,4 @@
-export default {
-    chatty: require("./chatty.js"),
-    shy: require("./shy.js"),
-    simple: require("./simple.js"),
-};
+import chatty from "./chatty";
+import simple from "./simple";
+
+export default { simple };
