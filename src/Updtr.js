@@ -2,7 +2,11 @@ import EventEmitter from "events";
 import fs from "fs";
 import path from "path";
 import pify from "pify";
-import { SUPPORTED_PACKAGE_MANAGERS } from "./constants/config";
+import {
+    SUPPORTED_PACKAGE_MANAGERS,
+    UPDATE_TO_LATEST,
+    UPDATE_TO_OPTIONS,
+} from "./constants/config";
 import exec from "./exec/exec";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
@@ -20,6 +24,14 @@ function checkPackagerManager(packageManager) {
     if (SUPPORTED_PACKAGE_MANAGERS.indexOf(packageManager) === -1) {
         throw new Error(
             `Cannot create updtr instance: unsupported packager manager ${ packageManager }`
+        );
+    }
+}
+
+function checkUpdateTo(updateTo) {
+    if (UPDATE_TO_OPTIONS.indexOf(updateTo) === -1) {
+        throw new Error(
+            `Cannot create updtr instance: unsupported updateTo option "${ updateTo }"`
         );
     }
 }
@@ -47,9 +59,9 @@ export default class Updtr extends EventEmitter {
         const cwd = config.cwd;
         const registry = config.registry;
         const packageManager = config.use === undefined ? "npm" : config.use;
-        const nonBreaking = config.nonBreaking === undefined ?
-            false :
-            config.nonBreaking;
+        const updateTo = config.updateTo === undefined ?
+            UPDATE_TO_LATEST :
+            config.updateTo;
         const exclude = Array.isArray(config.exclude) === true ?
             config.exclude :
             [];
@@ -58,6 +70,7 @@ export default class Updtr extends EventEmitter {
         checkCwd(cwd);
         checkPackagerManager(packageManager);
         checkForYarnWithCustomReg(packageManager, registry);
+        checkUpdateTo(updateTo);
 
         this.config = {
             cwd,
@@ -65,7 +78,7 @@ export default class Updtr extends EventEmitter {
             exclude,
             test: config.test,
             registry,
-            nonBreaking,
+            updateTo,
             saveExact,
         };
         this.cmds = cmds[packageManager];

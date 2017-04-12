@@ -5,7 +5,7 @@ import {
     UPDATE_TO_WANTED,
 } from "../../constants/config";
 
-function determineUpdateToVersion({ updateTo }, { current, wanted, latest }) {
+function determineUpdateToVersion({ current, wanted, latest }, { updateTo }) {
     switch (updateTo) {
         case UPDATE_TO_LATEST:
             return latest;
@@ -29,7 +29,7 @@ function determineUpdateToVersion({ updateTo }, { current, wanted, latest }) {
 export default function createUpdateTask(outdated, updtrConfig) {
     return {
         name: outdated.name,
-        updateTo: determineUpdateToVersion(updtrConfig, outdated),
+        updateTo: determineUpdateToVersion(outdated, updtrConfig),
         rollbackTo: outdated.current,
     };
 }

@@ -3,7 +3,11 @@ import yargs from "yargs";
 import chalk from "chalk";
 import reporters from "../reporters";
 import packageJson from "../../package";
-import { SUPPORTED_PACKAGE_MANAGERS } from "../constants/config";
+import {
+    SUPPORTED_PACKAGE_MANAGERS,
+    UPDATE_TO_OPTIONS,
+    UPDATE_TO_LATEST,
+} from "../constants/config";
 
 const reporterNames = Object.keys(reporters);
 
@@ -40,9 +44,11 @@ export default yargs
     .option("registry", {
         describe: "Specify a custom registry to use",
     })
-    .option("non-breaking", {
-        describe: "Only install updates within the version range",
-        boolean: true,
+    .option("update-to", {
+        describe: "Specify which updates you want to install",
+        choices: UPDATE_TO_OPTIONS,
+        default: UPDATE_TO_LATEST,
+        alias: "to",
     })
     .option("test-stdout", {
         describe: "Show test stdout if the update fails",

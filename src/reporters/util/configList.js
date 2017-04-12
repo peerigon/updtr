@@ -3,10 +3,10 @@ const configNames = {
     exclude: "Exclude",
     test: "Test command",
     registry: "Registry",
+    updateTo: "Update to",
 };
 const configValues = {
     exclude: list => list.join(", "),
-    nonBreaking: () => "No breaking updates",
     saveExact: () => "Save exact version number",
 };
 const configFilter = {

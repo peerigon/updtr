@@ -4,10 +4,10 @@ exports[`new Updtr() .config should match the default shape 1`] = `
 Object {
   "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
   "exclude": Array [],
-  "nonBreaking": false,
   "registry": undefined,
   "saveExact": false,
   "test": undefined,
+  "updateTo": "latest",
   "use": "npm",
 }
 `;

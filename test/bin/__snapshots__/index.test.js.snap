@@ -13,9 +13,9 @@ Object {
       "b",
       "c",
     ],
-    "nonBreaking": true,
     "saveExact": true,
     "test": "jest -b",
+    "updateTo": "non-breaking",
     "use": "yarn",
   },
 }
@@ -30,8 +30,8 @@ Object {
   "updtrConfig": Object {
     "cwd": "//test/bin",
     "exclude": Array [],
-    "nonBreaking": false,
     "saveExact": false,
+    "updateTo": "latest",
     "use": "npm",
   },
 }

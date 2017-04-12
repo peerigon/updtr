@@ -41,7 +41,7 @@ describe("bin", () => {
                 // yarn does not support custom registries
                 // We don't test for this option here and assume that it'll work if all the other options did also work
                 // "--registry http://example.com",
-                "--non-breaking",
+                "--update-to non-breaking",
                 "--test-stdout",
                 "--save-exact",
             ];

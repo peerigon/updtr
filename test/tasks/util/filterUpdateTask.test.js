@@ -2,7 +2,7 @@ import filterUpdateTask from "../../../src/tasks/util/filterUpdateTask";
 import {
     GIT,
     UNSTABLE,
-    NOT_DESIRED,
+    NOT_WANTED,
     EXCLUDED,
     EXOTIC,
 } from "../../../src/constants/filterReasons";
@@ -112,12 +112,12 @@ describe("filterUpdateTask()", () => {
 
             updateTask.rollbackTo = "2.0.0";
             expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_DESIRED
+                NOT_WANTED
             );
             updateTask.rollbackTo = "2.0.0-beta.1";
             updateTask.updateTo = "2.0.0-beta.1";
             expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_DESIRED
+                NOT_WANTED
             );
         });
         test("should filter if rollbackTo is greater than updateTo", () => {
@@ -125,11 +125,11 @@ describe("filterUpdateTask()", () => {
 
             updateTask.rollbackTo = "3.0.0";
             expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_DESIRED
+                NOT_WANTED
             );
             updateTask.rollbackTo = "3.0.0-beta.1";
             expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_DESIRED
+                NOT_WANTED
             );
         });
     });

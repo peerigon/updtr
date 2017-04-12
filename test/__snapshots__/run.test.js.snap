@@ -7,10 +7,10 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
-      "nonBreaking": false,
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
+      "updateTo": "latest",
       "use": "npm",
     },
   },
@@ -24,10 +24,10 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
-      "nonBreaking": false,
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
+      "updateTo": "latest",
       "use": "npm",
     },
     "results": Array [
@@ -53,10 +53,10 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
-      "nonBreaking": false,
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
+      "updateTo": "latest",
       "use": "npm",
     },
     "results": Array [],
@@ -71,10 +71,10 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
-      "nonBreaking": false,
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
+      "updateTo": "latest",
       "use": "npm",
     },
     "results": Array [
@@ -100,10 +100,10 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
-      "nonBreaking": false,
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
+      "updateTo": "latest",
       "use": "npm",
     },
     "results": Array [
@@ -129,10 +129,10 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
-      "nonBreaking": false,
       "registry": undefined,
       "saveExact": false,
       "test": undefined,
+      "updateTo": "latest",
       "use": "npm",
     },
     "results": Array [

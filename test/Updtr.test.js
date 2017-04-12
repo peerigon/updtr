@@ -5,7 +5,7 @@ import temp from "temp";
 import pify from "pify";
 import path from "path";
 import Updtr from "../src/Updtr";
-import { YARN } from "../src/constants/config";
+import { YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
 
 const mkdir = pify(temp.mkdir);
 const cleanup = pify(temp.cleanup);
@@ -31,12 +31,14 @@ describe("new Updtr()", () => {
 
             expect(updtr.config).toMatchSnapshot();
         });
-        describe(".nonBreaking", () => {
-            test("should be true if the nonBreaking flag is set", () => {
-                const config = { ...baseConfig, nonBreaking: true };
-                const updtr = new Updtr(config);
+        describe(".updateTo", () => {
+            UPDATE_TO_OPTIONS.forEach(updateTo => {
+                test(`should be ${ updateTo } if given`, () => {
+                    const config = { ...baseConfig, updateTo };
+                    const updtr = new Updtr(config);
 
-                expect(updtr.config).toHaveProperty("nonBreaking", true);
+                    expect(updtr.config).toHaveProperty("updateTo", updateTo);
+                });
             });
         });
         describe(".exclude", () => {
@@ -182,6 +184,13 @@ describe("new Updtr()", () => {
 
             expect(() => new Updtr(config)).toThrow(
                 "Cannot create updtr instance: unsupported packager manager bower"
+            );
+        });
+        test("should throw if the updateTo option is unknown", () => {
+            const config = { ...baseConfig, updateTo: "something-else" };
+
+            expect(() => new Updtr(config)).toThrow(
+                'Cannot create updtr instance: unsupported updateTo option "something-else"'
             );
         });
         test("should throw if packageManager is yarn and there is a custom registry set", () => {

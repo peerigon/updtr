@@ -1,4 +1,5 @@
 import semver from "semver";
+import { UPDATE_TO_LATEST, UPDATE_TO_NON_BREAKING, UPDATE_TO_WANTED} from '../../constants/config';
 import {
     GIT,
     UNSTABLE,
@@ -12,21 +13,33 @@ import {
 const FALSE = "";
 const prePattern = /^pre/;
 const tests = [
-    function isExoticDependency(updateTask) {
-        return updateTask.updateTo === "exotic" ? EXOTIC : FALSE;
+    {
+        reason: EXOTIC,
+        test: ({ latest }) => latest === "exotic",
     },
-    function isGitDependency(updateTask) {
-        return updateTask.updateTo === "git" ? GIT : FALSE;
+    {
+        reason: GIT,
+        test: ({ latest }) => latest === "git",
     },
-    function isExcluded(updateTask, { exclude }) {
-        return exclude.some(name => updateTask.name === name) === true ?
-            EXCLUDED :
-            FALSE;
+    {
+        reason: EXCLUDED,
+        test: ({ name }, { exclude }) => exclude.some(n => name === n)
     },
-    function isNotWanted(updateTask) {
-        // In case the updateTo option is not UPDATE_TO_LATEST, there might be noop update tasks
-        return semver.lte(updateTask.updateTo, updateTask.rollbackTo) === true ?
-            NOT_WANTED :
+    {
+        reason: NOT_WANTED,
+        test({ current, latest, wanted }, { updateTo }) {
+            switch (updateTo) {
+                case UPDATE_TO_LATEST:
+                    return false;
+                case UPDATE_TO_NON_BREAKING:
+                    return semver.satisfies(latest, );
+            }
+        }
+    }
+    function isNotDesired(updateTask) {
+        // In case the updateTo flag was set, updateTo might be the same as rollbackTo
+        return semver.gt(updateTask.updateTo, updateTask.rollbackTo) === false ?
+            NOT_DESIRED :
             FALSE;
     },
     function isUnstable(updateTask) {
