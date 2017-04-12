@@ -4,10 +4,10 @@ const configNames = {
     test: "Test command",
     registry: "Registry",
     updateTo: "Update to",
+    save: "Save",
 };
 const configValues = {
     exclude: list => list.join(", "),
-    saveExact: () => "Save exact version number",
 };
 const configFilter = {
     cwd: () => false,

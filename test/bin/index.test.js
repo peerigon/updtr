@@ -43,7 +43,7 @@ describe("bin", () => {
                 // "--registry http://example.com",
                 "--update-to non-breaking",
                 "--test-stdout",
-                "--save-exact",
+                "--save exact",
             ];
             const configs = await execBin({ args });
 

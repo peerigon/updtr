@@ -5,7 +5,7 @@ Object {
   "cwd": "/Users/jhnns/dev/peerigon/updtr/test",
   "exclude": Array [],
   "registry": undefined,
-  "saveExact": false,
+  "save": "smart",
   "test": undefined,
   "updateTo": "latest",
   "use": "npm",

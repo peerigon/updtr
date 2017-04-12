@@ -4,8 +4,8 @@ import path from "path";
 import pify from "pify";
 import {
     SUPPORTED_PACKAGE_MANAGERS,
-    UPDATE_TO_LATEST,
     UPDATE_TO_OPTIONS,
+    SAVE_OPTIONS,
 } from "./constants/config";
 import exec from "./exec/exec";
 import cmds from "./exec/cmds";
@@ -36,6 +36,14 @@ function checkUpdateTo(updateTo) {
     }
 }
 
+function checkSave(save) {
+    if (SAVE_OPTIONS.indexOf(save) === -1) {
+        throw new Error(
+            `Cannot create updtr instance: unsupported save option "${ save }"`
+        );
+    }
+}
+
 function checkForYarnWithCustomReg(packageManager, registry) {
     if (packageManager === "yarn" && registry !== undefined) {
         throw new Error(
@@ -60,17 +68,18 @@ export default class Updtr extends EventEmitter {
         const registry = config.registry;
         const packageManager = config.use === undefined ? "npm" : config.use;
         const updateTo = config.updateTo === undefined ?
-            UPDATE_TO_LATEST :
+            UPDATE_TO_OPTIONS[0] :
             config.updateTo;
         const exclude = Array.isArray(config.exclude) === true ?
             config.exclude :
             [];
-        const saveExact = Boolean(config.saveExact);
+        const save = config.save === undefined ? SAVE_OPTIONS[0] : config.save;
 
         checkCwd(cwd);
         checkPackagerManager(packageManager);
         checkForYarnWithCustomReg(packageManager, registry);
         checkUpdateTo(updateTo);
+        checkSave(save);
 
         this.config = {
             cwd,
@@ -79,7 +88,7 @@ export default class Updtr extends EventEmitter {
             test: config.test,
             registry,
             updateTo,
-            saveExact,
+            save,
         };
         this.cmds = cmds[packageManager];
         this.parse = parse[packageManager];

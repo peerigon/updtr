@@ -1,4 +1,5 @@
 import updateVersionRange from "./updateVersionRange";
+import { SAVE_CARET, SAVE_EXACT, SAVE_SMART } from "../../constants/config";
 
 const dependencyTypes = [
     "dependencies",
@@ -9,8 +10,14 @@ const dependencyTypes = [
 function newVersionRange(updtrConfig, oldVersionRange, update) {
     if (update === undefined) {
         return oldVersionRange;
-    } else if (updtrConfig.saveExact === true) {
-        return update.version;
+    }
+
+    switch (updtrConfig.save) {
+        case SAVE_CARET:
+            return "^" + update.version;
+        case SAVE_EXACT:
+            return update.version;
+        case SAVE_SMART:
     }
 
     return updateVersionRange(oldVersionRange, update.version);
