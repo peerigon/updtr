@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import argv from "./argv";
 import { create, run } from "./..";
-import { YARN } from "../constants/config";
+import { USE_YARN } from "../constants/config";
 import reporters from "../reporters";
 
 function start() {
@@ -14,7 +14,7 @@ function start() {
 
     config.cwd = cwd;
     if (fs.existsSync(pathToYarnLock) === true) {
-        config.use = YARN;
+        config.use = USE_YARN;
     }
 
     const updtr = create(config);

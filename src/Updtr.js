@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import pify from "pify";
 import {
-    SUPPORTED_PACKAGE_MANAGERS,
+    USE_OPTIONS,
     UPDATE_TO_OPTIONS,
     SAVE_OPTIONS,
 } from "./constants/config";
@@ -21,7 +21,7 @@ function checkCwd(cwd) {
 }
 
 function checkPackagerManager(packageManager) {
-    if (SUPPORTED_PACKAGE_MANAGERS.indexOf(packageManager) === -1) {
+    if (USE_OPTIONS.indexOf(packageManager) === -1) {
         throw new Error(
             `Cannot create updtr instance: unsupported packager manager ${ packageManager }`
         );
@@ -66,7 +66,9 @@ export default class Updtr extends EventEmitter {
 
         const cwd = config.cwd;
         const registry = config.registry;
-        const packageManager = config.use === undefined ? "npm" : config.use;
+        const packageManager = config.use === undefined ?
+            USE_OPTIONS[0] :
+            config.use;
         const updateTo = config.updateTo === undefined ?
             UPDATE_TO_OPTIONS[0] :
             config.updateTo;

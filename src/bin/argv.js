@@ -4,7 +4,7 @@ import chalk from "chalk";
 import reporters from "../reporters";
 import packageJson from "../../package";
 import {
-    SUPPORTED_PACKAGE_MANAGERS,
+    USE_OPTIONS,
     UPDATE_TO_OPTIONS,
     SAVE_OPTIONS,
 } from "../constants/config";
@@ -28,8 +28,8 @@ export default yargs
     })
     .option("use", {
         describe: "Specify the package manager to use",
-        choices: SUPPORTED_PACKAGE_MANAGERS,
-        default: SUPPORTED_PACKAGE_MANAGERS[0],
+        choices: USE_OPTIONS,
+        default: USE_OPTIONS[0],
         alias: "u",
     })
     .option("exclude", {

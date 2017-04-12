@@ -1,6 +1,6 @@
 import path from "path";
 import exec from "../../src/exec/exec";
-import { YARN } from "../../src/constants/config";
+import { USE_YARN } from "../../src/constants/config";
 
 const projectPath = path.resolve(__dirname, "..", "..");
 const pathToBabelNode = require.resolve(".bin/babel-node");
@@ -28,7 +28,7 @@ describe("bin", () => {
             const cwd = path.resolve(__dirname, "..", "fixtures", "empty");
             const configs = await execBin({ cwd });
 
-            expect(configs.updtrConfig.use).toBe(YARN);
+            expect(configs.updtrConfig.use).toBe(USE_YARN);
         });
     });
     describe("when all arguments have been specified", () => {
