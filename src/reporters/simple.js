@@ -5,15 +5,15 @@ import excludedList from "./util/excludedList";
 import pluralize from "./util/pluralize";
 import execEvents from "./util/execEvents";
 
-const OK = chalk.green.bold.inverse(" ok ");
-const FAILED = chalk.bold.bgRed(" failed ");
+const OK = chalk.green.bold.inverse("   OK   ");
+const FAILED = chalk.bold.bgRed(" FAILED ");
 
 function stringifySuccess(success) {
     return success === true ? OK : FAILED;
 }
 
-function printList(list) {
-    list.forEach(str => console.log("- " + str));
+function printList(list, start = "- ") {
+    list.forEach(str => console.log(start + str));
 }
 
 function printCmd({ cmd }) {
@@ -90,16 +90,17 @@ export default function (updtr, reporterConfig) {
     execEvents.forEach(eventName => updtr.on(eventName, printCmd));
 
     updtr.on("end", ({ results }) => {
+        console.log("");
+        console.log("Update results:");
         printList(
             results.map(result =>
                 [
+                    stringifySuccess(result.success),
                     result.name,
                     chalk.grey(result.rollbackTo),
                     chalk.grey(unicons.arrowRight),
                     chalk.grey(result.updateTo),
-                    stringifySuccess(result.success),
                 ].join(" "))
         );
-        console.log("Done without errors");
     });
 }
