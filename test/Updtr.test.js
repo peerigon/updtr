@@ -1,16 +1,14 @@
 import EventEmitter from "events";
 import os from "os";
-import fs from "fs";
 import temp from "temp";
 import pify from "pify";
 import path from "path";
 import Updtr from "../src/Updtr";
+import fs from "../src/util/fs";
 import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
 
 const mkdir = pify(temp.mkdir);
 const cleanup = pify(temp.cleanup);
-const writeFile = pify(fs.writeFile);
-const readFile = pify(fs.readFile);
 
 const baseConfig = {
     cwd: __dirname,
@@ -103,7 +101,7 @@ describe("new Updtr()", () => {
                 cwd,
             });
 
-            await writeFile(path.join(cwd, testJs), testContent);
+            await fs.writeFile(path.join(cwd, testJs), testContent);
             expect(await updtr.readFile(testJs)).toBe(testContent);
         });
         it("should not swallow errors", async () => {
@@ -135,7 +133,7 @@ describe("new Updtr()", () => {
 
             await updtr.writeFile(testJs, testContent);
 
-            expect(await readFile(path.join(cwd, testJs), "utf8")).toBe(
+            expect(await fs.readFile(path.join(cwd, testJs), "utf8")).toBe(
                 testContent
             );
         });

@@ -1,8 +1,6 @@
-import fs from "fs";
 import path from "path";
-import pify from "pify";
+import fs from "../../src/util/fs";
 
-const readFile = pify(fs.readFile);
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 const cache = new Map();
 
@@ -14,7 +12,7 @@ async function readFixture(fixture) {
         return cached;
     }
 
-    const contents = await readFile(filename, "utf8");
+    const contents = await fs.readFile(filename, "utf8");
 
     if (cache.has(filename) === false) {
         cache.set(filename, contents);

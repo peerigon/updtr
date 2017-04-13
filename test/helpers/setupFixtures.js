@@ -1,12 +1,8 @@
-import fs from "fs";
 import path from "path";
-import pify from "pify";
 import cmds from "../../src/exec/cmds";
 import exec from "../../src/exec/exec";
+import fs from "../../src/util/fs";
 
-const mkdir = pify(fs.mkdir);
-const writeFile = pify(fs.writeFile);
-const readFile = pify(fs.readFile);
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 
 export const fixtureSetups = {
@@ -110,9 +106,9 @@ async function addCaretRange(fixture) {
         fixture,
         "package.json"
     );
-    const packageJson = await readFile(pathToPackageJson, "utf8");
+    const packageJson = await fs.readFile(pathToPackageJson, "utf8");
 
-    await writeFile(
+    await fs.writeFile(
         pathToPackageJson,
         packageJson.replace(/("updtr-test-module-\d+": ")(\d+)/g, "$1^$2")
     );
@@ -122,7 +118,7 @@ async function addCaretRange(fixture) {
 // Returns false if the directory was already there
 async function gracefulMkdir(path) {
     try {
-        await mkdir(path);
+        await fs.mkdir(path);
 
         return true;
     } catch (err) {
@@ -164,7 +160,7 @@ async function writeStdoutLog(fixture, packageManager, cmd) {
         [cmd, packageManager, "log"].join(".")
     );
 
-    await writeFile(filename, stdout);
+    await fs.writeFile(filename, stdout);
 }
 
 async function setupAllFixtures() {

@@ -1,7 +1,6 @@
 import EventEmitter from "events";
-import fs from "fs";
 import path from "path";
-import pify from "pify";
+import fs from "./util/fs";
 import {
     USE_OPTIONS,
     UPDATE_TO_OPTIONS,
@@ -10,9 +9,6 @@ import {
 import exec from "./exec/exec";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
-
-const readFile = pify(fs.readFile);
-const writeFile = pify(fs.writeFile);
 
 function checkCwd(cwd) {
     if (typeof cwd !== "string") {
@@ -106,10 +102,13 @@ export default class Updtr extends EventEmitter {
         return exec(this.config.cwd, cmd);
     }
     readFile(filenameInCwd) {
-        return readFile(path.join(this.config.cwd, filenameInCwd), "utf8");
+        return fs.readFile(path.join(this.config.cwd, filenameInCwd), "utf8");
     }
     writeFile(filenameInCwd, contents) {
-        return writeFile(path.join(this.config.cwd, filenameInCwd), contents);
+        return fs.writeFile(
+            path.join(this.config.cwd, filenameInCwd),
+            contents
+        );
     }
     dispose() {
         this.removeAllListeners();
