@@ -32,13 +32,12 @@ beforeAll(async () => {
 
 describe("sequentialUpdate()", () => {
     describe("when the given updateTasks array is empty", () => {
-        test("should resolve immediately without emitting events", async () => {
+        test("should resolve immediately with an empty array without emitting events", async () => {
             const updtr = new FakeUpdtr();
 
-            await sequentialUpdate(updtr, []);
-
-            expect(updtr.exec.args).toMatchSnapshot();
-            expect(updtr.emit.args).toMatchSnapshot();
+            expect(await sequentialUpdate(updtr, [])).toEqual([]);
+            expect(updtr.exec.args).toEqual([]);
+            expect(updtr.emit.args).toEqual([]);
         });
     });
     describe("when the given updateTasks array contains update tasks", () => {

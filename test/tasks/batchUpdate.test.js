@@ -32,13 +32,12 @@ beforeAll(async () => {
 
 describe("batchUpdate()", () => {
     describe("when the given updateTasks array is empty", () => {
-        test("should resolve immediately without emitting events", async () => {
+        test("should resolve immediately with true without emitting events", async () => {
             const updtr = new FakeUpdtr();
 
-            await batchUpdate(updtr, []);
-
-            expect(updtr.exec.args).toMatchSnapshot();
-            expect(updtr.emit.args).toMatchSnapshot();
+            expect(await batchUpdate(updtr, [])).toBe(true);
+            expect(updtr.exec.args).toEqual([]);
+            expect(updtr.emit.args).toEqual([]);
         });
     });
     describe("when the given updateTasks array contains update tasks", () => {

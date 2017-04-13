@@ -48,19 +48,16 @@ export default (async function batchUpdate(updtr, updateTasks) {
     const sequence = new Sequence("batch-update", updtr, {
         updateTasks,
     });
+    let success = true;
 
-    if (updateTasks.length === 0) {
-        return [];
+    if (updateTasks.length > 0) {
+        sequence.start();
+        success = await update(sequence, updateTasks);
+        sequence.baseEvent = {
+            success,
+        };
+        sequence.end();
     }
-
-    sequence.start();
-
-    const success = await update(sequence, updateTasks);
-
-    sequence.baseEvent = {
-        success,
-    };
-    sequence.end();
 
     return success;
 });

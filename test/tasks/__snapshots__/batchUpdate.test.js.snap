@@ -231,7 +231,3 @@ Array [
   ],
 ]
 `;
-
-exports[`batchUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 1`] = `Array []`;
-
-exports[`batchUpdate() when the given updateTasks array is empty should resolve immediately without emitting events 2`] = `Array []`;
