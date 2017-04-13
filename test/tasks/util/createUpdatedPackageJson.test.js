@@ -74,7 +74,7 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    testModule1Success.version
+                    testModule1Success.updateTo
                 );
             });
         });
@@ -92,7 +92,7 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    "^" + testModule1Success.version
+                    "^" + testModule1Success.updateTo
                 );
             });
         });
@@ -130,7 +130,7 @@ describe("createUpdatedPackageJson()", () => {
 
                 expect(
                     newPackageJson.devDependencies["updtr-test-module-1"]
-                ).toBe(testModule1Success.version);
+                ).toBe(testModule1Success.updateTo);
             });
         });
         describe(`when the save option is "${ SAVE_CARET }"`, () => {
@@ -147,7 +147,7 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    "^" + testModule1Success.version
+                    "^" + testModule1Success.updateTo
                 );
             });
         });
@@ -185,7 +185,7 @@ describe("createUpdatedPackageJson()", () => {
 
                 expect(
                     newPackageJson.optionalDependencies["updtr-test-module-1"]
-                ).toBe(testModule1Success.version);
+                ).toBe(testModule1Success.updateTo);
             });
         });
         describe(`when the save option is "${ SAVE_CARET }"`, () => {
@@ -202,7 +202,7 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    "^" + testModule1Success.version
+                    "^" + testModule1Success.updateTo
                 );
             });
         });

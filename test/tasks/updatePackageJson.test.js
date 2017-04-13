@@ -2,10 +2,7 @@ import updatePackageJson from "../../src/tasks/updatePackageJson";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import pickEventNames from "../helpers/pickEventNames";
 import { testModule1Success, testModule2Fail } from "../fixtures/updateResults";
-import {
-    ready as packageJsonsReady,
-    outdatedRegular,
-} from "../fixtures/packageJsons";
+import { outdatedRegular } from "../fixtures/packageJsons";
 
 describe("updatePackageJson()", () => {
     it("should read and write the package json", async () => {
@@ -50,8 +47,6 @@ describe("updatePackageJson()", () => {
         expect(packageJson).toMatchSnapshot();
     });
     it("should not alter the formatting", async () => {
-        await packageJsonsReady;
-
         const updtr = new FakeUpdtr();
         const updateResults = [testModule1Success];
         const oldPackageJson = outdatedRegular;
@@ -66,7 +61,7 @@ describe("updatePackageJson()", () => {
         expect(newPackageJson).toBe(
             oldPackageJson.replace(
                 /\^1\.0\.0/,
-                "^" + testModule1Success.version
+                "^" + testModule1Success.updateTo
             )
         );
     });

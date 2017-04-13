@@ -4,7 +4,6 @@ import pickEventNames from "./helpers/pickEventNames";
 import pickEvents from "./helpers/pickEvents";
 import ExecError from "./helpers/ExecError";
 import {
-    ready as execResultsReady,
     npmNoOutdated,
     update,
     testPass,
@@ -49,8 +48,6 @@ function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
 function updateTaskNames(updateTasks) {
     return updateTasks.map(({ name }) => name);
 }
-
-beforeAll(() => execResultsReady);
 
 describe("run()", () => {
     test("should emit a start event of expected shape", async () => {

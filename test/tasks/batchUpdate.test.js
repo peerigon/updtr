@@ -4,7 +4,6 @@ import createUpdateTask from "../../src/tasks/util/createUpdateTask";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
 import {
-    ready as execResultsReady,
     execError,
     update,
     testPass,
@@ -29,7 +28,6 @@ beforeAll(async () => {
         "outdated/outdated.npm.log",
         "outdated/outdated.yarn.log",
     ]);
-    await execResultsReady;
 });
 
 describe("batchUpdate()", () => {

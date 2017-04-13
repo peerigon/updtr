@@ -1,7 +1,6 @@
 import init from "../../src/tasks/init";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import {
-    ready as execResultsReady,
     execError,
     npmNoOutdated,
     npmOutdated,
@@ -10,8 +9,6 @@ import {
     errorExecOutdated,
     errorParseOutdated,
 } from "../fixtures/execResults";
-
-beforeAll(() => execResultsReady);
 
 describe("init()", () => {
     describe("when there are no outdated dependencies", () => {

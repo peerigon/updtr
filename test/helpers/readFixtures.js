@@ -4,7 +4,7 @@ import fs from "../../src/util/fs";
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 const cache = new Map();
 
-async function readFixture(fixture) {
+export async function readFixture(fixture) {
     const filename = path.join(pathToFixtures, fixture);
     const cached = cache.get(filename);
 

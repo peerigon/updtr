@@ -51,7 +51,7 @@ exports[`createUpdatedPackageJson() when the updated modules are not listed as a
 Object {
   "dependencies": Object {
     "updtr-test-module-1": "2.0.0",
-    "updtr-test-module-2": "2.2.1",
+    "updtr-test-module-2": "2.1.1",
   },
 }
 `;

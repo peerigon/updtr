@@ -14,13 +14,13 @@ function newVersionRange(updtrConfig, oldVersionRange, update) {
 
     switch (updtrConfig.save) {
         case SAVE_CARET:
-            return "^" + update.version;
+            return "^" + update.updateTo;
         case SAVE_EXACT:
-            return update.version;
+            return update.updateTo;
         case SAVE_SMART:
     }
 
-    return updateVersionRange(oldVersionRange, update.version);
+    return updateVersionRange(oldVersionRange, update.updateTo);
 }
 
 export default function createUpdatedPackageJson(
@@ -63,7 +63,7 @@ export default function createUpdatedPackageJson(
         const dependencies = newPackageJson.dependencies || {};
 
         dependenciesToSave.forEach(update => {
-            dependencies[update.name] = update.version;
+            dependencies[update.name] = update.updateTo;
         });
 
         newPackageJson.dependencies = dependencies;
