@@ -1,14 +1,10 @@
 import EventEmitter from "events";
 import os from "os";
-import temp from "temp";
-import pify from "pify";
 import path from "path";
 import Updtr from "../src/Updtr";
 import fs from "../src/util/fs";
 import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
-
-const mkdir = pify(temp.mkdir);
-const cleanup = pify(temp.cleanup);
+import temp from "./helpers/temp";
 
 const baseConfig = {
     cwd: __dirname,
@@ -96,7 +92,7 @@ describe("new Updtr()", () => {
         it("should read a file as utf8 string relative to cwd", async () => {
             const testContent = "This is a test";
             const testJs = "test.js";
-            const cwd = await mkdir("updtr-readFile-1");
+            const cwd = await temp.mkdir("updtr-readFile-1");
             const updtr = new Updtr({
                 cwd,
             });
@@ -106,7 +102,7 @@ describe("new Updtr()", () => {
         });
         it("should not swallow errors", async () => {
             const testJs = "test.js";
-            const cwd = await mkdir("updtr-readFile-2");
+            const cwd = await temp.mkdir("updtr-readFile-2");
             const updtr = new Updtr({
                 cwd,
             });
@@ -126,7 +122,7 @@ describe("new Updtr()", () => {
         it("should write a file as utf8 string relative to cwd", async () => {
             const testContent = "This is a test";
             const testJs = "test.js";
-            const cwd = await mkdir("updtr-writeFile-1");
+            const cwd = await temp.mkdir("updtr-writeFile-1");
             const updtr = new Updtr({
                 cwd,
             });
@@ -138,7 +134,7 @@ describe("new Updtr()", () => {
             );
         });
         it("should not swallow errors", async () => {
-            const cwd = await mkdir("updtr-writeFile-2");
+            const cwd = await temp.mkdir("updtr-writeFile-2");
             const updtr = new Updtr({
                 cwd,
             });
@@ -212,4 +208,4 @@ describe("new Updtr()", () => {
     });
 });
 
-afterAll(cleanup);
+afterAll(temp.cleanup);
