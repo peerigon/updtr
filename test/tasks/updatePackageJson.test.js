@@ -9,8 +9,8 @@ describe("updatePackageJson()", () => {
         const updtr = new FakeUpdtr();
         const updateResults = [];
 
-        updtr.readFile.returns(Promise.resolve(JSON.stringify({})));
-        updtr.writeFile.returns(Promise.resolve());
+        updtr.readFile.resolves(JSON.stringify({}));
+        updtr.writeFile.resolves();
 
         await updatePackageJson(updtr, updateResults);
 
@@ -21,21 +21,19 @@ describe("updatePackageJson()", () => {
         const updtr = new FakeUpdtr();
         const updateResults = [testModule1Success, testModule2Fail];
 
-        updtr.readFile.returns(
-            Promise.resolve(
-                JSON.stringify({
-                    dependencies: {
-                        [testModule1Success.name]: "1.0.0",
-                        [testModule2Fail.name]: "1.0.x",
-                    },
-                    devDependencies: {
-                        [testModule1Success.name]: "~1.0.x",
-                        [testModule2Fail.name]: "1.0.x",
-                    },
-                })
-            )
+        updtr.readFile.resolves(
+            JSON.stringify({
+                dependencies: {
+                    [testModule1Success.name]: "1.0.0",
+                    [testModule2Fail.name]: "1.0.x",
+                },
+                devDependencies: {
+                    [testModule1Success.name]: "~1.0.x",
+                    [testModule2Fail.name]: "1.0.x",
+                },
+            })
         );
-        updtr.writeFile.returns(Promise.resolve());
+        updtr.writeFile.resolves();
 
         await updatePackageJson(updtr, updateResults);
 
@@ -51,8 +49,8 @@ describe("updatePackageJson()", () => {
         const updateResults = [testModule1Success];
         const oldPackageJson = outdatedRegular;
 
-        updtr.readFile.returns(Promise.resolve(oldPackageJson));
-        updtr.writeFile.returns(Promise.resolve());
+        updtr.readFile.resolves(oldPackageJson);
+        updtr.writeFile.resolves();
 
         await updatePackageJson(updtr, updateResults);
 
@@ -73,8 +71,8 @@ describe("updatePackageJson()", () => {
             "update-package-json/end",
         ];
 
-        updtr.readFile.returns(Promise.resolve(JSON.stringify({})));
-        updtr.writeFile.returns(Promise.resolve());
+        updtr.readFile.resolves(JSON.stringify({}));
+        updtr.writeFile.resolves();
 
         await updatePackageJson(updtr, updateResults);
 
@@ -86,7 +84,7 @@ describe("updatePackageJson()", () => {
             const updateResults = [];
             let givenErr;
 
-            updtr.readFile.returns(Promise.reject(new Error("Oops")));
+            updtr.readFile.rejects(new Error("Oops"));
 
             try {
                 await updatePackageJson(updtr, updateResults);
@@ -100,7 +98,7 @@ describe("updatePackageJson()", () => {
             const updateResults = [];
             let givenErr;
 
-            updtr.readFile.returns(Promise.resolve("Invalid JSON"));
+            updtr.readFile.resolves("Invalid JSON");
 
             try {
                 await updatePackageJson(updtr, updateResults);
@@ -114,8 +112,8 @@ describe("updatePackageJson()", () => {
             const updateResults = [];
             let givenErr;
 
-            updtr.readFile.returns(Promise.resolve(JSON.stringify({})));
-            updtr.writeFile.returns(Promise.reject(new Error("Oops")));
+            updtr.readFile.resolves(JSON.stringify({}));
+            updtr.writeFile.rejects(new Error("Oops"));
 
             try {
                 await updatePackageJson(updtr, updateResults);
