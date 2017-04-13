@@ -9,6 +9,7 @@ import {
     testPass,
     testFail,
 } from "./fixtures/execResults";
+import { outdatedRegular } from "./fixtures/packageJsons";
 
 function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
     const outdated = {};
@@ -47,6 +48,11 @@ function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
 
 function updateTaskNames(updateTasks) {
     return updateTasks.map(({ name }) => name);
+}
+
+function addPackageJsonFileStubs(updtr) {
+    updtr.readFile.withArgs("package.json").resolves(outdatedRegular);
+    updtr.writeFile.withArgs("package.json").resolves();
 }
 
 describe("run()", () => {
@@ -101,6 +107,7 @@ describe("run()", () => {
                 update,
                 testPass
             );
+            addPackageJsonFileStubs(updtr);
 
             await run(updtr);
 
@@ -125,6 +132,7 @@ describe("run()", () => {
                 update,
                 testPass
             );
+            addPackageJsonFileStubs(updtr);
 
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
@@ -143,6 +151,7 @@ describe("run()", () => {
                 update,
                 testFail
             );
+            addPackageJsonFileStubs(updtr);
 
             await run(updtr);
 
@@ -170,6 +179,7 @@ describe("run()", () => {
                 update,
                 testFail
             );
+            addPackageJsonFileStubs(updtr);
 
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
@@ -186,6 +196,7 @@ describe("run()", () => {
                 update,
                 testPass
             );
+            addPackageJsonFileStubs(updtr);
 
             await run(updtr);
 
@@ -211,6 +222,7 @@ describe("run()", () => {
                 update,
                 testPass
             );
+            addPackageJsonFileStubs(updtr);
 
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
@@ -230,6 +242,7 @@ describe("run()", () => {
                 testFail,
                 testPass
             );
+            addPackageJsonFileStubs(updtr);
 
             await run(updtr);
 
@@ -261,6 +274,7 @@ describe("run()", () => {
                 testFail,
                 testPass
             );
+            addPackageJsonFileStubs(updtr);
 
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
