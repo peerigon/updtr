@@ -3,18 +3,13 @@ import sequentialUpdate from "./tasks/sequentialUpdate";
 import splitUpdateTasks from "./tasks/util/splitUpdateTasks";
 import batchUpdate from "./tasks/batchUpdate";
 import createUpdateResult from "./tasks/util/createUpdateResult";
+import updatePackageJson from "./tasks/updatePackageJson";
 
-export default (async function run(updtr) {
+async function runUpdateTasks(updtr, updateTasks) {
     const results = [];
-    let batchSuccess = false;
-
-    updtr.emit("start", {
-        config: updtr.config,
-    });
-
-    const { updateTasks } = await init(updtr);
     const { breaking, nonBreaking } = splitUpdateTasks(updateTasks);
     const sequentialUpdateTasks = breaking.slice();
+    let batchSuccess = false;
 
     if (nonBreaking.length > 1) {
         batchSuccess = await batchUpdate(updtr, nonBreaking);
@@ -28,6 +23,23 @@ export default (async function run(updtr) {
         sequentialUpdateTasks.unshift(...nonBreaking);
     }
     results.push(...(await sequentialUpdate(updtr, sequentialUpdateTasks)));
+
+    return results;
+}
+
+export default (async function run(updtr) {
+    const results = [];
+
+    updtr.emit("start", {
+        config: updtr.config,
+    });
+
+    const { updateTasks } = await init(updtr);
+
+    if (updateTasks.length > 0) {
+        results.push(...(await runUpdateTasks(updtr, updateTasks)));
+        await updatePackageJson(updtr, results);
+    }
 
     updtr.emit("end", {
         config: updtr.config,
