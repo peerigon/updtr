@@ -5,14 +5,11 @@ import Updtr from "../src/Updtr";
 import fs from "../src/util/fs";
 import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
 import temp from "./helpers/temp";
-
-const baseConfig = {
-    cwd: __dirname,
-};
+import FakeUpdtr from "./helpers/FakeUpdtr";
 
 describe("new Updtr()", () => {
     test("should return an updtr with expected shape", () => {
-        const updtr = new Updtr(baseConfig);
+        const updtr = new Updtr(FakeUpdtr.baseConfig);
 
         expect(updtr).toBeInstanceOf(EventEmitter);
         // Check for properties that are not tested in this unit test
@@ -21,14 +18,14 @@ describe("new Updtr()", () => {
     });
     describe(".config", () => {
         test("should match the default shape", () => {
-            const updtr = new Updtr(baseConfig);
+            const updtr = new Updtr(FakeUpdtr.baseConfig);
 
             expect(updtr.config).toMatchSnapshot();
         });
         describe(".updateTo", () => {
             UPDATE_TO_OPTIONS.forEach(updateTo => {
                 test(`should be ${ updateTo } if given`, () => {
-                    const config = { ...baseConfig, updateTo };
+                    const config = { ...FakeUpdtr.baseConfig, updateTo };
                     const updtr = new Updtr(config);
 
                     expect(updtr.config).toHaveProperty("updateTo", updateTo);
@@ -37,7 +34,10 @@ describe("new Updtr()", () => {
         });
         describe(".exclude", () => {
             test("should match the given exclude array", () => {
-                const config = { ...baseConfig, exclude: ["a", "b", "c"] };
+                const config = {
+                    ...FakeUpdtr.baseConfig,
+                    exclude: ["a", "b", "c"],
+                };
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("exclude", ["a", "b", "c"]);
@@ -46,7 +46,7 @@ describe("new Updtr()", () => {
         describe(".registry", () => {
             test("should be set if a custom registry was given", () => {
                 const config = {
-                    ...baseConfig,
+                    ...FakeUpdtr.baseConfig,
                     registry: "http://example.com",
                 };
                 const updtr = new Updtr(config);
@@ -59,7 +59,7 @@ describe("new Updtr()", () => {
         });
         describe(".use", () => {
             test("should be 'yarn' if specified", () => {
-                const config = { ...baseConfig, use: USE_YARN };
+                const config = { ...FakeUpdtr.baseConfig, use: USE_YARN };
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("use", USE_YARN);
@@ -71,7 +71,7 @@ describe("new Updtr()", () => {
             describe("when a custom test command was given", () => {
                 test("should return the custom test command", () => {
                     const test = "custom test command";
-                    const config = { ...baseConfig, test };
+                    const config = { ...FakeUpdtr.baseConfig, test };
                     const updtr = new Updtr(config);
 
                     expect(updtr.cmds.test()).toBe(test);
@@ -81,11 +81,12 @@ describe("new Updtr()", () => {
     });
     describe(".exec()", () => {
         test("should exec the command in the given cwd", async () => {
-            const updtr = new Updtr(baseConfig);
+            const cwd = __dirname;
+            const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
             const cmd = "node -e 'console.log(process.cwd())'";
             const result = await updtr.exec(cmd);
 
-            expect(result.stdout).toBe(baseConfig.cwd + os.EOL);
+            expect(result.stdout).toBe(cwd + os.EOL);
         });
     });
     describe("readFile()", () => {
@@ -154,7 +155,7 @@ describe("new Updtr()", () => {
     });
     describe(".dispose()", () => {
         test("should remove all event listeners", () => {
-            const updtr = new Updtr(baseConfig);
+            const updtr = new Updtr(FakeUpdtr.baseConfig);
 
             updtr.on("test", () => {
                 throw new Error("Should not be called");
@@ -165,7 +166,7 @@ describe("new Updtr()", () => {
     });
     describe("errors", () => {
         test("should throw if a cwd is missing", () => {
-            const config = { ...baseConfig };
+            const config = { ...FakeUpdtr.baseConfig };
 
             delete config.cwd;
 
@@ -174,21 +175,24 @@ describe("new Updtr()", () => {
             );
         });
         test("should throw if the package manager is not supported", () => {
-            const config = { ...baseConfig, use: "bower" };
+            const config = { ...FakeUpdtr.baseConfig, use: "bower" };
 
             expect(() => new Updtr(config)).toThrow(
                 "Cannot create updtr instance: unsupported packager manager bower"
             );
         });
         test("should throw if the updateTo option is unknown", () => {
-            const config = { ...baseConfig, updateTo: "something-else" };
+            const config = {
+                ...FakeUpdtr.baseConfig,
+                updateTo: "something-else",
+            };
 
             expect(() => new Updtr(config)).toThrow(
                 'Cannot create updtr instance: unsupported updateTo option "something-else"'
             );
         });
         test("should throw if the save option is unknown", () => {
-            const config = { ...baseConfig, save: "something-else" };
+            const config = { ...FakeUpdtr.baseConfig, save: "something-else" };
 
             expect(() => new Updtr(config)).toThrow(
                 'Cannot create updtr instance: unsupported save option "something-else"'
@@ -196,7 +200,7 @@ describe("new Updtr()", () => {
         });
         test("should throw if package manager is yarn and there is a custom registry set", () => {
             const config = {
-                ...baseConfig,
+                ...FakeUpdtr.baseConfig,
                 registry: "http://example.com",
                 use: USE_YARN,
             };
