@@ -22,16 +22,19 @@ function renderRollback(updtr, failedUpdateTasks) {
 
 async function update(sequence, updateTasks) {
     const updtr = sequence.updtr;
+    let success;
     let testResult;
 
     await sequence.exec("updating", renderUpdate(updtr, updateTasks));
     try {
         testResult = await sequence.exec("testing", renderTest(updtr));
+        success = true;
     } catch (err) {
+        // Remember: instanceof Error might not work in Jest as expected
+        // https://github.com/facebook/jest/issues/2549
         testResult = err;
+        success = false;
     }
-
-    const success = testResult instanceof Error === false;
 
     sequence.baseEvent.success = success;
     sequence.emit("test-result", {

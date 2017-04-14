@@ -15,6 +15,7 @@ export const fixtureSetups = {
             await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "yarn", "outdated");
+            await modifyPackageJson(fixture, testOkModifier);
         });
     },
     async "no-outdated"() {
@@ -29,7 +30,11 @@ export const fixtureSetups = {
             );
             await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "yarn", "outdated");
-            await addCaretRange(fixture);
+            await modifyPackageJson(
+                fixture,
+                testOkModifier,
+                caretRangeModifier
+            );
             await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
@@ -45,7 +50,11 @@ export const fixtureSetups = {
             );
             await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "yarn", "outdated");
-            await addCaretRange(fixture);
+            await modifyPackageJson(
+                fixture,
+                testOkModifier,
+                caretRangeModifier
+            );
             await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
@@ -66,7 +75,11 @@ export const fixtureSetups = {
                 )
             );
             await writeStdoutLog(fixture, "yarn", "outdated");
-            await addCaretRange(fixture);
+            await modifyPackageJson(
+                fixture,
+                testOkModifier,
+                caretRangeModifier
+            );
             await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
@@ -87,7 +100,11 @@ export const fixtureSetups = {
                 )
             );
             await writeStdoutLog(fixture, "yarn", "outdated");
-            await addCaretRange(fixture);
+            await modifyPackageJson(
+                fixture,
+                testOkModifier,
+                caretRangeModifier
+            );
             await writeStdoutLog(fixture, "npm", "outdated");
         });
     },
@@ -100,7 +117,19 @@ function yarn(cmd = "", appendix = "") {
     return `yarn ${ cmd } --mutex network ${ appendix }`;
 }
 
-async function addCaretRange(fixture) {
+function caretRangeModifier(packageJson) {
+    return packageJson.replace(/("updtr-test-module-\d+": ")(\d+)/g, "$1^$2");
+}
+
+function testOkModifier(packageJson) {
+    return packageJson.replace(/echo .*? && exit 1/, "exit 0");
+}
+
+function applyModifier(str, modifier) {
+    return modifier(str);
+}
+
+async function modifyPackageJson(fixture, ...modifiers) {
     const pathToPackageJson = path.join(
         pathToFixtures,
         fixture,
@@ -110,7 +139,7 @@ async function addCaretRange(fixture) {
 
     await fs.writeFile(
         pathToPackageJson,
-        packageJson.replace(/("updtr-test-module-\d+": ")(\d+)/g, "$1^$2")
+        modifiers.reduce(applyModifier, packageJson)
     );
 }
 

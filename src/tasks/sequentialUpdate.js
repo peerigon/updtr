@@ -43,6 +43,7 @@ async function runUpdateTask(sequence, updateTasks, i, previous) {
     };
     const updtr = sequence.updtr;
     let testResult;
+    let success;
 
     if (updateNecessary === true) {
         await sequence.exec("updating", renderUpdate(updtr, updateTask));
@@ -50,11 +51,13 @@ async function runUpdateTask(sequence, updateTasks, i, previous) {
 
     try {
         testResult = await sequence.exec("testing", renderTest(updtr));
+        success = true;
     } catch (err) {
+        // Remember: instanceof Error might not work in Jest as expected
+        // https://github.com/facebook/jest/issues/2549
         testResult = err;
+        success = false;
     }
-
-    const success = testResult instanceof Error === false;
 
     sequence.baseEvent.success = success;
     sequence.emit("test-result", {
