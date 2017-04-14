@@ -32,13 +32,13 @@ Array [
     },
     "results": Array [
       Object {
-        "name": "updtr-test-module-0",
+        "name": "updtr-test-module-1",
         "rollbackTo": "1.0.0",
         "success": true,
         "updateTo": "2.0.0",
       },
       Object {
-        "name": "updtr-test-module-1",
+        "name": "updtr-test-module-2",
         "rollbackTo": "1.0.0",
         "success": false,
         "updateTo": "2.0.0",
@@ -81,13 +81,13 @@ Array [
     },
     "results": Array [
       Object {
-        "name": "updtr-test-module-0",
+        "name": "updtr-test-module-1",
         "rollbackTo": "2.0.0",
         "success": false,
         "updateTo": "2.1.1",
       },
       Object {
-        "name": "updtr-test-module-1",
+        "name": "updtr-test-module-2",
         "rollbackTo": "2.0.0",
         "success": true,
         "updateTo": "2.1.1",
@@ -112,13 +112,13 @@ Array [
     },
     "results": Array [
       Object {
-        "name": "updtr-test-module-0",
+        "name": "updtr-test-module-1",
         "rollbackTo": "2.0.0",
         "success": true,
         "updateTo": "2.1.1",
       },
       Object {
-        "name": "updtr-test-module-1",
+        "name": "updtr-test-module-2",
         "rollbackTo": "2.0.0",
         "success": true,
         "updateTo": "2.1.1",
@@ -143,12 +143,23 @@ Array [
     },
     "results": Array [
       Object {
-        "name": "updtr-test-module-0",
+        "name": "updtr-test-module-1",
         "rollbackTo": "2.0.0",
         "success": true,
         "updateTo": "2.1.1",
       },
     ],
+  },
+]
+`;
+
+exports[`run() when updateTo is "non-breaking" and the tests are ok should finish incomplete results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "2.0.0",
   },
 ]
 `;

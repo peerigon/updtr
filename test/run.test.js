@@ -1,3 +1,4 @@
+import { UPDATE_TO_NON_BREAKING } from "../src/constants/config";
 import run from "../src/run";
 import FakeUpdtr from "./helpers/FakeUpdtr";
 import pickEventNames from "./helpers/pickEventNames";
@@ -8,6 +9,7 @@ import {
     update,
     testPass,
     testFail,
+    npmList,
 } from "./fixtures/execResults";
 import { outdatedRegular } from "./fixtures/packageJsons";
 
@@ -16,7 +18,7 @@ function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
     let i;
 
     for (i = 0; i < nonBreaking; i++) {
-        const name = "updtr-test-module-" + i;
+        const name = "updtr-test-module-" + (i + 1);
 
         outdated[name] = {
             current: "2.0.0",
@@ -26,7 +28,7 @@ function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
         };
     }
     for (i = 0; i < breaking; i++) {
-        const name = "updtr-test-module-" + i;
+        const name = "updtr-test-module-" + (i + 1);
 
         outdated[name] = {
             current: "1.0.0",
@@ -122,7 +124,7 @@ describe("run()", () => {
 
             expect(batchUpdateEvents).toHaveLength(0);
             expect(updateTaskNames(sequentialUpdateEvent.updateTasks)).toEqual([
-                "updtr-test-module-0",
+                "updtr-test-module-1",
             ]);
         });
         test("should emit an end event of expected shape and return the results", async () => {
@@ -166,8 +168,8 @@ describe("run()", () => {
 
             expect(batchUpdateEvents).toHaveLength(0);
             expect(updateTaskNames(sequentialUpdateEvent.updateTasks)).toEqual([
-                "updtr-test-module-0",
                 "updtr-test-module-1",
+                "updtr-test-module-2",
             ]);
         });
         test("should emit an end event of expected shape and return the results", async () => {
@@ -210,8 +212,8 @@ describe("run()", () => {
             );
 
             expect(updateTaskNames(batchUpdateEvent.updateTasks)).toEqual([
-                "updtr-test-module-0",
                 "updtr-test-module-1",
+                "updtr-test-module-2",
             ]);
             expect(sequentialUpdateEvents).toHaveLength(0);
         });
@@ -256,12 +258,12 @@ describe("run()", () => {
             )[0];
 
             expect(updateTaskNames(batchUpdateEvent.updateTasks)).toEqual([
-                "updtr-test-module-0",
                 "updtr-test-module-1",
+                "updtr-test-module-2",
             ]);
             expect(updateTaskNames(sequentialUpdateEvent.updateTasks)).toEqual([
-                "updtr-test-module-0",
                 "updtr-test-module-1",
+                "updtr-test-module-2",
             ]);
         });
         test("should emit an end event of expected shape and return the results", async () => {
@@ -281,6 +283,24 @@ describe("run()", () => {
 
             expect(endEventArgs).toMatchSnapshot();
             expect(results).toBe(endEventArgs[1].results);
+        });
+    });
+    describe(`when updateTo is "${ UPDATE_TO_NON_BREAKING }" and the tests are ok`, () => {
+        test("should finish incomplete results", async () => {
+            const updtr = new FakeUpdtr({
+                updateTo: UPDATE_TO_NON_BREAKING,
+            });
+
+            // npm outdated reports a breaking change, but the updateTo option
+            // limits the update to a non-breaking version
+            updtr.execResults = npmOutdated({ breaking: 1 }).concat(
+                update,
+                testPass,
+                npmList
+            );
+            addPackageJsonFileStubs(updtr);
+
+            expect(await run(updtr)).toMatchSnapshot();
         });
     });
 });
