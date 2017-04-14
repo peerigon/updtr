@@ -7,46 +7,56 @@ import {
     EXOTIC,
 } from "../../../src/constants/filterReasons";
 
-// We use an empty string as false flag so that our test functions do always return a string.
-// This way they can be optimized by the compiler.
-const FALSE = "";
 const prePattern = /^pre/;
-const tests = [
-    function isExoticDependency(updateTask) {
-        return updateTask.updateTo === "exotic" ? EXOTIC : FALSE;
+const reasonTests = [
+    {
+        name: EXCLUDED,
+        test: (updateTask, { exclude }) =>
+            exclude.some(name => updateTask.name === name) === true,
     },
-    function isGitDependency(updateTask) {
-        return updateTask.updateTo === "git" ? GIT : FALSE;
+    {
+        name: GIT,
+        test: updateTask => updateTask.updateTo === "git",
     },
-    function isExcluded(updateTask, { exclude }) {
-        return exclude.some(name => updateTask.name === name) === true ?
-            EXCLUDED :
-            FALSE;
+    {
+        name: EXOTIC,
+        test: updateTask => updateTask.updateTo === "exotic",
     },
-    function isNotWanted(updateTask) {
-        // In case the updateTo option is not UPDATE_TO_LATEST, there might be noop update tasks
-        return semver.lte(updateTask.updateTo, updateTask.rollbackTo) === true ?
-            NOT_WANTED :
-            FALSE;
+    {
+        name: NOT_WANTED,
+        test: updateTask =>
+            startsWithCaret(updateTask.updateTo) === false &&
+            semver.lte(updateTask.updateTo, updateTask.rollbackTo) === true,
     },
-    function isUnstable(updateTask) {
-        const diff = semver.diff(updateTask.rollbackTo, updateTask.updateTo);
-        const unstableTest = diff !== null &&
-            prePattern.test(diff) === true &&
-            diff !== "prerelease";
+    {
+        name: UNSTABLE,
+        test(updateTask) {
+            if (startsWithCaret(updateTask.updateTo) === true) {
+                return null;
+            }
 
-        return unstableTest === true ? UNSTABLE : FALSE;
+            const diff = semver.diff(
+                updateTask.rollbackTo,
+                updateTask.updateTo
+            );
+            const unstableTest = diff !== null &&
+                prePattern.test(diff) === true &&
+                diff !== "prerelease";
+
+            return unstableTest === true;
+        },
     },
 ];
+const reasons = reasonTests.map(test => test.name);
+
+function startsWithCaret(version) {
+    return version.charAt(0) === "^";
+}
 
 export default function filterUpdateTask(updateTask, updtrConfig) {
-    for (const test of tests) {
-        const testResult = test(updateTask, updtrConfig);
+    const reasonIndex = reasonTests.findIndex(
+        reasonTest => reasonTest.test(updateTask, updtrConfig) === true
+    );
 
-        if (testResult !== FALSE) {
-            return testResult;
-        }
-    }
-
-    return null;
+    return reasonIndex === -1 ? null : reasons[reasonIndex];
 }

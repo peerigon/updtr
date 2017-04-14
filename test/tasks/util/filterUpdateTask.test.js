@@ -20,6 +20,24 @@ describe("filterUpdateTask()", () => {
     test("should not filter a regular update task", () => {
         expect(filterUpdateTask(baseUpdateTask, baseUpdtrConfig)).toBe(null);
     });
+    test("should not filter an update task with a caret range as updateTo property", () => {
+        expect(
+            filterUpdateTask(
+                { ...baseUpdateTask, updateTo: "^2.0.0" },
+                baseUpdtrConfig
+            )
+        ).toBe(null);
+    });
+    describe("excluded dependencies", () => {
+        test("should honor the given exclude filter", () => {
+            const updtrConfig = { ...baseUpdateTask };
+
+            updtrConfig.exclude = [baseUpdateTask.name];
+            expect(filterUpdateTask(baseUpdateTask, updtrConfig)).toBe(
+                EXCLUDED
+            );
+        });
+    });
     describe("git dependencies", () => {
         test("should filter git dependencies", () => {
             const updateTask = { ...baseUpdateTask };
@@ -36,6 +54,33 @@ describe("filterUpdateTask()", () => {
             updateTask.updateTo = "exotic";
 
             expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(EXOTIC);
+        });
+    });
+    describe("not wanted", () => {
+        test("should filter if rollbackTo is the same as updateTo", () => {
+            const updateTask = { ...baseUpdateTask };
+
+            updateTask.rollbackTo = "2.0.0";
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
+                NOT_WANTED
+            );
+            updateTask.rollbackTo = "2.0.0-beta.1";
+            updateTask.updateTo = "2.0.0-beta.1";
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
+                NOT_WANTED
+            );
+        });
+        test("should filter if rollbackTo is greater than updateTo", () => {
+            const updateTask = { ...baseUpdateTask };
+
+            updateTask.rollbackTo = "3.0.0";
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
+                NOT_WANTED
+            );
+            updateTask.rollbackTo = "3.0.0-beta.1";
+            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
+                NOT_WANTED
+            );
         });
     });
     describe("unstable dependencies", () => {
@@ -94,43 +139,6 @@ describe("filterUpdateTask()", () => {
                     UNSTABLE
                 );
             });
-        });
-    });
-    describe("excluded dependencies", () => {
-        test("should honor the given exclude filter", () => {
-            const updtrConfig = { ...baseUpdateTask };
-
-            updtrConfig.exclude = [baseUpdateTask.name];
-            expect(filterUpdateTask(baseUpdateTask, updtrConfig)).toBe(
-                EXCLUDED
-            );
-        });
-    });
-    describe("not desired", () => {
-        test("should filter if rollbackTo is the same as updateTo", () => {
-            const updateTask = { ...baseUpdateTask };
-
-            updateTask.rollbackTo = "2.0.0";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_WANTED
-            );
-            updateTask.rollbackTo = "2.0.0-beta.1";
-            updateTask.updateTo = "2.0.0-beta.1";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_WANTED
-            );
-        });
-        test("should filter if rollbackTo is greater than updateTo", () => {
-            const updateTask = { ...baseUpdateTask };
-
-            updateTask.rollbackTo = "3.0.0";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_WANTED
-            );
-            updateTask.rollbackTo = "3.0.0-beta.1";
-            expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(
-                NOT_WANTED
-            );
         });
     });
 });
