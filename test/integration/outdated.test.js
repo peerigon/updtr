@@ -15,6 +15,9 @@ import getInstalledVersions, {
 import { PACKAGE_JSON, YARN_LOCK } from "./helpers/constants";
 import { createTempDir, read, write } from "./helpers/fs";
 
+// These tests may take longer
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
+
 describe("integration test: when there are outdated dependencies", () => {
     describe("default configuration", () => {
         describe("npm", () => {
