@@ -3,10 +3,10 @@ import { SAVE_CARET, SAVE_EXACT } from "../../../src/constants/config";
 import createUpdatedPackageJson
     from "../../../src/tasks/util/createUpdatedPackageJson";
 import {
-    testModule1Success,
-    testModule2Success,
-    testModule1Fail,
-    testModule2Fail,
+    module1ToLatestSuccess,
+    module2ToLatestSuccess,
+    module1ToLatestFail,
+    module2ToLatestFail,
 } from "../../fixtures/updateResults";
 import FakeUpdtr from "../../helpers/FakeUpdtr";
 
@@ -33,7 +33,7 @@ describe("createUpdatedPackageJson()", () => {
         expect(newPackageJson).toEqual({});
     });
     it("should not create new fields for failed update results", () => {
-        const updateResults = [testModule1Fail, testModule2Fail];
+        const updateResults = [module1ToLatestFail, module2ToLatestFail];
         const newPackageJson = createUpdatedPackageJson(
             Object.freeze({}),
             updateResults,
@@ -44,7 +44,7 @@ describe("createUpdatedPackageJson()", () => {
     });
     describe("dependencies", () => {
         it("should write the versions of the successful updates to the package json", () => {
-            const updateResults = [testModule1Success, testModule2Fail];
+            const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     dependencies: {
@@ -62,7 +62,7 @@ describe("createUpdatedPackageJson()", () => {
         });
         describe(`when the save option is "${ SAVE_EXACT }"`, () => {
             it("should save the exact version", () => {
-                const updateResults = [testModule1Success];
+                const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -74,13 +74,13 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    testModule1Success.updateTo
+                    module1ToLatestSuccess.updateTo
                 );
             });
         });
         describe(`when the save option is "${ SAVE_CARET }"`, () => {
             it("should save the exact version", () => {
-                const updateResults = [testModule1Success];
+                const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -92,14 +92,14 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    "^" + testModule1Success.updateTo
+                    "^" + module1ToLatestSuccess.updateTo
                 );
             });
         });
     });
     describe("devDependencies", () => {
         it("should write the versions of the successful updates to the package json", () => {
-            const updateResults = [testModule1Success, testModule2Fail];
+            const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     devDependencies: {
@@ -117,7 +117,7 @@ describe("createUpdatedPackageJson()", () => {
         });
         describe(`when the save option is "${ SAVE_EXACT }"`, () => {
             it("should save the exact version", () => {
-                const updateResults = [testModule1Success];
+                const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         devDependencies: {
@@ -130,12 +130,12 @@ describe("createUpdatedPackageJson()", () => {
 
                 expect(
                     newPackageJson.devDependencies["updtr-test-module-1"]
-                ).toBe(testModule1Success.updateTo);
+                ).toBe(module1ToLatestSuccess.updateTo);
             });
         });
         describe(`when the save option is "${ SAVE_CARET }"`, () => {
             it("should save the exact version", () => {
-                const updateResults = [testModule1Success];
+                const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -147,14 +147,14 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    "^" + testModule1Success.updateTo
+                    "^" + module1ToLatestSuccess.updateTo
                 );
             });
         });
     });
     describe("optionalDependencies", () => {
         it("should write the versions of the successful updates to the package json", () => {
-            const updateResults = [testModule1Success, testModule2Fail];
+            const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     optionalDependencies: {
@@ -172,7 +172,7 @@ describe("createUpdatedPackageJson()", () => {
         });
         describe(`when the save option is "${ SAVE_EXACT }"`, () => {
             it("should save the exact version", () => {
-                const updateResults = [testModule1Success];
+                const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         optionalDependencies: {
@@ -185,12 +185,12 @@ describe("createUpdatedPackageJson()", () => {
 
                 expect(
                     newPackageJson.optionalDependencies["updtr-test-module-1"]
-                ).toBe(testModule1Success.updateTo);
+                ).toBe(module1ToLatestSuccess.updateTo);
             });
         });
         describe(`when the save option is "${ SAVE_CARET }"`, () => {
             it("should save the exact version", () => {
-                const updateResults = [testModule1Success];
+                const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -202,7 +202,7 @@ describe("createUpdatedPackageJson()", () => {
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
-                    "^" + testModule1Success.updateTo
+                    "^" + module1ToLatestSuccess.updateTo
                 );
             });
         });
@@ -210,7 +210,7 @@ describe("createUpdatedPackageJson()", () => {
     // This is usually an error, but we don't care
     describe("when a module is listed in more than one dependency type", () => {
         it("should update all dependency occurrences", () => {
-            const updateResults = [testModule1Success];
+            const updateResults = [module1ToLatestSuccess];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     dependencies: {
@@ -232,7 +232,10 @@ describe("createUpdatedPackageJson()", () => {
     });
     describe("when the updated modules are not listed as any dependency type", () => {
         it("should save the modules as regular dependency", () => {
-            const updateResults = [testModule1Success, testModule2Success];
+            const updateResults = [
+                module1ToLatestSuccess,
+                module2ToLatestSuccess,
+            ];
             const newPackageJson = createUpdatedPackageJson(
                 Object.freeze({}),
                 updateResults,

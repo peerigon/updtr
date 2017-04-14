@@ -1,7 +1,10 @@
 import updatePackageJson from "../../src/tasks/updatePackageJson";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import pickEventNames from "../helpers/pickEventNames";
-import { testModule1Success, testModule2Fail } from "../fixtures/updateResults";
+import {
+    module1ToLatestSuccess,
+    module2ToLatestFail,
+} from "../fixtures/updateResults";
 import { outdatedRegular } from "../fixtures/packageJsons";
 
 describe("updatePackageJson()", () => {
@@ -19,17 +22,17 @@ describe("updatePackageJson()", () => {
     });
     it("should save a package.json with expected shape to the cwd", async () => {
         const updtr = new FakeUpdtr();
-        const updateResults = [testModule1Success, testModule2Fail];
+        const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
 
         updtr.readFile.resolves(
             JSON.stringify({
                 dependencies: {
-                    [testModule1Success.name]: "1.0.0",
-                    [testModule2Fail.name]: "1.0.x",
+                    [module1ToLatestSuccess.name]: "1.0.0",
+                    [module2ToLatestFail.name]: "1.0.x",
                 },
                 devDependencies: {
-                    [testModule1Success.name]: "~1.0.x",
-                    [testModule2Fail.name]: "1.0.x",
+                    [module1ToLatestSuccess.name]: "~1.0.x",
+                    [module2ToLatestFail.name]: "1.0.x",
                 },
             })
         );
@@ -46,7 +49,7 @@ describe("updatePackageJson()", () => {
     });
     it("should not alter the formatting", async () => {
         const updtr = new FakeUpdtr();
-        const updateResults = [testModule1Success];
+        const updateResults = [module1ToLatestSuccess];
         const oldPackageJson = outdatedRegular;
 
         updtr.readFile.resolves(oldPackageJson);
@@ -59,13 +62,13 @@ describe("updatePackageJson()", () => {
         expect(newPackageJson).toBe(
             oldPackageJson.replace(
                 /\^1\.0\.0/,
-                "^" + testModule1Success.updateTo
+                "^" + module1ToLatestSuccess.updateTo
             )
         );
     });
     it("should emit the expected events", async () => {
         const updtr = new FakeUpdtr();
-        const updateResults = [testModule1Success];
+        const updateResults = [module1ToLatestSuccess];
         const eventNames = [
             "update-package-json/start",
             "update-package-json/end",

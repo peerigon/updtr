@@ -5,10 +5,10 @@ import createUpdateResult from "../../src/tasks/util/createUpdateResult";
 import { readFixture } from "../helpers/readFixtures";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 
-export let testModule1Success;
-export let testModule2Success;
-export let testModule1Fail;
-export let testModule2Fail;
+export let module1ToLatestSuccess;
+export let module2ToLatestSuccess;
+export let module1ToLatestFail;
+export let module2ToLatestFail;
 
 function outdatedToUpdateResult(outdated, success) {
     return createUpdateResult(
@@ -26,8 +26,8 @@ beforeAll(async () => {
         stdoutLog
     );
 
-    testModule1Success = outdatedToUpdateResult(outdatedTestModule1, true);
-    testModule1Fail = outdatedToUpdateResult(outdatedTestModule1, false);
-    testModule2Success = outdatedToUpdateResult(outdatedTestModule2, true);
-    testModule2Fail = outdatedToUpdateResult(outdatedTestModule2, false);
+    module1ToLatestSuccess = outdatedToUpdateResult(outdatedTestModule1, true);
+    module1ToLatestFail = outdatedToUpdateResult(outdatedTestModule1, false);
+    module2ToLatestSuccess = outdatedToUpdateResult(outdatedTestModule2, true);
+    module2ToLatestFail = outdatedToUpdateResult(outdatedTestModule2, false);
 });
