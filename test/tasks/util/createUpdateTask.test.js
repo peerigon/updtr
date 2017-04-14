@@ -16,25 +16,6 @@ function stringify(outdated) {
     ].join(", ");
 }
 
-expect.extend({
-    toSatisfySemver(received, argument) {
-        const pass = semver.satisfies(received, argument);
-
-        if (pass === true) {
-            return {
-                message: () =>
-                    `expected ${ received } not to satisfy ${ argument }`,
-                pass,
-            };
-        }
-
-        return {
-            message: () => `expected ${ received } to satisfy ${ argument }`,
-            pass,
-        };
-    },
-});
-
 describe("createUpdateTask()", () => {
     test("should return a valid update task", () => {
         expect(
@@ -61,13 +42,13 @@ describe("createUpdateTask()", () => {
         outdateds.forEach(outdated => {
             const range = "^" + outdated.current;
 
-            test(`when given ${ stringify(outdated) } should return an update that satisfies ${ range } and rollback to ${ outdated.current }`, () => {
+            test(`when given ${ stringify(outdated) } should update to ${ range } and rollback to ${ outdated.current }`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_NON_BREAKING,
                 });
 
-                expect(updateTask.updateTo).toSatisfySemver(range);
+                expect(updateTask.updateTo).toBe(range);
                 expect(updateTask.rollbackTo).toBe(outdated.current);
             });
         });
