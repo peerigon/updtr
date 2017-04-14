@@ -2,8 +2,8 @@
 
 exports[`index .errors should be an object with expected shape 1`] = `
 Object {
-  "NotProjectRootError": [Function],
   "OptionValueNotSupportedError": [Function],
+  "PackageJsonNoAccessError": [Function],
   "RequiredOptionMissingError": [Function],
   "YarnWithCustomRegistryError": [Function],
 }

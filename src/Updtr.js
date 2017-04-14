@@ -95,6 +95,20 @@ export default class Updtr extends EventEmitter {
             };
         }
     }
+    async canAccessPackageJson() {
+        let result = true;
+
+        try {
+            await fs.access(
+                path.join(this.config.cwd, "package.json"),
+                fs.constants.R_OK | fs.constants.W_OK // eslint-disable-line no-bitwise
+            );
+        } catch (err) {
+            result = false;
+        }
+
+        return result;
+    }
     exec(cmd) {
         return exec(this.config.cwd, cmd);
     }

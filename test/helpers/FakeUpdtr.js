@@ -7,11 +7,14 @@ export default class FakeUpdtr extends Updtr {
             ...FakeUpdtr.baseConfig,
             ...updtrConfig,
         });
+        this.canAccessPackageJson = sinon.stub();
         this.readFile = sinon.stub();
         this.writeFile = sinon.stub();
         this.emit = sinon.stub();
         this._exec = sinon.stub();
         this.exec.args = this._exec.args;
+
+        this.canAccessPackageJson.resolves(true);
     }
     set execResults(execResults) {
         execResults.forEach((execResult, index) => {

@@ -84,6 +84,24 @@ describe("new Updtr()", () => {
             });
         });
     });
+    describe(".canAccessPackageJson()", () => {
+        describe("when there is no package.json in the cwd", () => {
+            test("should return false", async () => {
+                const cwd = __dirname;
+                const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
+
+                expect(await updtr.canAccessPackageJson()).toBe(false);
+            });
+        });
+        describe("when there is a package.json in the cwd", () => {
+            test("should return false", async () => {
+                const cwd = path.join(__dirname, "fixtures", "empty");
+                const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
+
+                expect(await updtr.canAccessPackageJson()).toBe(true);
+            });
+        });
+    });
     describe(".exec()", () => {
         test("should exec the command in the given cwd", async () => {
             const cwd = __dirname;

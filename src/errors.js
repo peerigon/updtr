@@ -1,6 +1,6 @@
-export class NotProjectRootError extends Error {
+export class PackageJsonNoAccessError extends Error {
     constructor(dir) {
-        super(`${ dir } does not contain a package.json.`);
+        super(`Cannot access package.json in ${ dir }`);
     }
 }
 
