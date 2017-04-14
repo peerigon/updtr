@@ -11,6 +11,15 @@ describe("cmds", () => {
             test("should match snapshot", () => {
                 expect(cmds.npm.installMissing()).toMatchSnapshot();
             });
+            describe("custom registry", () => {
+                test("should match snapshot", () => {
+                    expect(
+                        cmds.npm.installMissing({
+                            registry: "http://example.com",
+                        })
+                    ).toMatchSnapshot();
+                });
+            });
         });
         describe(".install()", () => {
             describe("one module", () => {
@@ -95,6 +104,15 @@ describe("cmds", () => {
         describe(".installMissing()", () => {
             test("should match snapshot", () => {
                 expect(cmds.yarn.installMissing()).toMatchSnapshot();
+            });
+            describe("custom registry", () => {
+                test("should match snapshot", () => {
+                    expect(
+                        cmds.yarn.installMissing({
+                            registry: "http://example.com",
+                        })
+                    ).toMatchSnapshot();
+                });
             });
         });
         describe(".install()", () => {

@@ -21,7 +21,12 @@ export default (async function init(updtr) {
 
     sequence.start();
 
-    await sequence.exec("install-missing", updtr.cmds.installMissing());
+    await sequence.exec(
+        "install-missing",
+        updtr.cmds.installMissing({
+            registry: updtr.config.registry,
+        })
+    );
 
     try {
         stdout = (await sequence.exec("collect", outdatedCmd)).stdout;

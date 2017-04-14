@@ -8,6 +8,8 @@ exports[`cmds .npm .install() one module custom registry should match snapshot 1
 
 exports[`cmds .npm .install() one module should match snapshot 1`] = `"npm install some-module@1.0.0"`;
 
+exports[`cmds .npm .installMissing() custom registry should match snapshot 1`] = `"npm install --registry http://example.com"`;
+
 exports[`cmds .npm .installMissing() should match snapshot 1`] = `"npm install"`;
 
 exports[`cmds .npm .outdated() should match snapshot 1`] = `"npm outdated --json --depth=0"`;
@@ -21,6 +23,8 @@ exports[`cmds .yarn .install() multiple modules should match snapshot 1`] = `"ya
 exports[`cmds .yarn .install() one module custom registry should match snapshot 1`] = `"yarn add --registry http://example.com/registry some-module@1.0.0"`;
 
 exports[`cmds .yarn .install() one module should match snapshot 1`] = `"yarn add some-module@1.0.0"`;
+
+exports[`cmds .yarn .installMissing() custom registry should match snapshot 1`] = `"yarn --registry http://example.com"`;
 
 exports[`cmds .yarn .installMissing() should match snapshot 1`] = `"yarn"`;
 
