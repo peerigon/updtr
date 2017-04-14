@@ -9,6 +9,9 @@
             "request": "launch",
             "name": "Bin",
             "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/babel-node",
+            "runtimeArgs": [
+                "--harmony_async_await"
+            ],
             "program": "${workspaceRoot}/src/bin/index.js"
         },
         {
@@ -25,6 +28,7 @@
             "preLaunchTask": null,
             "runtimeExecutable": null,
             "runtimeArgs": [
+                "--harmony_async_await",
                 "--nolazy"
             ],
             "env": {
