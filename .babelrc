@@ -1,28 +1,28 @@
 {
+    "presets": [
+        [
+            "env",
+            {
+                "targets": {
+                    "node": "current"
+                }
+            }
+        ]
+    ],
     "env": {
-        "development": {
+        "production": {
             "presets": [
                 [
                     "env",
                     {
                         "targets": {
-                            "node": "current"
+                            "node": 4
                         }
                     }
                 ]
             ]
         }
     },
-    "presets": [
-        [
-            "env",
-            {
-                "targets": {
-                    "node": 4
-                }
-            }
-        ]
-    ],
     "plugins": [
         "transform-runtime",
         "transform-object-rest-spread"

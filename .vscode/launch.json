@@ -32,7 +32,7 @@
                 "--nolazy"
             ],
             "env": {
-                "NODE_ENV": "development"
+                "NODE_ENV": "test"
             },
             "externalConsole": false,
             "sourceMaps": true,
