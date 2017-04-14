@@ -9,42 +9,39 @@ import {
 import exec from "./exec/exec";
 import cmds from "./exec/cmds";
 import parse from "./exec/parse";
+import {
+    RequiredOptionMissingError,
+    OptionValueNotSupportedError,
+    YarnWithCustomRegistryError,
+} from "./errors";
 
 function checkCwd(cwd) {
     if (typeof cwd !== "string") {
-        throw new Error("Cannot create updtr instance: cwd is missing");
+        throw new RequiredOptionMissingError("cwd", cwd);
     }
 }
 
-function checkPackagerManager(packageManager) {
-    if (USE_OPTIONS.indexOf(packageManager) === -1) {
-        throw new Error(
-            `Cannot create updtr instance: unsupported packager manager ${ packageManager }`
-        );
+function checkUse(use) {
+    if (USE_OPTIONS.indexOf(use) === -1) {
+        throw new OptionValueNotSupportedError("use", use);
     }
 }
 
 function checkUpdateTo(updateTo) {
     if (UPDATE_TO_OPTIONS.indexOf(updateTo) === -1) {
-        throw new Error(
-            `Cannot create updtr instance: unsupported updateTo option "${ updateTo }"`
-        );
+        throw new OptionValueNotSupportedError("updateTo", updateTo);
     }
 }
 
 function checkSave(save) {
     if (SAVE_OPTIONS.indexOf(save) === -1) {
-        throw new Error(
-            `Cannot create updtr instance: unsupported save option "${ save }"`
-        );
+        throw new OptionValueNotSupportedError("save", save);
     }
 }
 
 function checkForYarnWithCustomReg(packageManager, registry) {
     if (packageManager === "yarn" && registry !== undefined) {
-        throw new Error(
-            "Cannot create updtr instance: yarn does not support custom registries yet. Please use a .npmrc file to achieve this"
-        );
+        throw new YarnWithCustomRegistryError();
     }
 }
 
@@ -74,7 +71,7 @@ export default class Updtr extends EventEmitter {
         const save = config.save === undefined ? SAVE_OPTIONS[0] : config.save;
 
         checkCwd(cwd);
-        checkPackagerManager(packageManager);
+        checkUse(packageManager);
         checkForYarnWithCustomReg(packageManager, registry);
         checkUpdateTo(updateTo);
         checkSave(save);

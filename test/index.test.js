@@ -17,4 +17,9 @@ describe("index", () => {
             expect(typeof index.run).toBe("function");
         });
     });
+    describe(".errors", () => {
+        test("should be an object with expected shape", () => {
+            expect(index.errors).toMatchSnapshot();
+        });
+    });
 });

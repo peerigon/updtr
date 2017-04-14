@@ -3,6 +3,11 @@ import os from "os";
 import path from "path";
 import Updtr from "../src/Updtr";
 import fs from "../src/util/fs";
+import {
+    RequiredOptionMissingError,
+    OptionValueNotSupportedError,
+    YarnWithCustomRegistryError,
+} from "../src/errors";
 import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
 import temp from "./helpers/temp";
 import FakeUpdtr from "./helpers/FakeUpdtr";
@@ -170,15 +175,13 @@ describe("new Updtr()", () => {
 
             delete config.cwd;
 
-            expect(() => new Updtr(config)).toThrow(
-                "Cannot create updtr instance: cwd is missing"
-            );
+            expect(() => new Updtr(config)).toThrow(RequiredOptionMissingError);
         });
-        test("should throw if the package manager is not supported", () => {
+        test("should throw if the use option is not supported", () => {
             const config = { ...FakeUpdtr.baseConfig, use: "bower" };
 
             expect(() => new Updtr(config)).toThrow(
-                "Cannot create updtr instance: unsupported packager manager bower"
+                OptionValueNotSupportedError
             );
         });
         test("should throw if the updateTo option is unknown", () => {
@@ -188,14 +191,14 @@ describe("new Updtr()", () => {
             };
 
             expect(() => new Updtr(config)).toThrow(
-                'Cannot create updtr instance: unsupported updateTo option "something-else"'
+                OptionValueNotSupportedError
             );
         });
         test("should throw if the save option is unknown", () => {
             const config = { ...FakeUpdtr.baseConfig, save: "something-else" };
 
             expect(() => new Updtr(config)).toThrow(
-                'Cannot create updtr instance: unsupported save option "something-else"'
+                OptionValueNotSupportedError
             );
         });
         test("should throw if package manager is yarn and there is a custom registry set", () => {
@@ -206,7 +209,7 @@ describe("new Updtr()", () => {
             };
 
             expect(() => new Updtr(config)).toThrow(
-                "Cannot create updtr instance: yarn does not support custom registries yet. Please use a .npmrc file to achieve this"
+                YarnWithCustomRegistryError
             );
         });
     });
