@@ -6,6 +6,7 @@ import {
     EXCLUDED,
     EXOTIC,
 } from "../../../src/constants/filterReasons";
+import { isUpdateToNonBreaking } from "./createUpdateTask";
 
 const prePattern = /^pre/;
 const reasonTests = [
@@ -25,13 +26,13 @@ const reasonTests = [
     {
         name: NOT_WANTED,
         test: updateTask =>
-            startsWithCaret(updateTask.updateTo) === false &&
+            isUpdateToNonBreaking(updateTask) === false &&
             semver.lte(updateTask.updateTo, updateTask.rollbackTo) === true,
     },
     {
         name: UNSTABLE,
         test(updateTask) {
-            if (startsWithCaret(updateTask.updateTo) === true) {
+            if (isUpdateToNonBreaking(updateTask) === true) {
                 return null;
             }
 
@@ -48,10 +49,6 @@ const reasonTests = [
     },
 ];
 const reasons = reasonTests.map(test => test.name);
-
-function startsWithCaret(version) {
-    return version.charAt(0) === "^";
-}
 
 export default function filterUpdateTask(updateTask, updtrConfig) {
     const reasonIndex = reasonTests.findIndex(

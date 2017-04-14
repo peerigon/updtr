@@ -16,6 +16,10 @@ function determineUpdateToVersion({ current, wanted, latest }, { updateTo }) {
     }
 }
 
+export function isUpdateToNonBreaking(updateTask) {
+    return updateTask.updateTo === "^" + updateTask.rollbackTo;
+}
+
 export default function createUpdateTask(outdated, updtrConfig) {
     return {
         name: outdated.name,

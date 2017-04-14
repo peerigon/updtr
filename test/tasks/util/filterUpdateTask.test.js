@@ -6,6 +6,9 @@ import {
     EXCLUDED,
     EXOTIC,
 } from "../../../src/constants/filterReasons";
+import {
+    isUpdateToNonBreaking,
+} from "../../../src/tasks/util/createUpdateTask";
 
 const baseUpdateTask = {
     name: "some-module",
@@ -20,13 +23,11 @@ describe("filterUpdateTask()", () => {
     test("should not filter a regular update task", () => {
         expect(filterUpdateTask(baseUpdateTask, baseUpdtrConfig)).toBe(null);
     });
-    test("should not filter an update task with a caret range as updateTo property", () => {
-        expect(
-            filterUpdateTask(
-                { ...baseUpdateTask, updateTo: "^2.0.0" },
-                baseUpdtrConfig
-            )
-        ).toBe(null);
+    test("should not filter an update task that satisfies the isUpdateToNonBreaking test", () => {
+        const updateTask = { ...baseUpdateTask, updateTo: "^1.0.0" };
+
+        expect(isUpdateToNonBreaking(updateTask)).toBe(true); // sanity check
+        expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(null);
     });
     describe("excluded dependencies", () => {
         test("should honor the given exclude filter", () => {
