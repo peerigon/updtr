@@ -49,6 +49,13 @@ function arrToObj(arr, keys) {
     );
 }
 
+function list(parsed) {
+    return Object.keys(parsed.dependencies).map(name => ({
+        name,
+        version: parsed.dependencies[name].version,
+    }));
+}
+
 export default {
     npm: {
         outdated: tryParse(parsed => {
@@ -66,6 +73,7 @@ export default {
                     latest: dep.latest,
                 }));
         }),
+        list: tryParse(list),
     },
     yarn: {
         outdated: tryParse(
@@ -82,5 +90,8 @@ export default {
                                   latest: dep.Latest,
                               }))
         ),
+        // We currently only use npm for the list command (see cmds.js).
+        // Put the real implementation here if we decide to use yarn for list.
+        list: tryParse(list),
     },
 };

@@ -24,7 +24,6 @@ describe("integration test: when there are no outdated dependencies", () => {
                 cwd: tempDir,
             });
             const results = await run(updtr);
-
             const [
                 tempDirPackageContents,
                 installedVersions,

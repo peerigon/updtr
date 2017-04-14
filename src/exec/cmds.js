@@ -16,6 +16,10 @@ function stringifyRegistry(registry) {
     return registry === undefined ? "" : ` --registry ${ registry }`;
 }
 
+function list({ modules }) {
+    return "npm ls --json --depth=0 " + modules.join(" ");
+}
+
 export default {
     npm: {
         outdated: () => "npm outdated --json --depth=0",
@@ -23,6 +27,7 @@ export default {
         install: installFn("npm install"),
         // remove: ({ name }) => ["npm remove ", name].join(""),
         test: () => "npm test",
+        list,
     },
     // yarn does not support custom registries yet.
     // However, these renderers accept them anyway.
@@ -32,5 +37,8 @@ export default {
         install: installFn("yarn add"),
         // remove: ({ name }) => ["yarn remove ", name].join(""),
         test: () => "yarn test",
+        // We use npm for listing the dependencies because there is no
+        // special benefit by using yarn here
+        list,
     },
 };
