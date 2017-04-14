@@ -1,7 +1,7 @@
 import { USE_YARN } from "../../src/constants/config";
 import finish from "../../src/tasks/finish";
 import FakeUpdtr from "../helpers/FakeUpdtr";
-import { npmList, yarnList } from "../fixtures/execResults";
+import { npmList, yarnList, errorExecList } from "../fixtures/execResults";
 import {
     module1ToLatestSuccess,
     module1ToNonBreakingSuccess,
@@ -12,6 +12,7 @@ import {
     module2ToLatestFail,
     module2ToNonBreakingFail,
 } from "../fixtures/updateResults";
+import pickEvents from "../helpers/pickEvents";
 
 describe("finish()", () => {
     describe("when the given results array is empty", () => {
@@ -90,104 +91,23 @@ describe("finish()", () => {
             });
         });
     });
+    describe("unexpected errors", () => {
+        test("should emit a non-critical-error event", async () => {
+            const updtr = new FakeUpdtr();
+            const results = [module1ToNonBreakingSuccess];
 
-    //     return;
-    //     describe("using npm", () => {
-    //         describe("when the tests succeed", () => {
-    //             test("should return the expected update results", async () => {
-    //                 const updtr = new FakeUpdtr();
-    //                 const updateTasks = createUpdateTasks(updtr.config);
+            updtr.execResults = errorExecList;
 
-    //                 updtr.execResults = update.concat(testPass);
+            await finish(updtr, results);
 
-    //                 const success = await batchUpdate(updtr, updateTasks);
+            const nonCriticalErrorEvent = pickEvents(
+                "finish/non-critical-error",
+                updtr.emit.args
+            )[0];
 
-    //                 expect(success).toBe(true);
-    //             });
-    //         });
-    //         describe("when the test fails", () => {
-    //             test("should emit expected events and execute expected commands", async () => {
-    //                 const updtr = new FakeUpdtr();
-    //                 const updateTasks = createUpdateTasks(updtr.config);
-
-    //                 updtr.execResults = update.concat(testFail);
-
-    //                 const success = await batchUpdate(updtr, updateTasks);
-
-    //                 expect(updtr.exec.args).toMatchSnapshot();
-    //                 expect(updtr.emit.args).toMatchSnapshot();
-    //                 expect(success).toBe(false);
-    //             });
-    //         });
-    //     });
-    //     describe("using yarn", () => {
-    //         describe("when the tests succeed", () => {
-    //             test("should return the expected update results", async () => {
-    //                 const updtr = new FakeUpdtr({
-    //                     use: "yarn",
-    //                 });
-    //                 const updateTasks = createUpdateTasks(updtr.config);
-
-    //                 updtr.execResults = update.concat(testPass);
-
-    //                 const success = await batchUpdate(updtr, updateTasks);
-
-    //                 expect(success).toBe(true);
-    //             });
-    //         });
-    //         describe("when the test fails", () => {
-    //             test("should emit expected events and execute expected commands", async () => {
-    //                 const updtr = new FakeUpdtr({
-    //                     use: "yarn",
-    //                 });
-    //                 const updateTasks = createUpdateTasks(updtr.config);
-
-    //                 updtr.execResults = update.concat(testFail);
-
-    //                 const success = await batchUpdate(updtr, updateTasks);
-
-    //                 expect(updtr.exec.args).toMatchSnapshot();
-    //                 expect(updtr.emit.args).toMatchSnapshot();
-    //                 expect(success).toBe(false);
-    //             });
-    //         });
-    //     });
-    // });
-
-    // describe("unexpected errors", () => {
-    //     test("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
-    //         const updtr = new FakeUpdtr();
-    //         const updateTasks = createUpdateTasks(updtr.config);
-    //         let givenErr;
-
-    //         updtr.execResults = errorExecUpdate;
-
-    //         try {
-    //             await batchUpdate(updtr, updateTasks);
-    //         } catch (err) {
-    //             givenErr = err;
-    //         }
-
-    //         expect(givenErr).toBe(execError);
-    //         // emitted events: start, updating
-    //         expect(updtr.emit.args.length).toBe(2);
-    //     });
-    //     test("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
-    //         const updtr = new FakeUpdtr();
-    //         const updateTasks = createUpdateTasks(updtr.config);
-    //         let givenErr;
-
-    //         updtr.execResults = errorExecRollback;
-
-    //         try {
-    //             await batchUpdate(updtr, updateTasks);
-    //         } catch (err) {
-    //             givenErr = err;
-    //         }
-
-    //         expect(givenErr).toBe(execError);
-    //         // emitted events: start, updating, testing, testResult, rollback
-    //         expect(updtr.emit.args.length).toBe(5);
-    //     });
-    // });
+            expect(nonCriticalErrorEvent).toMatchSnapshot(
+                "unexpected error > exec list error > event"
+            );
+        });
+    });
 });

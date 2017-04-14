@@ -14,13 +14,14 @@ export const yarnOutdated = [];
 export const update = [];
 export const testPass = [];
 export const testFail = [];
+export const npmList = [];
+export const yarnList = [];
 export const errorExecInstallMissing = [];
 export const errorExecOutdated = [];
 export const errorParseOutdated = [];
 export const errorExecUpdate = [];
 export const errorExecRollback = [];
-export const npmList = [];
-export const yarnList = [];
+export const errorExecList = [];
 
 beforeAll(async () => {
     const stdoutLogs = await readFixtures([
@@ -66,6 +67,13 @@ beforeAll(async () => {
         { stdout: "" } // rollback
     );
 
+    npmList.push({
+        stdout: stdoutLogs.get("no-outdated/list.npm.log"),
+    });
+    yarnList.push({
+        stdout: stdoutLogs.get("no-outdated/list.yarn.log"),
+    });
+
     errorExecInstallMissing.push(
         execError // installMissing
     );
@@ -78,18 +86,14 @@ beforeAll(async () => {
         { stdout: "Nonsense" } // outdated
     );
     errorExecUpdate.push(
-        execError // installMissing
+        execError // update
     );
     errorExecRollback.push(
         { stdout: "" }, // update
         execError, // test
         execError // rollback
     );
-
-    npmList.push({
-        stdout: stdoutLogs.get("no-outdated/list.npm.log"),
-    });
-    yarnList.push({
-        stdout: stdoutLogs.get("no-outdated/list.yarn.log"),
-    });
+    errorExecList.push(
+        execError // list
+    );
 });
