@@ -16,8 +16,11 @@ function stringifyRegistry(registry) {
     return registry === undefined ? "" : ` --registry ${ registry }`;
 }
 
-function list({ modules }) {
-    return "npm ls --json --depth=0 " + modules.join(" ");
+function list({ modules } = {}) {
+    return [
+        "npm ls --json --depth=0",
+        Array.isArray(modules) === true ? " " + modules.join(" ") : "",
+    ].join("");
 }
 
 export default {

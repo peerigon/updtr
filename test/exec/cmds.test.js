@@ -28,7 +28,7 @@ describe("cmds", () => {
                         cmds.npm.install({
                             modules: [
                                 {
-                                    name: "some-module",
+                                    name: "a",
                                     version: "1.0.0",
                                 },
                             ],
@@ -42,7 +42,7 @@ describe("cmds", () => {
                                 registry: "http://example.com/registry",
                                 modules: [
                                     {
-                                        name: "some-module",
+                                        name: "a",
                                         version: "1.0.0",
                                     },
                                 ],
@@ -57,11 +57,11 @@ describe("cmds", () => {
                         cmds.npm.install({
                             modules: [
                                 {
-                                    name: "some-module-1",
+                                    name: "a",
                                     version: "1.0.0",
                                 },
                                 {
-                                    name: "some-module-2",
+                                    name: "b",
                                     version: "1.0.0",
                                 },
                             ],
@@ -75,11 +75,11 @@ describe("cmds", () => {
                                 registry: "http://example.com/registry",
                                 modules: [
                                     {
-                                        name: "some-module-1",
+                                        name: "a",
                                         version: "1.0.0",
                                     },
                                     {
-                                        name: "some-module-2",
+                                        name: "b",
                                         version: "1.0.0",
                                     },
                                 ],
@@ -92,6 +92,20 @@ describe("cmds", () => {
         describe(".test()", () => {
             test("should match snapshot", () => {
                 expect(cmds.npm.test()).toMatchSnapshot();
+            });
+        });
+        describe(".list()", () => {
+            describe("no arguments", () => {
+                test("should match snapshot", () => {
+                    expect(cmds.npm.list()).toMatchSnapshot();
+                });
+            });
+            describe("with modules", () => {
+                test("should match snapshot", () => {
+                    expect(
+                        cmds.npm.list({ modules: ["a", "b", "c"] })
+                    ).toMatchSnapshot();
+                });
             });
         });
     });
@@ -151,11 +165,11 @@ describe("cmds", () => {
                         cmds.yarn.install({
                             modules: [
                                 {
-                                    name: "some-module-1",
+                                    name: "a",
                                     version: "1.0.0",
                                 },
                                 {
-                                    name: "some-module-2",
+                                    name: "b",
                                     version: "1.0.0",
                                 },
                             ],
@@ -169,11 +183,11 @@ describe("cmds", () => {
                                 registry: "http://example.com/registry",
                                 modules: [
                                     {
-                                        name: "some-module-1",
+                                        name: "a",
                                         version: "1.0.0",
                                     },
                                     {
-                                        name: "some-module-2",
+                                        name: "b",
                                         version: "1.0.0",
                                     },
                                 ],
@@ -186,6 +200,11 @@ describe("cmds", () => {
         describe(".test()", () => {
             test("should match snapshot", () => {
                 expect(cmds.yarn.test()).toMatchSnapshot();
+            });
+        });
+        describe(".list()", () => {
+            test("should be the same implementation as .npm.list", () => {
+                expect(cmds.yarn.list).toBe(cmds.npm.list);
             });
         });
     });
