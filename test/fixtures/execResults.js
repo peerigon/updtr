@@ -19,11 +19,15 @@ export const errorExecOutdated = [];
 export const errorParseOutdated = [];
 export const errorExecUpdate = [];
 export const errorExecRollback = [];
+export const npmList = [];
+export const yarnList = [];
 
 beforeAll(async () => {
     const stdoutLogs = await readFixtures([
         "no-outdated/outdated.npm.log",
         "no-outdated/outdated.yarn.log",
+        "no-outdated/list.npm.log",
+        "no-outdated/list.yarn.log",
         "outdated/outdated.npm.log",
         "outdated/outdated.yarn.log",
     ]);
@@ -81,4 +85,11 @@ beforeAll(async () => {
         execError, // test
         execError // rollback
     );
+
+    npmList.push({
+        stdout: stdoutLogs.get("no-outdated/list.npm.log"),
+    });
+    yarnList.push({
+        stdout: stdoutLogs.get("no-outdated/list.yarn.log"),
+    });
 });

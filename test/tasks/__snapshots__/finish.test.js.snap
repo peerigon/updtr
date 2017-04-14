@@ -1,0 +1,205 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`incomplete > npm > emit args 1`] = `
+Array [
+  Array [
+    "finish/start",
+    Object {},
+  ],
+  Array [
+    "finish/incomplete",
+    Object {
+      "incomplete": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "success": true,
+          "updateTo": "^1.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "success": true,
+          "updateTo": "^2.0.0",
+        },
+      ],
+    },
+  ],
+  Array [
+    "finish/list-incomplete",
+    Object {
+      "cmd": "npm ls --json --depth=0 updtr-test-module-1 updtr-test-module-2",
+    },
+  ],
+  Array [
+    "finish/end",
+    Object {
+      "results": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "success": true,
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "success": true,
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "success": true,
+          "updateTo": "2.1.1",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "success": true,
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`incomplete > npm > exec args 1`] = `
+Array [
+  Array [
+    "npm ls --json --depth=0 updtr-test-module-1 updtr-test-module-2",
+  ],
+]
+`;
+
+exports[`incomplete > npm > results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "success": true,
+    "updateTo": "2.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "success": true,
+    "updateTo": "2.1.1",
+  },
+]
+`;
+
+exports[`incomplete > yarn > emit args 1`] = `
+Array [
+  Array [
+    "finish/start",
+    Object {},
+  ],
+  Array [
+    "finish/incomplete",
+    Object {
+      "incomplete": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "success": true,
+          "updateTo": "^1.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "success": true,
+          "updateTo": "^2.0.0",
+        },
+      ],
+    },
+  ],
+  Array [
+    "finish/list-incomplete",
+    Object {
+      "cmd": "npm ls --json --depth=0 updtr-test-module-1 updtr-test-module-2",
+    },
+  ],
+  Array [
+    "finish/end",
+    Object {
+      "results": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "success": true,
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "success": true,
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "success": true,
+          "updateTo": "2.1.1",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "success": true,
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`incomplete > yarn > exec args 1`] = `
+Array [
+  Array [
+    "npm ls --json --depth=0 updtr-test-module-1 updtr-test-module-2",
+  ],
+]
+`;
+
+exports[`incomplete > yarn > results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "success": true,
+    "updateTo": "2.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "success": true,
+    "updateTo": "2.1.1",
+  },
+]
+`;
