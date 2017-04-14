@@ -65,7 +65,7 @@ describe("run()", () => {
 
         await run(updtr);
 
-        expect(updtr.emit.args.shift()).toMatchSnapshot();
+        expect(updtr.emit.args.shift()).toMatchSnapshot("start event");
     });
     test("should emit init sequence events", async () => {
         const updtr = new FakeUpdtr();
@@ -97,7 +97,7 @@ describe("run()", () => {
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
 
-            expect(endEventArgs).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot("no-outdated > end event");
             expect(results).toBe(endEventArgs[1].results);
         });
     });
@@ -139,7 +139,7 @@ describe("run()", () => {
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
 
-            expect(endEventArgs).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot("one-breaking > end event");
             expect(results).toBe(endEventArgs[1].results);
         });
     });
@@ -186,7 +186,9 @@ describe("run()", () => {
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
 
-            expect(endEventArgs).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot(
+                "breaking updates > end event"
+            );
             expect(results).toBe(endEventArgs[1].results);
         });
     });
@@ -229,7 +231,9 @@ describe("run()", () => {
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
 
-            expect(endEventArgs).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot(
+                "two non-breaking and update ok > end event"
+            );
             expect(results).toBe(endEventArgs[1].results);
         });
     });
@@ -281,11 +285,13 @@ describe("run()", () => {
             const results = await run(updtr);
             const endEventArgs = updtr.emit.args.pop();
 
-            expect(endEventArgs).toMatchSnapshot();
+            expect(endEventArgs).toMatchSnapshot(
+                "two non-breaking and update not ok > end event"
+            );
             expect(results).toBe(endEventArgs[1].results);
         });
     });
-    describe(`when updateTo is "${ UPDATE_TO_NON_BREAKING }" and the tests are ok`, () => {
+    describe(`when updateTo is "${ UPDATE_TO_NON_BREAKING }"`, () => {
         test("should finish incomplete results", async () => {
             const updtr = new FakeUpdtr({
                 updateTo: UPDATE_TO_NON_BREAKING,
@@ -300,7 +306,9 @@ describe("run()", () => {
             );
             addPackageJsonFileStubs(updtr);
 
-            expect(await run(updtr)).toMatchSnapshot();
+            expect(await run(updtr)).toMatchSnapshot(
+                `updateTo ${ UPDATE_TO_NON_BREAKING } > end event`
+            );
         });
     });
 });
