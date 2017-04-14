@@ -1,6 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parse .npm .outdated outdated fixture should return an array with normalized outdated data 1`] = `
+exports[`parse .npm .list() no-outdated fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .npm .list() no-outdated-dev fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .npm .list() outdated fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "1.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.0.0",
+  },
+]
+`;
+
+exports[`parse .npm .list() outdated-dev fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "1.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.0.0",
+  },
+]
+`;
+
+exports[`parse .npm .outdated() outdated fixture should return an array with normalized outdated data 1`] = `
 Array [
   Object {
     "current": "1.0.0",
@@ -17,7 +69,7 @@ Array [
 ]
 `;
 
-exports[`parse .npm .outdated outdated-dev fixture should return an array with normalized outdated data 1`] = `
+exports[`parse .npm .outdated() outdated-dev fixture should return an array with normalized outdated data 1`] = `
 Array [
   Object {
     "current": "1.0.0",
@@ -34,7 +86,7 @@ Array [
 ]
 `;
 
-exports[`parse .yarn .outdated outdated fixture should return an array with normalized outdated data 1`] = `
+exports[`parse .yarn .outdated() outdated fixture should return an array with normalized outdated data 1`] = `
 Array [
   Object {
     "current": "1.0.0",
@@ -51,7 +103,7 @@ Array [
 ]
 `;
 
-exports[`parse .yarn .outdated outdated-dev fixture should return an array with normalized outdated data 1`] = `
+exports[`parse .yarn .outdated() outdated-dev fixture should return an array with normalized outdated data 1`] = `
 Array [
   Object {
     "current": "1.0.0",

@@ -15,6 +15,8 @@ export const fixtureSetups = {
             await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "yarn", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await writeStdoutLog(fixture, "yarn", "list");
             await modifyPackageJson(fixture, testOkModifier);
         });
     },
@@ -36,6 +38,8 @@ export const fixtureSetups = {
                 caretRangeModifier
             );
             await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await writeStdoutLog(fixture, "yarn", "list");
         });
     },
     async "no-outdated-dev"() {
@@ -56,6 +60,8 @@ export const fixtureSetups = {
                 caretRangeModifier
             );
             await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await writeStdoutLog(fixture, "yarn", "list");
         });
     },
     async outdated() {
@@ -81,6 +87,8 @@ export const fixtureSetups = {
                 caretRangeModifier
             );
             await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await writeStdoutLog(fixture, "yarn", "list");
         });
     },
     async "outdated-dev"() {
@@ -106,6 +114,8 @@ export const fixtureSetups = {
                 caretRangeModifier
             );
             await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await writeStdoutLog(fixture, "yarn", "list");
         });
     },
 };

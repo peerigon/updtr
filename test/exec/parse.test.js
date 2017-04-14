@@ -33,20 +33,30 @@ beforeAll(async () => {
     stdoutLogs = await readFixtures([
         "empty/outdated.npm.log",
         "empty/outdated.yarn.log",
+        "empty/list.npm.log",
+        "empty/list.yarn.log",
         "no-outdated/outdated.npm.log",
         "no-outdated/outdated.yarn.log",
+        "no-outdated/list.npm.log",
+        "no-outdated/list.yarn.log",
         "no-outdated-dev/outdated.npm.log",
         "no-outdated-dev/outdated.yarn.log",
+        "no-outdated-dev/list.npm.log",
+        "no-outdated-dev/list.yarn.log",
         "outdated/outdated.npm.log",
         "outdated/outdated.yarn.log",
+        "outdated/list.npm.log",
+        "outdated/list.yarn.log",
         "outdated-dev/outdated.npm.log",
         "outdated-dev/outdated.yarn.log",
+        "outdated-dev/list.npm.log",
+        "outdated-dev/list.yarn.log",
     ]);
 });
 
 describe("parse", () => {
     describe(".npm", () => {
-        describe(".outdated", () => {
+        describe(".outdated()", () => {
             describe("empty fixture", () => {
                 test("fixture sanity test", () => {
                     const fixture = stdoutLogs
@@ -140,9 +150,58 @@ describe("parse", () => {
             });
             testUnexpectedInput(parse.npm.outdated);
         });
+        describe(".list()", () => {
+            function testFixture(fixtureName) {
+                test("fixture sanity test", () => {
+                    const fixture = stdoutLogs
+                        .get(fixtureName + "/list.npm.log")
+                        .trim();
+
+                    expect(fixture.length).toBeGreaterThan(10);
+                    JSON.parse(fixture); // should be parseable
+                });
+                test("should return an array with installed versions", () => {
+                    expect(
+                        parse.npm.list(
+                            stdoutLogs.get(fixtureName + "/list.npm.log")
+                        )
+                    ).toMatchSnapshot();
+                });
+            }
+
+            describe("empty fixture", () => {
+                test("fixture sanity test", () => {
+                    const fixture = stdoutLogs.get("empty/list.npm.log").trim();
+
+                    expect(fixture.length).toBeGreaterThan(10);
+                    JSON.parse(fixture); // should be parseable
+                });
+                test("should return an empty array", () => {
+                    expect(
+                        parse.npm.list(stdoutLogs.get("empty/list.npm.log"))
+                    ).toEqual([]);
+                });
+            });
+
+            describe("no-outdated fixture", () => {
+                testFixture("no-outdated");
+            });
+
+            describe("no-outdated-dev fixture", () => {
+                testFixture("no-outdated-dev");
+            });
+
+            describe("outdated fixture", () => {
+                testFixture("outdated");
+            });
+
+            describe("outdated-dev fixture", () => {
+                testFixture("outdated-dev");
+            });
+        });
     });
     describe(".yarn", () => {
-        describe(".outdated", () => {
+        describe(".outdated()", () => {
             describe("empty fixture", () => {
                 test("fixture sanity test", () => {
                     const fixture = stdoutLogs
@@ -235,6 +294,11 @@ describe("parse", () => {
                 });
             });
             testUnexpectedInput(parse.yarn.outdated);
+        });
+        describe(".list()", () => {
+            test("should be the same implementation as .npm.list", () => {
+                expect(parse.yarn.list).toBe(parse.npm.list);
+            });
         });
     });
 });
