@@ -2,58 +2,97 @@ import splitUpdateTasks from "../../../src/tasks/util/splitUpdateTasks";
 
 const breakingUpdateTasks = [
     {
-        name: "module-1",
         updateTo: "2.0.0",
         rollbackTo: "1.0.1",
     },
     {
-        name: "module-2",
         updateTo: "2.0.0",
         rollbackTo: "1.1.0",
+    },
+    {
+        updateTo: "^2.0.0",
+        rollbackTo: "1.1.0",
+    },
+    {
+        updateTo: "^0.2.0",
+        rollbackTo: "0.1.0",
+    },
+    {
+        updateTo: "^0.0.2",
+        rollbackTo: "0.0.1",
     },
 ];
 const nonBreakingUpdateTasks = [
     {
         // Does not occur in the real-world since these modules are not outdated.
         // However, we still test it here for consistency.
-        name: "module-1",
         updateTo: "1.0.0",
         rollbackTo: "1.0.0",
     },
     {
-        name: "module-2",
+        updateTo: "^1.0.0",
+        rollbackTo: "1.0.0",
+    },
+    {
         updateTo: "1.0.1",
         rollbackTo: "1.0.0",
     },
     {
-        name: "module-3",
+        updateTo: "^1.0.1",
+        rollbackTo: "1.0.1",
+    },
+    {
         updateTo: "1.1.0",
         rollbackTo: "1.0.0",
     },
+    {
+        updateTo: "^1.1.0",
+        rollbackTo: "1.1.0",
+    },
+    {
+        updateTo: "^0.1.0",
+        rollbackTo: "0.1.0",
+    },
+    {
+        updateTo: "^0.0.1",
+        rollbackTo: "0.0.1",
+    },
 ];
 const preVersionUpdateTasks = [
+    // diff = prerelease
     {
-        // diff = prerelease
-        name: "module-1",
         updateTo: "1.0.1-beta.2",
         rollbackTo: "1.0.1-beta.1",
     },
     {
-        // diff = prepatch
-        name: "module-2",
+        updateTo: "^1.0.1-beta.2",
+        rollbackTo: "1.0.1-beta.1",
+    },
+    // diff = prepatch
+    {
         updateTo: "1.0.2-beta.2",
         rollbackTo: "1.0.1-beta.1",
     },
     {
-        // diff = preminor
-        name: "module-3",
+        updateTo: "^1.0.2-beta.2",
+        rollbackTo: "1.0.1-beta.1",
+    },
+    // diff = preminor
+    {
         updateTo: "1.1.0-beta.2",
         rollbackTo: "1.0.1-beta.1",
     },
     {
-        // diff = premajor
-        name: "module-4",
+        updateTo: "^1.1.0-beta.2",
+        rollbackTo: "1.0.1-beta.1",
+    },
+    // diff = premajor
+    {
         updateTo: "2.0.0-beta.2",
+        rollbackTo: "1.0.1-beta.1",
+    },
+    {
+        updateTo: "^2.0.0-beta.2",
         rollbackTo: "1.0.1-beta.1",
     },
 ];

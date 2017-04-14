@@ -1,22 +1,25 @@
 import semver from "semver";
 
-function isBreaking(diff) {
+function diffIsBreaking(diff) {
     return diff !== null && diff !== "minor" && diff !== "patch";
 }
 
 export default function splitUpdateTask(updateTasks) {
     return updateTasks.reduce(
         (result, updateTask) => {
-            const diff = semver.diff(
-                updateTask.rollbackTo,
-                updateTask.updateTo
-            );
+            const updateToIsRange = semver.valid(updateTask.updateTo) === null;
+            const isBreaking = updateToIsRange === true ?
+                semver.satisfies(
+                    updateTask.rollbackTo,
+                    updateTask.updateTo
+                  ) === false :
+                diffIsBreaking(
+                    semver.diff(updateTask.rollbackTo, updateTask.updateTo)
+                  ) === true;
 
-            if (isBreaking(diff) === true) {
-                result.breaking.push(updateTask);
-            } else {
-                result.nonBreaking.push(updateTask);
-            }
+            (isBreaking === true ? result.breaking : result.nonBreaking).push(
+                updateTask
+            );
 
             return result;
         },
