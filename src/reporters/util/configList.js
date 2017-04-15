@@ -5,12 +5,12 @@ import {
 } from "../../constants/config";
 
 const configNames = {
-    use: "Use",
-    exclude: "Exclude",
-    test: "Test command",
-    registry: "Registry",
-    updateTo: "Update to",
-    save: "Save",
+    use: "use",
+    exclude: "exclude",
+    test: "test command",
+    registry: "registry",
+    updateTo: "update to",
+    save: "save",
 };
 const configValues = {
     exclude: list => list.join(", "),

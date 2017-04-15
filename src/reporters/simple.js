@@ -1,3 +1,4 @@
+import { EOL } from "os";
 import chalk from "chalk";
 import unicons from "unicons";
 import configList from "./util/configList";
@@ -25,8 +26,10 @@ function printTestResult({ success }) {
     console.log("Test " + stringifySuccess(success));
 }
 
-function printTestStdout({ stdout }) {
-    console.log(stdout);
+function printTestStdoutOnFail({ stdout, success }) {
+    if (success === false) {
+        console.log(stdout);
+    }
 }
 
 export default function (updtr, reporterConfig) {
@@ -35,11 +38,11 @@ export default function (updtr, reporterConfig) {
     updtr.on("start", event => {
         const list = configList(event.config);
 
-        console.log("");
         if (list.length > 0) {
             console.log("Running updtr with custom configuration:");
             printList(configList(event.config));
         }
+        console.log("");
     });
 
     updtr.on("init/start", () => {
@@ -50,7 +53,7 @@ export default function (updtr, reporterConfig) {
         const numOfOutdated = updateTasks.length + excluded.length;
 
         console.log(
-            "Found %s outdated module%s",
+            "Found %s outdated module%s.",
             numOfOutdated,
             pluralize(numOfOutdated)
         );
@@ -58,7 +61,7 @@ export default function (updtr, reporterConfig) {
             console.log(
                 "Excluding %s module%s: ",
                 excluded.length,
-                pluralize(excluded)
+                pluralize(excluded.length)
             );
             printList(excludedList(excluded));
         }
@@ -69,12 +72,12 @@ export default function (updtr, reporterConfig) {
         console.log(
             "Starting batch update with %s non-breaking update%s...",
             updateTasks.length,
-            pluralize(updateTasks)
+            pluralize(updateTasks.length)
         );
     });
     updtr.on("batch-update/test-result", printTestResult);
     if (reporterConfig.testStdout === true) {
-        updtr.on("batch-update/test-result", printTestStdout);
+        updtr.on("batch-update/test-result", printTestStdoutOnFail);
     }
     updtr.on("batch-update/end", ({ success }) => {
         if (success === false) {
@@ -89,13 +92,13 @@ export default function (updtr, reporterConfig) {
         console.log(
             "Starting sequential update with %s update%s...",
             updateTasks.length,
-            pluralize(updateTasks)
+            pluralize(updateTasks.length)
         );
     });
-    updtr.on("sequential-update/test-result", printTestResult);
     if (reporterConfig.testStdout === true) {
-        updtr.on("sequential-update/test-result", printTestStdout);
+        updtr.on("sequential-update/test-result", printTestStdoutOnFail);
     }
+    updtr.on("sequential-update/test-result", printTestResult);
 
     updtr.on("finish/start", () => {
         currentSequence = "finish";
@@ -104,10 +107,8 @@ export default function (updtr, reporterConfig) {
     execEvents.forEach(eventName => updtr.on(eventName, printCmd));
 
     updtr.on("end", ({ results }) => {
-        console.log("");
-        console.log("Update results:");
-        printList(
-            results.map(result =>
+        const stringifiedResults = results
+            .map(result =>
                 [
                     stringifySuccess(result.success),
                     result.name,
@@ -115,7 +116,16 @@ export default function (updtr, reporterConfig) {
                     chalk.grey(unicons.arrowRight),
                     chalk.grey(result.updateTo),
                 ].join(" "))
-        );
+            .join(EOL);
+
+        if (stringifiedResults === "") {
+            console.log("");
+            console.log("Nothing to do.");
+        } else {
+            console.log("Finished.");
+            console.log("");
+            console.log(stringifiedResults);
+        }
     });
 
     updtr.on("error", err => void handleError(err, currentSequence));

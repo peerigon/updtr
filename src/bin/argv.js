@@ -44,7 +44,6 @@ export default yargs
     })
     .option("test", {
         describe: "Specify a custom test command",
-        alias: "t",
     })
     .option("registry", {
         describe: "Specify a custom registry to use",
@@ -53,7 +52,6 @@ export default yargs
         describe: "Specify which updates you want to install",
         choices: UPDATE_TO_OPTIONS,
         default: UPDATE_TO_OPTIONS[0],
-        alias: "to",
     })
     .option("test-stdout", {
         describe: "Show test stdout if the update fails",
@@ -63,7 +61,6 @@ export default yargs
         describe: "Specify how updated versions should be saved to the package.json",
         choices: SAVE_OPTIONS,
         default: SAVE_OPTIONS[0],
-        alias: "s",
     })
     .version()
     .wrap(null)

@@ -1,3 +1,3 @@
-export default function pluralize(list) {
-    return list.length === 1 ? "" : "s";
+export default function pluralize(num) {
+    return num === 1 ? "" : "s";
 }

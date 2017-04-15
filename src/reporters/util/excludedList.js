@@ -8,11 +8,11 @@ import {
 
 const REASONS = [GIT, EXOTIC, UNSTABLE, EXCLUDED, NOT_WANTED];
 const reasonNames = {
-    [GIT]: "Git dependencies",
-    [EXOTIC]: "Exotic dependencies",
-    [UNSTABLE]: "Update to unstable version",
-    [EXCLUDED]: "In exclude list",
-    [NOT_WANTED]: "Breaking update",
+    [GIT]: "git",
+    [EXOTIC]: "exotic",
+    [UNSTABLE]: "unstable latest",
+    [EXCLUDED]: "in exclude list",
+    [NOT_WANTED]: "update not wanted",
 };
 
 export default function excludedList(excluded) {
