@@ -22,8 +22,7 @@ export default yargs
     [
         "",
         chalk.bold.cyan(packageJson.description),
-        "",
-        `${ chalk.bold(" Usage:") } $0 ${ chalk.dim("[options]") }`,
+        `${ chalk.bold("Usage:") } $0 ${ chalk.dim("[options]") }`,
     ].join(EOL)
     )
     .option("reporter", {
@@ -65,9 +64,6 @@ export default yargs
         choices: SAVE_OPTIONS,
         default: SAVE_OPTIONS[0],
         alias: "s",
-    })
-    .updateStrings({
-        "Options:": chalk.bold(" Options:") + EOL,
     })
     .version()
     .wrap(null)
