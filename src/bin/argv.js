@@ -1,15 +1,21 @@
 import { EOL } from "os";
+import fs from "fs";
+import path from "path";
 import yargs from "yargs";
 import chalk from "chalk";
 import reporters from "../reporters";
 import packageJson from "../../package";
 import {
     USE_OPTIONS,
+    USE_NPM,
+    USE_YARN,
     UPDATE_TO_OPTIONS,
     SAVE_OPTIONS,
 } from "../constants/config";
 
 const reporterNames = Object.keys(reporters);
+const pathToYarnLock = path.join(process.cwd(), "yarn.lock");
+const useDefault = fs.existsSync(pathToYarnLock) === true ? USE_YARN : USE_NPM;
 
 export default yargs
     .usage(
@@ -29,7 +35,7 @@ export default yargs
     .option("use", {
         describe: "Specify the package manager to use",
         choices: USE_OPTIONS,
-        default: USE_OPTIONS[0],
+        default: useDefault,
         alias: "u",
     })
     .option("exclude", {
