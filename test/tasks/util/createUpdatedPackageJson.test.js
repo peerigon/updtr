@@ -6,6 +6,7 @@ import {
     module1ToLatestSuccess,
     module2ToLatestSuccess,
     module1ToLatestFail,
+    module1ToNonBreakingFail,
     module2ToLatestFail,
 } from "../../fixtures/updateResults";
 import FakeUpdtr from "../../helpers/FakeUpdtr";
@@ -44,21 +45,40 @@ describe("createUpdatedPackageJson()", () => {
     });
     describe("dependencies", () => {
         it("should write the versions of the successful updates to the package json", () => {
-            const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
+            const updateResults = [
+                module1ToLatestSuccess,
+                module2ToLatestSuccess,
+                {
+                    ...module1ToLatestFail,
+                    name: "updtr-test-module-3",
+                },
+                {
+                    ...module1ToNonBreakingFail,
+                    name: "updtr-test-module-4",
+                },
+                {
+                    ...module1ToLatestSuccess,
+                    name: "updtr-test-module-5",
+                },
+            ];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     dependencies: {
-                        "dep-1": "1.0.0",
-                        "dep-2": "1.0.0",
                         "updtr-test-module-1": "1.0.0",
+                        "dep-1": "1.0.0",
                         "updtr-test-module-2": "1.0.0",
+                        "dep-2": "1.0.0",
+                        "updtr-test-module-3": "1.0.0",
+                        "dep-3": "1.0.0",
                     },
                 }),
                 updateResults,
                 FakeUpdtr.baseConfig
             );
 
-            expect(newPackageJson).toMatchSnapshot();
+            expect(newPackageJson).toMatchSnapshot(
+                "dependencies > only successful updates"
+            );
         });
         describe(`when the save option is "${ SAVE_EXACT }"`, () => {
             it("should save the exact version", () => {
@@ -99,21 +119,36 @@ describe("createUpdatedPackageJson()", () => {
     });
     describe("devDependencies", () => {
         it("should write the versions of the successful updates to the package json", () => {
-            const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
+            const updateResults = [
+                module1ToLatestSuccess,
+                module2ToLatestSuccess,
+                {
+                    ...module1ToLatestFail,
+                    name: "updtr-test-module-3",
+                },
+                {
+                    ...module1ToNonBreakingFail,
+                    name: "updtr-test-module-4",
+                },
+            ];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     devDependencies: {
-                        "dep-1": "1.0.0",
-                        "dep-2": "1.0.0",
                         "updtr-test-module-1": "1.0.0",
+                        "dep-1": "1.0.0",
                         "updtr-test-module-2": "1.0.0",
+                        "dep-2": "1.0.0",
+                        "updtr-test-module-3": "1.0.0",
+                        "dep-3": "1.0.0",
                     },
                 }),
                 updateResults,
                 FakeUpdtr.baseConfig
             );
 
-            expect(newPackageJson).toMatchSnapshot();
+            expect(newPackageJson).toMatchSnapshot(
+                "devDependencies > only successful updates"
+            );
         });
         describe(`when the save option is "${ SAVE_EXACT }"`, () => {
             it("should save the exact version", () => {
@@ -154,21 +189,36 @@ describe("createUpdatedPackageJson()", () => {
     });
     describe("optionalDependencies", () => {
         it("should write the versions of the successful updates to the package json", () => {
-            const updateResults = [module1ToLatestSuccess, module2ToLatestFail];
+            const updateResults = [
+                module1ToLatestSuccess,
+                module2ToLatestSuccess,
+                {
+                    ...module1ToLatestFail,
+                    name: "updtr-test-module-3",
+                },
+                {
+                    ...module1ToNonBreakingFail,
+                    name: "updtr-test-module-4",
+                },
+            ];
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     optionalDependencies: {
-                        "dep-1": "1.0.0",
-                        "dep-2": "1.0.0",
                         "updtr-test-module-1": "1.0.0",
+                        "dep-1": "1.0.0",
                         "updtr-test-module-2": "1.0.0",
+                        "dep-2": "1.0.0",
+                        "updtr-test-module-3": "1.0.0",
+                        "dep-3": "1.0.0",
                     },
                 }),
                 updateResults,
                 FakeUpdtr.baseConfig
             );
 
-            expect(newPackageJson).toMatchSnapshot();
+            expect(newPackageJson).toMatchSnapshot(
+                "optionalDependencies > only successful updates"
+            );
         });
         describe(`when the save option is "${ SAVE_EXACT }"`, () => {
             it("should save the exact version", () => {
@@ -227,7 +277,9 @@ describe("createUpdatedPackageJson()", () => {
                 FakeUpdtr.baseConfig
             );
 
-            expect(newPackageJson).toMatchSnapshot();
+            expect(newPackageJson).toMatchSnapshot(
+                "more than one dependency type"
+            );
         });
     });
     describe("when the updated modules are not listed as any dependency type", () => {
@@ -242,7 +294,9 @@ describe("createUpdatedPackageJson()", () => {
                 FakeUpdtr.baseConfig
             );
 
-            expect(newPackageJson).toMatchSnapshot();
+            expect(newPackageJson).toMatchSnapshot(
+                "not listed as any dependency type"
+            );
         });
     });
 });

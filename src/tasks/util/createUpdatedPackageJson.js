@@ -8,10 +8,6 @@ const dependencyTypes = [
 ];
 
 function newVersionRange(updtrConfig, oldVersionRange, update) {
-    if (update === undefined) {
-        return oldVersionRange;
-    }
-
     switch (updtrConfig.save) {
         case SAVE_CARET:
             return "^" + update.updateTo;
@@ -32,7 +28,7 @@ export default function createUpdatedPackageJson(
     const successfulUpdates = updateResults.filter(
         updateResult => updateResult.success === true
     );
-    const dependenciesToSave = successfulUpdates.slice();
+    let dependenciesToSave = successfulUpdates;
 
     dependencyTypes
         .filter(type => oldPackageJson[type] !== undefined)
@@ -41,19 +37,18 @@ export default function createUpdatedPackageJson(
             const newDependencies = {};
 
             Object.keys(dependencies).forEach(moduleName => {
-                const updateIndex = successfulUpdates.findIndex(
+                const update = successfulUpdates.find(
                     ({ name }) => name === moduleName
                 );
-                const update = successfulUpdates[updateIndex];
                 const oldVersionRange = dependencies[moduleName];
 
-                newDependencies[moduleName] = newVersionRange(
-                    updtrConfig,
-                    oldVersionRange,
-                    update
-                );
+                newDependencies[moduleName] = update === undefined ?
+                    oldVersionRange :
+                    newVersionRange(updtrConfig, oldVersionRange, update);
 
-                dependenciesToSave.splice(updateIndex, 1);
+                dependenciesToSave = dependenciesToSave.filter(
+                    ({ name }) => name !== moduleName
+                );
             });
 
             newPackageJson[type] = newDependencies;
