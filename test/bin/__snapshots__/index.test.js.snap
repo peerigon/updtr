@@ -7,7 +7,7 @@ Object {
     "testStdout": true,
   },
   "updtrConfig": Object {
-    "cwd": "//test/bin",
+    "cwd": "/test/bin",
     "exclude": Array [
       "a",
       "b",
@@ -28,7 +28,7 @@ Object {
     "testStdout": false,
   },
   "updtrConfig": Object {
-    "cwd": "//test/bin",
+    "cwd": "/test/bin",
     "exclude": Array [],
     "save": "smart",
     "updateTo": "latest",
@@ -36,3 +36,5 @@ Object {
   },
 }
 `;
+
+exports[`bin when there is an error should emit an error event on the updtr instance 1`] = `"Cannot access package.json in /test/bin"`;

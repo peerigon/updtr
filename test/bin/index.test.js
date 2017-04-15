@@ -1,24 +1,35 @@
+import { exec } from "child_process";
 import path from "path";
-import exec from "../../src/exec/exec";
 import { USE_YARN } from "../../src/constants/config";
 
 const projectPath = path.resolve(__dirname, "..", "..");
 const pathToBabelNode = require.resolve(".bin/babel-node");
 const pathToRunBin = require.resolve("../helpers/runBinMock");
 
-async function execBin({ cwd = __dirname, args = [] } = {}) {
-    const execResult = await exec(
-        cwd,
-        [pathToBabelNode, pathToRunBin, ...args].join(" ")
-    );
+async function execRunBinMock(
+    { cwd = __dirname, args = [], runMock = "" } = {}
+) {
+    const stdout = await new Promise((resolve, reject) => {
+        exec(
+            [pathToBabelNode, pathToRunBin, ...args].join(" "),
+            {
+                cwd,
+                env: {
+                    ...process.env,
+                    RUN_MOCK: runMock,
+                },
+            },
+            (err, stdout) => void (err ? reject(err) : resolve(stdout))
+        );
+    });
 
-    return JSON.parse(execResult.stdout.replace(projectPath, "/"));
+    return JSON.parse(stdout.replace(projectPath, ""));
 }
 
 describe("bin", () => {
     describe("when no arguments have been specified", () => {
         test("should run updtr with the default config", async () => {
-            const configs = await execBin();
+            const configs = await execRunBinMock();
 
             expect(configs).toMatchSnapshot();
         });
@@ -26,7 +37,7 @@ describe("bin", () => {
     describe("when the binary is executed in a directory with a yarn.lock file", () => {
         test("should use yarn", async () => {
             const cwd = path.resolve(__dirname, "..", "fixtures", "empty");
-            const configs = await execBin({ cwd });
+            const configs = await execRunBinMock({ cwd });
 
             expect(configs.updtrConfig.use).toBe(USE_YARN);
         });
@@ -45,9 +56,19 @@ describe("bin", () => {
                 "--test-stdout",
                 "--save exact",
             ];
-            const configs = await execBin({ args });
+            const configs = await execRunBinMock({ args });
 
             expect(configs).toMatchSnapshot();
+        });
+    });
+    describe("when there is an error", () => {
+        test("should emit an error event on the updtr instance", async () => {
+            const error = await execRunBinMock({
+                runMock: "rejectWithAccessError",
+                args: ["--reporter error"],
+            });
+
+            expect(error).toMatchSnapshot();
         });
     });
 });
