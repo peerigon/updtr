@@ -6,6 +6,11 @@ import excludedList from "./util/excludedList";
 import pluralize from "./util/pluralize";
 import execEvents from "./util/execEvents";
 import handleError from "./util/handleError";
+import msToString from "./util/msToString";
+import {
+    filterSuccessfulUpdates,
+    filterFailedUpdates,
+} from "../tasks/util/filterUpdateResults";
 
 const PASS = chalk.green.bold.inverse(" PASS ");
 const FAIL = chalk.bold.bgRed(" FAIL ");
@@ -33,6 +38,7 @@ function printTestStdoutOnFail({ stdout, success }) {
 }
 
 export default function (updtr, reporterConfig) {
+    const startTime = Date.now();
     let currentSequence;
 
     updtr.on("start", event => {
@@ -107,22 +113,37 @@ export default function (updtr, reporterConfig) {
     execEvents.forEach(eventName => updtr.on(eventName, printCmd));
 
     updtr.on("end", ({ results }) => {
-        const stringifiedResults = results
-            .map(result =>
-                [
-                    stringifySuccess(result.success),
-                    result.name,
-                    chalk.grey(result.rollbackTo),
-                    chalk.grey(unicons.arrowRight),
-                    chalk.grey(result.updateTo),
-                ].join(" "))
-            .join(EOL);
+        const duration = msToString(Date.now() - startTime);
 
-        if (stringifiedResults === "") {
+        if (results.length === 0) {
             console.log("");
-            console.log("Nothing to do.");
+            console.log(
+                "No updates within given version range available. Finished after %s.",
+                duration
+            );
         } else {
-            console.log("Finished.");
+            const stringifiedResults = results
+                .map(result =>
+                    [
+                        stringifySuccess(result.success),
+                        result.name,
+                        chalk.grey(result.rollbackTo),
+                        chalk.grey(unicons.arrowRight),
+                        chalk.grey(result.updateTo),
+                    ].join(" ")
+                )
+                .join(EOL);
+            const successful = filterSuccessfulUpdates(results);
+            const failed = filterFailedUpdates(results);
+
+            console.log(
+                "Updated %s module%s successfully. %s update%s failed. Finished after %s.",
+                successful.length,
+                pluralize(successful.length),
+                failed.length,
+                pluralize(failed.length),
+                duration
+            );
             console.log("");
             console.log(stringifiedResults);
         }

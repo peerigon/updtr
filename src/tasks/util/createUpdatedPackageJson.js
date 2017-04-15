@@ -1,4 +1,5 @@
 import updateVersionRange from "./updateVersionRange";
+import { filterSuccessfulUpdates } from "./filterUpdateResults";
 import { SAVE_CARET, SAVE_EXACT, SAVE_SMART } from "../../constants/config";
 
 const dependencyTypes = [
@@ -25,9 +26,7 @@ export default function createUpdatedPackageJson(
     updtrConfig
 ) {
     const newPackageJson = { ...oldPackageJson };
-    const successfulUpdates = updateResults.filter(
-        updateResult => updateResult.success === true
-    );
+    const successfulUpdates = filterSuccessfulUpdates(updateResults);
     let dependenciesToSave = successfulUpdates;
 
     dependencyTypes
