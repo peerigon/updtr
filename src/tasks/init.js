@@ -23,7 +23,7 @@ export default (async function init(updtr) {
     sequence.start();
 
     if ((await updtr.canAccessPackageJson()) === false) {
-        throw new PackageJsonNoAccessError(updtr.cwd);
+        throw new PackageJsonNoAccessError(updtr.config.cwd);
     }
 
     await sequence.exec(

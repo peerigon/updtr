@@ -4,12 +4,13 @@ import configList from "./util/configList";
 import excludedList from "./util/excludedList";
 import pluralize from "./util/pluralize";
 import execEvents from "./util/execEvents";
+import handleError from "./util/handleError";
 
-const OK = chalk.green.bold.inverse("   OK   ");
-const FAILED = chalk.bold.bgRed(" FAILED ");
+const PASS = chalk.green.bold.inverse(" PASS ");
+const FAIL = chalk.bold.bgRed(" FAIL ");
 
 function stringifySuccess(success) {
-    return success === true ? OK : FAILED;
+    return success === true ? PASS : FAIL;
 }
 
 function printList(list, start = "- ") {
@@ -29,15 +30,20 @@ function printTestStdout({ stdout }) {
 }
 
 export default function (updtr, reporterConfig) {
+    let currentSequence;
+
     updtr.on("start", event => {
         const list = configList(event.config);
 
+        console.log("");
         if (list.length > 0) {
             console.log("Running updtr with custom configuration:");
             printList(configList(event.config));
         }
     });
+
     updtr.on("init/start", () => {
+        currentSequence = "init";
         console.log("Initializing...");
     });
     updtr.on("init/end", ({ updateTasks, excluded }) => {
@@ -57,7 +63,9 @@ export default function (updtr, reporterConfig) {
             printList(excludedList(excluded));
         }
     });
+
     updtr.on("batch-update/start", ({ updateTasks }) => {
+        currentSequence = "batch-update";
         console.log(
             "Starting batch update with %s non-breaking update%s...",
             updateTasks.length,
@@ -75,7 +83,9 @@ export default function (updtr, reporterConfig) {
             );
         }
     });
+
     updtr.on("sequential-update/start", ({ updateTasks }) => {
+        currentSequence = "sequential-update";
         console.log(
             "Starting sequential update with %s update%s...",
             updateTasks.length,
@@ -86,6 +96,10 @@ export default function (updtr, reporterConfig) {
     if (reporterConfig.testStdout === true) {
         updtr.on("sequential-update/test-result", printTestStdout);
     }
+
+    updtr.on("finish/start", () => {
+        currentSequence = "finish";
+    });
 
     execEvents.forEach(eventName => updtr.on(eventName, printCmd));
 
@@ -103,4 +117,6 @@ export default function (updtr, reporterConfig) {
                 ].join(" "))
         );
     });
+
+    updtr.on("error", err => void handleError(err, currentSequence));
 }
