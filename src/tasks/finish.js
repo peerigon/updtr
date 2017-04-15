@@ -36,20 +36,7 @@ export default (async function finish(updtr, results) {
     if (incomplete.length > 0) {
         sequence.start();
         sequence.emit("incomplete", { incomplete });
-        try {
-            finishedResults = await finishIncomplete(
-                sequence,
-                incomplete,
-                results
-            );
-        } catch (error) {
-            // If something goes wrong here, we don't need to bail out completely
-            // because the worst thing that can happen is that the updateTo property is written
-            // to the package.json as it is.
-            // That's certainly not cool, but better than not updating the package.json at all.
-            sequence.emit("non-critical-error", { error });
-        }
-
+        finishedResults = await finishIncomplete(sequence, incomplete, results);
         sequence.end({ results: finishedResults });
     }
 

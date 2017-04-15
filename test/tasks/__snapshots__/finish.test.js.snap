@@ -203,9 +203,3 @@ Array [
   },
 ]
 `;
-
-exports[`unexpected error > exec list error > event 1`] = `
-Object {
-  "error": [Error: Oops],
-}
-`;

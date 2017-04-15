@@ -1,7 +1,12 @@
 import { USE_YARN } from "../../src/constants/config";
 import finish from "../../src/tasks/finish";
 import FakeUpdtr from "../helpers/FakeUpdtr";
-import { npmList, yarnList, errorExecList } from "../fixtures/execResults";
+import {
+    execError,
+    npmList,
+    yarnList,
+    errorExecList,
+} from "../fixtures/execResults";
 import {
     module1ToLatestSuccess,
     module1ToNonBreakingSuccess,
@@ -12,7 +17,6 @@ import {
     module2ToLatestFail,
     module2ToNonBreakingFail,
 } from "../fixtures/updateResults";
-import pickEvents from "../helpers/pickEvents";
 
 describe("finish()", () => {
     describe("when the given results array is empty", () => {
@@ -92,22 +96,20 @@ describe("finish()", () => {
         });
     });
     describe("unexpected errors", () => {
-        test("should emit a non-critical-error event", async () => {
+        test("should bail out completely", async () => {
             const updtr = new FakeUpdtr();
             const results = [module1ToNonBreakingSuccess];
+            let givenErr;
 
             updtr.execResults = errorExecList;
 
-            await finish(updtr, results);
+            try {
+                await finish(updtr, results);
+            } catch (err) {
+                givenErr = err;
+            }
 
-            const nonCriticalErrorEvent = pickEvents(
-                "finish/non-critical-error",
-                updtr.emit.args
-            )[0];
-
-            expect(nonCriticalErrorEvent).toMatchSnapshot(
-                "unexpected error > exec list error > event"
-            );
+            expect(givenErr).toBe(execError);
         });
     });
 });
