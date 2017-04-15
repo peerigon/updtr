@@ -46,6 +46,20 @@ describe("finish()", () => {
         });
     });
     describe("when there are incomplete results", () => {
+        test("should filter tasks where rollbackTo and updateTo is the same value", async () => {
+            const updtr = new FakeUpdtr();
+            const results = [
+                {
+                    ...module1ToLatestSuccess,
+                    updateTo: "^" + module1ToLatestSuccess.updateTo,
+                    rollbackTo: module1ToLatestSuccess.updateTo,
+                },
+            ];
+
+            updtr.execResults = npmList;
+
+            expect(await finish(updtr, results)).toEqual([]);
+        });
         describe("using npm", () => {
             test("should return the expected results and emit the expected events", async () => {
                 const updtr = new FakeUpdtr();

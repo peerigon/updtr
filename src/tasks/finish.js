@@ -12,20 +12,27 @@ async function finishIncomplete(sequence, incomplete, allResults) {
     const { stdout } = await sequence.exec("list-incomplete", listCmd);
     const moduleVersions = updtr.parse.list(stdout, listCmd);
 
-    return allResults.map(result => {
-        if (isIncompleteResult(result) === false) {
-            return result;
-        }
+    return (
+        allResults
+            .map(result => {
+                if (isIncompleteResult(result) === false) {
+                    return result;
+                }
 
-        const version = moduleVersions.find(
-            module => module.name === result.name
-        ).version;
+                const version = moduleVersions.find(
+                    module => module.name === result.name
+                ).version;
 
-        return {
-            ...result,
-            updateTo: version,
-        };
-    });
+                return {
+                    ...result,
+                    updateTo: version,
+                };
+            })
+            // Remove results where no actual update did happen.
+            // These results can happen if the updateTo option was set to non-breaking
+            // and the module did not have a new version for the rollbackTo version range.
+            .filter(result => result.rollbackTo !== result.updateTo)
+    );
 }
 
 export default (async function finish(updtr, results) {
