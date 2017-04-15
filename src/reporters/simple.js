@@ -2,18 +2,15 @@ import { EOL } from "os";
 import chalk from "chalk";
 import unicons from "unicons";
 import configList from "./util/configList";
-import excludedList from "./util/excludedList";
 import pluralize from "./util/pluralize";
 import execEvents from "./util/execEvents";
 import handleError from "./util/handleError";
 import msToString from "./util/msToString";
+import { PASS, FAIL, SKIP } from "./util/labels";
 import {
     filterSuccessfulUpdates,
     filterFailedUpdates,
 } from "../tasks/util/filterUpdateResults";
-
-const PASS = chalk.green.bold.inverse(" PASS ");
-const FAIL = chalk.bold.bgRed(" FAIL ");
 
 function stringifySuccess(success) {
     return success === true ? PASS : FAIL;
@@ -40,6 +37,7 @@ function printTestStdoutOnFail({ stdout, success }) {
 export default function (updtr, reporterConfig) {
     const startTime = Date.now();
     let currentSequence;
+    let excludedModules;
 
     updtr.on("start", event => {
         const list = configList(event.config);
@@ -58,6 +56,7 @@ export default function (updtr, reporterConfig) {
     updtr.on("init/end", ({ updateTasks, excluded }) => {
         const numOfOutdated = updateTasks.length + excluded.length;
 
+        excludedModules = excluded;
         console.log(
             "Found %s outdated module%s.",
             numOfOutdated,
@@ -65,11 +64,10 @@ export default function (updtr, reporterConfig) {
         );
         if (excluded.length > 0) {
             console.log(
-                "Excluding %s module%s: ",
+                "Excluding %s module%s.",
                 excluded.length,
                 pluralize(excluded.length)
             );
-            printList(excludedList(excluded));
         }
     });
 
@@ -122,7 +120,10 @@ export default function (updtr, reporterConfig) {
                 duration
             );
         } else {
-            const stringifiedResults = results
+            const successful = filterSuccessfulUpdates(results);
+            const failed = filterFailedUpdates(results);
+            const stringifiedResults = successful
+                .concat(failed)
                 .map(result =>
                     [
                         stringifySuccess(result.success),
@@ -132,18 +133,26 @@ export default function (updtr, reporterConfig) {
                         chalk.grey(result.updateTo),
                     ].join(" ")
                 )
+                .concat(
+                excludedModules.map(excluded =>
+                        [SKIP, excluded.name, chalk.grey(excluded.reason)].join(
+                            " "
+                        )
+                    )
+                )
                 .join(EOL);
-            const successful = filterSuccessfulUpdates(results);
-            const failed = filterFailedUpdates(results);
 
             console.log(
-                "Updated %s module%s successfully. %s update%s failed. Finished after %s.",
+                "Updated %s module%s successfully.",
                 successful.length,
-                pluralize(successful.length),
-                failed.length,
-                pluralize(failed.length),
-                duration
+                pluralize(successful.length)
             );
+            console.log(
+                "%s update%s failed.",
+                failed.length,
+                pluralize(failed.length)
+            );
+            console.log("Finished after %s.", duration);
             console.log("");
             console.log(stringifiedResults);
         }

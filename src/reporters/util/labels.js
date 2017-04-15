@@ -3,6 +3,7 @@ import chalk from "chalk";
 // common labels
 export const PASS = ok("pass");
 export const FAIL = error("fail");
+export const SKIP = neutral("skip");
 export const ERROR = error("error");
 
 export function neutral(text) {
@@ -14,7 +15,7 @@ export function note(text) {
 }
 
 export function ok(text) {
-    return chalk.bold.bgGreen(" " + text.toUpperCase() + " ");
+    return chalk.green.bold.inverse(" " + text.toUpperCase() + " ");
 }
 
 export function error(text) {
