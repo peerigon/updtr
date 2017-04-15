@@ -1,6 +1,7 @@
 import Sequence from "./util/Sequence";
 import createUpdateTask from "./util/createUpdateTask";
 import filterUpdateTask from "./util/filterUpdateTask";
+import { PackageJsonNoAccessError } from "../errors";
 
 function getUpdateTasksFromStdout(updtr, outdatedCmd, stdout) {
     if (stdout.length === 0) {
@@ -20,6 +21,10 @@ export default (async function init(updtr) {
     let stdout;
 
     sequence.start();
+
+    if ((await updtr.canAccessPackageJson()) === false) {
+        throw new PackageJsonNoAccessError(updtr.cwd);
+    }
 
     await sequence.exec(
         "install-missing",

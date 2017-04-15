@@ -9,6 +9,7 @@ import {
     errorExecOutdated,
     errorParseOutdated,
 } from "../fixtures/execResults";
+import { PackageJsonNoAccessError } from "../../src/errors";
 
 describe("init()", () => {
     describe("when there are no outdated dependencies", () => {
@@ -90,6 +91,21 @@ describe("init()", () => {
 
             expect(updtr.exec.args).toMatchSnapshot();
             expect(updtr.emit.args).toMatchSnapshot();
+        });
+    });
+    describe("when there is no package.json in the cwd", () => {
+        test("should throw a PackageJsonNoAccessError", async () => {
+            const updtr = new FakeUpdtr();
+            let givenErr;
+
+            updtr.canAccessPackageJson.resolves(false);
+
+            try {
+                await init(updtr);
+            } catch (err) {
+                givenErr = err;
+            }
+            expect(givenErr).toBeInstanceOf(PackageJsonNoAccessError);
         });
     });
     describe("unexpected errors", () => {
