@@ -40,8 +40,14 @@ async function update(sequence, updateTasks) {
     sequence.emit("test-result", {
         stdout: testResult.stdout,
     });
-    if (success === false) {
-        await sequence.exec("rollback", renderRollback(updtr, updateTasks));
+
+    if (success === false && updateTasks.length > 1) {
+        // If the update was a failure, we roll back every update except the first.
+        // The first update will be tested with the sequential-update. This way we skip one unnecessary install cycle.
+        await sequence.exec(
+            "rollback",
+            renderRollback(updtr, updateTasks.slice(1))
+        );
     }
 
     return success;

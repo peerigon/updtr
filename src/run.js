@@ -10,20 +10,38 @@ async function runUpdateTasks(updtr, updateTasks) {
     const results = [];
     const { breaking, nonBreaking } = splitUpdateTasks(updateTasks);
     const sequentialUpdateTasks = breaking.slice();
-    let batchSuccess = false;
+    let batchSuccess; // can be undefined, true or false
+    let batchUpdateFailure;
 
+    // Run batch update if we have more than one non-breaking update
+    // If the batch update fails, it will roll back all modules except the first one.
+    // This way we can skip one install command since we will run the sequential update for it anyway.
     if (nonBreaking.length > 1) {
         batchSuccess = await batchUpdate(updtr, nonBreaking);
     }
+
     if (batchSuccess === true) {
         results.push(
             ...nonBreaking.map(updateTask =>
-                createUpdateResult(updateTask, true))
+                createUpdateResult(updateTask, true)
+            )
         );
     } else {
         sequentialUpdateTasks.unshift(...nonBreaking);
+        // If batchSuccess is false, we have actually executed the batch update and it returned false
+        if (batchSuccess === false) {
+            batchUpdateFailure = createUpdateResult(nonBreaking[0], false);
+        }
     }
-    results.push(...(await sequentialUpdate(updtr, sequentialUpdateTasks)));
+
+    // Run sequential update for all breaking updates and non-breaking batch updates that failed
+    results.push(
+        ...(await sequentialUpdate(
+            updtr,
+            sequentialUpdateTasks,
+            batchUpdateFailure
+        ))
+    );
 
     return finish(updtr, results);
 }

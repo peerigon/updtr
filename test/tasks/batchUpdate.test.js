@@ -8,6 +8,7 @@ import {
     update,
     testPass,
     testFail,
+    testFailWithRollback,
     errorExecUpdate,
     errorExecRollback,
 } from "../fixtures/execResults";
@@ -40,10 +41,50 @@ describe("batchUpdate()", () => {
             expect(updtr.emit.args).toEqual([]);
         });
     });
-    describe("when the given updateTasks array contains update tasks", () => {
+    describe("when the given updateTasks array contains one update task", () => {
+        describe("when the tests succeed", () => {
+            test("should return true and execute expected commands and emit expected events", async () => {
+                const updtr = new FakeUpdtr();
+                const updateTasks = createUpdateTasks(updtr.config);
+
+                updateTasks.length = 1;
+                updtr.execResults = update.concat(testPass);
+
+                const success = await batchUpdate(updtr, updateTasks);
+
+                expect(success).toBe(true);
+                expect(updtr.exec.args).toMatchSnapshot(
+                    "one update task > test ok > exec args"
+                );
+                expect(updtr.emit.args).toMatchSnapshot(
+                    "one update task > test ok > emit args"
+                );
+            });
+        });
+        describe("when the test fails", () => {
+            test("should return false and execute expected commands and emit expected events", async () => {
+                const updtr = new FakeUpdtr();
+                const updateTasks = createUpdateTasks(updtr.config);
+
+                updateTasks.length = 1;
+                updtr.execResults = update.concat(testFail);
+
+                const success = await batchUpdate(updtr, updateTasks);
+
+                expect(success).toBe(false);
+                expect(updtr.exec.args).toMatchSnapshot(
+                    "one update task > test fail > exec args"
+                );
+                expect(updtr.emit.args).toMatchSnapshot(
+                    "one update task > test fail > emit args"
+                );
+            });
+        });
+    });
+    describe("when the given updateTasks array contains multiple update tasks", () => {
         describe("using npm", () => {
             describe("when the tests succeed", () => {
-                test("should return the expected update results", async () => {
+                test("should return true and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
@@ -52,26 +93,36 @@ describe("batchUpdate()", () => {
                     const success = await batchUpdate(updtr, updateTasks);
 
                     expect(success).toBe(true);
+                    expect(updtr.exec.args).toMatchSnapshot(
+                        "multiple update tasks > npm > test ok > exec args"
+                    );
+                    expect(updtr.emit.args).toMatchSnapshot(
+                        "multiple update tasks > npm > test ok > emit args"
+                    );
                 });
             });
             describe("when the test fails", () => {
-                test("should emit expected events and execute expected commands", async () => {
+                test("should return false and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = update.concat(testFail);
+                    updtr.execResults = update.concat(testFailWithRollback);
 
                     const success = await batchUpdate(updtr, updateTasks);
 
-                    expect(updtr.exec.args).toMatchSnapshot();
-                    expect(updtr.emit.args).toMatchSnapshot();
                     expect(success).toBe(false);
+                    expect(updtr.exec.args).toMatchSnapshot(
+                        "multiple update tasks > npm > test fail > exec args"
+                    );
+                    expect(updtr.emit.args).toMatchSnapshot(
+                        "multiple update tasks > npm > test fail > emit args"
+                    );
                 });
             });
         });
         describe("using yarn", () => {
             describe("when the tests succeed", () => {
-                test("should return the expected update results", async () => {
+                test("should return true and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
@@ -82,22 +133,32 @@ describe("batchUpdate()", () => {
                     const success = await batchUpdate(updtr, updateTasks);
 
                     expect(success).toBe(true);
+                    expect(updtr.exec.args).toMatchSnapshot(
+                        "multiple update tasks > yarn > test ok > exec args"
+                    );
+                    expect(updtr.emit.args).toMatchSnapshot(
+                        "multiple update tasks > yarn > test ok > emit args"
+                    );
                 });
             });
             describe("when the test fails", () => {
-                test("should emit expected events and execute expected commands", async () => {
+                test("should return false and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = update.concat(testFail);
+                    updtr.execResults = update.concat(testFailWithRollback);
 
                     const success = await batchUpdate(updtr, updateTasks);
 
-                    expect(updtr.exec.args).toMatchSnapshot();
-                    expect(updtr.emit.args).toMatchSnapshot();
                     expect(success).toBe(false);
+                    expect(updtr.exec.args).toMatchSnapshot(
+                        "multiple update tasks > yarn > test ok > exec args"
+                    );
+                    expect(updtr.emit.args).toMatchSnapshot(
+                        "multiple update tasks > yarn > test fail > emit args"
+                    );
                 });
             });
         });

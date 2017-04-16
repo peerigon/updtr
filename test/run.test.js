@@ -8,7 +8,7 @@ import {
     npmNoOutdated,
     update,
     testPass,
-    testFail,
+    testFailWithRollback,
     npmList,
 } from "./fixtures/execResults";
 import { outdatedRegular } from "./fixtures/packageJsons";
@@ -151,7 +151,7 @@ describe("run()", () => {
                 update,
                 testPass,
                 update,
-                testFail
+                testFailWithRollback
             );
             addPackageJsonFileStubs(updtr);
 
@@ -179,7 +179,7 @@ describe("run()", () => {
                 update,
                 testPass,
                 update,
-                testFail
+                testFailWithRollback
             );
             addPackageJsonFileStubs(updtr);
 
@@ -243,9 +243,8 @@ describe("run()", () => {
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
                 update,
-                testFail,
-                update,
-                testFail,
+                testFailWithRollback,
+                testFailWithRollback,
                 testPass
             );
             addPackageJsonFileStubs(updtr);
@@ -275,9 +274,8 @@ describe("run()", () => {
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
                 update,
-                testFail,
-                update,
-                testFail,
+                testFailWithRollback,
+                testFailWithRollback,
                 testPass
             );
             addPackageJsonFileStubs(updtr);

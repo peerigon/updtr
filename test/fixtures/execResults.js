@@ -14,6 +14,7 @@ export const yarnOutdated = [];
 export const update = [];
 export const testPass = [];
 export const testFail = [];
+export const testFailWithRollback = [];
 export const npmList = [];
 export const yarnList = [];
 export const errorExecInstallMissing = [];
@@ -63,6 +64,9 @@ beforeAll(async () => {
         { stdout: "Everything ok" } // test
     );
     testFail.push(
+        execError // test
+    );
+    testFailWithRollback.push(
         execError, // test
         { stdout: "" } // rollback
     );

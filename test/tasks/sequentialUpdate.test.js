@@ -1,13 +1,15 @@
 import sequentialUpdate from "../../src/tasks/sequentialUpdate";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import createUpdateTask from "../../src/tasks/util/createUpdateTask";
+import createUpdateResult from "../../src/tasks/util/createUpdateResult";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
+import pickEvents from "../helpers/pickEvents";
 import {
     execError,
     update,
     testPass,
-    testFail,
+    testFailWithRollback,
     errorExecUpdate,
     errorExecRollback,
 } from "../fixtures/execResults";
@@ -68,7 +70,10 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = update.concat(testFail, testPass);
+                    updtr.execResults = update.concat(
+                        testFailWithRollback,
+                        testPass
+                    );
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -114,7 +119,10 @@ describe("sequentialUpdate()", () => {
                     });
                     const updateTasks = createUpdateTasks(updtr.config);
 
-                    updtr.execResults = update.concat(testFail, testPass);
+                    updtr.execResults = update.concat(
+                        testFailWithRollback,
+                        testPass
+                    );
 
                     const updateResults = await sequentialUpdate(
                         updtr,
@@ -128,6 +136,63 @@ describe("sequentialUpdate()", () => {
                     );
                 });
             });
+        });
+    });
+    describe("when there is a previous update result", () => {
+        test("should skip the first updating step if the previous update success was false", async () => {
+            const updtr = new FakeUpdtr();
+            const updateTasks = createUpdateTasks(updtr.config);
+            const previousUpdateResult = createUpdateResult(
+                updateTasks[0],
+                false
+            );
+
+            updtr.execResults = testPass.concat(update, testPass);
+            await sequentialUpdate(updtr, updateTasks, previousUpdateResult);
+
+            expect(
+                // first one is sequence start
+                updtr.emit.secondCall.calledWith("sequential-update/testing")
+            ).toBe(true);
+            expect(
+                pickEvents("sequential-update/updating", updtr.emit.args)
+            ).toHaveLength(1);
+        });
+        test("should not skip the first updating step if the previous update success was true", async () => {
+            const updtr = new FakeUpdtr();
+            const updateTasks = createUpdateTasks(updtr.config);
+            const previousUpdateResult = createUpdateResult(
+                updateTasks[0],
+                true
+            );
+
+            updtr.execResults = update.concat(testPass, update, testPass);
+            await sequentialUpdate(updtr, updateTasks, previousUpdateResult);
+
+            expect(
+                // first one is sequence start
+                updtr.emit.secondCall.calledWith("sequential-update/updating")
+            ).toBe(true);
+            expect(
+                pickEvents("sequential-update/updating", updtr.emit.args)
+            ).toHaveLength(2);
+        });
+        test("should not include the previous update result in the returned results", async () => {
+            const updtr = new FakeUpdtr();
+            const updateTasks = createUpdateTasks(updtr.config);
+            const previousUpdateResult = createUpdateResult(
+                updateTasks[0],
+                false
+            );
+
+            updtr.execResults = testPass.concat(update, testPass);
+            const results = await sequentialUpdate(
+                updtr,
+                updateTasks,
+                previousUpdateResult
+            );
+
+            expect(results).toHaveLength(updateTasks.length);
         });
     });
     describe("unexpected errors", () => {

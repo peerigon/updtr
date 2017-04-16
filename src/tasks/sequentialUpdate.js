@@ -27,12 +27,15 @@ function renderRollback(updtr, failedUpdateTask, nextUpdateTask) {
     });
 }
 
-async function runUpdateTask(sequence, updateTasks, i, previous) {
-    const updateResults = await previous;
+async function runUpdateTask(sequence, updateTasks, i, previousUpdateResults) {
+    const updateResults = await previousUpdateResults;
+    const previousUpdateResult = updateResults[updateResults.length - 1];
     const updateTask = updateTasks[i];
     // If the previous update was a failure, we don't need to update now because
     // during the rollback, the next update is also installed in parallel
-    const updateNecessary = i === 0 || updateResults[i - 1].success === true;
+    const updateNecessary = previousUpdateResult === undefined ?
+        true :
+        previousUpdateResult.success === true;
 
     sequence.baseEvent = {
         updateTasks: {
@@ -78,7 +81,11 @@ async function runUpdateTask(sequence, updateTasks, i, previous) {
     return updateResults.concat(createUpdateResult(updateTask, success));
 }
 
-export default (async function sequentialUpdate(updtr, updateTasks) {
+export default (async function sequentialUpdate(
+    updtr,
+    updateTasks,
+    previousUpdateResult
+) {
     const sequence = new Sequence("sequential-update", updtr, {
         updateTasks,
     });
@@ -92,8 +99,13 @@ export default (async function sequentialUpdate(updtr, updateTasks) {
     const updateResults = await updateTasks.reduce(
         (updateResults, updateTask, i) =>
             runUpdateTask(sequence, updateTasks, i, updateResults),
-        []
+        previousUpdateResult === undefined ? [] : [previousUpdateResult]
     );
+
+    if (previousUpdateResult !== undefined) {
+        // The previousUpdateResult is the first element in the updateResults array, so let's remove it.
+        updateResults.shift();
+    }
 
     sequence.baseEvent = {
         updateResults,
