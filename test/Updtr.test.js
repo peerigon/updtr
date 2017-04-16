@@ -1,5 +1,4 @@
 import EventEmitter from "events";
-import os from "os";
 import path from "path";
 import Updtr from "../src/Updtr";
 import fs from "../src/util/fs";
@@ -12,6 +11,8 @@ import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
 import temp from "./helpers/temp";
 import FakeUpdtr from "./helpers/FakeUpdtr";
 
+{
+}
 describe("new Updtr()", () => {
     test("should return an updtr with expected shape", () => {
         const updtr = new Updtr(FakeUpdtr.baseConfig);
@@ -106,10 +107,10 @@ describe("new Updtr()", () => {
         test("should exec the command in the given cwd", async () => {
             const cwd = __dirname;
             const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
-            const cmd = "node -e 'console.log(process.cwd())'";
+            const cmd = 'node -e "console.log(process.cwd())"';
             const result = await updtr.exec(cmd);
 
-            expect(result.stdout).toBe(cwd + os.EOL);
+            expect(result.stdout).toBe(cwd + "\n"); // also just \n on windows
         });
     });
     describe("readFile()", () => {

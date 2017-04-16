@@ -8,7 +8,11 @@ function installFn(baseCmd) {
 function stringifyModules(modules) {
     return Array.isArray(modules) === true ?
         " " +
-              modules.map(({ name, version }) => name + "@" + version).join(" ") :
+              modules
+                  // We need to wrap this in double-quotes because some semver
+                  // characters like the caret symbol are reserved characters on Windows.
+                  .map(({ name, version }) => `"${ name }@${ version }"`)
+                  .join(" ") :
         "";
 }
 

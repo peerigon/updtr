@@ -6,13 +6,3 @@ Object {
   "stdout": "",
 }
 `;
-
-exports[`exec() when the command fails should reject the promise with an error of expected shape 1`] = `
-[Error: Command failed: node -e 'throw "fail"'
-
-[eval]:1
-throw "fail"
-^
-fail
-]
-`;

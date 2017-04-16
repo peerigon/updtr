@@ -2,8 +2,8 @@ import { execFile } from "child_process";
 import path from "path";
 import { USE_YARN } from "../../src/constants/config";
 
-const projectPath = path.resolve(__dirname, "..", "..");
-const pathToBabelNode = require.resolve(".bin/babel-node");
+const projectPath = path.resolve(__dirname, "..", "..").replace(/\\/g, "/");
+const pathToBabelNode = require.resolve("babel-cli/bin/babel-node");
 const pathToRunBin = require.resolve("../helpers/runBinMock");
 
 async function execRunBinMock(
@@ -11,8 +11,8 @@ async function execRunBinMock(
 ) {
     const stdout = await new Promise((resolve, reject) => {
         execFile(
-            pathToBabelNode,
-            [pathToRunBin, ...args],
+            "node",
+            [pathToBabelNode, pathToRunBin, ...args],
             {
                 cwd,
                 env: {
@@ -25,7 +25,14 @@ async function execRunBinMock(
         );
     });
 
-    return JSON.parse(stdout.replace(projectPath, ""));
+    const stdoutWithoutBasePath = stdout
+        // Replace double-backslashes with one forward slash
+        .replace(/\\\\/g, "/")
+        // Remove project path
+        .split(projectPath)
+        .join("");
+
+    return JSON.parse(stdoutWithoutBasePath);
 }
 
 describe("bin", () => {

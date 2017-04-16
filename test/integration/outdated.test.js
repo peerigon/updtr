@@ -124,7 +124,7 @@ describe("integration test: when there are outdated dependencies", () => {
                     cwd: tempDir,
                     exclude: ["updtr-test-module-2"],
                     updateTo: UPDATE_TO_NON_BREAKING,
-                    test: `echo "${ expectedTestStdout }" && exit 0`,
+                    test: `echo ${ expectedTestStdout } && exit 0`,
                     save: SAVE_EXACT,
                     registry,
                 });
@@ -193,7 +193,7 @@ describe("integration test: when there are outdated dependencies", () => {
                     use: USE_YARN,
                     exclude: ["updtr-test-module-2"],
                     updateTo: UPDATE_TO_NON_BREAKING,
-                    test: `echo "${ expectedTestStdout }" && exit 0`,
+                    test: `echo ${ expectedTestStdout } && exit 0`,
                     save: SAVE_CARET,
                     // registry,
                 });

@@ -11,11 +11,7 @@ function promiseExec(cwd, cmd) {
 }
 
 export default (async function exec(cwd, cmd) {
-    const {
-        err,
-        stdout,
-        stderr,
-    } = await promiseExec(cwd, cmd);
+    const { err, stdout, stderr } = await promiseExec(cwd, cmd);
 
     if (err !== null) {
         err.stdout = stdout;

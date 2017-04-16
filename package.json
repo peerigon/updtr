@@ -10,7 +10,7 @@
     "coverage": "istanbul cover _mocha -- -R spec",
     "lint": "eslint bin lib test",
     "fixtures:ensure": "babel-node ./test/helpers/setupFixtures.js",
-    "fixtures:rebuild": "babel-node ./test/helpers/cleanupFixtures.js; npm run fixtures:ensure"
+    "fixtures:rebuild": "babel-node ./test/helpers/cleanupFixtures.js && npm run fixtures:ensure"
   },
   "author": "peerigon",
   "license": "Unlicense",

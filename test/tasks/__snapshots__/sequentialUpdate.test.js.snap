@@ -22,7 +22,7 @@ Array [
   Array [
     "sequential-update/updating",
     Object {
-      "cmd": "npm install updtr-test-module-1@2.0.0",
+      "cmd": "npm install \\"updtr-test-module-1@2.0.0\\"",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.0.0",
       "updateTasks": Object {
@@ -62,7 +62,7 @@ Array [
   Array [
     "sequential-update/rollback",
     Object {
-      "cmd": "npm install updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
+      "cmd": "npm install \\"updtr-test-module-1@1.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.0.0",
       "success": false,
@@ -144,7 +144,7 @@ Array [
   Array [
     "sequential-update/updating",
     Object {
-      "cmd": "yarn add updtr-test-module-1@2.0.0",
+      "cmd": "yarn add \\"updtr-test-module-1@2.0.0\\"",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.0.0",
       "updateTasks": Object {
@@ -184,7 +184,7 @@ Array [
   Array [
     "sequential-update/rollback",
     Object {
-      "cmd": "yarn add updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
+      "cmd": "yarn add \\"updtr-test-module-1@1.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
       "name": "updtr-test-module-1",
       "rollbackTo": "1.0.0",
       "success": false,
@@ -247,13 +247,13 @@ Array [
 exports[`exec.args npm 1`] = `
 Array [
   Array [
-    "npm install updtr-test-module-1@2.0.0",
+    "npm install \\"updtr-test-module-1@2.0.0\\"",
   ],
   Array [
     "npm test",
   ],
   Array [
-    "npm install updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
+    "npm install \\"updtr-test-module-1@1.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
   ],
   Array [
     "npm test",
@@ -264,13 +264,13 @@ Array [
 exports[`exec.args yarn 1`] = `
 Array [
   Array [
-    "yarn add updtr-test-module-1@2.0.0",
+    "yarn add \\"updtr-test-module-1@2.0.0\\"",
   ],
   Array [
     "yarn test",
   ],
   Array [
-    "yarn add updtr-test-module-1@1.0.0 updtr-test-module-2@2.1.1",
+    "yarn add \\"updtr-test-module-1@1.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
   ],
   Array [
     "yarn test",
