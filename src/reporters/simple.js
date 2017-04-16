@@ -44,6 +44,7 @@ export default function (updtr, reporterConfig) {
 
         if (list.length > 0) {
             console.log("Running updtr with custom configuration:");
+            console.log("");
             printList(configList(event.config));
         }
         console.log("");
@@ -112,50 +113,72 @@ export default function (updtr, reporterConfig) {
 
     updtr.on("end", ({ results }) => {
         const duration = msToString(Date.now() - startTime);
+        const successful = filterSuccessfulUpdates(results);
+        const failed = filterFailedUpdates(results);
 
-        if (results.length === 0) {
-            console.log("");
-            console.log(
-                "No updates within given version range available. Finished after %s.",
-                duration
-            );
-        } else {
-            const successful = filterSuccessfulUpdates(results);
-            const failed = filterFailedUpdates(results);
-            const stringifiedResults = successful
-                .concat(failed)
+        if (successful.length > 0) {
+            const list = successful
                 .map(result =>
                     [
-                        stringifySuccess(result.success),
+                        PASS,
                         result.name,
                         chalk.grey(result.rollbackTo),
                         chalk.grey(unicons.arrowRight),
                         chalk.grey(result.updateTo),
                     ].join(" ")
                 )
-                .concat(
-                excludedModules.map(excluded =>
-                        [SKIP, excluded.name, chalk.grey(excluded.reason)].join(
-                            " "
-                        )
-                    )
-                )
                 .join(EOL);
 
+            console.log("");
             console.log(
-                "Updated %s module%s successfully.",
+                "%s successful update%s:",
                 successful.length,
                 pluralize(successful.length)
             );
+            console.log("");
+            console.log(list);
+        }
+        if (failed.length > 0) {
+            const list = failed
+                .map(result =>
+                    [
+                        FAIL,
+                        result.name,
+                        chalk.grey(result.rollbackTo),
+                        chalk.grey(unicons.arrowRight),
+                        chalk.grey(result.updateTo),
+                    ].join(" ")
+                )
+                .join(EOL);
+
+            console.log("");
             console.log(
-                "%s update%s failed.",
+                "%s failed update%s:",
                 failed.length,
                 pluralize(failed.length)
             );
-            console.log("Finished after %s.", duration);
             console.log("");
-            console.log(stringifiedResults);
+            console.log(list);
         }
+        if (excludedModules.length > 0) {
+            const list = excludedModules
+                .map(excluded =>
+                    [SKIP, excluded.name, chalk.grey(excluded.reason)].join(" ")
+                )
+                .join(EOL);
+
+            console.log("");
+            console.log(
+                "%s skipped module%s:",
+                excludedModules.length,
+                pluralize(excludedModules.length)
+            );
+            console.log("");
+            console.log(list);
+        }
+
+        console.log("");
+        console.log("Finished after %s.", duration);
     });
 
     updtr.on("error", err => void handleError(err, currentSequence));
