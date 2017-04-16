@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { execFile } from "child_process";
 import path from "path";
 import { USE_YARN } from "../../src/constants/config";
 
@@ -10,8 +10,9 @@ async function execRunBinMock(
     { cwd = __dirname, args = [], runMock = "" } = {}
 ) {
     const stdout = await new Promise((resolve, reject) => {
-        exec(
-            [pathToBabelNode, pathToRunBin, ...args].join(" "),
+        execFile(
+            pathToBabelNode,
+            [pathToRunBin, ...args],
             {
                 cwd,
                 env: {
@@ -19,7 +20,8 @@ async function execRunBinMock(
                     RUN_MOCK: runMock,
                 },
             },
-            (err, stdout) => void (err ? reject(err) : resolve(stdout))
+            (err, stdout, stderr) =>
+                void (err ? reject(err) : resolve(stdout || stderr))
         );
     });
 
@@ -45,16 +47,24 @@ describe("bin", () => {
     describe("when all arguments have been specified", () => {
         test("should run updtr with the expected config", async () => {
             const args = [
-                "--reporter simple",
-                "--use yarn",
-                "--exclude a b c",
-                "--test 'jest -b'",
+                "--reporter",
+                "simple",
+                "--use",
+                "yarn",
+                "--exclude",
+                "a",
+                "b",
+                "c",
+                "--test",
+                "jest -b",
                 // yarn does not support custom registries
                 // We don't test for this option here and assume that it'll work if all the other options did also work
                 // "--registry http://example.com",
-                "--update-to non-breaking",
+                "--update-to",
+                "non-breaking",
                 "--test-stdout",
-                "--save exact",
+                "--save",
+                "exact",
             ];
             const configs = await execRunBinMock({ args });
 
@@ -65,7 +75,7 @@ describe("bin", () => {
         test("should emit an error event on the updtr instance", async () => {
             const error = await execRunBinMock({
                 runMock: "rejectWithAccessError",
-                args: ["--reporter error"],
+                args: ["--reporter", "error"],
             });
 
             expect(error).toMatchSnapshot();
