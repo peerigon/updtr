@@ -63,9 +63,6 @@ async function runUpdateTask(sequence, updateTasks, i, previousUpdateResults) {
     }
 
     sequence.baseEvent.success = success;
-    sequence.emit("test-result", {
-        stdout: testResult.stdout,
-    });
 
     if (success === false) {
         const nextUpdateTask = i + 1 < updateTasks.length ?
@@ -78,7 +75,14 @@ async function runUpdateTask(sequence, updateTasks, i, previousUpdateResults) {
         );
     }
 
-    return updateResults.concat(createUpdateResult(updateTask, success));
+    const result = createUpdateResult(updateTask, success);
+
+    sequence.emit("result", {
+        stdout: testResult.stdout,
+        ...result,
+    });
+
+    return updateResults.concat();
 }
 
 export default (async function sequentialUpdate(

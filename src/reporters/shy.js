@@ -1,6 +1,1 @@
-"use strict";
-
-function shyReporter() {
-}
-
-module.exports = shyReporter;
+export default Function.prototype;

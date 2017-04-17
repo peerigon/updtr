@@ -1,6 +1,5 @@
 import { EOL } from "os";
 import chalk from "chalk";
-import unicons from "unicons";
 import configList from "./util/configList";
 import pluralize from "./util/pluralize";
 import execEvents from "./util/execEvents";
@@ -55,21 +54,14 @@ export default function (updtr, reporterConfig) {
         console.log("Initializing...");
     });
     updtr.on("init/end", ({ updateTasks, excluded }) => {
-        const numOfOutdated = updateTasks.length + excluded.length;
+        const numOfUpdates = updateTasks.length;
 
         excludedModules = excluded;
         console.log(
-            "Found %s outdated module%s.",
-            numOfOutdated,
-            pluralize(numOfOutdated)
+            "Found %s update%s.",
+            numOfUpdates,
+            pluralize(numOfUpdates)
         );
-        if (excluded.length > 0) {
-            console.log(
-                "Excluding %s module%s.",
-                excluded.length,
-                pluralize(excluded.length)
-            );
-        }
     });
 
     updtr.on("batch-update/start", ({ updateTasks }) => {

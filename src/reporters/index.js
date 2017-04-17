@@ -1,4 +1,4 @@
-import chatty from "./chatty";
-import simple from "./simple";
+import dense from "./dense";
+import basic from "./basic";
 
-export default { chatty, simple };
+export default { dense, basic };
