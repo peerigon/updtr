@@ -69,7 +69,7 @@ function cmdToLines(description, cmd) {
         description :
         [description];
 
-    return [...lines, [chalk.grey(`> ${ cmd } `), spinner]];
+    return lines.concat([chalk.grey(`> ${ cmd } `), spinner]);
 }
 
 export default function (updtr, reporterConfig) {

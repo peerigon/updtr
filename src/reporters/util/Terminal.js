@@ -1,12 +1,12 @@
 import { EOL } from "os";
 import readline from "readline";
+import { cursor, erase } from "ansi-escape-sequences";
 
-const CSI = "\x1b["; // control sequence initiator
-const HIDE_CURSOR = CSI + "?25l";
+const newLine = erase.inLine() + EOL;
 
 function write(stream, lines) {
     if (lines.length > 0) {
-        stream.write(lines.join(EOL) + EOL);
+        stream.write(lines.join(newLine) + EOL + erase.display());
     }
 }
 
@@ -29,7 +29,7 @@ function setBlocking(stream) {
 export default class Terminal {
     constructor(stream) {
         setBlocking(stream);
-        stream.write(HIDE_CURSOR);
+        stream.write(cursor.hide);
         this.stream = stream;
         this.flush();
     }
