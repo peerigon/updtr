@@ -6,7 +6,7 @@ const newLine = erase.inLine() + EOL;
 
 function write(stream, lines) {
     if (lines.length > 0) {
-        stream.write(lines.join(newLine) + EOL + erase.display());
+        stream.write(lines.join(newLine) + newLine + erase.display());
     }
 }
 
