@@ -1,5 +1,6 @@
 import { EOL } from "os";
 import { cursor, erase } from "ansi-escape-sequences";
+import truncate from "cli-truncate";
 
 const newLine = erase.inLine() + EOL;
 
@@ -9,6 +10,10 @@ function linesToString(lines) {
     }
 
     return "";
+}
+
+function truncateLines(lines, width) {
+    return lines.map(line => truncate(String(line), width));
 }
 
 function resetCursor(numOfLines) {
@@ -35,16 +40,22 @@ export default class Terminal {
         stream.write(cursor.hide);
         this.stream = stream;
         this.flush();
+        stream.on("resize", () => this.replace(this.lines));
     }
     replace(lines) {
-        this.stream.write(resetCursor(this.numOfLines) + linesToString(lines));
-        this.numOfLines = lines.length;
+        const previousLines = this.lines;
+        const content = linesToString(
+            truncateLines(lines, this.stream.columns)
+        );
+
+        this.lines = lines;
+        this.stream.write(resetCursor(previousLines.length) + content);
     }
     append(lines) {
+        this.lines = this.lines.concat(lines);
         this.stream.write(linesToString(lines));
-        this.numOfLines += lines.length;
     }
     flush() {
-        this.numOfLines = 0;
+        this.lines = [];
     }
 }
