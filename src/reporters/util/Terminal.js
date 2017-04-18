@@ -1,6 +1,8 @@
 import { EOL } from "os";
 import { cursor, erase } from "ansi-escape-sequences";
 import truncate from "cli-truncate";
+import cliCursor from "cli-cursor";
+import stringWidth from "string-width";
 
 const newLine = erase.inLine() + EOL;
 
@@ -16,12 +18,14 @@ function truncateLines(lines, width) {
     return lines.map(line => truncate(String(line), width));
 }
 
-function resetCursor(numOfLines) {
-    if (numOfLines > 0) {
-        return cursor.up(numOfLines);
-    }
+function resetCursor(previousContent, columns) {
+    const totalWidth = stringWidth(previousContent);
+    const y = previousContent
+        .split(EOL)
+        .map(lineContent => Math.ceil(stringWidth(lineContent) / columns))
+        .reduce((y, lines) => y + lines, 0);
 
-    return "";
+    return y === 0 ? "" : cursor.previousLine(y);
 }
 
 function setBlocking(stream) {
@@ -37,25 +41,26 @@ function setBlocking(stream) {
 export default class Terminal {
     constructor(stream) {
         setBlocking(stream);
-        stream.write(cursor.hide);
+        cliCursor.hide(stream);
         this.stream = stream;
         this.flush();
-        stream.on("resize", () => this.replace(this.lines));
+        // stream.on("resize", () => this.replace(this.lines));
     }
     replace(lines) {
-        const previousLines = this.lines;
-        const content = linesToString(
-            truncateLines(lines, this.stream.columns)
-        );
+        const content = linesToString(lines);
 
-        this.lines = lines;
-        this.stream.write(resetCursor(previousLines.length) + content);
+        this.stream.write(
+            resetCursor(this.content, this.stream.columns) + content
+        );
+        this.content = content;
     }
     append(lines) {
-        this.lines = this.lines.concat(lines);
-        this.stream.write(linesToString(lines));
+        const content = linesToString(lines);
+
+        this.stream.write(content);
+        this.content += content;
     }
     flush() {
-        this.lines = [];
+        this.content = "";
     }
 }
