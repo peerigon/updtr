@@ -75,14 +75,11 @@ async function runUpdateTask(sequence, updateTasks, i, previousUpdateResults) {
         );
     }
 
-    const result = createUpdateResult(updateTask, success);
-
     sequence.emit("result", {
         stdout: testResult.stdout,
-        ...result,
     });
 
-    return updateResults.concat();
+    return updateResults.concat(createUpdateResult(updateTask, success));
 }
 
 export default (async function sequentialUpdate(

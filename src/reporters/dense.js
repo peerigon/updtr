@@ -9,21 +9,15 @@ import Indicator, {
     INDICATOR_OK,
     INDICATOR_FAIL,
 } from "./util/Indicator";
-import configList from "./util/configList";
 import customConfigToLines from "./util/customConfigToLines";
 import pluralize from "./util/pluralize";
-import {
-    STATE_UPDATING,
-    STATE_TESTING,
-    STATE_ROLLBACK,
-} from "../tasks/util/updateStates";
 
 const spinner = new Spinner("dots");
 
 function updatingLine(updateTask) {
     return [
         new Indicator(INDICATOR_PENDING),
-        updateTask.name,
+        chalk.bold(updateTask.name),
         chalk.grey("updating"),
         updateTask.rollbackTo,
         chalk.grey(unicons.arrowRight),
@@ -35,7 +29,7 @@ function updatingLine(updateTask) {
 function testingLine(updateTask) {
     return [
         new Indicator(INDICATOR_PENDING),
-        updateTask.name,
+        chalk.bold(updateTask.name),
         chalk.grey("testing..."),
     ].join(" ");
 }
@@ -43,7 +37,7 @@ function testingLine(updateTask) {
 function rollbackLine(updateTask) {
     return [
         new Indicator(INDICATOR_FAIL),
-        chalk.red(updateTask.name),
+        chalk.bold.red(updateTask.name),
         chalk.grey("rolling back"),
         updateTask.updateTo,
         chalk.grey(unicons.arrowRight),
@@ -55,7 +49,8 @@ function rollbackLine(updateTask) {
 function successLine(updateTask) {
     return [
         new Indicator(INDICATOR_OK),
-        chalk.green(updateTask.name),
+        chalk.bold(updateTask.name),
+        updateTask.updateTo,
         chalk.grey("success"),
     ].join(" ");
 }
@@ -63,13 +58,18 @@ function successLine(updateTask) {
 function failLine(updateTask) {
     return [
         new Indicator(INDICATOR_FAIL),
-        chalk.red(updateTask.name),
+        chalk.bold.red(updateTask.name),
+        updateTask.updateTo,
         chalk.grey("failed"),
     ].join(" ");
 }
 
 function cmdToLines(description, cmd) {
-    return [description, [chalk.grey(cmd + " "), spinner]];
+    const lines = Array.isArray(description) === true ?
+        description :
+        [description];
+
+    return [...lines, [chalk.grey(`> ${ cmd } `), spinner]];
 }
 
 export default function (updtr, reporterConfig) {
@@ -84,10 +84,10 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("init/install-missing", ({ cmd }) => {
         projector.start();
-        projector.frame = cmdToLines(["Installing missing dependencies"], cmd);
+        projector.frame = cmdToLines("Installing missing dependencies", cmd);
     });
     updtr.on("init/collect", ({ cmd }) => {
-        projector.frame = cmdToLines(["Looking for outdated modules"], cmd);
+        projector.frame = cmdToLines("Looking for outdated modules", cmd);
     });
     updtr.on("init/end", ({ updateTasks }) => {
         projector.stop();
@@ -100,21 +100,47 @@ export default function (updtr, reporterConfig) {
         terminal.flush();
     });
     updtr.on("batch-update/start", ({ updateTasks }) => {
-        terminal.append([
-            new Message(
-                "Starting batch update with %s non-breaking update%s...",
-                [updateTasks.length, pluralize(updateTasks.length)]
-            ),
-        ]);
+        // terminal.append([
+        //     new Message(
+        //         "Starting batch update with %s non-breaking update%s...",
+        //         [updateTasks.length, pluralize(updateTasks.length)]
+        //     ),
+        // ]);
+        terminal.flush();
+    });
+    updtr.on("batch-update/updating", event => {
+        projector.start();
+        projector.frame = cmdToLines(
+            event.updateTasks.map(updatingLine),
+            event.cmd
+        );
+    });
+    updtr.on("batch-update/testing", event => {
+        projector.frame = cmdToLines(
+            event.updateTasks.map(testingLine),
+            event.cmd
+        );
+    });
+    updtr.on("batch-update/rollback", event => {
+        projector.frame = cmdToLines(
+            event.updateTasks.map(rollbackLine),
+            event.cmd
+        );
+    });
+    updtr.on("batch-update/result", event => {
+        projector.stop();
+        terminal.replace(
+            event.updateTasks.map(event.success ? successLine : failLine)
+        );
         terminal.flush();
     });
     updtr.on("sequential-update/start", ({ updateTasks }) => {
-        terminal.append([
-            new Message("Starting sequential update with %s update%s...", [
-                updateTasks.length,
-                pluralize(updateTasks.length),
-            ]),
-        ]);
+        // terminal.append([
+        //     new Message("Starting sequential update with %s update%s...", [
+        //         updateTasks.length,
+        //         pluralize(updateTasks.length),
+        //     ]),
+        // ]);
         terminal.flush();
     });
     updtr.on("sequential-update/updating", event => {

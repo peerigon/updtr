@@ -37,9 +37,6 @@ async function update(sequence, updateTasks) {
     }
 
     sequence.baseEvent.success = success;
-    sequence.emit("test-result", {
-        stdout: testResult.stdout,
-    });
 
     if (success === false && updateTasks.length > 1) {
         // If the update was a failure, we roll back every update except the first.
@@ -49,6 +46,10 @@ async function update(sequence, updateTasks) {
             renderRollback(updtr, updateTasks.slice(1))
         );
     }
+
+    sequence.emit("result", {
+        stdout: testResult.stdout,
+    });
 
     return success;
 }
