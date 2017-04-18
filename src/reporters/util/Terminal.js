@@ -28,6 +28,12 @@ function resetCursor(previousContent, columns) {
     return y === 0 ? "" : cursor.previousLine(y);
 }
 
+function calcNumOfRows(lines, columns) {
+    return lines
+        .map(lineContent => Math.ceil(stringWidth(lineContent) / columns))
+        .reduce((y, lines) => y + lines, 0);
+}
+
 function setBlocking(stream) {
     if (
         stream._handle &&
@@ -48,19 +54,23 @@ export default class Terminal {
     }
     replace(lines) {
         const content = linesToString(lines);
+        const resetCursor = this.numOfRows === 0 ?
+            "" :
+            cursor.previousLine(this.numOfRows);
 
-        this.stream.write(
-            resetCursor(this.content, this.stream.columns) + content
-        );
-        this.content = content;
+        this.stream.write(resetCursor + content);
+        this.numOfRows = calcNumOfRows(lines, this.stream.columns);
+        // console.log(this.stream.columns);
+        // console.log(this.numOfRows);
+        // console.log("--------------------------------------------");
     }
     append(lines) {
-        const content = linesToString(lines);
+        const content = linesToString(lines, this.stream.columns);
 
         this.stream.write(content);
-        this.content += content;
+        this.numOfRows += calcNumOfRows(lines, this.stream.columns) + 1;
     }
     flush() {
-        this.content = "";
+        this.numOfRows = 0;
     }
 }

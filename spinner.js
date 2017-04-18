@@ -5,12 +5,9 @@ import Spinner from "./src/reporters/util/Spinner";
 const terminal = new Terminal(process.stdout);
 const projector = new Projector(terminal, 10);
 let lines = [
-    [
-        new Spinner("dots"),
-        " His ddfg xfcg hcghcfgh cf cf cfg cfgh cfcfgh cfgh cfghcfgcfghcfg cfgh cfgh cfgh fg",
-    ],
-    [new Spinner("dots"), " yoooooo"],
-    [new Spinner("dots"), " Whats up?"],
+    [new Spinner("dots"), " " + new Array(50).fill("a")],
+    [new Spinner("dots"), " " + new Array(50).fill("b")],
+    [new Spinner("dots"), " " + new Array(50).fill("c")],
 ];
 
 let counter = 0;
