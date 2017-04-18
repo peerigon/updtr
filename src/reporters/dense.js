@@ -83,11 +83,10 @@ export default function (updtr, reporterConfig) {
         terminal.flush();
     });
     updtr.on("init/install-missing", ({ cmd }) => {
-        projector.start();
-        projector.frame = cmdToLines("Installing missing dependencies", cmd);
+        projector.display(cmdToLines("Installing missing dependencies", cmd));
     });
     updtr.on("init/collect", ({ cmd }) => {
-        projector.frame = cmdToLines("Looking for outdated modules", cmd);
+        projector.display(cmdToLines("Looking for outdated modules", cmd));
     });
     updtr.on("init/end", ({ updateTasks }) => {
         projector.stop();
@@ -109,22 +108,18 @@ export default function (updtr, reporterConfig) {
         terminal.flush();
     });
     updtr.on("batch-update/updating", event => {
-        projector.start();
-        projector.frame = cmdToLines(
-            event.updateTasks.map(updatingLine),
-            event.cmd
+        projector.display(
+            cmdToLines(event.updateTasks.map(updatingLine), event.cmd)
         );
     });
     updtr.on("batch-update/testing", event => {
-        projector.frame = cmdToLines(
-            event.updateTasks.map(testingLine),
-            event.cmd
+        projector.display(
+            cmdToLines(event.updateTasks.map(testingLine), event.cmd)
         );
     });
     updtr.on("batch-update/rollback", event => {
-        projector.frame = cmdToLines(
-            event.updateTasks.map(rollbackLine),
-            event.cmd
+        projector.display(
+            cmdToLines(event.updateTasks.map(rollbackLine), event.cmd)
         );
     });
     updtr.on("batch-update/result", event => {
@@ -144,14 +139,13 @@ export default function (updtr, reporterConfig) {
         terminal.flush();
     });
     updtr.on("sequential-update/updating", event => {
-        projector.start();
-        projector.frame = cmdToLines(updatingLine(event), event.cmd);
+        projector.display(cmdToLines(updatingLine(event), event.cmd));
     });
     updtr.on("sequential-update/testing", event => {
-        projector.frame = cmdToLines(testingLine(event), event.cmd);
+        projector.display(cmdToLines(testingLine(event), event.cmd));
     });
     updtr.on("sequential-update/rollback", event => {
-        projector.frame = cmdToLines(rollbackLine(event), event.cmd);
+        projector.display(cmdToLines(rollbackLine(event), event.cmd));
     });
     updtr.on("sequential-update/result", event => {
         projector.stop();

@@ -1,19 +1,22 @@
 import { EOL } from "os";
-import readline from "readline";
 import { cursor, erase } from "ansi-escape-sequences";
 
 const newLine = erase.inLine() + EOL;
 
-function write(stream, lines) {
+function linesToString(lines) {
     if (lines.length > 0) {
-        stream.write(lines.join(newLine) + newLine + erase.display());
+        return lines.join(newLine) + newLine + erase.display();
     }
+
+    return "";
 }
 
-function resetCursor(stream, numOfLines) {
+function resetCursor(numOfLines) {
     if (numOfLines > 0) {
-        readline.moveCursor(stream, 0, -numOfLines);
+        return cursor.up(numOfLines);
     }
+
+    return "";
 }
 
 function setBlocking(stream) {
@@ -34,12 +37,11 @@ export default class Terminal {
         this.flush();
     }
     replace(lines) {
-        resetCursor(this.stream, this.numOfLines);
-        write(this.stream, lines);
+        this.stream.write(resetCursor(this.numOfLines) + linesToString(lines));
         this.numOfLines = lines.length;
     }
     append(lines) {
-        write(this.stream, lines);
+        this.stream.write(linesToString(lines));
         this.numOfLines += lines.length;
     }
     flush() {

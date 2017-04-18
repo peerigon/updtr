@@ -22,6 +22,10 @@ export default class Projector {
             this.intervalDelay
         );
     }
+    display(frame) {
+        this.frame = frame;
+        this.start();
+    }
     stop() {
         clearInterval(this.intervalId);
         this.intervalId = null;
