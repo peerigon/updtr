@@ -3,7 +3,7 @@ import chalk from "chalk";
 import { PackageJsonNoAccessError } from "../../errors";
 import { error } from "./labels";
 
-export default function handleError(err, currentSequence) {
+export default function handleError(err) {
     console.log("");
     switch (err.constructor) {
         case PackageJsonNoAccessError:
@@ -19,7 +19,6 @@ export default function handleError(err, currentSequence) {
             console.error(error("error") + " " + err.message);
             console.error(chalk.grey(stack.join(EOL)));
         }
-
     }
     console.log("");
     process.exit(1); // eslint-disable-line no-process-exit
