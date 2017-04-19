@@ -56,9 +56,9 @@ Array [
     },
   ],
   Array [
-    "batch-update/test-result",
+    "batch-update/rollback",
     Object {
-      "stdout": "Oh noez",
+      "cmd": "npm install \\"updtr-test-module-2@2.0.0\\"",
       "success": false,
       "updateTasks": Array [
         Object {
@@ -75,9 +75,9 @@ Array [
     },
   ],
   Array [
-    "batch-update/rollback",
+    "batch-update/result",
     Object {
-      "cmd": "npm install \\"updtr-test-module-2@2.0.0\\"",
+      "stdout": "Oh noez",
       "success": false,
       "updateTasks": Array [
         Object {
@@ -172,7 +172,7 @@ Array [
     },
   ],
   Array [
-    "batch-update/test-result",
+    "batch-update/result",
     Object {
       "stdout": "Everything ok",
       "success": true,
@@ -266,9 +266,9 @@ Array [
     },
   ],
   Array [
-    "batch-update/test-result",
+    "batch-update/rollback",
     Object {
-      "stdout": "Oh noez",
+      "cmd": "yarn add \\"updtr-test-module-2@2.0.0\\"",
       "success": false,
       "updateTasks": Array [
         Object {
@@ -285,9 +285,9 @@ Array [
     },
   ],
   Array [
-    "batch-update/rollback",
+    "batch-update/result",
     Object {
-      "cmd": "yarn add \\"updtr-test-module-2@2.0.0\\"",
+      "stdout": "Oh noez",
       "success": false,
       "updateTasks": Array [
         Object {
@@ -368,7 +368,7 @@ Array [
     },
   ],
   Array [
-    "batch-update/test-result",
+    "batch-update/result",
     Object {
       "stdout": "Everything ok",
       "success": true,
@@ -461,7 +461,7 @@ Array [
     },
   ],
   Array [
-    "batch-update/test-result",
+    "batch-update/result",
     Object {
       "stdout": "Oh noez",
       "success": false,
@@ -535,7 +535,7 @@ Array [
     },
   ],
   Array [
-    "batch-update/test-result",
+    "batch-update/result",
     Object {
       "stdout": "Everything ok",
       "success": true,

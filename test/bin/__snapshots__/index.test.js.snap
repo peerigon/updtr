@@ -23,10 +23,6 @@ Object {
 
 exports[`bin when no arguments have been specified should run updtr with the default config 1`] = `
 Object {
-  "reporter": "chatty",
-  "reporterConfig": Object {
-    "testStdout": false,
-  },
   "updtrConfig": Object {
     "cwd": "/test/bin",
     "exclude": Array [],

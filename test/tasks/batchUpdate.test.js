@@ -195,8 +195,8 @@ describe("batchUpdate()", () => {
             }
 
             expect(givenErr).toBe(execError);
-            // emitted events: start, updating, testing, testResult, rollback
-            expect(updtr.emit.args.length).toBe(5);
+            // emitted events: start, updating, testing, rollback
+            expect(updtr.emit.args.length).toBe(4);
         });
     });
 });

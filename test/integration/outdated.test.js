@@ -132,7 +132,7 @@ describe("integration test: when there are outdated dependencies", () => {
                 updtr.on("init/install-missing", ({ cmd }) => {
                     installMissingCmd = cmd;
                 });
-                updtr.on("sequential-update/test-result", ({ stdout }) => {
+                updtr.on("sequential-update/result", ({ stdout }) => {
                     // echo adds an EOL
                     testStdout = stdout.trim();
                 });
@@ -201,7 +201,7 @@ describe("integration test: when there are outdated dependencies", () => {
                 // updtr.on("init/install-missing", ({ cmd }) => {
                 //     installMissingCmd = cmd;
                 // });
-                updtr.on("sequential-update/test-result", ({ stdout }) => {
+                updtr.on("sequential-update/result", ({ stdout }) => {
                     // echo adds an EOL
                     testStdout = stdout.trim();
                 });

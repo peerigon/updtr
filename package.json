@@ -4,7 +4,7 @@
   "description": "Update outdated npm modules with zero pain™",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha --recursive -R spec",
+    "test": "jest",
     "test:watch": "jest --watch",
     "posttest": "npm run lint",
     "coverage": "istanbul cover _mocha -- -R spec",
