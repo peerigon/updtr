@@ -9,25 +9,21 @@ function lineToString(line) {
 export default class Projector {
     constructor(terminal, frameRate = 10) {
         this.terminal = terminal;
-        this.intervalDelay = Math.floor(1000 / frameRate);
-        this.intervalId = null;
-        this.frame = [];
-    }
-    start() {
-        if (this.intervalId !== null) {
-            return;
-        }
-        this.intervalId = setInterval(
-            () => this.terminal.replace(this.frame.map(lineToString)),
-            this.intervalDelay
-        );
+        this.delay = Math.floor(1000 / frameRate);
+        this.timeoutId = null;
     }
     display(frame) {
-        this.frame = frame;
-        this.start();
+        if (this.timeoutId !== null) {
+            this.terminal.unwind();
+            this.stop();
+        }
+        this.terminal.append(frame.map(lineToString));
+        this.timeoutId = setTimeout(() => {
+            this.display(frame);
+        }, this.delay);
     }
     stop() {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
+        clearTimeout(this.timeoutId);
+        this.timeoutId = null;
     }
 }

@@ -80,7 +80,6 @@ export default function (updtr, reporterConfig) {
 
     updtr.on("start", ({ config }) => {
         terminal.append(customConfigToLines(config));
-        terminal.flush();
     });
     updtr.on("init/install-missing", ({ cmd }) => {
         projector.display(cmdToLines("Installing missing dependencies", cmd));
@@ -90,22 +89,13 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("init/end", ({ updateTasks }) => {
         projector.stop();
-        terminal.replace([
+        terminal.unwind();
+        terminal.append([
             new Message("Found %s update%s.", [
                 updateTasks.length,
                 pluralize(updateTasks.length),
             ]),
         ]);
-        terminal.flush();
-    });
-    updtr.on("batch-update/start", ({ updateTasks }) => {
-        // terminal.append([
-        //     new Message(
-        //         "Starting batch update with %s non-breaking update%s...",
-        //         [updateTasks.length, pluralize(updateTasks.length)]
-        //     ),
-        // ]);
-        terminal.flush();
     });
     updtr.on("batch-update/updating", event => {
         projector.display(
@@ -124,19 +114,10 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("batch-update/result", event => {
         projector.stop();
-        terminal.replace(
+        terminal.unwind();
+        terminal.append(
             event.updateTasks.map(event.success ? successLine : failLine)
         );
-        terminal.flush();
-    });
-    updtr.on("sequential-update/start", ({ updateTasks }) => {
-        // terminal.append([
-        //     new Message("Starting sequential update with %s update%s...", [
-        //         updateTasks.length,
-        //         pluralize(updateTasks.length),
-        //     ]),
-        // ]);
-        terminal.flush();
     });
     updtr.on("sequential-update/updating", event => {
         projector.display(cmdToLines(updatingLine(event), event.cmd));
@@ -149,7 +130,7 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("sequential-update/result", event => {
         projector.stop();
-        terminal.replace([(event.success ? successLine : failLine)(event)]);
-        terminal.flush();
+        terminal.unwind();
+        terminal.append([(event.success ? successLine : failLine)(event)]);
     });
 }

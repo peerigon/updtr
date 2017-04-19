@@ -12,6 +12,8 @@ let lines = [
 
 let counter = 0;
 
+terminal.append(lines);
+
 projector.display((lines = lines.reverse()));
 
 setInterval(() => {
