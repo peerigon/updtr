@@ -34,7 +34,7 @@ beforeAll(async () => {
 
 describe("sequentialUpdate()", () => {
     describe("when the given updateTasks array is empty", () => {
-        test("should resolve immediately with an empty array without emitting events", async () => {
+        it("should resolve immediately with an empty array without emitting events", async () => {
             const updtr = new FakeUpdtr();
 
             expect(await sequentialUpdate(updtr, [])).toEqual([]);
@@ -45,7 +45,7 @@ describe("sequentialUpdate()", () => {
     describe("when the given updateTasks array contains update tasks", () => {
         describe("using npm", () => {
             describe("when the tests succeed", () => {
-                test("should return the expected update results", async () => {
+                it("should return the expected update results", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
@@ -66,7 +66,7 @@ describe("sequentialUpdate()", () => {
                 });
             });
             describe("when the first test fails and the rest succeeds", () => {
-                test("should emit expected events and execute expected commands", async () => {
+                it("should emit expected events and execute expected commands", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
@@ -90,7 +90,7 @@ describe("sequentialUpdate()", () => {
         });
         describe("using yarn", () => {
             describe("when the tests succeed", () => {
-                test("should return the expected update results", async () => {
+                it("should return the expected update results", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
@@ -113,7 +113,7 @@ describe("sequentialUpdate()", () => {
                 });
             });
             describe("when the first test fails and the rest succeeds", () => {
-                test("should emit expected events and execute expected commands", async () => {
+                it("should emit expected events and execute expected commands", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
@@ -139,7 +139,7 @@ describe("sequentialUpdate()", () => {
         });
     });
     describe("when there is a previous update result", () => {
-        test("should skip the first updating step if the previous update success was false", async () => {
+        it("should skip the first updating step if the previous update success was false", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             const previousUpdateResult = createUpdateResult(
@@ -158,7 +158,7 @@ describe("sequentialUpdate()", () => {
                 pickEvents("sequential-update/updating", updtr.emit.args)
             ).toHaveLength(1);
         });
-        test("should not skip the first updating step if the previous update success was true", async () => {
+        it("should not skip the first updating step if the previous update success was true", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             const previousUpdateResult = createUpdateResult(
@@ -177,7 +177,7 @@ describe("sequentialUpdate()", () => {
                 pickEvents("sequential-update/updating", updtr.emit.args)
             ).toHaveLength(2);
         });
-        test("should not include the previous update result in the returned results", async () => {
+        it("should not include the previous update result in the returned results", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             const previousUpdateResult = createUpdateResult(
@@ -196,7 +196,7 @@ describe("sequentialUpdate()", () => {
         });
     });
     describe("unexpected errors", () => {
-        test("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
+        it("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             let givenErr;
@@ -213,7 +213,7 @@ describe("sequentialUpdate()", () => {
             // emitted events: start, updating
             expect(updtr.emit.args.length).toBe(2);
         });
-        test("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
+        it("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             let givenErr;

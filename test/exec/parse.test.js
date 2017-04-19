@@ -6,19 +6,20 @@ let stdoutLogs;
 function testUnexpectedInput(parse) {
     describe("unexpected input", () => {
         describe("malformed JSON", () => {
-            test("should throw with a helpful error message", () => {
+            it("should throw with a helpful error message", () => {
                 expect(() => parse("{", "my-cmd")).toThrow(
                     "Error when trying to parse stdout from command 'my-cmd': Unexpected end of JSON input"
                 );
             });
         });
         describe("unexpected data format", () => {
-            test("should throw with a helpful error message", () => {
+            it("should throw with a helpful error message", () => {
                 expect(() =>
                     parse(
                         JSON.stringify({ some: { randomData: true } }),
                         "my-cmd"
-                    ))
+                    )
+                )
                     // We don't really want to test for the actual error message here,
                     // but just whether there is an error message at all.
                     .toThrow(
@@ -58,7 +59,7 @@ describe("parse", () => {
     describe(".npm", () => {
         describe(".outdated()", () => {
             describe("empty fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("empty/outdated.npm.log")
                         .trim();
@@ -68,7 +69,7 @@ describe("parse", () => {
                         new SyntaxError("Unexpected end of JSON input")
                     );
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.npm.outdated(
                             stdoutLogs.get("empty/outdated.npm.log")
@@ -77,7 +78,7 @@ describe("parse", () => {
                 });
             });
             describe("no-outdated fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("no-outdated/outdated.npm.log")
                         .trim();
@@ -87,7 +88,7 @@ describe("parse", () => {
                         new SyntaxError("Unexpected end of JSON input")
                     );
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.npm.outdated(
                             stdoutLogs.get("no-outdated/outdated.npm.log")
@@ -96,7 +97,7 @@ describe("parse", () => {
                 });
             });
             describe("no-outdated-dev fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("no-outdated-dev/outdated.npm.log")
                         .trim();
@@ -106,7 +107,7 @@ describe("parse", () => {
                         new SyntaxError("Unexpected end of JSON input")
                     );
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.npm.outdated(
                             stdoutLogs.get("no-outdated-dev/outdated.npm.log")
@@ -115,7 +116,7 @@ describe("parse", () => {
                 });
             });
             describe("outdated fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("outdated/outdated.npm.log")
                         .trim();
@@ -123,7 +124,7 @@ describe("parse", () => {
                     expect(fixture.length).toBeGreaterThan(10);
                     JSON.parse(fixture); // should be parseable
                 });
-                test("should return an array with normalized outdated data", () => {
+                it("should return an array with normalized outdated data", () => {
                     expect(
                         parse.npm.outdated(
                             stdoutLogs.get("outdated/outdated.npm.log")
@@ -132,7 +133,7 @@ describe("parse", () => {
                 });
             });
             describe("outdated-dev fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("outdated-dev/outdated.npm.log")
                         .trim();
@@ -140,7 +141,7 @@ describe("parse", () => {
                     expect(fixture.length).toBeGreaterThan(10);
                     JSON.parse(fixture); // should be parseable
                 });
-                test("should return an array with normalized outdated data", () => {
+                it("should return an array with normalized outdated data", () => {
                     expect(
                         parse.npm.outdated(
                             stdoutLogs.get("outdated-dev/outdated.npm.log")
@@ -152,7 +153,7 @@ describe("parse", () => {
         });
         describe(".list()", () => {
             function testFixture(fixtureName) {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get(fixtureName + "/list.npm.log")
                         .trim();
@@ -160,7 +161,7 @@ describe("parse", () => {
                     expect(fixture.length).toBeGreaterThan(10);
                     JSON.parse(fixture); // should be parseable
                 });
-                test("should return an array with installed versions", () => {
+                it("should return an array with installed versions", () => {
                     expect(
                         parse.npm.list(
                             stdoutLogs.get(fixtureName + "/list.npm.log")
@@ -170,13 +171,13 @@ describe("parse", () => {
             }
 
             describe("empty fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs.get("empty/list.npm.log").trim();
 
                     expect(fixture.length).toBeGreaterThan(10);
                     JSON.parse(fixture); // should be parseable
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.npm.list(stdoutLogs.get("empty/list.npm.log"))
                     ).toEqual([]);
@@ -203,7 +204,7 @@ describe("parse", () => {
     describe(".yarn", () => {
         describe(".outdated()", () => {
             describe("empty fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("empty/outdated.yarn.log")
                         .trim();
@@ -213,7 +214,7 @@ describe("parse", () => {
                         new SyntaxError("Unexpected end of JSON input")
                     );
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.yarn.outdated(
                             stdoutLogs.get("empty/outdated.yarn.log")
@@ -222,7 +223,7 @@ describe("parse", () => {
                 });
             });
             describe("no-outdated fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("no-outdated/outdated.yarn.log")
                         .trim();
@@ -232,7 +233,7 @@ describe("parse", () => {
                         new SyntaxError("Unexpected end of JSON input")
                     );
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.yarn.outdated(
                             stdoutLogs.get("no-outdated/outdated.yarn.log")
@@ -241,7 +242,7 @@ describe("parse", () => {
                 });
             });
             describe("no-outdated-dev fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("no-outdated-dev/outdated.yarn.log")
                         .trim();
@@ -251,7 +252,7 @@ describe("parse", () => {
                         new SyntaxError("Unexpected end of JSON input")
                     );
                 });
-                test("should return an empty array", () => {
+                it("should return an empty array", () => {
                     expect(
                         parse.yarn.outdated(
                             stdoutLogs.get("no-outdated-dev/outdated.yarn.log")
@@ -260,7 +261,7 @@ describe("parse", () => {
                 });
             });
             describe("outdated fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("outdated/outdated.yarn.log")
                         .trim();
@@ -268,7 +269,7 @@ describe("parse", () => {
                     expect(fixture.length).toBeGreaterThan(10);
                     JSON.parse(fixture); // should be parseable
                 });
-                test("should return an array with normalized outdated data", () => {
+                it("should return an array with normalized outdated data", () => {
                     expect(
                         parse.yarn.outdated(
                             stdoutLogs.get("outdated/outdated.yarn.log")
@@ -277,7 +278,7 @@ describe("parse", () => {
                 });
             });
             describe("outdated-dev fixture", () => {
-                test("fixture sanity test", () => {
+                it("fixture sanity test", () => {
                     const fixture = stdoutLogs
                         .get("outdated-dev/outdated.yarn.log")
                         .trim();
@@ -285,7 +286,7 @@ describe("parse", () => {
                     expect(fixture.length).toBeGreaterThan(10);
                     JSON.parse(fixture); // should be parseable
                 });
-                test("should return an array with normalized outdated data", () => {
+                it("should return an array with normalized outdated data", () => {
                     expect(
                         parse.yarn.outdated(
                             stdoutLogs.get("outdated-dev/outdated.yarn.log")
@@ -296,7 +297,7 @@ describe("parse", () => {
             testUnexpectedInput(parse.yarn.outdated);
         });
         describe(".list()", () => {
-            test("should be the same implementation as .npm.list", () => {
+            it("should be the same implementation as .npm.list", () => {
                 expect(parse.yarn.list).toBe(parse.npm.list);
             });
         });

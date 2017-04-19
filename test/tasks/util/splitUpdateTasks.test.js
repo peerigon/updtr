@@ -108,14 +108,15 @@ const breakingPreVersionUpdateTasks = [
 
 describe("splitUpdateTasks()", () => {
     describe(".breaking", () => {
-        test("should be empty by default", () => {
+        it("should be empty by default", () => {
             expect(splitUpdateTasks([]).breaking).toEqual([]);
         });
-        test("should be empty if there are just non-breaking updates", () => {
-            expect(splitUpdateTasks(nonBreakingUpdateTasks).breaking).toEqual([
-            ]);
+        it("should be empty if there are just non-breaking updates", () => {
+            expect(splitUpdateTasks(nonBreakingUpdateTasks).breaking).toEqual(
+                []
+            );
         });
-        test("should be an array with all breaking updates", () => {
+        it("should be an array with all breaking updates", () => {
             const updateTasks = nonBreakingUpdateTasks.concat(
                 breakingUpdateTasks
             );
@@ -124,26 +125,27 @@ describe("splitUpdateTasks()", () => {
                 breakingUpdateTasks
             );
         });
-        test("should contain all breaking pre-version updates", () => {
+        it("should contain all breaking pre-version updates", () => {
             expect(
                 splitUpdateTasks(breakingPreVersionUpdateTasks).breaking
             ).toEqual(breakingPreVersionUpdateTasks);
         });
-        test("should not contain non-breaking pre-version updates", () => {
+        it("should not contain non-breaking pre-version updates", () => {
             expect(
                 splitUpdateTasks(nonBreakingPreVersionUpdateTasks).breaking
             ).toEqual([]);
         });
     });
     describe(".nonBreaking", () => {
-        test("should be empty by default", () => {
+        it("should be empty by default", () => {
             expect(splitUpdateTasks([]).nonBreaking).toEqual([]);
         });
-        test("should be empty if there are just breaking updates", () => {
-            expect(splitUpdateTasks(breakingUpdateTasks).nonBreaking).toEqual([
-            ]);
+        it("should be empty if there are just breaking updates", () => {
+            expect(splitUpdateTasks(breakingUpdateTasks).nonBreaking).toEqual(
+                []
+            );
         });
-        test("should be an array with all non-breaking updates", () => {
+        it("should be an array with all non-breaking updates", () => {
             const updateTasks = breakingUpdateTasks.concat(
                 nonBreakingUpdateTasks
             );
@@ -152,12 +154,12 @@ describe("splitUpdateTasks()", () => {
                 nonBreakingUpdateTasks
             );
         });
-        test("should contain non-breaking pre-version updates", () => {
+        it("should contain non-breaking pre-version updates", () => {
             expect(
                 splitUpdateTasks(nonBreakingPreVersionUpdateTasks).nonBreaking
             ).toEqual(nonBreakingPreVersionUpdateTasks);
         });
-        test("should not contain breaking pre-version updates since they are considered to be unstable", () => {
+        it("should not contain breaking pre-version updates since they are considered to be unstable", () => {
             expect(
                 splitUpdateTasks(breakingPreVersionUpdateTasks).nonBreaking
             ).toEqual([]);

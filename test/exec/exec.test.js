@@ -20,21 +20,21 @@ const logMemoryCmd = `node -e "(${ logMemoryCode })()"`;
 const cwd = __dirname;
 
 describe("exec()", () => {
-    test("should return a promise that resolves to an object of expected shape", async () => {
+    it("should return a promise that resolves to an object of expected shape", async () => {
         const result = await exec(cwd, noopCmd);
 
         expect(result).toMatchSnapshot();
     });
-    test("should return a promise that resolves to a value that contains the stdout", async () => {
+    it("should return a promise that resolves to a value that contains the stdout", async () => {
         const result = await exec(cwd, logOkCmd);
 
         expect(result.stdout).toBe("ok\n");
     });
-    test("should not fail with 'stdout maxBuffer exceeded' if stdout is pretty big", async () => {
+    it("should not fail with 'stdout maxBuffer exceeded' if stdout is pretty big", async () => {
         await exec(cwd, logMemoryCmd);
     });
     describe("when the command fails", () => {
-        test("should reject the promise with an error of expected shape", async () => {
+        it("should reject the promise with an error of expected shape", async () => {
             let givenErr;
 
             try {

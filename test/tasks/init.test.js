@@ -13,7 +13,7 @@ import { PackageJsonNoAccessError } from "../../src/errors";
 
 describe("init()", () => {
     describe("when there are no outdated dependencies", () => {
-        test("should emit expected events and execute expected commands", async () => {
+        it("should emit expected events and execute expected commands", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmNoOutdated;
@@ -23,7 +23,7 @@ describe("init()", () => {
             expect(updtr.exec.args).toMatchSnapshot();
             expect(updtr.emit.args).toMatchSnapshot();
         });
-        test("should return the results as emitted with the 'init/end' event", async () => {
+        it("should return the results as emitted with the 'init/end' event", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmNoOutdated;
@@ -38,7 +38,7 @@ describe("init()", () => {
     });
     describe("when there are outdated dependencies", () => {
         describe("using npm", () => {
-            test("should emit expected events and execute expected commands", async () => {
+            it("should emit expected events and execute expected commands", async () => {
                 const updtr = new FakeUpdtr();
 
                 updtr.execResults = npmOutdated;
@@ -48,7 +48,7 @@ describe("init()", () => {
                 expect(updtr.exec.args).toMatchSnapshot();
                 expect(updtr.emit.args).toMatchSnapshot();
             });
-            test("should return the results as emitted with the 'init/end' event", async () => {
+            it("should return the results as emitted with the 'init/end' event", async () => {
                 const updtr = new FakeUpdtr();
 
                 updtr.execResults = npmOutdated;
@@ -64,7 +64,7 @@ describe("init()", () => {
             });
         });
         describe("using yarn", () => {
-            test("should emit expected events and execute expected commands", async () => {
+            it("should emit expected events and execute expected commands", async () => {
                 const updtr = new FakeUpdtr({
                     use: "yarn",
                 });
@@ -80,7 +80,7 @@ describe("init()", () => {
         });
     });
     describe("when there are excluded dependencies", () => {
-        test("should emit expected events and execute expected commands", async () => {
+        it("should emit expected events and execute expected commands", async () => {
             const updtr = new FakeUpdtr({
                 exclude: ["updtr-test-module-1", "updtr-test-module-2"],
             });
@@ -94,7 +94,7 @@ describe("init()", () => {
         });
     });
     describe("when there is no package.json in the cwd", () => {
-        test("should throw a PackageJsonNoAccessError", async () => {
+        it("should throw a PackageJsonNoAccessError", async () => {
             const updtr = new FakeUpdtr();
             let givenErr;
 
@@ -109,7 +109,7 @@ describe("init()", () => {
         });
     });
     describe("unexpected errors", () => {
-        test("should fail when installMissing cmd exits with a non-zero exit code", async () => {
+        it("should fail when installMissing cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             let givenErr;
 
@@ -123,7 +123,7 @@ describe("init()", () => {
 
             expect(givenErr).toBe(execError);
         });
-        test("should fail when the outdated cmd exits with an exit code above 1", async () => {
+        it("should fail when the outdated cmd exits with an exit code above 1", async () => {
             const updtr = new FakeUpdtr();
             let givenErr;
 
@@ -137,7 +137,7 @@ describe("init()", () => {
 
             expect(givenErr).toBe(execError);
         });
-        test("should fail with a parse error when the stdout could not be parsed", async () => {
+        it("should fail with a parse error when the stdout could not be parsed", async () => {
             const updtr = new FakeUpdtr();
             let givenErr;
 

@@ -15,7 +15,7 @@ import { createTempDir, read, write } from "./helpers/fs";
 
 describe("integration test: when there are no outdated dependencies", () => {
     describe("npm", () => {
-        test("should not change the package.json, change the installed dependencies and resolve with an empty array as results", async () => {
+        it("should not change the package.json, change the installed dependencies and resolve with an empty array as results", async () => {
             const tempDir = await createTempDir();
 
             await write(tempDir, PACKAGE_JSON, noOutdatedPackageContents);
@@ -40,7 +40,7 @@ describe("integration test: when there are no outdated dependencies", () => {
         });
     });
     describe("yarn", () => {
-        test("should not change the package.json and yarn.lock and resolve with an empty array as results", async () => {
+        it("should not change the package.json and yarn.lock and resolve with an empty array as results", async () => {
             const [tempDir, yarnLockContents] = await Promise.all([
                 createTempDir(),
                 read(FIXTURE_NO_OUTDATED, YARN_LOCK),

@@ -17,7 +17,7 @@ function stringify(outdated) {
 }
 
 describe("createUpdateTask()", () => {
-    test("should return a valid update task", () => {
+    it("should return a valid update task", () => {
         expect(
             createUpdateTask(outdateds[0], {
                 ...FakeUpdtr.baseConfig,
@@ -27,7 +27,7 @@ describe("createUpdateTask()", () => {
     });
     describe(`when updateTo is "${ UPDATE_TO_LATEST }"`, () => {
         outdateds.forEach(outdated => {
-            test(`when given ${ stringify(outdated) } should update to ${ outdated.latest } and rollback to ${ outdated.current }`, () => {
+            it(`when given ${ stringify(outdated) } should update to ${ outdated.latest } and rollback to ${ outdated.current }`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_LATEST,
@@ -42,7 +42,7 @@ describe("createUpdateTask()", () => {
         outdateds.forEach(outdated => {
             const range = "^" + outdated.current;
 
-            test(`when given ${ stringify(outdated) } should update to ${ range } and rollback to ${ outdated.current }`, () => {
+            it(`when given ${ stringify(outdated) } should update to ${ range } and rollback to ${ outdated.current }`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_NON_BREAKING,
@@ -55,7 +55,7 @@ describe("createUpdateTask()", () => {
     });
     describe(`when updateTo is "${ UPDATE_TO_WANTED }"`, () => {
         outdateds.forEach(outdated => {
-            test(`when given ${ stringify(outdated) } should update to ${ outdated.wanted } and rollback to ${ outdated.current }`, () => {
+            it(`when given ${ stringify(outdated) } should update to ${ outdated.wanted } and rollback to ${ outdated.current }`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_WANTED,

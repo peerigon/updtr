@@ -37,14 +37,14 @@ async function execRunBinMock(
 
 describe("bin", () => {
     describe("when no arguments have been specified", () => {
-        test("should run updtr with the default config", async () => {
+        it("should run updtr with the default config", async () => {
             const configs = await execRunBinMock();
 
             expect(configs).toMatchSnapshot();
         });
     });
     describe("when the binary is executed in a directory with a yarn.lock file", () => {
-        test("should use yarn", async () => {
+        it("should use yarn", async () => {
             const cwd = path.resolve(__dirname, "..", "fixtures", "empty");
             const configs = await execRunBinMock({ cwd });
 
@@ -52,7 +52,7 @@ describe("bin", () => {
         });
     });
     describe("when all arguments have been specified", () => {
-        test("should run updtr with the expected config", async () => {
+        it("should run updtr with the expected config", async () => {
             const args = [
                 "--reporter",
                 "simple",
@@ -79,7 +79,7 @@ describe("bin", () => {
         });
     });
     describe("when there is an error", () => {
-        test("should emit an error event on the updtr instance", async () => {
+        it("should emit an error event on the updtr instance", async () => {
             const error = await execRunBinMock({
                 runMock: "rejectWithAccessError",
                 args: ["--reporter", "error"],

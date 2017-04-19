@@ -20,7 +20,7 @@ import {
 
 describe("finish()", () => {
     describe("when the given results array is empty", () => {
-        test("should resolve immediately with an empty array without emitting events", async () => {
+        it("should resolve immediately with an empty array without emitting events", async () => {
             const updtr = new FakeUpdtr();
 
             expect(await finish(updtr, [])).toEqual([]);
@@ -29,7 +29,7 @@ describe("finish()", () => {
         });
     });
     describe("when the given results are complete", () => {
-        test("should resolve immediately with the given results without emitting events", async () => {
+        it("should resolve immediately with the given results without emitting events", async () => {
             const updtr = new FakeUpdtr();
             const results = [
                 module1ToLatestSuccess,
@@ -46,7 +46,7 @@ describe("finish()", () => {
         });
     });
     describe("when there are incomplete results", () => {
-        test("should filter tasks where rollbackTo and updateTo is the same value", async () => {
+        it("should filter tasks where rollbackTo and updateTo is the same value", async () => {
             const updtr = new FakeUpdtr();
             const results = [
                 {
@@ -61,7 +61,7 @@ describe("finish()", () => {
             expect(await finish(updtr, results)).toEqual([]);
         });
         describe("using npm", () => {
-            test("should return the expected results and emit the expected events", async () => {
+            it("should return the expected results and emit the expected events", async () => {
                 const updtr = new FakeUpdtr();
                 const results = [
                     module1ToLatestSuccess,
@@ -84,7 +84,7 @@ describe("finish()", () => {
             });
         });
         describe("using yarn", () => {
-            test("should return the expected results and emit the expected events", async () => {
+            it("should return the expected results and emit the expected events", async () => {
                 const updtr = new FakeUpdtr({
                     use: USE_YARN,
                 });
@@ -110,7 +110,7 @@ describe("finish()", () => {
         });
     });
     describe("unexpected errors", () => {
-        test("should bail out completely", async () => {
+        it("should bail out completely", async () => {
             const updtr = new FakeUpdtr();
             const results = [module1ToNonBreakingSuccess];
             let givenErr;

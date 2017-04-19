@@ -33,7 +33,7 @@ beforeAll(async () => {
 
 describe("batchUpdate()", () => {
     describe("when the given updateTasks array is empty", () => {
-        test("should resolve immediately with true without emitting events", async () => {
+        it("should resolve immediately with true without emitting events", async () => {
             const updtr = new FakeUpdtr();
 
             expect(await batchUpdate(updtr, [])).toBe(true);
@@ -43,7 +43,7 @@ describe("batchUpdate()", () => {
     });
     describe("when the given updateTasks array contains one update task", () => {
         describe("when the tests succeed", () => {
-            test("should return true and execute expected commands and emit expected events", async () => {
+            it("should return true and execute expected commands and emit expected events", async () => {
                 const updtr = new FakeUpdtr();
                 const updateTasks = createUpdateTasks(updtr.config);
 
@@ -62,7 +62,7 @@ describe("batchUpdate()", () => {
             });
         });
         describe("when the test fails", () => {
-            test("should return false and execute expected commands and emit expected events", async () => {
+            it("should return false and execute expected commands and emit expected events", async () => {
                 const updtr = new FakeUpdtr();
                 const updateTasks = createUpdateTasks(updtr.config);
 
@@ -84,7 +84,7 @@ describe("batchUpdate()", () => {
     describe("when the given updateTasks array contains multiple update tasks", () => {
         describe("using npm", () => {
             describe("when the tests succeed", () => {
-                test("should return true and execute expected commands and emit expected events", async () => {
+                it("should return true and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
@@ -102,7 +102,7 @@ describe("batchUpdate()", () => {
                 });
             });
             describe("when the test fails", () => {
-                test("should return false and execute expected commands and emit expected events", async () => {
+                it("should return false and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr();
                     const updateTasks = createUpdateTasks(updtr.config);
 
@@ -122,7 +122,7 @@ describe("batchUpdate()", () => {
         });
         describe("using yarn", () => {
             describe("when the tests succeed", () => {
-                test("should return true and execute expected commands and emit expected events", async () => {
+                it("should return true and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
@@ -142,7 +142,7 @@ describe("batchUpdate()", () => {
                 });
             });
             describe("when the test fails", () => {
-                test("should return false and execute expected commands and emit expected events", async () => {
+                it("should return false and execute expected commands and emit expected events", async () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
@@ -164,7 +164,7 @@ describe("batchUpdate()", () => {
         });
     });
     describe("unexpected errors", () => {
-        test("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
+        it("should completely bail out if the update cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             let givenErr;
@@ -181,7 +181,7 @@ describe("batchUpdate()", () => {
             // emitted events: start, updating
             expect(updtr.emit.args.length).toBe(2);
         });
-        test("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
+        it("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
             let givenErr;

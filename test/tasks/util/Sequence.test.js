@@ -8,7 +8,7 @@ const baseEvent = {
 
 describe("new Sequence()", () => {
     describe(".name", () => {
-        test("should be the given name", () => {
+        it("should be the given name", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -16,7 +16,7 @@ describe("new Sequence()", () => {
         });
     });
     describe(".updtr", () => {
-        test("should be the given updtr", () => {
+        it("should be the given updtr", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -24,13 +24,13 @@ describe("new Sequence()", () => {
         });
     });
     describe(".baseEvent", () => {
-        test("should be an empty object by default", () => {
+        it("should be an empty object by default", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr);
 
             expect(sequence.baseEvent).toEqual({});
         });
-        test("should be the given baseEvent", () => {
+        it("should be the given baseEvent", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -38,7 +38,7 @@ describe("new Sequence()", () => {
         });
     });
     describe(".isRunning", () => {
-        test("should be false by default", () => {
+        it("should be false by default", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -46,7 +46,7 @@ describe("new Sequence()", () => {
         });
     });
     describe(".start()", () => {
-        test("should emit a start event on the updtr instance", () => {
+        it("should emit a start event on the updtr instance", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -54,7 +54,7 @@ describe("new Sequence()", () => {
 
             expect(updtr.emit.calledOnce).toBe(true);
         });
-        test("should set the isRunning flag to true", () => {
+        it("should set the isRunning flag to true", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -64,7 +64,7 @@ describe("new Sequence()", () => {
         });
     });
     describe(".end()", () => {
-        test("should emit an end event on the updtr instance with the result", () => {
+        it("should emit an end event on the updtr instance with the result", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
             const result = { c: true };
@@ -77,7 +77,7 @@ describe("new Sequence()", () => {
                 { ...baseEvent, ...result },
             ]);
         });
-        test("should set the isRunning flag to false", () => {
+        it("should set the isRunning flag to false", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -89,7 +89,7 @@ describe("new Sequence()", () => {
     });
     describe(".emit()", () => {
         describe("when the sequence has been started", () => {
-            test("should emit an event on the updtr under the given namespace", () => {
+            it("should emit an event on the updtr under the given namespace", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -98,7 +98,7 @@ describe("new Sequence()", () => {
 
                 expect(updtr.emit.calledWith("test/test")).toBe(true);
             });
-            test("should not emit the base event itself but a copy of it when no event object is given", () => {
+            it("should not emit the base event itself but a copy of it when no event object is given", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -110,7 +110,7 @@ describe("new Sequence()", () => {
                 expect(emittedEvent).not.toBe(baseEvent);
                 expect(emittedEvent).toEqual(baseEvent);
             });
-            test("should emit an event on the updtr with the properties of the given base event", () => {
+            it("should emit an event on the updtr with the properties of the given base event", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
                 const event = { b: false, c: true };
@@ -124,7 +124,7 @@ describe("new Sequence()", () => {
             });
         });
         describe("when the sequence has not been started", () => {
-            test("should throw an error", () => {
+            it("should throw an error", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -134,7 +134,7 @@ describe("new Sequence()", () => {
             });
         });
         describe("when the sequence has already ended", () => {
-            test("should throw an error", () => {
+            it("should throw an error", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -149,7 +149,7 @@ describe("new Sequence()", () => {
     });
     describe(".exec()", () => {
         describe("when the sequence is running", () => {
-            test("should emit an event on the updtr for each step with the given command", async () => {
+            it("should emit an event on the updtr for each step with the given command", async () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -169,7 +169,7 @@ describe("new Sequence()", () => {
             });
         });
         describe("when the sequence has not been started", () => {
-            test("should throw an error", () => {
+            it("should throw an error", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 
@@ -179,7 +179,7 @@ describe("new Sequence()", () => {
             });
         });
         describe("when the sequence has already ended", () => {
-            test("should throw an error", () => {
+            it("should throw an error", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
 

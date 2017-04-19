@@ -14,7 +14,7 @@ import FakeUpdtr from "./helpers/FakeUpdtr";
 {
 }
 describe("new Updtr()", () => {
-    test("should return an updtr with expected shape", () => {
+    it("should return an updtr with expected shape", () => {
         const updtr = new Updtr(FakeUpdtr.baseConfig);
 
         expect(updtr).toBeInstanceOf(EventEmitter);
@@ -23,14 +23,14 @@ describe("new Updtr()", () => {
         expect(updtr).toHaveProperty("parse");
     });
     describe(".config", () => {
-        test("should match the default shape", () => {
+        it("should match the default shape", () => {
             const updtr = new Updtr(FakeUpdtr.baseConfig);
 
             expect(updtr.config).toMatchSnapshot();
         });
         describe(".updateTo", () => {
             UPDATE_TO_OPTIONS.forEach(updateTo => {
-                test(`should be ${ updateTo } if given`, () => {
+                it(`should be ${ updateTo } if given`, () => {
                     const config = { ...FakeUpdtr.baseConfig, updateTo };
                     const updtr = new Updtr(config);
 
@@ -39,7 +39,7 @@ describe("new Updtr()", () => {
             });
         });
         describe(".exclude", () => {
-            test("should match the given exclude array", () => {
+            it("should match the given exclude array", () => {
                 const config = {
                     ...FakeUpdtr.baseConfig,
                     exclude: ["a", "b", "c"],
@@ -50,7 +50,7 @@ describe("new Updtr()", () => {
             });
         });
         describe(".registry", () => {
-            test("should be set if a custom registry was given", () => {
+            it("should be set if a custom registry was given", () => {
                 const config = {
                     ...FakeUpdtr.baseConfig,
                     registry: "http://example.com",
@@ -64,7 +64,7 @@ describe("new Updtr()", () => {
             });
         });
         describe(".use", () => {
-            test("should be 'yarn' if specified", () => {
+            it("should be 'yarn' if specified", () => {
                 const config = { ...FakeUpdtr.baseConfig, use: USE_YARN };
                 const updtr = new Updtr(config);
 
@@ -75,7 +75,7 @@ describe("new Updtr()", () => {
     describe(".cmds", () => {
         describe(".test()", () => {
             describe("when a custom test command was given", () => {
-                test("should return the custom test command", () => {
+                it("should return the custom test command", () => {
                     const test = "custom test command";
                     const config = { ...FakeUpdtr.baseConfig, test };
                     const updtr = new Updtr(config);
@@ -87,7 +87,7 @@ describe("new Updtr()", () => {
     });
     describe(".canAccessPackageJson()", () => {
         describe("when there is no package.json in the cwd", () => {
-            test("should return false", async () => {
+            it("should return false", async () => {
                 const cwd = __dirname;
                 const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
 
@@ -95,7 +95,7 @@ describe("new Updtr()", () => {
             });
         });
         describe("when there is a package.json in the cwd", () => {
-            test("should return false", async () => {
+            it("should return false", async () => {
                 const cwd = path.join(__dirname, "fixtures", "empty");
                 const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
 
@@ -104,7 +104,7 @@ describe("new Updtr()", () => {
         });
     });
     describe(".exec()", () => {
-        test("should exec the command in the given cwd", async () => {
+        it("should exec the command in the given cwd", async () => {
             const cwd = __dirname;
             const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
             const cmd = 'node -e "console.log(process.cwd())"';
@@ -178,7 +178,7 @@ describe("new Updtr()", () => {
         });
     });
     describe(".dispose()", () => {
-        test("should remove all event listeners", () => {
+        it("should remove all event listeners", () => {
             const updtr = new Updtr(FakeUpdtr.baseConfig);
 
             updtr.on("test", () => {
@@ -189,21 +189,21 @@ describe("new Updtr()", () => {
         });
     });
     describe("errors", () => {
-        test("should throw if a cwd is missing", () => {
+        it("should throw if a cwd is missing", () => {
             const config = { ...FakeUpdtr.baseConfig };
 
             delete config.cwd;
 
             expect(() => new Updtr(config)).toThrow(RequiredOptionMissingError);
         });
-        test("should throw if the use option is not supported", () => {
+        it("should throw if the use option is not supported", () => {
             const config = { ...FakeUpdtr.baseConfig, use: "bower" };
 
             expect(() => new Updtr(config)).toThrow(
                 OptionValueNotSupportedError
             );
         });
-        test("should throw if the updateTo option is unknown", () => {
+        it("should throw if the updateTo option is unknown", () => {
             const config = {
                 ...FakeUpdtr.baseConfig,
                 updateTo: "something-else",
@@ -213,14 +213,14 @@ describe("new Updtr()", () => {
                 OptionValueNotSupportedError
             );
         });
-        test("should throw if the save option is unknown", () => {
+        it("should throw if the save option is unknown", () => {
             const config = { ...FakeUpdtr.baseConfig, save: "something-else" };
 
             expect(() => new Updtr(config)).toThrow(
                 OptionValueNotSupportedError
             );
         });
-        test("should throw if package manager is yarn and there is a custom registry set", () => {
+        it("should throw if package manager is yarn and there is a custom registry set", () => {
             const config = {
                 ...FakeUpdtr.baseConfig,
                 registry: "http://example.com",

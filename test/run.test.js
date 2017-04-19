@@ -58,7 +58,7 @@ function addPackageJsonFileStubs(updtr) {
 }
 
 describe("run()", () => {
-    test("should emit a start event of expected shape", async () => {
+    it("should emit a start event of expected shape", async () => {
         const updtr = new FakeUpdtr();
 
         updtr.execResults = npmNoOutdated;
@@ -67,7 +67,7 @@ describe("run()", () => {
 
         expect(updtr.emit.args.shift()).toMatchSnapshot("start event");
     });
-    test("should emit init sequence events", async () => {
+    it("should emit init sequence events", async () => {
         const updtr = new FakeUpdtr();
         const eventNames = ["init/start", "init/end"];
 
@@ -78,7 +78,7 @@ describe("run()", () => {
         expect(pickEventNames(eventNames, updtr.emit.args)).toEqual(eventNames);
     });
     describe("when there are no outdated dependencies", () => {
-        test("should not execute the sequential-update", async () => {
+        it("should not execute the sequential-update", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmNoOutdated;
@@ -89,7 +89,7 @@ describe("run()", () => {
                 pickEventNames(["sequential-update/start"], updtr.emit.args)
             ).toHaveLength(0);
         });
-        test("should emit an end event of expected shape and return the results", async () => {
+        it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmNoOutdated;
@@ -102,7 +102,7 @@ describe("run()", () => {
         });
     });
     describe("when there is just one non-breaking update", () => {
-        test("should run the sequential-update", async () => {
+        it("should run the sequential-update", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
@@ -127,7 +127,7 @@ describe("run()", () => {
                 "updtr-test-module-1",
             ]);
         });
-        test("should emit an end event of expected shape and return the results", async () => {
+        it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
@@ -144,7 +144,7 @@ describe("run()", () => {
         });
     });
     describe("when there are just breaking updates", () => {
-        test("should run the sequential-update for all dependencies", async () => {
+        it("should run the sequential-update for all dependencies", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ breaking: 2 }).concat(
@@ -172,7 +172,7 @@ describe("run()", () => {
                 "updtr-test-module-2",
             ]);
         });
-        test("should emit an end event of expected shape and return the results", async () => {
+        it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ breaking: 2 }).concat(
@@ -193,7 +193,7 @@ describe("run()", () => {
         });
     });
     describe("when there are two non-breaking updates and the update is ok", () => {
-        test("should only run the batch-update", async () => {
+        it("should only run the batch-update", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
@@ -219,7 +219,7 @@ describe("run()", () => {
             ]);
             expect(sequentialUpdateEvents).toHaveLength(0);
         });
-        test("should emit an end event of expected shape and return the results", async () => {
+        it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
@@ -238,7 +238,7 @@ describe("run()", () => {
         });
     });
     describe("when there are two non-breaking updates and the update is not ok", () => {
-        test("should run the batch-update first and back off to the sequential-update", async () => {
+        it("should run the batch-update first and back off to the sequential-update", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
@@ -269,7 +269,7 @@ describe("run()", () => {
                 "updtr-test-module-2",
             ]);
         });
-        test("should emit an end event of expected shape and return the results", async () => {
+        it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
             updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
@@ -290,7 +290,7 @@ describe("run()", () => {
         });
     });
     describe(`when updateTo is "${ UPDATE_TO_NON_BREAKING }"`, () => {
-        test("should finish incomplete results", async () => {
+        it("should finish incomplete results", async () => {
             const updtr = new FakeUpdtr({
                 updateTo: UPDATE_TO_NON_BREAKING,
             });

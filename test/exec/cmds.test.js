@@ -3,16 +3,16 @@ import cmds from "../../src/exec/cmds";
 describe("cmds", () => {
     describe(".npm", () => {
         describe(".outdated()", () => {
-            test("should match snapshot", () => {
+            it("should match snapshot", () => {
                 expect(cmds.npm.outdated()).toMatchSnapshot();
             });
         });
         describe(".installMissing()", () => {
-            test("should match snapshot", () => {
+            it("should match snapshot", () => {
                 expect(cmds.npm.installMissing()).toMatchSnapshot();
             });
             describe("custom registry", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.npm.installMissing({
                             registry: "http://example.com",
@@ -23,7 +23,7 @@ describe("cmds", () => {
         });
         describe(".install()", () => {
             describe("one module", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.npm.install({
                             modules: [
@@ -36,7 +36,7 @@ describe("cmds", () => {
                     ).toMatchSnapshot();
                 });
                 describe("custom registry", () => {
-                    test("should match snapshot", () => {
+                    it("should match snapshot", () => {
                         expect(
                             cmds.npm.install({
                                 registry: "http://example.com/registry",
@@ -52,7 +52,7 @@ describe("cmds", () => {
                 });
             });
             describe("multiple modules", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.npm.install({
                             modules: [
@@ -69,7 +69,7 @@ describe("cmds", () => {
                     ).toMatchSnapshot();
                 });
                 describe("custom registry", () => {
-                    test("should match snapshot", () => {
+                    it("should match snapshot", () => {
                         expect(
                             cmds.npm.install({
                                 registry: "http://example.com/registry",
@@ -90,18 +90,18 @@ describe("cmds", () => {
             });
         });
         describe(".test()", () => {
-            test("should match snapshot", () => {
+            it("should match snapshot", () => {
                 expect(cmds.npm.test()).toMatchSnapshot();
             });
         });
         describe(".list()", () => {
             describe("no arguments", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(cmds.npm.list()).toMatchSnapshot();
                 });
             });
             describe("with modules", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.npm.list({ modules: ["a", "b", "c"] })
                     ).toMatchSnapshot();
@@ -111,16 +111,16 @@ describe("cmds", () => {
     });
     describe(".yarn", () => {
         describe(".outdated()", () => {
-            test("should match snapshot", () => {
+            it("should match snapshot", () => {
                 expect(cmds.yarn.outdated()).toMatchSnapshot();
             });
         });
         describe(".installMissing()", () => {
-            test("should match snapshot", () => {
+            it("should match snapshot", () => {
                 expect(cmds.yarn.installMissing()).toMatchSnapshot();
             });
             describe("custom registry", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.yarn.installMissing({
                             registry: "http://example.com",
@@ -131,7 +131,7 @@ describe("cmds", () => {
         });
         describe(".install()", () => {
             describe("one module", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.yarn.install({
                             modules: [
@@ -144,7 +144,7 @@ describe("cmds", () => {
                     ).toMatchSnapshot();
                 });
                 describe("custom registry", () => {
-                    test("should match snapshot", () => {
+                    it("should match snapshot", () => {
                         expect(
                             cmds.yarn.install({
                                 registry: "http://example.com/registry",
@@ -160,7 +160,7 @@ describe("cmds", () => {
                 });
             });
             describe("multiple modules", () => {
-                test("should match snapshot", () => {
+                it("should match snapshot", () => {
                     expect(
                         cmds.yarn.install({
                             modules: [
@@ -177,7 +177,7 @@ describe("cmds", () => {
                     ).toMatchSnapshot();
                 });
                 describe("custom registry", () => {
-                    test("should match snapshot", () => {
+                    it("should match snapshot", () => {
                         expect(
                             cmds.yarn.install({
                                 registry: "http://example.com/registry",
@@ -198,12 +198,12 @@ describe("cmds", () => {
             });
         });
         describe(".test()", () => {
-            test("should match snapshot", () => {
+            it("should match snapshot", () => {
                 expect(cmds.yarn.test()).toMatchSnapshot();
             });
         });
         describe(".list()", () => {
-            test("should be the same implementation as .npm.list", () => {
+            it("should be the same implementation as .npm.list", () => {
                 expect(cmds.yarn.list).toBe(cmds.npm.list);
             });
         });

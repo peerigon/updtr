@@ -5,20 +5,20 @@ const index = require("../src");
 
 describe("index", () => {
     describe(".create", () => {
-        test("should be a function", () => {
+        it("should be a function", () => {
             expect(typeof index.create).toBe("function");
         });
-        test("should return an instance of Updtr", () => {
+        it("should return an instance of Updtr", () => {
             expect(index.create(FakeUpdtr.baseConfig)).toBeInstanceOf(Updtr);
         });
     });
     describe(".run", () => {
-        test("should be a function", () => {
+        it("should be a function", () => {
             expect(typeof index.run).toBe("function");
         });
     });
     describe(".errors", () => {
-        test("should be an object with expected shape", () => {
+        it("should be an object with expected shape", () => {
             expect(index.errors).toMatchSnapshot();
         });
     });

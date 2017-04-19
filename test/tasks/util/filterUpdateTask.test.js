@@ -20,17 +20,17 @@ const baseUpdtrConfig = {
 };
 
 describe("filterUpdateTask()", () => {
-    test("should not filter a regular update task", () => {
+    it("should not filter a regular update task", () => {
         expect(filterUpdateTask(baseUpdateTask, baseUpdtrConfig)).toBe(null);
     });
-    test("should not filter an update task that satisfies the isUpdateToNonBreaking test", () => {
+    it("should not filter an update task that satisfies the isUpdateToNonBreaking test", () => {
         const updateTask = { ...baseUpdateTask, updateTo: "^1.0.0" };
 
         expect(isUpdateToNonBreaking(updateTask)).toBe(true); // sanity check
         expect(filterUpdateTask(updateTask, baseUpdtrConfig)).toBe(null);
     });
     describe("excluded dependencies", () => {
-        test("should honor the given exclude filter", () => {
+        it("should honor the given exclude filter", () => {
             const updtrConfig = { ...baseUpdateTask };
 
             updtrConfig.exclude = [baseUpdateTask.name];
@@ -40,7 +40,7 @@ describe("filterUpdateTask()", () => {
         });
     });
     describe("git dependencies", () => {
-        test("should filter git dependencies", () => {
+        it("should filter git dependencies", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "git";
@@ -49,7 +49,7 @@ describe("filterUpdateTask()", () => {
         });
     });
     describe("exotic dependencies", () => {
-        test("should filter exotic dependencies", () => {
+        it("should filter exotic dependencies", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.updateTo = "exotic";
@@ -58,7 +58,7 @@ describe("filterUpdateTask()", () => {
         });
     });
     describe("not wanted", () => {
-        test("should filter if rollbackTo is the same as updateTo", () => {
+        it("should filter if rollbackTo is the same as updateTo", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.rollbackTo = "2.0.0";
@@ -71,7 +71,7 @@ describe("filterUpdateTask()", () => {
                 NOT_WANTED
             );
         });
-        test("should filter if rollbackTo is greater than updateTo", () => {
+        it("should filter if rollbackTo is greater than updateTo", () => {
             const updateTask = { ...baseUpdateTask };
 
             updateTask.rollbackTo = "3.0.0";
@@ -86,7 +86,7 @@ describe("filterUpdateTask()", () => {
     });
     describe("unstable dependencies", () => {
         describe("when the current version is not a pre-release", () => {
-            test("should filter pre-releases", () => {
+            it("should filter pre-releases", () => {
                 const updateTask = { ...baseUpdateTask };
 
                 updateTask.updateTo = "2.0.0-alpha.1";
@@ -104,7 +104,7 @@ describe("filterUpdateTask()", () => {
             });
         });
         describe("when the current version is a pre-release within the same version range", () => {
-            test("should not filter pre-releases", () => {
+            it("should not filter pre-releases", () => {
                 const updateTask = {
                     ...baseUpdateTask,
                     rollbackTo: "1.0.0-alpha.1",
@@ -121,7 +121,7 @@ describe("filterUpdateTask()", () => {
             });
         });
         describe("when the current version is a pre-release not in the same version range", () => {
-            test("should filter pre-releases", () => {
+            it("should filter pre-releases", () => {
                 const updateTask = {
                     ...baseUpdateTask,
                     rollbackTo: "1.0.0-beta.1",

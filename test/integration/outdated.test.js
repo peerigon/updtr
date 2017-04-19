@@ -21,7 +21,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe("integration test: when there are outdated dependencies", () => {
     describe("default configuration", () => {
         describe("npm", () => {
-            test("should install all updates, update the package.json and return the results", async () => {
+            it("should install all updates, update the package.json and return the results", async () => {
                 const tempDir = await createTempDir();
 
                 await write(tempDir, PACKAGE_JSON, outdatedPackageContents);
@@ -55,7 +55,7 @@ describe("integration test: when there are outdated dependencies", () => {
             });
         });
         describe("yarn", () => {
-            test("should install all updates, update the package.json and return the results", async () => {
+            it("should install all updates, update the package.json and return the results", async () => {
                 const tempDir = await createTempDir();
 
                 await write(tempDir, PACKAGE_JSON, outdatedPackageContents);
@@ -102,7 +102,7 @@ describe("integration test: when there are outdated dependencies", () => {
     });
     describe("advanced configuration", () => {
         describe("npm", () => {
-            test("should install all updates, update the package.json and return the results", async () => {
+            it("should install all updates, update the package.json and return the results", async () => {
                 const tempDir = await createTempDir();
                 const registry = "http://registry.npmjs.org";
                 const expectedTestStdout = "This is a custom test command";
@@ -168,7 +168,7 @@ describe("integration test: when there are outdated dependencies", () => {
             });
         });
         describe("yarn", () => {
-            test("should install all updates, update the package.json and return the results", async () => {
+            it("should install all updates, update the package.json and return the results", async () => {
                 // yarn does not support custom registries yet, thus it's commented out here.
                 const tempDir = await createTempDir();
                 // const registry = "http://registry.npmjs.org";
