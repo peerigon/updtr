@@ -9,7 +9,18 @@ async function finishIncomplete(sequence, incomplete, allResults) {
     const updtr = sequence.updtr;
     const modulesToCheck = incomplete.map(result => result.name);
     const listCmd = updtr.cmds.list({ modules: modulesToCheck });
-    const { stdout } = await sequence.exec("list-incomplete", listCmd);
+
+    let stdout;
+
+    try {
+        stdout = (await sequence.exec("list-incomplete", listCmd)).stdout;
+    } catch (err) {
+        // npm may exit with zero code 1 complaining about invalid installed versions
+        if (err.code > 1) {
+            throw err;
+        }
+        stdout = err.stdout;
+    }
     const moduleVersions = updtr.parse.list(stdout, listCmd);
 
     return (

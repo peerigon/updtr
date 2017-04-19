@@ -71,9 +71,13 @@ beforeAll(async () => {
         { stdout: "" } // rollback
     );
 
-    npmList.push({
-        stdout: stdoutLogs.get("no-outdated/list.npm.log"),
-    });
+    // npm exits with exit code 1 when there are outdated dependencies
+    npmList.push(
+        new ExecError({
+            stdout: stdoutLogs.get("no-outdated/list.npm.log"),
+            exitCode: 1,
+        })
+    );
     yarnList.push({
         stdout: stdoutLogs.get("no-outdated/list.yarn.log"),
     });
