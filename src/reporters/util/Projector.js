@@ -14,7 +14,7 @@ export default class Projector {
     }
     display(frame) {
         if (this.timeoutId !== null) {
-            this.terminal.unwind();
+            this.terminal.rewind();
             this.stop();
         }
         this.terminal.append(frame.map(lineToString));

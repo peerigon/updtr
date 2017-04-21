@@ -1,5 +1,5 @@
+import unicons from "unicons";
 import configList from "./configList";
-import List from "./List";
 
 export default function customConfigToLines(config) {
     const list = configList(config);
@@ -9,7 +9,7 @@ export default function customConfigToLines(config) {
         lines.push(
             "Running updtr with custom configuration:",
             "",
-            new List(list),
+            ...list.map(item => unicons.circle + " " + item),
             ""
         );
     }

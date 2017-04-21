@@ -58,6 +58,7 @@
     "rimraf": "^2.6.1",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
+    "stream-buffers": "^3.0.1",
     "temp": "^0.8.3"
   },
   "engines": {

@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`batch-update/end > success = false 1`] = `
+"[31m●[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m[0K
+[31m●[39m [1m[31mmodule[39m[22m 0.1.0 [90mfailed[39m[0K
+[0J"
+`;
+
+exports[`batch-update/end > success = true 1`] = `
+"[32m●[39m [1mmodule[22m 0.0.1 [90msuccess[39m[0K
+[32m●[39m [1mmodule[22m 0.1.0 [90msuccess[39m[0K
+[0J"
+`;
+
+exports[`batch-update/testing 1`] = `
+"[33m●[39m [1mmodule[22m [90mtesting...[39m[0K
+[33m●[39m [1mmodule[22m [90mtesting...[39m[0K
+[90m> npm test [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`batch-update/testing 2`] = `
+"[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m[0K
+[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.1.0 [90m→[39m 0.0.0[90m...[39m[0K
+[90m> npm install [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`batch-update/updating 1`] = `
+"[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m[0K
+[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m[0K
+[90m> npm install [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`init/collect 1`] = `
+"Looking for outdated modules[90m...[39m[0K
+[90m> npm outdated [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`init/end updateTasks.length = 0 and excluded.length = 0 1`] = `
+"Everything [1mup-to-date[22m[0K
+[0J"
+`;
+
+exports[`init/end updateTasks.length = 0 and excluded.length > 0 1`] = `
+"[1mNo updates available[22m for the given modules and version range[0K
+[0J"
+`;
+
+exports[`init/end updateTasks.length > 0 1`] = `
+"Found [1m1 update[22m.[0K
+[0K
+[0J"
+`;
+
+exports[`init/end updateTasks.length > 0 2`] = `
+"Found [1m2 updates[22m.[0K
+[0K
+[0J"
+`;
+
+exports[`init/install-missing 1`] = `
+"Installing missing dependencies[90m...[39m[0K
+[90m> npm install [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`sequential-update/rollback 1`] = `
+"[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m[0K
+[90m> npm install [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`sequential-update/testing 1`] = `
+"[33m●[39m [1mmodule[22m [90mtesting...[39m[0K
+[90m> npm test [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`sequential-update/updating 1`] = `
+"[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m[0K
+[90m> npm install [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`sequential-update/updating 2. event 1`] = `
+"[32m●[39m [1mmodule[22m 0.0.1 [90msuccess[39m[0K
+[0J"
+`;
+
+exports[`sequential-update/updating 2. event 2`] = `
+"[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m[0K
+[90m> npm install [39m[0K
+...[0K
+[0J"
+`;
+
+exports[`start > custom config 1`] = `
+"Running updtr with custom configuration:[0K
+[0K
+● exclude: a, b, c[0K
+● use: yarn[0K
+[0K
+[0J"
+`;
+
+exports[`start > default config 1`] = `"[0J"`;
