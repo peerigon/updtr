@@ -1,4 +1,5 @@
 import dense from "./dense";
-import basic from "./basic";
+import none from "./none";
 
-export default { dense, basic };
+// The first property here is the default reporter
+export default { dense, none };

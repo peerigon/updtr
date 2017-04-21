@@ -44,7 +44,7 @@ export default class Terminal {
         this.write(linesToString(lines, this.stream.columns));
         this.rowsPerAppend.push(calcNumOfRows(lines, this.stream.columns));
     }
-    unwind(position = -1) {
+    rewind(position = -1) {
         const sumOfRows = this.rowsPerAppend
             .slice(position, Infinity)
             .reduce(sum, 0);
