@@ -4,12 +4,12 @@ import cliCursor from "cli-cursor";
 import stringWidth from "string-width";
 
 const newLine = erase.inLine() + EOL;
-const FROM_CURSOR_TO_END = 0;
+const ERASE_FROM_CURSOR_TO_END = erase.display(0);
 
 function linesToString(lines) {
     return lines.reduceRight(
         (str, line) => line + newLine + str,
-        erase.display(FROM_CURSOR_TO_END)
+        ERASE_FROM_CURSOR_TO_END
     );
 }
 
