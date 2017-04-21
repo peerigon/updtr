@@ -149,6 +149,9 @@ export default function (updtr, reporterConfig) {
         terminal.append(
             event.updateTasks.map(event.success ? successLine : failLine)
         );
+        if (reporterConfig.testStdout === true && event.success === false) {
+            terminal.append([event.stdout]);
+        }
     });
     updtr.on("sequential-update/updating", event => {
         projector.display(cmdToLines(updatingLine(event), event.cmd));
@@ -163,6 +166,9 @@ export default function (updtr, reporterConfig) {
         projector.stop();
         terminal.rewind();
         terminal.append([(event.success ? successLine : failLine)(event)]);
+        if (reporterConfig.testStdout === true && event.success === false) {
+            terminal.append([event.stdout]);
+        }
     });
     updtr.on("end", ({ results }) => {
         const duration = msToString(Date.now() - startTime);
