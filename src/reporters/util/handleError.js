@@ -1,22 +1,22 @@
 import { EOL } from "os";
 import chalk from "chalk";
 import { PackageJsonNoAccessError } from "../../errors";
-import { error } from "./labels";
+
+const ERROR = chalk.bgRed.bold("ERROR");
 
 export default function handleError(err) {
     console.log("");
     switch (err.constructor) {
         case PackageJsonNoAccessError:
             console.error(
-                error("error") +
-                    " Cannot find package.json in current directory."
+                ERROR + " Cannot find package.json in current directory."
             );
             break;
         default: {
             const stack = err.stack.split(EOL);
 
             stack.shift();
-            console.error(error("error") + " " + err.message);
+            console.error(ERROR + " " + err.message);
             console.error(chalk.grey(stack.join(EOL)));
         }
     }

@@ -19,6 +19,8 @@ function calcNumOfRows(lines, columns) {
         .reduce((y, lines) => y + lines, 0);
 }
 
+// Solves some issues where stdout output is truncated
+// See https://github.com/nodejs/node/issues/6456
 function setBlocking(stream) {
     if (
         stream._handle &&
@@ -50,7 +52,7 @@ export default class Terminal {
             .reduce(sum, 0);
         const resetCursor = sumOfRows > 0 ? cursor.previousLine(sumOfRows) : "";
 
-        this.rows = this.rowsPerAppend.slice(0, position);
+        this.rowsPerAppend = this.rowsPerAppend.slice(0, position);
         this.write(resetCursor);
     }
     write(content) {
