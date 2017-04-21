@@ -27,29 +27,16 @@ export default function configList(config) {
     return Object.keys(config)
         .filter(key => {
             const filter = configFilter[key];
-            const value = config[key];
+            const name = configNames[key];
 
-            if (filter === undefined) {
-                return Boolean(value);
-            }
-
-            return filter(value);
+            return (
+                name !== undefined &&
+                (filter === undefined || filter(config[key]) === true)
+            );
         })
         .map(key => {
-            let configName = configNames[key];
-            let configValue = configValues[key];
+            const toString = configValues[key] || String;
 
-            if (configName === undefined) {
-                configName = "";
-            } else {
-                configName += ": ";
-            }
-            if (configValue === undefined) {
-                configValue = String(config[key]);
-            } else {
-                configValue = configValue(config[key]);
-            }
-
-            return configName + configValue;
+            return `${ configNames[key] }: ${ toString(config[key]) }`;
         });
 }

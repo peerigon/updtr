@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exclude 1`] = `"exclude: a, b, c"`;
+
+exports[`registry 1`] = `"registry: http://example.com"`;
+
+exports[`save 1`] = `"save: exact"`;
+
+exports[`test 1`] = `"test command: custom test command"`;
+
+exports[`updateTo 1`] = `"update to: non-breaking"`;
+
+exports[`use 1`] = `"use: yarn"`;
