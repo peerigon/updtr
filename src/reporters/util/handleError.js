@@ -2,13 +2,14 @@ import { EOL } from "os";
 import chalk from "chalk";
 import { PackageJsonNoAccessError } from "../../errors";
 
-const ERROR = chalk.bgRed.bold("ERROR");
+const ERROR = chalk.bgRed.bold(" ERROR ");
 
 export default function handleError(err) {
-    console.log("");
+    const lines = [""];
+
     switch (err.constructor) {
         case PackageJsonNoAccessError:
-            console.error(
+            lines.push(
                 ERROR + " Cannot find package.json in current directory."
             );
             break;
@@ -16,10 +17,12 @@ export default function handleError(err) {
             const stack = err.stack.split(EOL);
 
             stack.shift();
-            console.error(ERROR + " " + err.message);
-            console.error(chalk.grey(stack.join(EOL)));
+            lines.push(ERROR + " " + err.message);
+            lines.push(...stack.map(line => chalk.grey(line)));
         }
     }
-    console.log("");
+    lines.push("");
+
+    console.error(lines.join(EOL));
     process.exit(1); // eslint-disable-line no-process-exit
 }
