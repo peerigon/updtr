@@ -1,22 +1,9 @@
 import { EOL } from "os";
-import { cursor, erase } from "ansi-escape-sequences";
+import ansiEscapes from "ansi-escapes";
 import cliCursor from "cli-cursor";
-import stringWidth from "string-width";
-
-const newLine = erase.inLine() + EOL;
-const ERASE_FROM_CURSOR_TO_END = erase.display(0);
 
 function linesToString(lines) {
-    return lines.reduceRight(
-        (str, line) => line + newLine + str,
-        ERASE_FROM_CURSOR_TO_END
-    );
-}
-
-function calcNumOfRows(lines, columns) {
-    return lines
-        .map(lineContent => Math.ceil(stringWidth(lineContent) / columns))
-        .reduce((y, lines) => y + lines, 0);
+    return ansiEscapes.eraseDown + lines.join(EOL) + EOL;
 }
 
 // Solves some issues where stdout output is truncated
@@ -31,29 +18,36 @@ function setBlocking(stream) {
     }
 }
 
-function sum(sum, num) {
-    return sum + num;
-}
-
 export default class Terminal {
     constructor(stream) {
         setBlocking(stream);
         cliCursor.hide(stream);
         this.stream = stream;
-        this.rowsPerAppend = [];
+        this.bookmarks = [];
+    }
+    saveCursorPosition(bookmark) {
+        this.bookmarks.push(
+            bookmark === undefined ? this.bookmarks.length : bookmark
+        );
+        this.write(ansiEscapes.cursorSavePosition);
+    }
+    restoreCursorPosition(bookmark) {
+        const index = Math.max(
+            bookmark === undefined ?
+                this.bookmarks.length - 1 :
+                this.bookmarks.lastIndexOf(bookmark),
+            0
+        );
+        const cursorRestorePosition = new Array(
+            Math.max(this.bookmarks.length - index, 0)
+        )
+            .fill(ansiEscapes.cursorRestorePosition)
+            .join("");
+
+        this.write(cursorRestorePosition);
     }
     append(lines) {
         this.write(linesToString(lines, this.stream.columns));
-        this.rowsPerAppend.push(calcNumOfRows(lines, this.stream.columns));
-    }
-    rewind(position = -1) {
-        const sumOfRows = this.rowsPerAppend
-            .slice(position, Infinity)
-            .reduce(sum, 0);
-        const resetCursor = sumOfRows > 0 ? cursor.previousLine(sumOfRows) : "";
-
-        this.rowsPerAppend = this.rowsPerAppend.slice(0, position);
-        this.write(resetCursor);
     }
     write(content) {
         this.stream.write(content);

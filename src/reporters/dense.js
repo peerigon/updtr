@@ -110,7 +110,6 @@ export default function (updtr, reporterConfig) {
     updtr.on("init/end", ({ updateTasks, excluded }) => {
         excludedModules = excluded;
         projector.stop();
-        terminal.rewind();
         if (updateTasks.length === 0 && excluded.length === 0) {
             terminal.append(["Everything " + chalk.bold("up-to-date")]);
         } else if (updateTasks.length === 0) {
@@ -145,7 +144,6 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("batch-update/result", event => {
         projector.stop();
-        terminal.rewind();
         terminal.append(
             event.updateTasks.map(event.success ? successLine : failLine)
         );
@@ -164,7 +162,6 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("sequential-update/result", event => {
         projector.stop();
-        terminal.rewind();
         terminal.append([(event.success ? successLine : failLine)(event)]);
         if (reporterConfig.testStdout === true && event.success === false) {
             terminal.append([event.stdout]);

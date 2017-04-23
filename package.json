@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "ansi-escape-sequences": "^3.0.0",
+    "ansi-escapes": "^1.4.0",
     "async": "^2.2.0",
     "chalk": "^1.1.3",
     "cli-cursor": "^2.1.0",
