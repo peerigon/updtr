@@ -4,6 +4,7 @@
   "description": "Update outdated npm modules with zero pain™",
   "main": "lib/index.js",
   "scripts": {
+    "pretest": "npm run fixtures:ensure",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "posttest": "npm run lint",
@@ -11,7 +12,7 @@
     "fixtures:ensure": "babel-node ./test/helpers/setupFixtures.js",
     "fixtures:rebuild": "babel-node ./test/helpers/cleanupFixtures.js && npm run fixtures:ensure"
   },
-  "author": "peerigon",
+  "author": "developers@peerigon.com",
   "license": "Unlicense",
   "bin": {
     "updtr": "./bin/updtr"
