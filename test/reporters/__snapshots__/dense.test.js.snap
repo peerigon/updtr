@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`batch-update fail and show test stdout 1`] = `
-"[J
+"[?25l[J
 [JInstalling missing dependencies[90m...[39m
 [90m> npm install [39m
 ...
@@ -42,7 +42,7 @@ Finished after 1.0s.
 `;
 
 exports[`batch-update success and show test stdout 1`] = `
-"[J
+"[?25l[J
 [JInstalling missing dependencies[90m...[39m
 [90m> npm install [39m
 ...
@@ -75,7 +75,7 @@ Finished after 1.0s.
 `;
 
 exports[`custom config and only excluded modules 1`] = `
-"[JRunning updtr with custom configuration:
+"[?25l[JRunning updtr with custom configuration:
 
 ● exclude: b, c
 
@@ -98,7 +98,7 @@ Finished after 1.0s.
 `;
 
 exports[`custom config and sequential-update with mixed success and show test stdout 1`] = `
-"[JRunning updtr with custom configuration:
+"[?25l[JRunning updtr with custom configuration:
 
 ● exclude: b, c
 
@@ -155,7 +155,7 @@ Finished after 1.0s.
 `;
 
 exports[`no outdated modules 1`] = `
-"[J
+"[?25l[J
 [JInstalling missing dependencies[90m...[39m
 [90m> npm install [39m
 ...
