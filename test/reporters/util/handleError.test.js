@@ -1,4 +1,5 @@
 import sinon from "sinon";
+import chalk from "chalk";
 import handleError from "../../../src/reporters/util/handleError";
 import { PackageJsonNoAccessError } from "../../../src/errors";
 
@@ -9,6 +10,11 @@ function setupSpies() {
     process.exit = sinon.spy();
     console.error = sinon.spy();
 }
+
+beforeAll(() => {
+    // Force color output because we're doing snapshot tests
+    chalk.enabled = true;
+});
 
 describe("handleError()", () => {
     describe("when err is a PackageJsonNoAccessError", () => {
