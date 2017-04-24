@@ -9,7 +9,7 @@ export default function customConfigToLines(config) {
         lines.push(
             "Running updtr with custom configuration:",
             "",
-            ...list.map(item => unicons.circle + " " + item),
+            ...list.map(item => unicons.cli("circle") + " " + item),
             ""
         );
     }

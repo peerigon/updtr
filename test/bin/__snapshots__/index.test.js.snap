@@ -2,8 +2,9 @@
 
 exports[`bin when all arguments have been specified should run updtr with the expected config 1`] = `
 Object {
-  "reporter": "simple",
+  "reporter": "dense",
   "reporterConfig": Object {
+    "stream": null,
     "testStdout": true,
   },
   "updtrConfig": Object {
@@ -23,6 +24,11 @@ Object {
 
 exports[`bin when no arguments have been specified should run updtr with the default config 1`] = `
 Object {
+  "reporter": "dense",
+  "reporterConfig": Object {
+    "stream": null,
+    "testStdout": false,
+  },
   "updtrConfig": Object {
     "cwd": "/test/bin",
     "exclude": Array [],

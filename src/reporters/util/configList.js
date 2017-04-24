@@ -19,6 +19,8 @@ const configFilter = {
     cwd: () => false,
     use: option => option !== USE_OPTIONS[0],
     exclude: list => list.length > 0,
+    test: cmd => cmd !== undefined,
+    registry: reg => reg !== undefined,
     updateTo: option => option !== UPDATE_TO_OPTIONS[0],
     save: option => option !== SAVE_OPTIONS[0],
 };

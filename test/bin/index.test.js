@@ -55,7 +55,7 @@ describe("bin", () => {
         it("should run updtr with the expected config", async () => {
             const args = [
                 "--reporter",
-                "simple",
+                "dense",
                 "--use",
                 "yarn",
                 "--exclude",

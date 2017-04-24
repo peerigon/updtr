@@ -26,13 +26,10 @@ let reporter;
 
 // Replace run default exports with mock
 runExports.default = runMocks[runMock];
-reportersExports.default.chatty = function (updtr, config) {
-    reporterConfig = config;
-    reporter = "chatty";
-};
-reportersExports.default.simple = function (updtr, config) {
-    reporterConfig = config;
-    reporter = "simple";
+reportersExports.default.dense = function (updtr, config) {
+    // Removing the stream property because we can't JSON stringify that
+    reporterConfig = { ...config, stream: null };
+    reporter = "dense";
 };
 reportersExports.default.error = function (updtr) {
     updtr.on("error", err => {
