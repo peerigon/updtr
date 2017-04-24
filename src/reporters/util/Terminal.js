@@ -31,6 +31,9 @@ export default class Terminal {
         });
     }
     append(lines) {
+        if (lines.length === 0) {
+            return;
+        }
         this.lines.push(lines);
 
         const content = this.hasBeenResized === true ?
