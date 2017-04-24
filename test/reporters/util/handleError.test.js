@@ -1,5 +1,4 @@
 import sinon from "sinon";
-import chalk from "chalk";
 import handleError from "../../../src/reporters/util/handleError";
 import { PackageJsonNoAccessError } from "../../../src/errors";
 

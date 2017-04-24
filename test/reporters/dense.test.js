@@ -1,5 +1,4 @@
 import EventEmitter from "events";
-import chalk from "chalk";
 import { WritableStreamBuffer } from "stream-buffers";
 import unicons from "unicons";
 import dense from "../../src/reporters/dense";
