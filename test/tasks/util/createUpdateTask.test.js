@@ -1,4 +1,3 @@
-import semver from "semver";
 import createUpdateTask from "../../../src/tasks/util/createUpdateTask";
 import {
     UPDATE_TO_LATEST,

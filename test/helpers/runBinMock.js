@@ -1,4 +1,5 @@
-const runExports = require("../../src/run");
+// We're using require() instead of import() here because we need to work with the actual exports
+const runExports = require("../../src/run"); // eslint-disable-line import/unambiguous
 const reportersExports = require("../../src/reporters");
 const errorsExports = require("../../src/errors.js");
 
@@ -38,4 +39,4 @@ reportersExports.default.error = function (updtr) {
     });
 };
 
-require("../../src/bin");
+require("../../src/bin"); // eslint-disable-line import/no-unassigned-import

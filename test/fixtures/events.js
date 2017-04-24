@@ -26,7 +26,12 @@ beforeAll(() => {
 
     cases["no outdated modules"] = {
         events: [
-            ["start", { config: {} }],
+            [
+                "start",
+                {
+                    config: {},
+                },
+            ],
             ["init/install-missing", { cmd: "npm install" }],
             ["init/collect", { cmd: "npm outdated" }],
             ["init/end", { updateTasks: [], excluded: [] }],
@@ -39,6 +44,7 @@ beforeAll(() => {
                 "start",
                 {
                     config: {
+                        cwd: __dirname,
                         exclude: ["b", "c"],
                     },
                 },

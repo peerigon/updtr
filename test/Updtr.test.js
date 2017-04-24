@@ -11,8 +11,6 @@ import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
 import temp from "./helpers/temp";
 import FakeUpdtr from "./helpers/FakeUpdtr";
 
-{
-}
 describe("new Updtr()", () => {
     it("should return an updtr with expected shape", () => {
         const updtr = new Updtr(FakeUpdtr.baseConfig);

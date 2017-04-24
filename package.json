@@ -4,11 +4,10 @@
   "description": "Update outdated npm modules with zero pain™",
   "main": "lib/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
     "posttest": "npm run lint",
-    "coverage": "istanbul cover _mocha -- -R spec",
-    "lint": "eslint bin lib test",
+    "lint": "eslint --ignore-path ./.gitignore bin src test",
     "fixtures:ensure": "babel-node ./test/helpers/setupFixtures.js",
     "fixtures:rebuild": "babel-node ./test/helpers/cleanupFixtures.js && npm run fixtures:ensure"
   },
@@ -78,10 +77,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 100
+        "branches": 95,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
       }
     }
   }
