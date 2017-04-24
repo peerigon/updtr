@@ -1,7 +1,6 @@
 import path from "path";
-import { erase } from "ansi-escape-sequences";
-
-const ERASE_FROM_CURSOR_TO_END = erase.display(0);
+import ansiEscapes from "ansi-escapes";
+import wrapAnsi from "wrap-ansi";
 
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -13,11 +12,13 @@ async function replayTerminalSnapshots(pathToSnapshots) {
     for (const snapshotTitle of Object.keys(snapshots)) {
         const stdout = snapshots[snapshotTitle]
             // Removing double quotes
-            .replace(/^.*?"|".*?$/gm, "")
-            // Restoring ansi-escape-sequences
-            .replace(/(\[\d)/g, "\u001b$1");
-        const frames = stdout.split(ERASE_FROM_CURSOR_TO_END);
+            .replace(/^.*?"|".*?$/gm, "");
+        // Restoring ansi-escape-sequences
+        // .replace(/(\[\d)/g, "\u001B$1");
+        const frames = stdout.split(ansiEscapes.eraseDown);
         const line = new Array(snapshotTitle.length + 1).join("-");
+
+        process.stdout.write(ansiEscapes.clearScreen);
 
         console.log(line);
         console.log(snapshotTitle);
@@ -25,10 +26,14 @@ async function replayTerminalSnapshots(pathToSnapshots) {
 
         await timeout(3000); // eslint-disable-line no-await-in-loop
 
-        for (const frame of frames) {
-            process.stdout.write(ERASE_FROM_CURSOR_TO_END + frame);
+        for (let i = 0; i < frames.length; i++) {
+            if (i !== 0) {
+                process.stdout.write(ansiEscapes.eraseDown);
+            }
+            process.stdout.write(wrapAnsi(frames[i], 80, { hard: true }));
             await timeout(1000); // eslint-disable-line no-await-in-loop
         }
+        await timeout(3000); // eslint-disable-line no-await-in-loop
     }
 }
 

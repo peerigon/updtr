@@ -8,6 +8,9 @@ function setup(reporterConfig = {}) {
     const updtr = new EventEmitter();
     const stdout = new WritableStreamBuffer();
 
+    stdout.isTTY = true;
+    stdout.columns = 80;
+
     reporterConfig.stream = stdout;
     dense(updtr, reporterConfig);
 

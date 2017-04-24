@@ -12,7 +12,7 @@ let lines = [
 
 let counter = 0;
 
-terminal.append(lines);
+terminal.append(lines.map(line => line.join("")));
 
 projector.display((lines = lines.reverse()));
 

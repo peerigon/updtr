@@ -16,14 +16,16 @@ export default class Projector {
         if (this.timeoutId !== null) {
             this.stop();
         }
-        this.terminal.saveCursorPosition();
         this.terminal.append(frame.map(lineToString));
         this.timeoutId = setTimeout(() => {
             this.display(frame);
         }, this.delay);
     }
     stop() {
-        this.terminal.restoreCursorPosition();
+        if (this.timeoutId === null) {
+            return;
+        }
+        this.terminal.rewind();
         clearTimeout(this.timeoutId);
         this.timeoutId = null;
     }

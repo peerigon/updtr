@@ -1,55 +1,50 @@
-import { EOL } from "os";
 import ansiEscapes from "ansi-escapes";
 import cliCursor from "cli-cursor";
+import stringWidth from "string-width";
 
-function linesToString(lines) {
-    return ansiEscapes.eraseDown + lines.join(EOL) + EOL;
+function calcNumOfRows(lines, columns) {
+    return lines
+        .map(lineContent => Math.ceil(stringWidth(lineContent) / columns))
+        .reduce((allRows, rows) => allRows + rows, 0);
 }
 
 // Solves some issues where stdout output is truncated
 // See https://github.com/nodejs/node/issues/6456
 function setBlocking(stream) {
-    if (
-        stream._handle &&
-        stream.isTTY &&
-        typeof stream._handle.setBlocking === "function"
-    ) {
+    if (stream._handle && typeof stream._handle.setBlocking === "function") {
         stream._handle.setBlocking(true);
     }
 }
 
 export default class Terminal {
     constructor(stream) {
+        if (stream.isTTY !== true) {
+            throw new Error("Given stream is not a TTY stream");
+        }
         setBlocking(stream);
         cliCursor.hide(stream);
         this.stream = stream;
-        this.bookmarks = [];
-    }
-    saveCursorPosition(bookmark) {
-        this.bookmarks.push(
-            bookmark === undefined ? this.bookmarks.length : bookmark
-        );
-        this.write(ansiEscapes.cursorSavePosition);
-    }
-    restoreCursorPosition(bookmark) {
-        const index = Math.max(
-            bookmark === undefined ?
-                this.bookmarks.length - 1 :
-                this.bookmarks.lastIndexOf(bookmark),
-            0
-        );
-        const cursorRestorePosition = new Array(
-            Math.max(this.bookmarks.length - index, 0)
-        )
-            .fill(ansiEscapes.cursorRestorePosition)
-            .join("");
-
-        this.write(cursorRestorePosition);
+        this.lines = [];
+        this.hasBeenResized = false;
+        this.stream.on("resize", () => {
+            this.hasBeenResized = true;
+        });
     }
     append(lines) {
-        this.write(linesToString(lines, this.stream.columns));
+        this.lines.push(lines);
+
+        const content = this.hasBeenResized === true ?
+            ansiEscapes.clearScreen +
+                  this.lines.map(lines => lines.join("\n")).join("\n") :
+            ansiEscapes.eraseDown + lines.join("\n");
+
+        this.stream.write(content + "\n");
+        this.hasBeenResized = false;
     }
-    write(content) {
-        this.stream.write(content);
+    rewind() {
+        const removedLines = this.lines.pop();
+        const rows = calcNumOfRows(removedLines, this.stream.columns);
+
+        this.stream.write(ansiEscapes.cursorUp(rows));
     }
 }
