@@ -94,7 +94,11 @@ describe("updatePackageJson()", () => {
             } catch (err) {
                 givenErr = err;
             }
-            expect(givenErr.message).toMatchSnapshot();
+
+            expect(givenErr).toBeInstanceOf(Error);
+            expect(givenErr.message).toMatch(
+                /Error while trying to read the package\.json: Oops/
+            );
         });
         it("should enhance the error message in case the package json could not been parsed", async () => {
             const updtr = new FakeUpdtr();
@@ -108,7 +112,11 @@ describe("updatePackageJson()", () => {
             } catch (err) {
                 givenErr = err;
             }
-            expect(givenErr.message).toMatchSnapshot();
+
+            expect(givenErr).toBeInstanceOf(SyntaxError);
+            expect(givenErr.message).toMatch(
+                /Error while trying to read the package\.json: Unexpected token I/
+            );
         });
         it("should enhance the error message in case the package json could not been written", async () => {
             const updtr = new FakeUpdtr();
@@ -123,7 +131,11 @@ describe("updatePackageJson()", () => {
             } catch (err) {
                 givenErr = err;
             }
-            expect(givenErr.message).toMatchSnapshot();
+
+            expect(givenErr).toBeInstanceOf(Error);
+            expect(givenErr.message).toMatch(
+                /Error while trying to write the package\.json: Oops/
+            );
         });
     });
 });

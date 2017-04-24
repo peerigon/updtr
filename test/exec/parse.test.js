@@ -1,6 +1,7 @@
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
 
+let jsonUnexpectedEndOfInput;
 let stdoutLogs;
 
 function testUnexpectedInput(parse) {
@@ -8,7 +9,8 @@ function testUnexpectedInput(parse) {
         describe("malformed JSON", () => {
             it("should throw with a helpful error message", () => {
                 expect(() => parse("{", "my-cmd")).toThrow(
-                    "Error when trying to parse stdout from command 'my-cmd': Unexpected end of JSON input"
+                    "Error when trying to parse stdout from command 'my-cmd': " +
+                        jsonUnexpectedEndOfInput.message
                 );
             });
         });
@@ -53,6 +55,11 @@ beforeAll(async () => {
         "outdated-dev/list.npm.log",
         "outdated-dev/list.yarn.log",
     ]);
+    try {
+        JSON.parse("");
+    } catch (err) {
+        jsonUnexpectedEndOfInput = err;
+    }
 });
 
 describe("parse", () => {
@@ -66,7 +73,7 @@ describe("parse", () => {
 
                     expect(fixture.length).toBe(0);
                     expect(() => JSON.parse(fixture)).toThrow(
-                        new SyntaxError("Unexpected end of JSON input")
+                        jsonUnexpectedEndOfInput
                     );
                 });
                 it("should return an empty array", () => {
@@ -85,7 +92,7 @@ describe("parse", () => {
 
                     expect(fixture.length).toBe(0);
                     expect(() => JSON.parse(fixture)).toThrow(
-                        new SyntaxError("Unexpected end of JSON input")
+                        jsonUnexpectedEndOfInput
                     );
                 });
                 it("should return an empty array", () => {
@@ -104,7 +111,7 @@ describe("parse", () => {
 
                     expect(fixture.length).toBe(0);
                     expect(() => JSON.parse(fixture)).toThrow(
-                        new SyntaxError("Unexpected end of JSON input")
+                        jsonUnexpectedEndOfInput
                     );
                 });
                 it("should return an empty array", () => {
@@ -211,7 +218,7 @@ describe("parse", () => {
 
                     expect(fixture.length).toBe(0);
                     expect(() => JSON.parse(fixture)).toThrow(
-                        new SyntaxError("Unexpected end of JSON input")
+                        jsonUnexpectedEndOfInput
                     );
                 });
                 it("should return an empty array", () => {
@@ -230,7 +237,7 @@ describe("parse", () => {
 
                     expect(fixture.length).toBe(0);
                     expect(() => JSON.parse(fixture)).toThrow(
-                        new SyntaxError("Unexpected end of JSON input")
+                        jsonUnexpectedEndOfInput
                     );
                 });
                 it("should return an empty array", () => {
@@ -249,7 +256,7 @@ describe("parse", () => {
 
                     expect(fixture.length).toBe(0);
                     expect(() => JSON.parse(fixture)).toThrow(
-                        new SyntaxError("Unexpected end of JSON input")
+                        jsonUnexpectedEndOfInput
                     );
                 });
                 it("should return an empty array", () => {

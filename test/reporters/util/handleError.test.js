@@ -11,11 +11,6 @@ function setupSpies() {
     console.error = sinon.spy();
 }
 
-beforeAll(() => {
-    // Force color output because we're doing snapshot tests
-    chalk.enabled = true;
-});
-
 describe("handleError()", () => {
     describe("when err is a PackageJsonNoAccessError", () => {
         it("should console.error a descriptive error message and process.exit(1)", () => {

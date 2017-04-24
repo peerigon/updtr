@@ -15,6 +15,10 @@ import {
     YarnWithCustomRegistryError,
 } from "./errors";
 
+// node v4 has no dedicated constants object.
+// Remove this if node v4 is not supported anymore.
+const FS_CONSTANTS = fs.constants === undefined ? fs : fs.constants;
+
 function checkCwd(cwd) {
     if (typeof cwd !== "string") {
         throw new RequiredOptionMissingError("cwd", cwd);
@@ -101,7 +105,7 @@ export default class Updtr extends EventEmitter {
         try {
             await fs.access(
                 path.join(this.config.cwd, "package.json"),
-                fs.constants.R_OK | fs.constants.W_OK // eslint-disable-line no-bitwise
+                FS_CONSTANTS.R_OK | FS_CONSTANTS.W_OK // eslint-disable-line no-bitwise
             );
         } catch (err) {
             result = false;

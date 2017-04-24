@@ -72,7 +72,7 @@ export const fixtureSetups = {
             await execFixtureCmd(fixture, "npm init -y");
             await execFixtureCmd(
                 fixture,
-                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+                'npm i "updtr-test-module-1@1.0.0" "updtr-test-module-2@2.0.0" --save'
             );
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
@@ -80,7 +80,7 @@ export const fixtureSetups = {
                 fixture,
                 yarn(
                     "add",
-                    "updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+                    '"updtr-test-module-1@1.0.0" "updtr-test-module-2@2.0.0" --save'
                 )
             );
             await writeStdoutLog(fixture, "yarn", "outdated");
@@ -100,7 +100,7 @@ export const fixtureSetups = {
             await execFixtureCmd(fixture, "npm init -y");
             await execFixtureCmd(
                 fixture,
-                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+                'npm i "updtr-test-module-1@1.0.0" "updtr-test-module-2@2.0.0" --save'
             );
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
@@ -108,7 +108,7 @@ export const fixtureSetups = {
                 fixture,
                 yarn(
                     "add",
-                    "updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+                    '"updtr-test-module-1@1.0.0" "updtr-test-module-2@2.0.0" --save'
                 )
             );
             await writeStdoutLog(fixture, "yarn", "outdated");

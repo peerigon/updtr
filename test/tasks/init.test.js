@@ -150,7 +150,9 @@ describe("init()", () => {
             }
 
             expect(givenErr).toBeInstanceOf(SyntaxError);
-            expect(givenErr.message).toMatchSnapshot();
+            expect(givenErr.message).toMatch(
+                /Error when trying to parse stdout from command 'npm outdated --json --depth=0': Unexpected token N/
+            );
         });
     });
 });

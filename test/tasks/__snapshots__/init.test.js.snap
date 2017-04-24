@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`init() unexpected errors should fail with a parse error when the stdout could not be parsed 1`] = `"Error when trying to parse stdout from command 'npm outdated --json --depth=0': Unexpected token N in JSON at position 0"`;
-
 exports[`init() when there are excluded dependencies should emit expected events and execute expected commands 1`] = `
 Array [
   Array [

@@ -1,11 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`updatePackageJson() errors should enhance the error message in case the package json could not been parsed 1`] = `"Error while trying to read the package.json: Unexpected token I in JSON at position 0"`;
-
-exports[`updatePackageJson() errors should enhance the error message in case the package json could not been read 1`] = `"Error while trying to read the package.json: Oops"`;
-
-exports[`updatePackageJson() errors should enhance the error message in case the package json could not been written 1`] = `"Error while trying to write the package.json: Oops"`;
-
 exports[`updatePackageJson() should save a package.json with expected shape to the cwd 1`] = `
 Object {
   "dependencies": Object {

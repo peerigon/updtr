@@ -34,8 +34,6 @@ beforeAll(() => {
                 return "";
         }
     };
-    // Force color output because we're doing snapshot tests
-    chalk.enabled = true;
 });
 
 describe("dense()", () => {

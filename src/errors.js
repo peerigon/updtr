@@ -1,3 +1,7 @@
+// Errors are not extendable in node v4.
+// Remove this if node v4 is not supported anymore.
+import Error from "es6-error";
+
 export class PackageJsonNoAccessError extends Error {
     constructor(dir) {
         super(`Cannot access package.json in ${ dir }`);
