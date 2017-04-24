@@ -1,4 +1,3 @@
-import { EOL } from "os";
 import chalk from "chalk";
 import { PackageJsonNoAccessError } from "../../errors";
 
@@ -14,7 +13,8 @@ export default function handleError(err) {
             );
             break;
         default: {
-            const stack = err.stack.split(EOL);
+            // The stack does only contain \n, also on windows
+            const stack = err.stack.split("\n");
 
             stack.shift();
             lines.push(ERROR + " " + err.message);
@@ -23,6 +23,6 @@ export default function handleError(err) {
     }
     lines.push("");
 
-    console.error(lines.join(EOL));
+    console.error(lines.join("\n"));
     process.exit(1); // eslint-disable-line no-process-exit
 }

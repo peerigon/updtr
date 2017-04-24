@@ -1,5 +1,6 @@
 import EventEmitter from "events";
 import { WritableStreamBuffer } from "stream-buffers";
+import unicons from "unicons";
 import dense from "../../src/reporters/dense";
 import Spinner from "../../src/reporters/util/Spinner";
 import events from "../fixtures/events";
@@ -21,9 +22,17 @@ function setup(reporterConfig = {}) {
 }
 
 beforeAll(() => {
-    // We need to replace the spinner with a static string to make snapshot testing
+    // We need to replace platform-dependent characters with static counter parts to make snapshot testing
     // consistent across platforms.
     Spinner.prototype.valueOf = () => "...";
+    unicons.cli = sign => {
+        switch (sign) {
+            case "circle":
+                return "-";
+            default:
+                return "";
+        }
+    };
 });
 
 describe("dense()", () => {

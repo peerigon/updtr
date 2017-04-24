@@ -10,28 +10,28 @@ exports[`batch-update fail and show test stdout 1`] = `
 ...
 [3A[JFound [1m4 updates[22m.
 
-[J[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
-[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m
-[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 1.0.0[90m...[39m
-[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
+[J[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
+[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m
+[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 1.0.0[90m...[39m
+[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
 [90m> npm install [39m
 ...
-[6A[J[33m●[39m [1mmodule[22m [90mtesting...[39m
-[33m●[39m [1mmodule[22m [90mtesting...[39m
-[33m●[39m [1mmodule[22m [90mtesting...[39m
-[33m●[39m [1mmodule[22m [90mtesting...[39m
+[6A[J[33m-[39m [1mmodule[22m [90mtesting...[39m
+[33m-[39m [1mmodule[22m [90mtesting...[39m
+[33m-[39m [1mmodule[22m [90mtesting...[39m
+[33m-[39m [1mmodule[22m [90mtesting...[39m
 [90m> npm test [39m
 ...
-[6A[J[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
-[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.1.0 [90m→[39m 0.0.0[90m...[39m
-[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 1.0.0 [90m→[39m 0.0.0[90m...[39m
-[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
+[6A[J[31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
+[31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.1.0 [90m→[39m 0.0.0[90m...[39m
+[31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 1.0.0 [90m→[39m 0.0.0[90m...[39m
+[31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
 [90m> npm install [39m
 ...
-[6A[J[31m●[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
-[31m●[39m [1m[31mmodule[39m[22m 0.1.0 [90mfailed[39m
-[31m●[39m [1m[31mmodule[39m[22m 1.0.0 [90mfailed[39m
-[31m●[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
+[6A[J[31m-[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
+[31m-[39m [1m[31mmodule[39m[22m 0.1.0 [90mfailed[39m
+[31m-[39m [1m[31mmodule[39m[22m 1.0.0 [90mfailed[39m
+[31m-[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
 [JThis is the test stdout
 [J
 [J[1m2 successful[22m updates.
@@ -51,22 +51,22 @@ exports[`batch-update success and show test stdout 1`] = `
 ...
 [3A[JFound [1m4 updates[22m.
 
-[J[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
-[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m
-[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 1.0.0[90m...[39m
-[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
+[J[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
+[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m
+[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 1.0.0[90m...[39m
+[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
 [90m> npm install [39m
 ...
-[6A[J[33m●[39m [1mmodule[22m [90mtesting...[39m
-[33m●[39m [1mmodule[22m [90mtesting...[39m
-[33m●[39m [1mmodule[22m [90mtesting...[39m
-[33m●[39m [1mmodule[22m [90mtesting...[39m
+[6A[J[33m-[39m [1mmodule[22m [90mtesting...[39m
+[33m-[39m [1mmodule[22m [90mtesting...[39m
+[33m-[39m [1mmodule[22m [90mtesting...[39m
+[33m-[39m [1mmodule[22m [90mtesting...[39m
 [90m> npm test [39m
 ...
-[6A[J[32m●[39m [1mmodule[22m 0.0.1 [90msuccess[39m
-[32m●[39m [1mmodule[22m 0.1.0 [90msuccess[39m
-[32m●[39m [1mmodule[22m 1.0.0 [90msuccess[39m
-[32m●[39m [1mmodule[22m 0.0.1 [90msuccess[39m
+[6A[J[32m-[39m [1mmodule[22m 0.0.1 [90msuccess[39m
+[32m-[39m [1mmodule[22m 0.1.0 [90msuccess[39m
+[32m-[39m [1mmodule[22m 1.0.0 [90msuccess[39m
+[32m-[39m [1mmodule[22m 0.0.1 [90msuccess[39m
 [J
 [J[1m3 successful[22m updates.
 [J
@@ -77,7 +77,7 @@ Finished after 1.0s.
 exports[`custom config and only excluded modules 1`] = `
 "[?25l[JRunning updtr with custom configuration:
 
-● exclude: b, c
+- exclude: b, c
 
 [JInstalling missing dependencies[90m...[39m
 [90m> npm install [39m
@@ -89,9 +89,9 @@ exports[`custom config and only excluded modules 1`] = `
 [J
 [J[1m3 skipped[22m modules:
 
-[90m●[39m [1ma[22m [90mgit[39m
-[90m●[39m [1mb[22m [90mexcluded[39m
-[90m●[39m [1mc[22m [90mexcluded[39m
+[90m-[39m [1ma[22m [90mgit[39m
+[90m-[39m [1mb[22m [90mexcluded[39m
+[90m-[39m [1mc[22m [90mexcluded[39m
 [J
 Finished after 1.0s.
 "
@@ -100,7 +100,7 @@ Finished after 1.0s.
 exports[`custom config and sequential-update with mixed success and show test stdout 1`] = `
 "[?25l[JRunning updtr with custom configuration:
 
-● exclude: b, c
+- exclude: b, c
 
 [JInstalling missing dependencies[90m...[39m
 [90m> npm install [39m
@@ -110,41 +110,41 @@ exports[`custom config and sequential-update with mixed success and show test st
 ...
 [3A[JFound [1m4 updates[22m.
 
-[J[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
+[J[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
 [90m> npm install [39m
 ...
-[3A[J[33m●[39m [1mmodule[22m [90mtesting...[39m
+[3A[J[33m-[39m [1mmodule[22m [90mtesting...[39m
 [90m> npm test [39m
 ...
-[3A[J[32m●[39m [1mmodule[22m 0.0.1 [90msuccess[39m
-[J[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m
+[3A[J[32m-[39m [1mmodule[22m 0.0.1 [90msuccess[39m
+[J[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.1.0[90m...[39m
 [90m> npm install [39m
 ...
-[3A[J[33m●[39m [1mmodule[22m [90mtesting...[39m
+[3A[J[33m-[39m [1mmodule[22m [90mtesting...[39m
 [90m> npm test [39m
 ...
-[3A[J[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.1.0 [90m→[39m 0.0.0[90m...[39m
+[3A[J[31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.1.0 [90m→[39m 0.0.0[90m...[39m
 [90m> npm install [39m
 ...
-[3A[J[31m●[39m [1m[31mmodule[39m[22m 0.1.0 [90mfailed[39m
+[3A[J[31m-[39m [1m[31mmodule[39m[22m 0.1.0 [90mfailed[39m
 [JThis is the test stdout
-[J[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 1.0.0[90m...[39m
+[J[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 1.0.0[90m...[39m
 [90m> npm install [39m
 ...
-[3A[J[33m●[39m [1mmodule[22m [90mtesting...[39m
+[3A[J[33m-[39m [1mmodule[22m [90mtesting...[39m
 [90m> npm test [39m
 ...
-[3A[J[32m●[39m [1mmodule[22m 1.0.0 [90msuccess[39m
-[J[33m●[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
+[3A[J[32m-[39m [1mmodule[22m 1.0.0 [90msuccess[39m
+[J[33m-[39m [1mmodule[22m [90mupdating[39m 0.0.0 [90m→[39m 0.0.1[90m...[39m
 [90m> npm install [39m
 ...
-[3A[J[33m●[39m [1mmodule[22m [90mtesting...[39m
+[3A[J[33m-[39m [1mmodule[22m [90mtesting...[39m
 [90m> npm test [39m
 ...
-[3A[J[31m●[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
+[3A[J[31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
 [90m> npm install [39m
 ...
-[3A[J[31m●[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
+[3A[J[31m-[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
 [JThis is the test stdout
 [J
 [J[1m2 successful[22m updates.

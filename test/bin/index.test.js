@@ -6,6 +6,9 @@ const projectPath = path.resolve(__dirname, "..", "..").replace(/\\/g, "/");
 const pathToBabelNode = require.resolve("babel-cli/bin/babel-node");
 const pathToRunBin = require.resolve("../helpers/runBinMock");
 
+// These tests may take longer
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+
 async function execRunBinMock(
     { cwd = __dirname, args = [], runMock = "" } = {}
 ) {
