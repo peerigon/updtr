@@ -28,12 +28,7 @@ exports[`batch-update fail and show test stdout 1`] = `
 [31m-[39m [1m[31mmodule[39m[22m [90mrolling back[39m 0.0.1 [90m→[39m 0.0.0[90m...[39m
 [90m> npm install [39m
 ...
-[6A[J[31m-[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
-[31m-[39m [1m[31mmodule[39m[22m 0.1.0 [90mfailed[39m
-[31m-[39m [1m[31mmodule[39m[22m 1.0.0 [90mfailed[39m
-[31m-[39m [1m[31mmodule[39m[22m 0.0.1 [90mfailed[39m
-[JThis is the test stdout
-[J
+[6A[J
 [J[1m2 successful[22m updates.
 [J[1m1 failed[22m update.
 [J

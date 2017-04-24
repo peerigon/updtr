@@ -144,12 +144,13 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("batch-update/result", event => {
         projector.stop();
-        terminal.append(
-            event.updateTasks.map(event.success ? successLine : failLine)
-        );
-        if (reporterConfig.testStdout === true && event.success === false) {
-            terminal.append([event.stdout]);
+        if (event.success === true) {
+            terminal.append(
+                event.updateTasks.map(event.success ? successLine : failLine)
+            );
         }
+        // Not showing the test stdout here when there was an error because
+        // we will proceed with the sequential update.
     });
     updtr.on("sequential-update/updating", event => {
         projector.display(cmdToLines(updatingLine(event), event.cmd));

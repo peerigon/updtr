@@ -9,7 +9,7 @@ export const INDICATOR_OK = 3;
 const COLORS = [chalk.grey, chalk.red, chalk.yellow, chalk.green];
 
 export default class Indicator {
-    constructor(initialState = INDICATOR_NEUTRAL) {
+    constructor(initialState) {
         this.state = initialState;
     }
     valueOf() {
