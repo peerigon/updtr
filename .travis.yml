@@ -7,12 +7,8 @@ node_js:
     - 6
     - 4
 
-env:
-    - NPM=npm@2
-    - NPM=npm@4
-
 script:
-    - npm install -g $NPM
+    - npm install
     - npm install -g yarn
     - npm test
 
