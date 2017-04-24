@@ -30,6 +30,8 @@ export const fixtureSetups = {
                 fixture,
                 "npm i updtr-test-module-1 updtr-test-module-2 --save"
             );
+            await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
             await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "yarn", "outdated");
             await modifyPackageJson(
@@ -37,8 +39,6 @@ export const fixtureSetups = {
                 testOkModifier,
                 caretRangeModifier
             );
-            await writeStdoutLog(fixture, "npm", "outdated");
-            await writeStdoutLog(fixture, "npm", "list");
             await writeStdoutLog(fixture, "yarn", "list");
         });
     },
@@ -52,6 +52,8 @@ export const fixtureSetups = {
                 fixture,
                 "npm i updtr-test-module-1 updtr-test-module-2 --save-dev"
             );
+            await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
             await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "yarn", "outdated");
             await modifyPackageJson(
@@ -59,8 +61,6 @@ export const fixtureSetups = {
                 testOkModifier,
                 caretRangeModifier
             );
-            await writeStdoutLog(fixture, "npm", "outdated");
-            await writeStdoutLog(fixture, "npm", "list");
             await writeStdoutLog(fixture, "yarn", "list");
         });
     },
@@ -70,11 +70,14 @@ export const fixtureSetups = {
 
         await runOrSkipIfExists(pathToFixture, async () => {
             await execFixtureCmd(fixture, "npm init -y");
-            // We install with yarn to get the lock file with the outdated versions
             await execFixtureCmd(
                 fixture,
-                // updtr-test-module-1's major version is outdated (breaking)
-                // updtr-test-module-2's minor version is outdated (non-breaking)
+                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+            );
+            await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await execFixtureCmd(
+                fixture,
                 yarn(
                     "add",
                     "updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
@@ -86,8 +89,6 @@ export const fixtureSetups = {
                 testOkModifier,
                 caretRangeModifier
             );
-            await writeStdoutLog(fixture, "npm", "outdated");
-            await writeStdoutLog(fixture, "npm", "list");
             await writeStdoutLog(fixture, "yarn", "list");
         });
     },
@@ -97,11 +98,14 @@ export const fixtureSetups = {
 
         await runOrSkipIfExists(pathToFixture, async () => {
             await execFixtureCmd(fixture, "npm init -y");
-            // We install with yarn to get the lock file with the outdated versions
             await execFixtureCmd(
                 fixture,
-                // updtr-test-module-1's major version is outdated (breaking)
-                // updtr-test-module-2's minor version is outdated (non-breaking)
+                "npm i updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
+            );
+            await writeStdoutLog(fixture, "npm", "outdated");
+            await writeStdoutLog(fixture, "npm", "list");
+            await execFixtureCmd(
+                fixture,
                 yarn(
                     "add",
                     "updtr-test-module-1@1.0.0 updtr-test-module-2@2.0.0 --save"
@@ -113,8 +117,6 @@ export const fixtureSetups = {
                 testOkModifier,
                 caretRangeModifier
             );
-            await writeStdoutLog(fixture, "npm", "outdated");
-            await writeStdoutLog(fixture, "npm", "list");
             await writeStdoutLog(fixture, "yarn", "list");
         });
     },

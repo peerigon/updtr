@@ -39,24 +39,31 @@ function tryParse(normalizer) {
 }
 
 function arrToObj(arr, keys) {
-    return keys.reduce(
-        (obj, key, i) => {
-            obj[key] = arr[i];
+    return keys.reduce((obj, key, i) => {
+        obj[key] = arr[i];
 
-            return obj;
-        },
-        {}
-    );
+        return obj;
+    }, {});
+}
+
+// By sorting the parsed data, we get deterministic results across different npm and yarn versions.
+// As a nice side-effect, a package like eslint will always be updated before eslint-config-peerigon
+// which might have a peer dependency on eslint
+// See https://github.com/peerigon/updtr/issues/48
+function sortByName(o1, o2) {
+    return o1.name > o2.name;
 }
 
 const list = tryParse(
     parsed =>
-        parsed.dependencies === undefined ?
+        (parsed.dependencies === undefined ?
             [] :
-            Object.keys(parsed.dependencies).map(name => ({
-                name,
-                version: parsed.dependencies[name].version,
-            }))
+            Object.keys(parsed.dependencies)
+                .map(name => ({
+                    name,
+                    version: parsed.dependencies[name].version,
+                }))
+                .sort(sortByName))
 );
 
 export default {
@@ -68,20 +75,24 @@ export default {
 
             const names = Object.keys(parsed);
 
-            return names.map(name => parsed[name]).map((dep, index) =>
-                returnIfValid({
-                    name: names[index],
-                    current: dep.current,
-                    wanted: dep.wanted,
-                    latest: dep.latest,
-                }));
+            return names
+                .map(name => parsed[name])
+                .map((dep, index) =>
+                    returnIfValid({
+                        name: names[index],
+                        current: dep.current,
+                        wanted: dep.wanted,
+                        latest: dep.latest,
+                    })
+                )
+                .sort(sortByName);
         }),
         list,
     },
     yarn: {
         outdated: tryParse(
             parsed =>
-                parsed === null ?
+                (parsed === null ?
                     [] :
                     parsed.data.body
                         .map(row => arrToObj(row, parsed.data.head))
@@ -91,7 +102,9 @@ export default {
                                   current: dep.Current,
                                   wanted: dep.Wanted,
                                   latest: dep.Latest,
-                              }))
+                              })
+                          )
+                        .sort(sortByName))
         ),
         // We currently only use npm for the list command (see cmds.js).
         // Put the real implementation here if we decide to use yarn for list.
