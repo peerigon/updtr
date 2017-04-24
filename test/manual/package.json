@@ -1,0 +1,27 @@
+{
+  "name": "outdated",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ../../node_modules/babel-cli/bin/babel-node ../../src/bin",
+    "test": "node test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "1.0.0",
+    "batch-replace": "1.0.0",
+    "less": "2.0.0",
+    "node-sass": "4.0.0",
+    "updtr-test-module-1": "1.0.0",
+    "updtr-test-module-2": "2.0.0"
+  },
+  "devDependencies": {
+    "express": "3.0.0",
+    "mongoose": "4.0.0",
+    "nodemon": "1.0.0",
+    "underscore": "1.0.3"
+  }
+}
