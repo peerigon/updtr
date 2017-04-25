@@ -25,12 +25,6 @@ export default yargs
         `${ chalk.bold("Usage:") } $0 ${ chalk.dim("[options]") }`,
     ].join(EOL)
     )
-    .option("reporter", {
-        describe: "Choose a reporter for the console output",
-        choices: reporterNames,
-        default: reporterNames[0],
-        alias: "r",
-    })
     .option("use", {
         describe: "Specify the package manager to use",
         choices: USE_OPTIONS,
@@ -40,27 +34,38 @@ export default yargs
     .option("exclude", {
         describe: "Space separated list of module names that should not be updated",
         array: true,
-        alias: "e",
-    })
-    .option("test", {
-        describe: "Specify a custom test command",
-    })
-    .option("registry", {
-        describe: "Specify a custom registry to use",
+        alias: "ex",
     })
     .option("update-to", {
         describe: "Specify which updates you want to install",
         choices: UPDATE_TO_OPTIONS,
         default: UPDATE_TO_OPTIONS[0],
-    })
-    .option("test-stdout", {
-        describe: "Show test stdout if the update fails",
-        boolean: true,
+        alias: "to",
     })
     .option("save", {
         describe: "Specify how updated versions should be saved to the package.json",
         choices: SAVE_OPTIONS,
         default: SAVE_OPTIONS[0],
+        alias: "s",
+    })
+    .option("reporter", {
+        describe: "Choose a reporter for the console output",
+        choices: reporterNames,
+        default: reporterNames[0],
+        alias: "r",
+    })
+    .option("test", {
+        describe: "Specify a custom test command. Surround with quotes.",
+        alias: "t",
+    })
+    .option("test-stdout", {
+        describe: "Show test stdout if the update fails",
+        boolean: true,
+        alias: "out",
+    })
+    .option("registry", {
+        describe: "Specify a custom registry to use",
+        alias: "reg",
     })
     .version()
     .wrap(null)
