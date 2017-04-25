@@ -17,7 +17,7 @@ function stringifyModules(modules) {
 }
 
 function stringifyRegistry(registry) {
-    return registry === undefined ? "" : ` --registry ${ registry }`;
+    return registry === undefined ? "" : ` --registry "${ registry }"`;
 }
 
 function list({ modules } = {}) {
