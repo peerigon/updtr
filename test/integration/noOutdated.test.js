@@ -13,6 +13,9 @@ import {
 } from "./helpers/constants";
 import { createTempDir, read, write } from "./helpers/fs";
 
+// These tests may take longer on travis
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
 describe("integration test: when there are no outdated dependencies", () => {
     describe("npm", () => {
         it("should not change the package.json, change the installed dependencies and resolve with an empty array as results", async () => {
