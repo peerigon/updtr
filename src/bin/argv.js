@@ -4,7 +4,6 @@ import path from "path";
 import yargs from "yargs";
 import chalk from "chalk";
 import reporters from "../reporters";
-import packageJson from "../../package";
 import {
     USE_OPTIONS,
     USE_NPM,
@@ -21,7 +20,7 @@ export default yargs
     .usage(
     [
         "",
-        chalk.bold.cyan(packageJson.description),
+        chalk.bold.cyan("Update outdated npm modules with zero pain™"),
         `${ chalk.bold("Usage:") } $0 ${ chalk.dim("[options]") }`,
     ].join(EOL)
     )
