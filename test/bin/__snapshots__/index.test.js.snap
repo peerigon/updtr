@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`bin when all arguments have been specified should run updtr with the expected config 1`] = `
+Object {
+  "reporter": "dense",
+  "reporterConfig": Object {
+    "stream": null,
+    "testStdout": true,
+  },
+  "updtrConfig": Object {
+    "cwd": "/test/bin",
+    "exclude": Array [
+      "a",
+      "b",
+      "c",
+    ],
+    "save": "exact",
+    "test": "jest -b",
+    "updateTo": "non-breaking",
+    "use": "yarn",
+  },
+}
+`;
+
+exports[`bin when no arguments have been specified should run updtr with the default config 1`] = `
+Object {
+  "reporter": "dense",
+  "reporterConfig": Object {
+    "stream": null,
+    "testStdout": false,
+  },
+  "updtrConfig": Object {
+    "cwd": "/test/bin",
+    "exclude": Array [],
+    "save": "smart",
+    "updateTo": "latest",
+    "use": "npm",
+  },
+}
+`;
+
+exports[`bin when there is an error should emit an error event on the updtr instance 1`] = `"Cannot access package.json in /test/bin"`;

@@ -1,0 +1,352 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`init() when there are excluded dependencies should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install",
+  ],
+  Array [
+    "npm outdated --json --depth=0",
+  ],
+]
+`;
+
+exports[`init() when there are excluded dependencies should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "init/start",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/install-missing",
+    Object {
+      "cmd": "npm install",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/collect",
+    Object {
+      "cmd": "npm outdated --json --depth=0",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/end",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [
+          "updtr-test-module-1",
+          "updtr-test-module-2",
+        ],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+      "excluded": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "reason": "excluded",
+          "rollbackTo": "1.0.0",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "reason": "excluded",
+          "rollbackTo": "2.0.0",
+          "updateTo": "2.1.1",
+        },
+      ],
+      "updateTasks": Array [],
+    },
+  ],
+]
+`;
+
+exports[`init() when there are no outdated dependencies should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install",
+  ],
+  Array [
+    "npm outdated --json --depth=0",
+  ],
+]
+`;
+
+exports[`init() when there are no outdated dependencies should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "init/start",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/install-missing",
+    Object {
+      "cmd": "npm install",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/collect",
+    Object {
+      "cmd": "npm outdated --json --depth=0",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/end",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+      "excluded": Array [],
+      "updateTasks": Array [],
+    },
+  ],
+]
+`;
+
+exports[`init() when there are outdated dependencies using npm should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "npm install",
+  ],
+  Array [
+    "npm outdated --json --depth=0",
+  ],
+]
+`;
+
+exports[`init() when there are outdated dependencies using npm should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "init/start",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/install-missing",
+    Object {
+      "cmd": "npm install",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/collect",
+    Object {
+      "cmd": "npm outdated --json --depth=0",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+    },
+  ],
+  Array [
+    "init/end",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "npm",
+      },
+      "excluded": Array [],
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+]
+`;
+
+exports[`init() when there are outdated dependencies using yarn should emit expected events and execute expected commands 1`] = `
+Array [
+  Array [
+    "yarn",
+  ],
+  Array [
+    "yarn outdated --json --flat",
+  ],
+]
+`;
+
+exports[`init() when there are outdated dependencies using yarn should emit expected events and execute expected commands 2`] = `
+Array [
+  Array [
+    "init/start",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "yarn",
+      },
+    },
+  ],
+  Array [
+    "init/install-missing",
+    Object {
+      "cmd": "yarn",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "yarn",
+      },
+    },
+  ],
+  Array [
+    "init/collect",
+    Object {
+      "cmd": "yarn outdated --json --flat",
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "yarn",
+      },
+    },
+  ],
+  Array [
+    "init/end",
+    Object {
+      "config": Object {
+        "cwd": "/updtr/test/cwd",
+        "exclude": Array [],
+        "registry": undefined,
+        "save": "smart",
+        "test": undefined,
+        "updateTo": "latest",
+        "use": "yarn",
+      },
+      "excluded": Array [],
+      "updateTasks": Array [
+        Object {
+          "name": "updtr-test-module-1",
+          "rollbackTo": "1.0.0",
+          "updateTo": "2.0.0",
+        },
+        Object {
+          "name": "updtr-test-module-2",
+          "rollbackTo": "2.0.0",
+          "updateTo": "2.1.1",
+        },
+      ],
+    },
+  ],
+]
+`;

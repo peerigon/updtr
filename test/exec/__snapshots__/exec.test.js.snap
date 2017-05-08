@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exec() should return a promise that resolves to an object of expected shape 1`] = `
+Object {
+  "stderr": "",
+  "stdout": "",
+}
+`;

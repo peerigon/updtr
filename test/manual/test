@@ -1,0 +1,10 @@
+setTimeout(() => {
+    const exitCode = Math.floor(Math.random() * 10) % 2;
+
+    if (exitCode === 0) {
+        console.log("Everything ok");
+    } else {
+        console.trace("Not ok");
+    }
+    process.exit(exitCode);
+}, 2000);

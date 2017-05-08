@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reporters should export all available reporters 1`] = `
+Array [
+  "dense",
+  "none",
+]
+`;

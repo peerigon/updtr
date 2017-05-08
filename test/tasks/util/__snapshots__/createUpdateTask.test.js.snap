@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`createUpdateTask() should return a valid update task 1`] = `
+Object {
+  "name": "module",
+  "rollbackTo": "0.0.0",
+  "updateTo": "0.0.1",
+}
+`;

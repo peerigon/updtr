@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`dependencies > only successful updates 1`] = `
+Object {
+  "dependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "dep-3": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "2.1.1",
+    "updtr-test-module-3": "1.0.0",
+    "updtr-test-module-5": "2.0.0",
+  },
+}
+`;
+
+exports[`devDependencies > only successful updates 1`] = `
+Object {
+  "devDependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "dep-3": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "2.1.1",
+    "updtr-test-module-3": "1.0.0",
+  },
+}
+`;
+
+exports[`more than one dependency type 1`] = `
+Object {
+  "dependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+  },
+  "devDependencies": Object {
+    "updtr-test-module-1": "^2.0.0",
+  },
+  "optionalDependencies": Object {
+    "updtr-test-module-1": "2.x.x",
+  },
+}
+`;
+
+exports[`not listed as any dependency type 1`] = `
+Object {
+  "dependencies": Object {
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "2.1.1",
+  },
+}
+`;
+
+exports[`optionalDependencies > only successful updates 1`] = `
+Object {
+  "optionalDependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "dep-3": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "2.1.1",
+    "updtr-test-module-3": "1.0.0",
+  },
+}
+`;

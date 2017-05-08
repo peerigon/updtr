@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`npm > installed versions 1`] = `
+Object {
+  "updtr-test-module-1": "2.0.0",
+  "updtr-test-module-2": "2.1.1",
+}
+`;
+
+exports[`npm > installed versions 2`] = `
+Object {
+  "updtr-test-module-1": "2.0.0",
+  "updtr-test-module-2": "2.1.1",
+}
+`;

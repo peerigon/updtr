@@ -1,0 +1,42 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Bin",
+            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/babel-node",
+            "runtimeArgs": [
+                "--harmony_async_await"
+            ],
+            "program": "${workspaceRoot}/src/bin/index.js"
+        },
+        {
+            "name": "Current test",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/node_modules/jest/bin/jest.js",
+            "stopOnEntry": false,
+            "args": [
+                "${file}",
+                "--runInBand"
+            ],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--harmony_async_await",
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "test"
+            },
+            "externalConsole": false,
+            "sourceMaps": true,
+            "outDir": null
+        }
+    ]
+}

@@ -1,7 +1,6 @@
 {
     "extends": [
-        "peerigon/base",
-        "peerigon/es5"
+        "peerigon/base"
     ],
     "env": {
         "node": true

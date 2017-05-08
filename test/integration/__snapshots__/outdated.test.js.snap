@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`advanced configuration > npm > installed versions 1`] = `
+Object {
+  "updtr-test-module-1": "1.1.1",
+  "updtr-test-module-2": "2.0.0",
+}
+`;
+
+exports[`advanced configuration > npm > package.json dependencies 1`] = `
+Object {
+  "updtr-test-module-1": "1.1.1",
+  "updtr-test-module-2": "^2.0.0",
+}
+`;
+
+exports[`advanced configuration > npm > results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "1.1.1",
+  },
+]
+`;
+
+exports[`advanced configuration > yarn > installed versions 1`] = `
+Object {
+  "updtr-test-module-1": "1.1.1",
+  "updtr-test-module-2": "2.0.0",
+}
+`;
+
+exports[`advanced configuration > yarn > package.json dependencies 1`] = `
+Object {
+  "updtr-test-module-1": "^1.1.1",
+  "updtr-test-module-2": "2.0.0",
+}
+`;
+
+exports[`advanced configuration > yarn > results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "1.1.1",
+  },
+]
+`;
+
+exports[`default configuration > npm > installed versions 1`] = `
+Object {
+  "updtr-test-module-1": "2.0.0",
+  "updtr-test-module-2": "2.1.1",
+}
+`;
+
+exports[`default configuration > npm > package.json dependencies 1`] = `
+Object {
+  "updtr-test-module-1": "^2.0.0",
+  "updtr-test-module-2": "^2.0.0",
+}
+`;
+
+exports[`default configuration > npm > results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.1.1",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+]
+`;
+
+exports[`default configuration > yarn > installed versions 1`] = `
+Object {
+  "updtr-test-module-1": "2.0.0",
+  "updtr-test-module-2": "2.1.1",
+}
+`;
+
+exports[`default configuration > yarn > package.json dependencies 1`] = `
+Object {
+  "updtr-test-module-1": "2.0.0",
+  "updtr-test-module-2": "^2.0.0",
+}
+`;
+
+exports[`default configuration > yarn > results 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.1.1",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+]
+`;
