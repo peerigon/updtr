@@ -58,7 +58,7 @@ describe("dense()", () => {
                 expect(
                     output.replace(
                         // We need to replace the timing because that is non-deterministic
-                        /Finished after \d\.\ds/,
+                        /Finished after \d+\.\ds/,
                         "Finished after 1.0s"
                     )
                 ).toMatchSnapshot(caseName);
