@@ -152,65 +152,65 @@ beforeAll(() => {
                     },
                 },
             ],
-            ["init/install-missing", { cmd: "npm install" }],
-            ["init/collect", { cmd: "npm outdated" }],
-            ["init/end", { updateTasks, excluded: [] }],
+                ["init/install-missing", { cmd: "npm install" }],
+                ["init/collect", { cmd: "npm outdated" }],
+                ["init/end", { updateTasks, excluded: [] }],
             ...updateTasks.reduce(
                 (events, updateTask, i) =>
-                    events.concat(
-                        i % 2 === 0 ? // success true or false
-                        [
+                        events.concat(
+                            i % 2 === 0 ? // success true or false
                             [
-                                "sequential-update/updating",
-                                      { cmd: "npm install", ...updateTask },
-                            ],
+                                [
+                                    "sequential-update/updating",
+                                    { cmd: "npm install", ...updateTask },
+                                ],
+                                [
+                                    "sequential-update/testing",
+                                    { cmd: "npm test", ...updateTask },
+                                ],
+                                [
+                                    "sequential-update/result",
+                                    { success: true, ...updateTask },
+                                ],
+                            ] :
                             [
-                                "sequential-update/testing",
-                                      { cmd: "npm test", ...updateTask },
-                            ],
-                            [
-                                "sequential-update/result",
-                                      { success: true, ...updateTask },
-                            ],
-                        ] :
-                        [
-                            [
-                                "sequential-update/updating",
-                                      { cmd: "npm install", ...updateTask },
-                            ],
-                            [
-                                "sequential-update/testing",
-                                      { cmd: "npm test", ...updateTask },
-                            ],
-                            [
-                                "sequential-update/rollback",
-                                {
-                                    cmd: "npm install",
-                                    success: false,
-                                    ...updateTask,
-                                },
-                            ],
-                            [
-                                "sequential-update/result",
-                                {
-                                    success: false,
-                                    stdout: "This is the test stdout",
-                                    ...updateTask,
-                                },
-                            ],
-                        ]
-                    ),
-                []
-            ),
+                                [
+                                    "sequential-update/updating",
+                                        { cmd: "npm install", ...updateTask },
+                                ],
+                                [
+                                    "sequential-update/testing",
+                                        { cmd: "npm test", ...updateTask },
+                                ],
+                                [
+                                    "sequential-update/rollback",
+                                    {
+                                        cmd: "npm install",
+                                        success: false,
+                                        ...updateTask,
+                                    },
+                                ],
+                                [
+                                    "sequential-update/result",
+                                    {
+                                        success: false,
+                                        stdout: "This is the test stdout",
+                                        ...updateTask,
+                                    },
+                                ],
+                            ]
+                        ),
+                    []
+                ),
             [
                 "end",
                 {
                     results: updateTasks.map(
                         (updateTask, i) =>
-                            (i % 2 === 0 ?
-                                module1ToLatestSuccess :
-                                module1ToLatestFail)
-                    ),
+                                (i % 2 === 0 ?
+                                    module1ToLatestSuccess :
+                                    module1ToLatestFail)
+                        ),
                 },
             ],
         ],
