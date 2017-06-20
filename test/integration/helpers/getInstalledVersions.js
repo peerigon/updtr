@@ -12,7 +12,7 @@ export default (async function (dir, filterPattern) {
     await Promise.all(
         modules
             .filter(
-                moduleName =>
+            moduleName =>
                     filterPattern === undefined ?
                         true :
                         filterPattern.test(moduleName) === true

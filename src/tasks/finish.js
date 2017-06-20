@@ -25,24 +25,24 @@ async function finishIncomplete(sequence, incomplete, allResults) {
 
     return (
         allResults
-        .map(result => {
-            if (isIncompleteResult(result) === false) {
-                return result;
-            }
+            .map(result => {
+                if (isIncompleteResult(result) === false) {
+                    return result;
+                }
 
-            const version = moduleVersions.find(
-                module => module.name === result.name
+                const version = moduleVersions.find(
+                    module => module.name === result.name
             ).version;
 
-            return {
-                ...result,
-                updateTo: version,
-            };
-        })
+                return {
+                    ...result,
+                    updateTo: version,
+                };
+            })
     // Remove results where no actual update did happen.
     // These results can happen if the updateTo option was set to non-breaking
     // and the module did not have a new version for the rollbackTo version range.
-        .filter(result => result.rollbackTo !== result.updateTo)
+            .filter(result => result.rollbackTo !== result.updateTo)
     );
 }
 

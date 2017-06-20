@@ -34,9 +34,9 @@ describe("integration test: when there are outdated dependencies", () => {
                     tempDirPackageContents,
                     installedVersions,
                 ] = await Promise.all([
-                        read(tempDir, PACKAGE_JSON),
-                        getInstalledVersions(tempDir, filterUpdtrTestModule),
-                    ]);
+                    read(tempDir, PACKAGE_JSON),
+                    getInstalledVersions(tempDir, filterUpdtrTestModule),
+                ]);
 
                 expect(results).toMatchSnapshot(
                     "default configuration > npm > results"
@@ -70,10 +70,10 @@ describe("integration test: when there are outdated dependencies", () => {
                     installedVersions,
                     tempDirYarnLockContents,
                 ] = await Promise.all([
-                        read(tempDir, PACKAGE_JSON),
-                        getInstalledVersions(tempDir, filterUpdtrTestModule),
-                        read(tempDir, YARN_LOCK),
-                    ]);
+                    read(tempDir, PACKAGE_JSON),
+                    getInstalledVersions(tempDir, filterUpdtrTestModule),
+                    read(tempDir, YARN_LOCK),
+                ]);
 
                 expect(results).toMatchSnapshot(
                     "default configuration > yarn > results"
@@ -142,9 +142,9 @@ describe("integration test: when there are outdated dependencies", () => {
                     tempDirPackageContents,
                     installedVersionsAfter,
                 ] = await Promise.all([
-                        read(tempDir, PACKAGE_JSON),
-                        getInstalledVersions(tempDir, filterUpdtrTestModule),
-                    ]);
+                    read(tempDir, PACKAGE_JSON),
+                    getInstalledVersions(tempDir, filterUpdtrTestModule),
+                ]);
 
                 expect(installMissingCmd).toContain(registry);
                 expect(testStdout).toBe(expectedTestStdout);
@@ -212,10 +212,10 @@ describe("integration test: when there are outdated dependencies", () => {
                     installedVersionsAfter,
                     yarnLockContentsAfter,
                 ] = await Promise.all([
-                        read(tempDir, PACKAGE_JSON),
-                        getInstalledVersions(tempDir, filterUpdtrTestModule),
-                        read(tempDir, YARN_LOCK),
-                    ]);
+                    read(tempDir, PACKAGE_JSON),
+                    getInstalledVersions(tempDir, filterUpdtrTestModule),
+                    read(tempDir, YARN_LOCK),
+                ]);
 
                 // expect(installMissingCmd).toContain(registry);
                 expect(testStdout).toBe(expectedTestStdout);

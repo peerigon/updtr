@@ -31,9 +31,9 @@ describe("integration test: when there are no outdated dependencies", () => {
                 tempDirPackageContents,
                 installedVersions,
             ] = await Promise.all([
-                    read(tempDir, PACKAGE_JSON),
-                    getInstalledVersions(tempDir, filterUpdtrTestModule),
-                ]);
+                read(tempDir, PACKAGE_JSON),
+                getInstalledVersions(tempDir, filterUpdtrTestModule),
+            ]);
 
             expect(results).toEqual([]);
             expect(tempDirPackageContents).toBe(noOutdatedPackageContents);
@@ -61,10 +61,10 @@ describe("integration test: when there are no outdated dependencies", () => {
                 installedVersions,
                 tempDirYarnLockContents,
             ] = await Promise.all([
-                    read(tempDir, PACKAGE_JSON),
-                    getInstalledVersions(tempDir, filterUpdtrTestModule),
-                    read(tempDir, YARN_LOCK),
-                ]);
+                read(tempDir, PACKAGE_JSON),
+                getInstalledVersions(tempDir, filterUpdtrTestModule),
+                read(tempDir, YARN_LOCK),
+            ]);
 
             expect(results).toEqual([]);
             expect(tempDirPackageContents).toBe(noOutdatedPackageContents);

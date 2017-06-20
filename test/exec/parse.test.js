@@ -25,7 +25,7 @@ function testUnexpectedInput(parse) {
                     // We don't really want to test for the actual error message here,
                     // but just whether there is an error message at all.
                     .toThrow(
-                        /Error when trying to parse stdout from command 'my-cmd': \w+/
+                    /Error when trying to parse stdout from command 'my-cmd': \w+/
                     );
             });
         });
