@@ -11,6 +11,7 @@
     "lint": "eslint --ignore-path ./.gitignore bin src test",
     "build": "cross-env BABEL_ENV=production rollup -c",
     "prepublishOnly": "npm run build && node ./bin/updtr --help",
+    "release": "standard-version",
     "fixtures:ensure": "cross-env NODE_ENV=development babel-node ./test/helpers/setupFixtures.js",
     "fixtures:rebuild": "cross-env NODE_ENV=development babel-node ./test/helpers/cleanupFixtures.js && npm run fixtures:ensure"
   },
@@ -54,6 +55,7 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^3.0.0",
     "sinon": "^2.3.5",
+    "standard-version": "^4.2.0",
     "stream-buffers": "^3.0.1",
     "temp": "^0.8.3",
     "wrap-ansi": "^2.1.0"
