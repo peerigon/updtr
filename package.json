@@ -10,7 +10,7 @@
     "posttest": "npm run lint",
     "lint": "eslint --ignore-path ./.gitignore bin src test",
     "build": "cross-env BABEL_ENV=production rollup -c",
-    "prepublish": "npm run build && node ./bin/updtr --help",
+    "prepublishOnly": "npm run build && node ./bin/updtr --help",
     "fixtures:ensure": "cross-env NODE_ENV=development babel-node ./test/helpers/setupFixtures.js",
     "fixtures:rebuild": "cross-env NODE_ENV=development babel-node ./test/helpers/cleanupFixtures.js && npm run fixtures:ensure"
   },
