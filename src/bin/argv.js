@@ -18,11 +18,11 @@ const useDefault = fs.existsSync(pathToYarnLock) === true ? USE_YARN : USE_NPM;
 
 export default yargs
     .usage(
-    [
-        "",
-        chalk.bold.cyan("Update outdated npm modules with zero pain™"),
-        `${ chalk.bold("Usage:") } $0 ${ chalk.dim("[options]") }`,
-    ].join(EOL)
+        [
+            "",
+            chalk.bold.cyan("Update outdated npm modules with zero pain™"),
+            `${ chalk.bold("Usage:") } $0 ${ chalk.dim("[options]") }`,
+        ].join(EOL)
     )
     .option("use", {
         describe: "Specify the package manager to use",

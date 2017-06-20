@@ -9,13 +9,13 @@ function parse(semverString) {
 
     return match === null ?
         null :
-    {
-        operator: match[1],
-        major: match[2],
-        minor: match[3],
-        patch: match[4],
-        release: match[5],
-    };
+        {
+            operator: match[1],
+            major: match[2],
+            minor: match[3],
+            patch: match[4],
+            release: match[5],
+        };
 }
 
 function isPinned({ operator, major, minor, patch }) {

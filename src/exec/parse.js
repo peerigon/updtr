@@ -97,13 +97,13 @@ export default {
                     parsed.data.body
                         .map(row => arrToObj(row, parsed.data.head))
                         .map(dep =>
-                              returnIfValid({
-                                  name: dep.Package,
-                                  current: dep.Current,
-                                  wanted: dep.Wanted,
-                                  latest: dep.Latest,
-                              })
-                          )
+                            returnIfValid({
+                                name: dep.Package,
+                                current: dep.Current,
+                                wanted: dep.Wanted,
+                                latest: dep.Latest,
+                            })
+                        )
                         .sort(sortByName))
         ),
         // We currently only use npm for the list command (see cmds.js).
