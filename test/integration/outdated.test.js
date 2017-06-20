@@ -16,7 +16,7 @@ import { PACKAGE_JSON, YARN_LOCK } from "./helpers/constants";
 import { createTempDir, read, write } from "./helpers/fs";
 
 // These tests may take longer on travis
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 10 * 60 * 1000;
 
 describe("integration test: when there are outdated dependencies", () => {
     describe("default configuration", () => {
