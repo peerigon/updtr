@@ -27,7 +27,7 @@ npm install -g updtr
 
 ### `--use` `-u`
 
-Specify which updates you want to install:
+Specify the package manager to use:
 
 - `npm`
 - `yarn`
@@ -42,7 +42,7 @@ Space separated list of module names that should not be updated.
 
 - `latest` *(default)*: update all packages to the latest version number
 - `non-breaking`: update all packages to the latest version number that does not conflict with the installed version number
-- `wanted`: update all packages to the latest version number that does not conflict with the specified version number
+- `wanted`: update all packages to the latest version number that does not conflict with the version number as specified in the `package.json`
 
 ### `--save` `-s`
 
