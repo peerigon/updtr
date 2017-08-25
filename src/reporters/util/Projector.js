@@ -1,3 +1,5 @@
+import isCI from "is-ci";
+
 function lineToString(line) {
     if (Array.isArray(line) === true) {
         return line.join("");
@@ -17,6 +19,9 @@ export default class Projector {
             this.stop();
         }
         this.terminal.append(frame.map(lineToString));
+        if (isCI) {
+            return;
+        }
         this.timeoutId = setTimeout(() => {
             this.display(frame);
         }, this.delay);
