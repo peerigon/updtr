@@ -3,6 +3,7 @@
 exports[`reporters should export all available reporters 1`] = `
 Array [
   "dense",
+  "basic",
   "none",
 ]
 `;
