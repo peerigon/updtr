@@ -1,5 +1,6 @@
 import ansiEscapes from "ansi-escapes";
 import cliCursor from "cli-cursor";
+import isCI from "is-ci";
 import stringWidth from "string-width";
 
 function calcNumOfRows(lines, columns) {
@@ -18,7 +19,7 @@ function setBlocking(stream) {
 
 export default class Terminal {
     constructor(stream) {
-        if (stream.isTTY !== true) {
+        if (stream.isTTY !== true && !isCI) {
             throw new Error("Given stream is not a TTY stream");
         }
         setBlocking(stream);

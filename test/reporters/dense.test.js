@@ -35,10 +35,43 @@ beforeAll(() => {
     };
 });
 
-describe("dense()", () => {
+describe("dense no CI()", () => {
     Object.keys(events).forEach(caseName => {
         describe(caseName, () => {
             it("should print the expected lines", async () => {
+                process.env.CI = process.env.CONTINUOUS_INTEGRATION = process.env.BUILD_NUMBER = false;
+                const testCase = events[caseName];
+                const { updtr, stdout } = setup(testCase.reporterConfig);
+
+                await testCase.events.reduce(async (previous, [
+                    eventName,
+                    event,
+                ]) => {
+                    await previous;
+                    updtr.emit(eventName, event);
+
+                    // Faking async events
+                    return Promise.resolve();
+                }, Promise.resolve());
+
+                const output = stdout.getContentsAsString("utf8");
+
+                expect(
+                    output.replace(
+                        // We need to replace the timing because that is non-deterministic
+                        /Finished after \d+\.\ds/,
+                        "Finished after 1.0s"
+                    )
+                ).toMatchSnapshot(caseName);
+            });
+        });
+    });
+});
+describe("dense CI()", () => {
+    Object.keys(events).forEach(caseName => {
+        describe(caseName, () => {
+            it("should print the expected lines", async () => {
+                process.env.CI = true;
                 const testCase = events[caseName];
                 const { updtr, stdout } = setup(testCase.reporterConfig);
 
