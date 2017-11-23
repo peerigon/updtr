@@ -57,6 +57,7 @@ Specify how updated versions should be saved to the `package.json`:
 Choose a reporter for the console output:
 
 - `dense` *(default*): See screenshot
+- `basic` : Use simple console.log, no need of a TTY (ex: on CI)
 - `none`: No console output
 
 ### `--test` `-t`
