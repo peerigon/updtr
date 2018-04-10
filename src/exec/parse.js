@@ -14,7 +14,21 @@ function parse(str) {
         return null;
     }
 
-    return JSON.parse(trimmed);
+    let resultJSON = {};
+    try {
+        resultJSON = JSON.parse(trimmed);
+    } catch (e) {
+        const eol = require("os").EOL;
+        const lines = trimmed.split(eol);
+        lines.map(stringJSON => {
+            const possible = JSON.parse(stringJSON);
+            if (possible.type === "table") {
+                resultJSON = possible;
+            }
+        })
+    }
+
+    return resultJSON;
 }
 
 function returnIfValid(result) {
