@@ -151,7 +151,7 @@ export default {
                     const [name, version] = dependency.name.split("@");
 
                     if (isNotEmptyString(name) === false || isNotEmptyString(version) === false) {
-                        throw new Error(`Could not parse ${ dependency.name }`);
+                        throw new Error(`Could not parse dependency name "${ dependency.name }"`);
                     }
 
                     return {

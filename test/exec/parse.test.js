@@ -318,6 +318,22 @@ describe("parse", () => {
             describe("outdated-dev fixture", () => {
                 testFixture("outdated-dev");
             });
+
+            describe("malformed dependency name", () => {
+                it("should throw a helpful error message", () => {
+                    let error;
+
+                    try {
+                        parse.yarn.list(
+                            stdoutLogs.get("outdated/list.yarn.log").replace(/@[^"]+/, "")
+                        );
+                    } catch (err) {
+                        error = err;
+                    }
+
+                    expect(error).toMatchSnapshot();
+                });
+            });
         });
     });
 });

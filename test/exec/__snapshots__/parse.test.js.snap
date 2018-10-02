@@ -86,6 +86,8 @@ Array [
 ]
 `;
 
+exports[`parse .yarn .list() malformed dependency name should throw a helpful error message 1`] = `[Error: Error when trying to parse stdout from command 'undefined': Could not parse dependency name "updtr-test-module-1"]`;
+
 exports[`parse .yarn .list() no-outdated fixture should return an array with installed versions 1`] = `
 Array [
   Object {
