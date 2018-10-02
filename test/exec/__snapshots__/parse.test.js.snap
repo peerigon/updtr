@@ -86,6 +86,74 @@ Array [
 ]
 `;
 
+exports[`parse .yarn .list() no-outdated fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "batch-replace",
+    "version": "1.1.3",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .yarn .list() no-outdated-dev fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "batch-replace",
+    "version": "1.1.3",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .yarn .list() outdated fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "batch-replace",
+    "version": "1.1.3",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "1.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.1.1",
+  },
+]
+`;
+
+exports[`parse .yarn .list() outdated-dev fixture should return an array with installed versions 1`] = `
+Array [
+  Object {
+    "name": "batch-replace",
+    "version": "1.1.3",
+  },
+  Object {
+    "name": "updtr-test-module-1",
+    "version": "1.1.1",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "version": "2.1.1",
+  },
+]
+`;
+
 exports[`parse .yarn .outdated() outdated fixture should return an array with normalized outdated data 1`] = `
 Array [
   Object {

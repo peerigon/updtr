@@ -32,6 +32,8 @@ exports[`cmds .yarn .installMissing() custom registry should match snapshot 1`] 
 
 exports[`cmds .yarn .installMissing() should match snapshot 1`] = `"yarn"`;
 
+exports[`cmds .yarn .list() should match snapshot 1`] = `"yarn list --json --depth=0"`;
+
 exports[`cmds .yarn .outdated() should match snapshot 1`] = `"yarn outdated --json --flat"`;
 
 exports[`cmds .yarn .test() should match snapshot 1`] = `"yarn test"`;
