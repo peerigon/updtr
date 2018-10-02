@@ -11,3 +11,6 @@ script:
     - npm install
     - npm install -g yarn
     - npm test
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
