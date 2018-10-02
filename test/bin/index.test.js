@@ -15,7 +15,7 @@ async function execRunBinMock(
     const stdout = await new Promise((resolve, reject) => {
         execFile(
             "node",
-            [pathToBabelNode, pathToRunBin, ...args],
+            [`${ pathToBabelNode }`, "--", `${ pathToRunBin }`, ...args],
             {
                 cwd,
                 env: {
