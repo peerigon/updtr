@@ -1,6 +1,6 @@
+import {SAVE_CARET, SAVE_EXACT, SAVE_SMART} from "../../constants/config";
 import updateVersionRange from "./updateVersionRange";
-import { filterSuccessfulUpdates } from "./filterUpdateResults";
-import { SAVE_CARET, SAVE_EXACT, SAVE_SMART } from "../../constants/config";
+import {filterSuccessfulUpdates} from "./filterUpdateResults";
 
 const dependencyTypes = [
     "dependencies",
@@ -25,7 +25,7 @@ export default function createUpdatedPackageJson(
     updateResults,
     updtrConfig
 ) {
-    const newPackageJson = { ...oldPackageJson };
+    const newPackageJson = {...oldPackageJson};
     const successfulUpdates = filterSuccessfulUpdates(updateResults);
     let dependenciesToSave = successfulUpdates;
 
@@ -37,7 +37,7 @@ export default function createUpdatedPackageJson(
 
             Object.keys(dependencies).forEach(moduleName => {
                 const update = successfulUpdates.find(
-                    ({ name }) => name === moduleName
+                    ({name}) => name === moduleName
                 );
                 const oldVersionRange = dependencies[moduleName];
 
@@ -46,7 +46,7 @@ export default function createUpdatedPackageJson(
                     newVersionRange(updtrConfig, oldVersionRange, update);
 
                 dependenciesToSave = dependenciesToSave.filter(
-                    ({ name }) => name !== moduleName
+                    ({name}) => name !== moduleName
                 );
             });
 

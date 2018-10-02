@@ -1,10 +1,10 @@
-import argv from "./argv";
-import { create, run } from "./..";
 import reporters from "../reporters";
+import argv from "./argv";
+import {create, run} from "..";
 
 async function start() {
     const cwd = process.cwd();
-    const config = { ...argv };
+    const config = {...argv};
     const reporterConfig = {
         stream: process.stdout,
         testStdout: argv.testStdout,

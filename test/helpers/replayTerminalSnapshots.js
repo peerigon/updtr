@@ -30,7 +30,7 @@ async function replayTerminalSnapshots(pathToSnapshots) {
             if (i !== 0) {
                 process.stdout.write(ansiEscapes.eraseDown);
             }
-            process.stdout.write(wrapAnsi(frames[i], 80, { hard: true }));
+            process.stdout.write(wrapAnsi(frames[i], 80, {hard: true}));
             await timeout(1000); // eslint-disable-line no-await-in-loop
         }
         await timeout(3000); // eslint-disable-line no-await-in-loop
@@ -38,11 +38,11 @@ async function replayTerminalSnapshots(pathToSnapshots) {
 }
 
 if (!module.parent) {
-    replayTerminalSnapshots(process.argv[2]).catch(err => {
-        setImmediate(() => {
-            throw err;
-        });
+    process.on("unhandledRejection", error => {
+        console.error(error.stack);
+        process.exit(1); // eslint-disable-line no-process-exit
     });
+    replayTerminalSnapshots(process.argv[2]);
 }
 
 export default replayTerminalSnapshots;

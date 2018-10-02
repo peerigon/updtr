@@ -19,7 +19,7 @@ let stdoutLogs;
 function createUpdateTasks(updtrConfig) {
     const packageManager = updtrConfig.use;
     const outdated = parse[packageManager].outdated(
-        stdoutLogs.get(`outdated/outdated.${ packageManager }.log`)
+        stdoutLogs.get(`outdated/outdated.${packageManager}.log`)
     );
 
     return outdated.map(outdated => createUpdateTask(outdated, updtrConfig));
@@ -211,7 +211,7 @@ describe("sequentialUpdate()", () => {
 
             expect(givenErr).toBe(execError);
             // emitted events: start, updating
-            expect(updtr.emit.args.length).toBe(2);
+            expect(updtr.emit.args).toHaveLength(2);
         });
         it("should completely bail out if the rollback cmd exits with a non-zero exit code", async () => {
             const updtr = new FakeUpdtr();
@@ -228,7 +228,7 @@ describe("sequentialUpdate()", () => {
 
             expect(givenErr).toBe(execError);
             // emitted events: start, updating, testing, rollback
-            expect(updtr.emit.args.length).toBe(4);
+            expect(updtr.emit.args).toHaveLength(4);
         });
     });
 });

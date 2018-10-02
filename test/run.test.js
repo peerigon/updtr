@@ -1,4 +1,4 @@
-import { UPDATE_TO_NON_BREAKING } from "../src/constants/config";
+import {UPDATE_TO_NON_BREAKING} from "../src/constants/config";
 import run from "../src/run";
 import FakeUpdtr from "./helpers/FakeUpdtr";
 import pickEventNames from "./helpers/pickEventNames";
@@ -11,9 +11,9 @@ import {
     testFailWithRollback,
     npmList,
 } from "./fixtures/execResults";
-import { outdatedRegular } from "./fixtures/packageJsons";
+import {outdatedRegular} from "./fixtures/packageJsons";
 
-function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
+function npmOutdated({nonBreaking = 0, breaking = 0}) {
     const outdated = {};
     let i;
 
@@ -39,7 +39,7 @@ function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
     }
 
     return [
-        { stdout: "" }, // installMissing
+        {stdout: ""}, // installMissing
         // npm exits with exit code 1 when there are outdated dependencies
         new ExecError({
             stdout: JSON.stringify(outdated),
@@ -49,7 +49,7 @@ function npmOutdated({ nonBreaking = 0, breaking = 0 }) {
 }
 
 function updateTaskNames(updateTasks) {
-    return updateTasks.map(({ name }) => name);
+    return updateTasks.map(({name}) => name);
 }
 
 function addPackageJsonFileStubs(updtr) {
@@ -105,7 +105,7 @@ describe("run()", () => {
         it("should run the sequential-update", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
+            updtr.execResults = npmOutdated({nonBreaking: 1}).concat(
                 update,
                 testPass
             );
@@ -123,14 +123,12 @@ describe("run()", () => {
             )[0];
 
             expect(batchUpdateEvents).toHaveLength(0);
-            expect(updateTaskNames(sequentialUpdateEvent.updateTasks)).toEqual([
-                "updtr-test-module-1",
-            ]);
+            expect(updateTaskNames(sequentialUpdateEvent.updateTasks)).toEqual(["updtr-test-module-1"]);
         });
         it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ nonBreaking: 1 }).concat(
+            updtr.execResults = npmOutdated({nonBreaking: 1}).concat(
                 update,
                 testPass
             );
@@ -147,7 +145,7 @@ describe("run()", () => {
         it("should run the sequential-update for all dependencies", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ breaking: 2 }).concat(
+            updtr.execResults = npmOutdated({breaking: 2}).concat(
                 update,
                 testPass,
                 update,
@@ -175,7 +173,7 @@ describe("run()", () => {
         it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ breaking: 2 }).concat(
+            updtr.execResults = npmOutdated({breaking: 2}).concat(
                 update,
                 testPass,
                 update,
@@ -196,7 +194,7 @@ describe("run()", () => {
         it("should only run the batch-update", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
+            updtr.execResults = npmOutdated({nonBreaking: 2}).concat(
                 update,
                 testPass
             );
@@ -222,7 +220,7 @@ describe("run()", () => {
         it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
+            updtr.execResults = npmOutdated({nonBreaking: 2}).concat(
                 update,
                 testPass
             );
@@ -241,7 +239,7 @@ describe("run()", () => {
         it("should run the batch-update first and back off to the sequential-update", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
+            updtr.execResults = npmOutdated({nonBreaking: 2}).concat(
                 update,
                 testFailWithRollback,
                 testFailWithRollback,
@@ -272,7 +270,7 @@ describe("run()", () => {
         it("should emit an end event of expected shape and return the results", async () => {
             const updtr = new FakeUpdtr();
 
-            updtr.execResults = npmOutdated({ nonBreaking: 2 }).concat(
+            updtr.execResults = npmOutdated({nonBreaking: 2}).concat(
                 update,
                 testFailWithRollback,
                 testFailWithRollback,
@@ -289,7 +287,7 @@ describe("run()", () => {
             expect(results).toBe(endEventArgs[1].results);
         });
     });
-    describe(`when updateTo is "${ UPDATE_TO_NON_BREAKING }"`, () => {
+    describe(`when updateTo is "${UPDATE_TO_NON_BREAKING}"`, () => {
         it("should finish incomplete results", async () => {
             const updtr = new FakeUpdtr({
                 updateTo: UPDATE_TO_NON_BREAKING,
@@ -297,7 +295,7 @@ describe("run()", () => {
 
             // npm outdated reports a breaking change, but the updateTo option
             // limits the update to a non-breaking version
-            updtr.execResults = npmOutdated({ breaking: 1 }).concat(
+            updtr.execResults = npmOutdated({breaking: 1}).concat(
                 update,
                 testPass,
                 npmList
@@ -305,7 +303,7 @@ describe("run()", () => {
             addPackageJsonFileStubs(updtr);
 
             expect(await run(updtr)).toMatchSnapshot(
-                `updateTo ${ UPDATE_TO_NON_BREAKING } > end event`
+                `updateTo ${UPDATE_TO_NON_BREAKING} > end event`
             );
         });
     });

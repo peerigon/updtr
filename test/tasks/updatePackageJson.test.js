@@ -5,7 +5,7 @@ import {
     module1ToLatestSuccess,
     module2ToLatestFail,
 } from "../fixtures/updateResults";
-import { outdatedRegular } from "../fixtures/packageJsons";
+import {outdatedRegular} from "../fixtures/packageJsons";
 
 describe("updatePackageJson()", () => {
     it("should read and write the package json", async () => {

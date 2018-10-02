@@ -3,8 +3,7 @@
 // See https://github.com/peerigon/updtr/issues/52
 
 const name = "module";
-
-export default [
+const outdateds = [
     {
         name,
         current: "0.0.0",
@@ -145,3 +144,5 @@ export default [
         latest: "2.0.0-beta.1",
     },
 ];
+
+export default outdateds;

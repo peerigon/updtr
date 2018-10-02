@@ -1,6 +1,6 @@
-import { execFile } from "child_process";
+import {execFile} from "child_process";
 import path from "path";
-import { USE_YARN } from "../../src/constants/config";
+import {USE_YARN} from "../../src/constants/config";
 
 const projectPath = path.resolve(__dirname, "..", "..").replace(/\\/g, "/");
 const pathToBabelNode = require.resolve("babel-cli/bin/babel-node");
@@ -10,12 +10,12 @@ const pathToRunBin = require.resolve("../helpers/runBinMock");
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10 * 60 * 1000;
 
 async function execRunBinMock(
-    { cwd = __dirname, args = [], runMock = "" } = {}
+    {cwd = __dirname, args = [], runMock = ""} = {}
 ) {
     const stdout = await new Promise((resolve, reject) => {
         execFile(
             "node",
-            [`${ pathToBabelNode }`, "--", `${ pathToRunBin }`, ...args],
+            [`${pathToBabelNode}`, "--", `${pathToRunBin}`, ...args],
             {
                 cwd,
                 env: {
@@ -27,7 +27,6 @@ async function execRunBinMock(
                 void (err ? reject(err) : resolve(stdout || stderr))
         );
     });
-
     const stdoutWithoutBasePath = stdout
         // Replace double-backslashes with one forward slash
         .replace(/\\\\/g, "/")
@@ -49,7 +48,7 @@ describe("bin", () => {
     describe("when the binary is executed in a directory with a yarn.lock file", () => {
         it("should use yarn", async () => {
             const cwd = path.resolve(__dirname, "..", "fixtures", "empty");
-            const configs = await execRunBinMock({ cwd });
+            const configs = await execRunBinMock({cwd});
 
             expect(configs.updtrConfig.use).toBe(USE_YARN);
         });
@@ -76,7 +75,7 @@ describe("bin", () => {
                 "--save",
                 "exact",
             ];
-            const configs = await execRunBinMock({ args });
+            const configs = await execRunBinMock({args});
 
             expect(configs).toMatchSnapshot();
         });

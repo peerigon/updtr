@@ -50,6 +50,8 @@ function checkForYarnWithCustomReg(packageManager, registry) {
 }
 
 export default class Updtr extends EventEmitter {
+    // TODO: Add typings for UpdtrConfig
+    // eslint-disable-next-line
     /**
      * The config passed-in here should look identically to the CLI config.
      * Dash-cased properties should be renamed to camelCased.

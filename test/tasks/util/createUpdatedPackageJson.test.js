@@ -1,5 +1,5 @@
 import clone from "clone";
-import { SAVE_CARET, SAVE_EXACT } from "../../../src/constants/config";
+import {SAVE_CARET, SAVE_EXACT} from "../../../src/constants/config";
 import createUpdatedPackageJson
     from "../../../src/tasks/util/createUpdatedPackageJson";
 import {
@@ -80,7 +80,7 @@ describe("createUpdatedPackageJson()", () => {
                 "dependencies > only successful updates"
             );
         });
-        describe(`when the save option is "${ SAVE_EXACT }"`, () => {
+        describe(`when the save option is "${SAVE_EXACT}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
@@ -90,7 +90,7 @@ describe("createUpdatedPackageJson()", () => {
                         },
                     }),
                     updateResults,
-                    { ...FakeUpdtr.baseConfig, save: SAVE_EXACT }
+                    {...FakeUpdtr.baseConfig, save: SAVE_EXACT}
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
@@ -98,7 +98,7 @@ describe("createUpdatedPackageJson()", () => {
                 );
             });
         });
-        describe(`when the save option is "${ SAVE_CARET }"`, () => {
+        describe(`when the save option is "${SAVE_CARET}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
@@ -108,7 +108,7 @@ describe("createUpdatedPackageJson()", () => {
                         },
                     }),
                     updateResults,
-                    { ...FakeUpdtr.baseConfig, save: SAVE_CARET }
+                    {...FakeUpdtr.baseConfig, save: SAVE_CARET}
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
@@ -150,7 +150,7 @@ describe("createUpdatedPackageJson()", () => {
                 "devDependencies > only successful updates"
             );
         });
-        describe(`when the save option is "${ SAVE_EXACT }"`, () => {
+        describe(`when the save option is "${SAVE_EXACT}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
@@ -160,7 +160,7 @@ describe("createUpdatedPackageJson()", () => {
                         },
                     }),
                     updateResults,
-                    { ...FakeUpdtr.baseConfig, save: SAVE_EXACT }
+                    {...FakeUpdtr.baseConfig, save: SAVE_EXACT}
                 );
 
                 expect(
@@ -168,7 +168,7 @@ describe("createUpdatedPackageJson()", () => {
                 ).toBe(module1ToLatestSuccess.updateTo);
             });
         });
-        describe(`when the save option is "${ SAVE_CARET }"`, () => {
+        describe(`when the save option is "${SAVE_CARET}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
@@ -178,7 +178,7 @@ describe("createUpdatedPackageJson()", () => {
                         },
                     }),
                     updateResults,
-                    { ...FakeUpdtr.baseConfig, save: SAVE_CARET }
+                    {...FakeUpdtr.baseConfig, save: SAVE_CARET}
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(
@@ -220,7 +220,7 @@ describe("createUpdatedPackageJson()", () => {
                 "optionalDependencies > only successful updates"
             );
         });
-        describe(`when the save option is "${ SAVE_EXACT }"`, () => {
+        describe(`when the save option is "${SAVE_EXACT}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
@@ -230,7 +230,7 @@ describe("createUpdatedPackageJson()", () => {
                         },
                     }),
                     updateResults,
-                    { ...FakeUpdtr.baseConfig, save: SAVE_EXACT }
+                    {...FakeUpdtr.baseConfig, save: SAVE_EXACT}
                 );
 
                 expect(
@@ -238,7 +238,7 @@ describe("createUpdatedPackageJson()", () => {
                 ).toBe(module1ToLatestSuccess.updateTo);
             });
         });
-        describe(`when the save option is "${ SAVE_CARET }"`, () => {
+        describe(`when the save option is "${SAVE_CARET}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
                 const newPackageJson = createUpdatedPackageJson(
@@ -248,7 +248,7 @@ describe("createUpdatedPackageJson()", () => {
                         },
                     }),
                     updateResults,
-                    { ...FakeUpdtr.baseConfig, save: SAVE_CARET }
+                    {...FakeUpdtr.baseConfig, save: SAVE_CARET}
                 );
 
                 expect(newPackageJson.dependencies["updtr-test-module-1"]).toBe(

@@ -40,7 +40,6 @@ export default (async function updatePackageJson(updtr, updateResults) {
         },
         "Error while trying to read the package.json: "
     );
-
     const newPackageJson = createUpdatedPackageJson(
         oldPackageJson,
         updateResults,

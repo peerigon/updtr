@@ -1,8 +1,8 @@
-import { USE_YARN } from "../../src/constants/config";
+import {USE_YARN} from "../../src/constants/config";
 import {
     noOutdatedRegular as noOutdatedPackageContents,
 } from "../fixtures/packageJsons";
-import { create, run } from "../../src";
+import {create, run} from "../../src";
 import getInstalledVersions, {
     filterUpdtrTestModule,
 } from "./helpers/getInstalledVersions";
@@ -11,7 +11,7 @@ import {
     YARN_LOCK,
     FIXTURE_NO_OUTDATED,
 } from "./helpers/constants";
-import { createTempDir, read, write } from "./helpers/fs";
+import {createTempDir, read, write} from "./helpers/fs";
 
 // These tests may take longer on travis
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10 * 60 * 1000;

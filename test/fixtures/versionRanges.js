@@ -1,5 +1,5 @@
 // Copied from https://github.com/npm/node-semver
-export default [
+const versionRanges = [
     "~0.6.1-1",
     "1.0.0 - 2.0.0",
     "1.0.0-2.0.0",
@@ -74,3 +74,5 @@ export default [
     "1.x.2",
     "1.*.2",
 ];
+
+export default versionRanges;

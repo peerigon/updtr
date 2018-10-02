@@ -87,7 +87,7 @@ export const fixtureSetups = {
             await execFixtureCmd(
                 fixture,
                 'npm i "updtr-test-module-1@1.0.0" "updtr-test-module-2@2.0.0" --save'
-                );
+            );
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
             await execFixtureCmd(fixture, yarn()); // create lock file
@@ -142,7 +142,7 @@ function yarn(cmd = "", appendix = "") {
     // mutex network is required because yarn has concurrency issues
     // https://github.com/yarnpkg/yarn/issues/683
     // https://github.com/yarnpkg/website/issues/261
-    return `yarn ${ cmd } --mutex network ${ appendix }`;
+    return `yarn ${cmd} --mutex network ${appendix}`;
 }
 
 function caretRangeModifier(packageJson) {
@@ -205,7 +205,7 @@ async function execFixtureCmd(fixture, cmd) {
         if (error.code === 1 && / outdated/.test(cmd) === true) {
             return error.stdout;
         }
-        error.message = `Error in ${ cwd }: ${ error.message }`;
+        error.message = `Error in ${cwd}: ${error.message}`;
         throw error;
     }
 }
@@ -232,11 +232,12 @@ async function setupAllFixtures() {
 }
 
 if (!module.parent) {
-    setupAllFixtures().catch(err => {
-        setImmediate(() => {
-            throw err;
-        });
+    process.on("unhandledRejection", error => {
+        console.error(error.stack);
+        process.exit(1); // eslint-disable-line no-process-exit
     });
+
+    setupAllFixtures();
 }
 
 export default setupAllFixtures;

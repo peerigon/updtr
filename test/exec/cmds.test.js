@@ -103,7 +103,7 @@ describe("cmds", () => {
             describe("with modules", () => {
                 it("should match snapshot", () => {
                     expect(
-                        cmds.npm.list({ modules: ["a", "b", "c"] })
+                        cmds.npm.list({modules: ["a", "b", "c"]})
                     ).toMatchSnapshot();
                 });
             });
