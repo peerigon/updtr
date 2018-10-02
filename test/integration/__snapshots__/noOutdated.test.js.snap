@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`npm > installed versions 1`] = `
+exports[`integration test: when there are no outdated dependencies npm should not change the package.json, change the installed dependencies and resolve with an empty array as results: npm > installed versions 1`] = `
 Object {
   "updtr-test-module-1": "2.0.0",
   "updtr-test-module-2": "2.1.1",
 }
 `;
 
-exports[`npm > installed versions 2`] = `
+exports[`integration test: when there are no outdated dependencies yarn should not change the package.json and yarn.lock and resolve with an empty array as results: npm > installed versions 1`] = `
 Object {
   "updtr-test-module-1": "2.0.0",
   "updtr-test-module-2": "2.1.1",

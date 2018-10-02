@@ -231,5 +231,3 @@ describe("new Updtr()", () => {
         });
     });
 });
-
-afterAll(temp.cleanup);

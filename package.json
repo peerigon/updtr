@@ -47,7 +47,7 @@
     "eslint": "^5.6.1",
     "eslint-config-peerigon": "^15.0.2",
     "eslint-plugin-jest": "^21.24.0",
-    "jest": "^20.0.4",
+    "jest": "^23.6.0",
     "rimraf": "^2.6.1",
     "rollup": "^0.43.1",
     "rollup-plugin-babel": "^2.7.1",
