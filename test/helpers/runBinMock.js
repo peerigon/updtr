@@ -1,3 +1,13 @@
+/* eslint-disable import/unambiguous */
+
+const path = require("path");
+
+// babel-node would use the current process.cwd() for all the config resolving logic
+// That's why we use @babel/register where we can set all the options
+require("@babel/register")({
+    cwd: path.resolve(__dirname, "..", ".."),
+});
+
 // We're using require() instead of import() here because we need to work with the actual exports
 const runExports = require("../../src/run"); // eslint-disable-line import/unambiguous
 const reportersExports = require("../../src/reporters");

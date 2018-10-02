@@ -3,7 +3,6 @@ import path from "path";
 import {USE_YARN} from "../../src/constants/config";
 
 const projectPath = path.resolve(__dirname, "..", "..").replace(/\\/g, "/");
-const pathToBabelNode = require.resolve("babel-cli/bin/babel-node");
 const pathToRunBin = require.resolve("../helpers/runBinMock");
 
 // These tests may take longer on travis
@@ -15,7 +14,7 @@ async function execRunBinMock(
     const stdout = await new Promise((resolve, reject) => {
         execFile(
             "node",
-            [`${pathToBabelNode}`, "--", `${pathToRunBin}`, ...args],
+            [pathToRunBin, ...args],
             {
                 cwd,
                 env: {
@@ -23,8 +22,14 @@ async function execRunBinMock(
                     RUN_MOCK: runMock,
                 },
             },
-            (err, stdout, stderr) =>
-                void (err ? reject(err) : resolve(stdout || stderr))
+            (error, stdout, stderr) => {
+                if (error || stderr) {
+                    reject(error || stderr);
+
+                    return;
+                }
+                resolve(stdout);
+            }
         );
     });
     const stdoutWithoutBasePath = stdout
