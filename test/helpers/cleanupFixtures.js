@@ -1,11 +1,11 @@
-import {promisify} from "util";
 import path from "path";
+import pify from "pify";
 import rimraf from "rimraf";
 import {fixtureSetups} from "./setupFixtures";
 
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 const fixtures = Object.keys(fixtureSetups);
-const promiseRimraf = promisify(rimraf);
+const promiseRimraf = pify(rimraf);
 
 function remove(fixture) {
     return promiseRimraf(
