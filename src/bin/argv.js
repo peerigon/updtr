@@ -60,6 +60,7 @@ export default yargs
     .option("test-stdout", {
         describe: "Show test stdout if the update fails",
         boolean: true,
+        default: false,
         alias: "out",
     })
     .option("registry", {
