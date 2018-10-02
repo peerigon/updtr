@@ -9,16 +9,16 @@ function parse(semverString) {
 
     return match === null ?
         null :
-    {
-        operator: match[1],
-        major: match[2],
-        minor: match[3],
-        patch: match[4],
-        release: match[5],
-    };
+        {
+            operator: match[1],
+            major: match[2],
+            minor: match[3],
+            patch: match[4],
+            release: match[5],
+        };
 }
 
-function isPinned({ operator, major, minor, patch }) {
+function isPinned({operator, major, minor, patch}) {
     return operator === "" &&
         [major, minor, patch].every(
             version => numberPattern.test(version) === true
@@ -26,7 +26,7 @@ function isPinned({ operator, major, minor, patch }) {
 }
 
 function tryVersionRangeUpdate(parsedOldRange, parsedNewVersion) {
-    const { minor, patch, operator } = parsedOldRange;
+    const {minor, patch, operator} = parsedOldRange;
     let newMinor = parsedNewVersion.minor;
     let newPatch = parsedNewVersion.patch;
 

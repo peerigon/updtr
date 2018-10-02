@@ -1,6 +1,6 @@
 import sinon from "sinon";
 import handleError from "../../../src/reporters/util/handleError";
-import { PackageJsonNoAccessError } from "../../../src/errors";
+import {PackageJsonNoAccessError} from "../../../src/errors";
 
 const processExit = process.exit;
 const consoleError = console.error;

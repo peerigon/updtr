@@ -21,7 +21,6 @@ const runMocks = {
         );
     },
 };
-
 let reporterConfig;
 let reporter;
 
@@ -29,7 +28,7 @@ let reporter;
 runExports.default = runMocks[runMock];
 reportersExports.default.dense = function (updtr, config) {
     // Removing the stream property because we can't JSON stringify that
-    reporterConfig = { ...config, stream: null };
+    reporterConfig = {...config, stream: null};
     reporter = "dense";
 };
 reportersExports.default.error = function (updtr) {

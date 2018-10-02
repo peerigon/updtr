@@ -1,5 +1,5 @@
 import semver from "semver";
-import { isUpdateToNonBreaking } from "./createUpdateTask";
+import {isUpdateToNonBreaking} from "./createUpdateTask";
 
 function isBreaking(updateTask) {
     return isUpdateToNonBreaking(updateTask) === false &&

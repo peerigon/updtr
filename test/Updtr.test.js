@@ -7,7 +7,7 @@ import {
     OptionValueNotSupportedError,
     YarnWithCustomRegistryError,
 } from "../src/errors";
-import { USE_YARN, UPDATE_TO_OPTIONS } from "../src/constants/config";
+import {USE_YARN, UPDATE_TO_OPTIONS} from "../src/constants/config";
 import temp from "./helpers/temp";
 import FakeUpdtr from "./helpers/FakeUpdtr";
 
@@ -28,8 +28,8 @@ describe("new Updtr()", () => {
         });
         describe(".updateTo", () => {
             UPDATE_TO_OPTIONS.forEach(updateTo => {
-                it(`should be ${ updateTo } if given`, () => {
-                    const config = { ...FakeUpdtr.baseConfig, updateTo };
+                it(`should be ${updateTo} if given`, () => {
+                    const config = {...FakeUpdtr.baseConfig, updateTo};
                     const updtr = new Updtr(config);
 
                     expect(updtr.config).toHaveProperty("updateTo", updateTo);
@@ -63,7 +63,7 @@ describe("new Updtr()", () => {
         });
         describe(".use", () => {
             it("should be 'yarn' if specified", () => {
-                const config = { ...FakeUpdtr.baseConfig, use: USE_YARN };
+                const config = {...FakeUpdtr.baseConfig, use: USE_YARN};
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("use", USE_YARN);
@@ -75,7 +75,7 @@ describe("new Updtr()", () => {
             describe("when a custom test command was given", () => {
                 it("should return the custom test command", () => {
                     const test = "custom test command";
-                    const config = { ...FakeUpdtr.baseConfig, test };
+                    const config = {...FakeUpdtr.baseConfig, test};
                     const updtr = new Updtr(config);
 
                     expect(updtr.cmds.test()).toBe(test);
@@ -87,7 +87,7 @@ describe("new Updtr()", () => {
         describe("when there is no package.json in the cwd", () => {
             it("should return false", async () => {
                 const cwd = __dirname;
-                const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
+                const updtr = new Updtr({...FakeUpdtr.baseConfig, cwd});
 
                 expect(await updtr.canAccessPackageJson()).toBe(false);
             });
@@ -95,7 +95,7 @@ describe("new Updtr()", () => {
         describe("when there is a package.json in the cwd", () => {
             it("should return false", async () => {
                 const cwd = path.join(__dirname, "fixtures", "empty");
-                const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
+                const updtr = new Updtr({...FakeUpdtr.baseConfig, cwd});
 
                 expect(await updtr.canAccessPackageJson()).toBe(true);
             });
@@ -104,7 +104,7 @@ describe("new Updtr()", () => {
     describe(".exec()", () => {
         it("should exec the command in the given cwd", async () => {
             const cwd = __dirname;
-            const updtr = new Updtr({ ...FakeUpdtr.baseConfig, cwd });
+            const updtr = new Updtr({...FakeUpdtr.baseConfig, cwd});
             const cmd = 'node -e "console.log(process.cwd())"';
             const result = await updtr.exec(cmd);
 
@@ -188,14 +188,14 @@ describe("new Updtr()", () => {
     });
     describe("errors", () => {
         it("should throw if a cwd is missing", () => {
-            const config = { ...FakeUpdtr.baseConfig };
+            const config = {...FakeUpdtr.baseConfig};
 
             delete config.cwd;
 
             expect(() => new Updtr(config)).toThrow(RequiredOptionMissingError);
         });
         it("should throw if the use option is not supported", () => {
-            const config = { ...FakeUpdtr.baseConfig, use: "bower" };
+            const config = {...FakeUpdtr.baseConfig, use: "bower"};
 
             expect(() => new Updtr(config)).toThrow(
                 OptionValueNotSupportedError
@@ -212,7 +212,7 @@ describe("new Updtr()", () => {
             );
         });
         it("should throw if the save option is unknown", () => {
-            const config = { ...FakeUpdtr.baseConfig, save: "something-else" };
+            const config = {...FakeUpdtr.baseConfig, save: "something-else"};
 
             expect(() => new Updtr(config)).toThrow(
                 OptionValueNotSupportedError

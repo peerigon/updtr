@@ -6,4 +6,4 @@ export function create(config) {
     return new Updtr(config);
 }
 
-export { errors, run };
+export {errors, run};

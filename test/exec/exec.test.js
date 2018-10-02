@@ -3,20 +3,17 @@ import exec from "../../src/exec/exec";
 const logMemoryCode = (() => {
     const DEFAULT_STDOUT_BUFFER_SIZE = 200 * 1024;
     const size = DEFAULT_STDOUT_BUFFER_SIZE + 1;
-    const memory = typeof Buffer.allocUnsafe === "function" ?
-        Buffer.allocUnsafe(size) :
-        new Buffer(size);
+    const memory = Buffer.allocUnsafe(size);
 
     console.log(memory.toString("utf8"));
 })
     .toString()
     .replace(/"/g, '\\"')
     .replace(/\r?\n/g, "");
-
 const logOkCmd = 'node -e "console.log(\\"ok\\")"';
 const noopCmd = 'node -e ""';
 const throwCmd = "node -e \"throw 'fail'\"";
-const logMemoryCmd = `node -e "(${ logMemoryCode })()"`;
+const logMemoryCmd = `node -e "(${logMemoryCode})()"`;
 const cwd = __dirname;
 
 describe("exec()", () => {

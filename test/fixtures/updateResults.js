@@ -5,7 +5,7 @@ import {
 import parse from "../../src/exec/parse";
 import createUpdateTask from "../../src/tasks/util/createUpdateTask";
 import createUpdateResult from "../../src/tasks/util/createUpdateResult";
-import { readFixture } from "../helpers/readFixtures";
+import {readFixture} from "../helpers/readFixtures";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 
 export let module1ToLatestSuccess;

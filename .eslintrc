@@ -1,6 +1,6 @@
 {
     "extends": [
-        "peerigon/base"
+        "peerigon"
     ],
     "env": {
         "node": true

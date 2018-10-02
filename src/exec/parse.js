@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import {EOL} from "os";
 
 const STRING_PROPERTIES = ["name", "current", "wanted", "latest"];
 
@@ -21,7 +21,7 @@ function tryParse(parser) {
         try {
             return parser(stdout);
         } catch (err) {
-            err.message = `Error when trying to parse stdout from command '${ cmd }': ${ err.message }`;
+            err.message = `Error when trying to parse stdout from command '${cmd}': ${err.message}`;
             throw err;
         }
     };
@@ -75,15 +75,15 @@ function yarnParser(stdout, wantedTypeProperty) {
         });
 
     if (dataLine === undefined) {
-        throw new Error(`Could not find object with type === ${ wantedTypeProperty }`);
+        throw new Error(`Could not find object with type === ${wantedTypeProperty}`);
     }
 
     return JSON.parse(dataLine);
 }
 
-export default {
+const parse = {
     npm: {
-        outdated: tryParse((stdout) => {
+        outdated: tryParse(stdout => {
             const parsed = npmParser(stdout);
 
             if (parsed === null) {
@@ -104,7 +104,7 @@ export default {
                 )
                 .sort(sortByName);
         }),
-        list: tryParse((stdout) => {
+        list: tryParse(stdout => {
             const parsed = npmParser(stdout);
 
             return (parsed.dependencies === undefined ?
@@ -139,7 +139,7 @@ export default {
                     .sort(sortByName);
             }
         ),
-        list: tryParse((stdout) => {
+        list: tryParse(stdout => {
             const parsed = yarnParser(stdout, "tree");
 
             if (parsed.data.trees.length === 0) {
@@ -151,7 +151,7 @@ export default {
                     const [name, version] = dependency.name.split("@");
 
                     if (isNotEmptyString(name) === false || isNotEmptyString(version) === false) {
-                        throw new Error(`Could not parse dependency name "${ dependency.name }"`);
+                        throw new Error(`Could not parse dependency name "${dependency.name}"`);
                     }
 
                     return {
@@ -163,3 +163,5 @@ export default {
         }),
     },
 };
+
+export default parse;
