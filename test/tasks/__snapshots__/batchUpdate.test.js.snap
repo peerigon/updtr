@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`multiple update tasks > npm > test fail > emit args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using npm when the test fails should return false and execute expected commands and emit expected events: multiple update tasks > npm > test fail > emit args 1`] = `
 Array [
   Array [
     "batch-update/start",
@@ -102,7 +102,7 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > npm > test fail > exec args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using npm when the test fails should return false and execute expected commands and emit expected events: multiple update tasks > npm > test fail > exec args 1`] = `
 Array [
   Array [
     "npm install \\"updtr-test-module-1@2.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
@@ -116,7 +116,7 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > npm > test ok > emit args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using npm when the tests succeed should return true and execute expected commands and emit expected events: multiple update tasks > npm > test ok > emit args 1`] = `
 Array [
   Array [
     "batch-update/start",
@@ -199,7 +199,7 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > npm > test ok > exec args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using npm when the tests succeed should return true and execute expected commands and emit expected events: multiple update tasks > npm > test ok > exec args 1`] = `
 Array [
   Array [
     "npm install \\"updtr-test-module-1@2.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
@@ -210,7 +210,7 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > yarn > test fail > emit args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using yarn when the test fails should return false and execute expected commands and emit expected events: multiple update tasks > yarn > test fail > emit args 1`] = `
 Array [
   Array [
     "batch-update/start",
@@ -312,7 +312,21 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > yarn > test ok > emit args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using yarn when the test fails should return false and execute expected commands and emit expected events: multiple update tasks > yarn > test ok > exec args 1`] = `
+Array [
+  Array [
+    "yarn add \\"updtr-test-module-1@2.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
+  ],
+  Array [
+    "yarn test",
+  ],
+  Array [
+    "yarn add \\"updtr-test-module-2@2.0.0\\"",
+  ],
+]
+`;
+
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using yarn when the tests succeed should return true and execute expected commands and emit expected events: multiple update tasks > yarn > test ok > emit args 1`] = `
 Array [
   Array [
     "batch-update/start",
@@ -395,7 +409,7 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > yarn > test ok > exec args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains multiple update tasks using yarn when the tests succeed should return true and execute expected commands and emit expected events: multiple update tasks > yarn > test ok > exec args 1`] = `
 Array [
   Array [
     "yarn add \\"updtr-test-module-1@2.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
@@ -406,21 +420,7 @@ Array [
 ]
 `;
 
-exports[`multiple update tasks > yarn > test ok > exec args 2`] = `
-Array [
-  Array [
-    "yarn add \\"updtr-test-module-1@2.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
-  ],
-  Array [
-    "yarn test",
-  ],
-  Array [
-    "yarn add \\"updtr-test-module-2@2.0.0\\"",
-  ],
-]
-`;
-
-exports[`one update task > test fail > emit args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains one update task when the test fails should return false and execute expected commands and emit expected events: one update task > test fail > emit args 1`] = `
 Array [
   Array [
     "batch-update/start",
@@ -483,7 +483,7 @@ Array [
 ]
 `;
 
-exports[`one update task > test fail > exec args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains one update task when the test fails should return false and execute expected commands and emit expected events: one update task > test fail > exec args 1`] = `
 Array [
   Array [
     "npm install \\"updtr-test-module-1@2.0.0\\"",
@@ -494,7 +494,7 @@ Array [
 ]
 `;
 
-exports[`one update task > test ok > emit args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains one update task when the tests succeed should return true and execute expected commands and emit expected events: one update task > test ok > emit args 1`] = `
 Array [
   Array [
     "batch-update/start",
@@ -557,7 +557,7 @@ Array [
 ]
 `;
 
-exports[`one update task > test ok > exec args 1`] = `
+exports[`batchUpdate() when the given updateTasks array contains one update task when the tests succeed should return true and execute expected commands and emit expected events: one update task > test ok > exec args 1`] = `
 Array [
   Array [
     "npm install \\"updtr-test-module-1@2.0.0\\"",

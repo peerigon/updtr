@@ -14,7 +14,7 @@ export default class Sequence {
 
         if (this.isRunning === false) {
             throw new Error(
-                `Cannot emit event ${ fullEventName }: sequence is not running`
+                `Cannot emit event ${fullEventName}: sequence is not running`
             );
         }
         this.updtr.emit(fullEventName, {
@@ -23,7 +23,7 @@ export default class Sequence {
         });
     }
     exec(step, cmd) {
-        this.emit(step, { cmd });
+        this.emit(step, {cmd});
 
         return this.updtr.exec(cmd);
     }

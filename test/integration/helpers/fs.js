@@ -24,5 +24,3 @@ export function write(dir, file, contents) {
         contents
     );
 }
-
-afterAll(temp.cleanup);

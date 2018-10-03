@@ -5,7 +5,7 @@ import {
     module1ToLatestSuccess,
     module2ToLatestFail,
 } from "../fixtures/updateResults";
-import { outdatedRegular } from "../fixtures/packageJsons";
+import {outdatedRegular} from "../fixtures/packageJsons";
 
 describe("updatePackageJson()", () => {
     it("should read and write the package json", async () => {
@@ -65,6 +65,25 @@ describe("updatePackageJson()", () => {
                 "^" + module1ToLatestSuccess.updateTo
             )
         );
+    });
+    it("should respect indentation", async () => {
+        const updtr = new FakeUpdtr();
+        const updateResults = [];
+        const fourSpacedPackageJson = outdatedRegular.replace(/ {2}/g, "    ");
+        const tabbedPackageJson = outdatedRegular.replace(/ {2}/g, "\t");
+
+        updtr.writeFile.resolves();
+
+        updtr.readFile.resolves(fourSpacedPackageJson);
+
+        await updatePackageJson(updtr, updateResults);
+
+        updtr.readFile.resolves(tabbedPackageJson);
+
+        await updatePackageJson(updtr, updateResults);
+
+        expect(updtr.writeFile.getCall(0).args[1]).toBe(fourSpacedPackageJson);
+        expect(updtr.writeFile.getCall(1).args[1]).toBe(tabbedPackageJson);
     });
     it("should emit the expected events", async () => {
         const updtr = new FakeUpdtr();

@@ -4,7 +4,7 @@ import {
     UPDATE_TO_WANTED,
 } from "../../constants/config";
 
-function determineUpdateToVersion({ current, wanted, latest }, { updateTo }) {
+function determineUpdateToVersion({current, wanted, latest}, {updateTo}) {
     switch (updateTo) {
         case UPDATE_TO_LATEST:
             return latest;

@@ -1,4 +1,4 @@
-import { USE_YARN } from "../../src/constants/config";
+import {USE_YARN} from "../../src/constants/config";
 import finish from "../../src/tasks/finish";
 import FakeUpdtr from "../helpers/FakeUpdtr";
 import {

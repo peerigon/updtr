@@ -1,11 +1,11 @@
-import { UPDATE_TO_LATEST } from "../../src/constants/config";
-import { GIT, EXCLUDED } from "../../src/constants/filterReasons";
+import {UPDATE_TO_LATEST} from "../../src/constants/config";
+import {GIT, EXCLUDED} from "../../src/constants/filterReasons";
 import createUpdateTask from "../../src/tasks/util/createUpdateTask";
-import outdateds from "../fixtures/outdateds";
+import outdateds from "./outdateds";
 import {
     module1ToLatestSuccess,
     module1ToLatestFail,
-} from "../fixtures/updateResults";
+} from "./updateResults";
 
 const cases = {
     "no outdated modules": null,
@@ -32,10 +32,10 @@ beforeAll(() => {
                     config: {},
                 },
             ],
-            ["init/install-missing", { cmd: "npm install" }],
-            ["init/collect", { cmd: "npm outdated" }],
-            ["init/end", { updateTasks: [], excluded: [] }],
-            ["end", { results: [] }],
+            ["init/install-missing", {cmd: "npm install"}],
+            ["init/collect", {cmd: "npm outdated"}],
+            ["init/end", {updateTasks: [], excluded: []}],
+            ["end", {results: []}],
         ],
     };
     cases["custom config and only excluded modules"] = {
@@ -49,8 +49,8 @@ beforeAll(() => {
                     },
                 },
             ],
-            ["init/install-missing", { cmd: "npm install" }],
-            ["init/collect", { cmd: "npm outdated" }],
+            ["init/install-missing", {cmd: "npm install"}],
+            ["init/collect", {cmd: "npm outdated"}],
             [
                 "init/end",
                 {
@@ -71,7 +71,7 @@ beforeAll(() => {
                     ],
                 },
             ],
-            ["end", { results: [] }],
+            ["end", {results: []}],
         ],
     };
     cases["batch-update success and show test stdout"] = {
@@ -79,12 +79,12 @@ beforeAll(() => {
             testStdout: true,
         },
         events: [
-            ["start", { config: {} }],
-            ["init/install-missing", { cmd: "npm install" }],
-            ["init/collect", { cmd: "npm outdated" }],
-            ["init/end", { updateTasks, excluded: [] }],
-            ["batch-update/updating", { updateTasks, cmd: "npm install" }],
-            ["batch-update/testing", { updateTasks, cmd: "npm test" }],
+            ["start", {config: {}}],
+            ["init/install-missing", {cmd: "npm install"}],
+            ["init/collect", {cmd: "npm outdated"}],
+            ["init/end", {updateTasks, excluded: []}],
+            ["batch-update/updating", {updateTasks, cmd: "npm install"}],
+            ["batch-update/testing", {updateTasks, cmd: "npm test"}],
             [
                 "batch-update/result",
                 {
@@ -110,13 +110,13 @@ beforeAll(() => {
             testStdout: true,
         },
         events: [
-            ["start", { config: {} }],
-            ["init/install-missing", { cmd: "npm install" }],
-            ["init/collect", { cmd: "npm outdated" }],
-            ["init/end", { updateTasks, excluded: [] }],
-            ["batch-update/updating", { updateTasks, cmd: "npm install" }],
-            ["batch-update/testing", { updateTasks, cmd: "npm test" }],
-            ["batch-update/rollback", { updateTasks, cmd: "npm install" }],
+            ["start", {config: {}}],
+            ["init/install-missing", {cmd: "npm install"}],
+            ["init/collect", {cmd: "npm outdated"}],
+            ["init/end", {updateTasks, excluded: []}],
+            ["batch-update/updating", {updateTasks, cmd: "npm install"}],
+            ["batch-update/testing", {updateTasks, cmd: "npm test"}],
+            ["batch-update/rollback", {updateTasks, cmd: "npm install"}],
             [
                 "batch-update/result",
                 {
@@ -152,35 +152,35 @@ beforeAll(() => {
                     },
                 },
             ],
-                ["init/install-missing", { cmd: "npm install" }],
-                ["init/collect", { cmd: "npm outdated" }],
-                ["init/end", { updateTasks, excluded: [] }],
+            ["init/install-missing", {cmd: "npm install"}],
+            ["init/collect", {cmd: "npm outdated"}],
+            ["init/end", {updateTasks, excluded: []}],
             ...updateTasks.reduce(
                 (events, updateTask, i) =>
-                        events.concat(
-                            i % 2 === 0 ? // success true or false
+                    events.concat(
+                        i % 2 === 0 ? // success true or false
                             [
                                 [
                                     "sequential-update/updating",
-                                    { cmd: "npm install", ...updateTask },
+                                    {cmd: "npm install", ...updateTask},
                                 ],
                                 [
                                     "sequential-update/testing",
-                                    { cmd: "npm test", ...updateTask },
+                                    {cmd: "npm test", ...updateTask},
                                 ],
                                 [
                                     "sequential-update/result",
-                                    { success: true, ...updateTask },
+                                    {success: true, ...updateTask},
                                 ],
                             ] :
                             [
                                 [
                                     "sequential-update/updating",
-                                        { cmd: "npm install", ...updateTask },
+                                    {cmd: "npm install", ...updateTask},
                                 ],
                                 [
                                     "sequential-update/testing",
-                                        { cmd: "npm test", ...updateTask },
+                                    {cmd: "npm test", ...updateTask},
                                 ],
                                 [
                                     "sequential-update/rollback",
@@ -199,18 +199,18 @@ beforeAll(() => {
                                     },
                                 ],
                             ]
-                        ),
-                    []
-                ),
+                    ),
+                []
+            ),
             [
                 "end",
                 {
                     results: updateTasks.map(
                         (updateTask, i) =>
-                                (i % 2 === 0 ?
-                                    module1ToLatestSuccess :
-                                    module1ToLatestFail)
-                        ),
+                            (i % 2 === 0 ?
+                                module1ToLatestSuccess :
+                                module1ToLatestFail)
+                    ),
                 },
             ],
         ],

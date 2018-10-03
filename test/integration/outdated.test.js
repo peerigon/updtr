@@ -8,12 +8,12 @@ import exec from "../../src/exec/exec";
 import {
     outdatedRegular as outdatedPackageContents,
 } from "../fixtures/packageJsons";
-import { create, run } from "../../src";
+import {create, run} from "../../src";
 import getInstalledVersions, {
     filterUpdtrTestModule,
 } from "./helpers/getInstalledVersions";
-import { PACKAGE_JSON, YARN_LOCK } from "./helpers/constants";
-import { createTempDir, read, write } from "./helpers/fs";
+import {PACKAGE_JSON, YARN_LOCK} from "./helpers/constants";
+import {createTempDir, read, write} from "./helpers/fs";
 
 // These tests may take longer on travis
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 10 * 60 * 1000;
@@ -124,15 +124,15 @@ describe("integration test: when there are outdated dependencies", () => {
                     cwd: tempDir,
                     exclude: ["updtr-test-module-2"],
                     updateTo: UPDATE_TO_NON_BREAKING,
-                    test: `echo ${ expectedTestStdout } && exit 0`,
+                    test: `echo ${expectedTestStdout} && exit 0`,
                     save: SAVE_EXACT,
                     registry,
                 });
 
-                updtr.on("init/install-missing", ({ cmd }) => {
+                updtr.on("init/install-missing", ({cmd}) => {
                     installMissingCmd = cmd;
                 });
-                updtr.on("sequential-update/result", ({ stdout }) => {
+                updtr.on("sequential-update/result", ({stdout}) => {
                     // echo adds an EOL
                     testStdout = stdout.trim();
                 });
@@ -193,7 +193,7 @@ describe("integration test: when there are outdated dependencies", () => {
                     use: USE_YARN,
                     exclude: ["updtr-test-module-2"],
                     updateTo: UPDATE_TO_NON_BREAKING,
-                    test: `echo ${ expectedTestStdout } && exit 0`,
+                    test: `echo ${expectedTestStdout} && exit 0`,
                     save: SAVE_CARET,
                     // registry,
                 });
@@ -201,7 +201,7 @@ describe("integration test: when there are outdated dependencies", () => {
                 // updtr.on("init/install-missing", ({ cmd }) => {
                 //     installMissingCmd = cmd;
                 // });
-                updtr.on("sequential-update/result", ({ stdout }) => {
+                updtr.on("sequential-update/result", ({stdout}) => {
                     // echo adds an EOL
                     testStdout = stdout.trim();
                 });

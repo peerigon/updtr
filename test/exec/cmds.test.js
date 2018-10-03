@@ -103,7 +103,7 @@ describe("cmds", () => {
             describe("with modules", () => {
                 it("should match snapshot", () => {
                     expect(
-                        cmds.npm.list({ modules: ["a", "b", "c"] })
+                        cmds.npm.list({modules: ["a", "b", "c"]})
                     ).toMatchSnapshot();
                 });
             });
@@ -203,8 +203,8 @@ describe("cmds", () => {
             });
         });
         describe(".list()", () => {
-            it("should be the same implementation as .npm.list", () => {
-                expect(cmds.yarn.list).toBe(cmds.npm.list);
+            it("should match snapshot", () => {
+                expect(cmds.yarn.list()).toMatchSnapshot();
             });
         });
     });

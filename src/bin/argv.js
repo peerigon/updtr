@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import {EOL} from "os";
 import fs from "fs";
 import path from "path";
 import yargs from "yargs";
@@ -18,11 +18,11 @@ const useDefault = fs.existsSync(pathToYarnLock) === true ? USE_YARN : USE_NPM;
 
 export default yargs
     .usage(
-    [
-        "",
-        chalk.bold.cyan("Update outdated npm modules with zero pain™"),
-        `${ chalk.bold("Usage:") } $0 ${ chalk.dim("[options]") }`,
-    ].join(EOL)
+        [
+            "",
+            chalk.bold.cyan("Update outdated npm modules with zero pain™"),
+            `${chalk.bold("Usage:")} $0 ${chalk.dim("[options]")}`,
+        ].join(EOL)
     )
     .option("use", {
         describe: "Specify the package manager to use",
@@ -60,6 +60,7 @@ export default yargs
     .option("test-stdout", {
         describe: "Show test stdout if the update fails",
         boolean: true,
+        default: false,
         alias: "out",
     })
     .option("registry", {

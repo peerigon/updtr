@@ -12,10 +12,10 @@ export const fixtureSetups = {
 
         await runOrSkipIfExists(pathToFixture, async () => {
             await execFixtureCmd(fixture, "npm init -y");
-            await execFixtureCmd(fixture, yarn()); // create lock file
             await writeStdoutLog(fixture, "npm", "outdated");
-            await writeStdoutLog(fixture, "yarn", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
+            await execFixtureCmd(fixture, yarn()); // create lock file
+            await writeStdoutLog(fixture, "yarn", "outdated");
             await writeStdoutLog(fixture, "yarn", "list");
             await modifyPackageJson(fixture, testOkModifier);
         });
@@ -33,6 +33,13 @@ export const fixtureSetups = {
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
             await execFixtureCmd(fixture, yarn()); // create lock file
+            await execFixtureCmd(
+                fixture,
+                yarn(
+                    "add",
+                    "updtr-test-module-1 updtr-test-module-2 --save"
+                )
+            );
             await writeStdoutLog(fixture, "yarn", "outdated");
             await modifyPackageJson(
                 fixture,
@@ -55,6 +62,13 @@ export const fixtureSetups = {
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
             await execFixtureCmd(fixture, yarn()); // create lock file
+            await execFixtureCmd(
+                fixture,
+                yarn(
+                    "add",
+                    "updtr-test-module-1 updtr-test-module-2 --save"
+                )
+            );
             await writeStdoutLog(fixture, "yarn", "outdated");
             await modifyPackageJson(
                 fixture,
@@ -76,6 +90,7 @@ export const fixtureSetups = {
             );
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
+            await execFixtureCmd(fixture, yarn()); // create lock file
             await execFixtureCmd(
                 fixture,
                 yarn(
@@ -104,6 +119,7 @@ export const fixtureSetups = {
             );
             await writeStdoutLog(fixture, "npm", "outdated");
             await writeStdoutLog(fixture, "npm", "list");
+            await execFixtureCmd(fixture, yarn()); // create lock file
             await execFixtureCmd(
                 fixture,
                 yarn(
@@ -126,7 +142,7 @@ function yarn(cmd = "", appendix = "") {
     // mutex network is required because yarn has concurrency issues
     // https://github.com/yarnpkg/yarn/issues/683
     // https://github.com/yarnpkg/website/issues/261
-    return `yarn ${ cmd } --mutex network ${ appendix }`;
+    return `yarn ${cmd} --mutex network ${appendix}`;
 }
 
 function caretRangeModifier(packageJson) {
@@ -183,13 +199,14 @@ async function execFixtureCmd(fixture, cmd) {
 
     try {
         return (await exec(cwd, cmd)).stdout;
-    } catch (err) {
+    } catch (error) {
         // If the outdated command was executed, err will be set because npm outdated exits
         // with a non-zero code when there are outdated dependencies
-        if (err.code === 1 && / outdated/.test(cmd) === true) {
-            return err.stdout;
+        if (error.code === 1 && / outdated/.test(cmd) === true) {
+            return error.stdout;
         }
-        throw err;
+        error.message = `Error in ${cwd}: ${error.message}`;
+        throw error;
     }
 }
 
@@ -207,17 +224,20 @@ async function writeStdoutLog(fixture, packageManager, cmd) {
 async function setupAllFixtures() {
     await gracefulMkdir(pathToFixtures);
 
-    return Promise.all(
-        Object.keys(fixtureSetups).map(setup => fixtureSetups[setup]())
-    );
+    for (const setup of Object.keys(fixtureSetups)) {
+        // Executing fixture setup sequentially because running multiple package managers
+        // at the same time comes with its own set of problems
+        await fixtureSetups[setup](); // eslint-disable-line no-await-in-loop
+    }
 }
 
 if (!module.parent) {
-    setupAllFixtures().catch(err => {
-        setImmediate(() => {
-            throw err;
-        });
+    process.on("unhandledRejection", error => {
+        console.error(error.stack);
+        process.exit(1); // eslint-disable-line no-process-exit
     });
+
+    setupAllFixtures();
 }
 
 export default setupAllFixtures;

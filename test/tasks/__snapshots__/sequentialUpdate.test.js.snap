@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`emit.args npm 1`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the first test fails and the rest succeeds should emit expected events and execute expected commands: emit.args npm 1`] = `
 Array [
   Array [
     "sequential-update/start",
@@ -122,7 +122,58 @@ Array [
 ]
 `;
 
-exports[`emit.args yarn 1`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the first test fails and the rest succeeds should emit expected events and execute expected commands: exec.args npm 1`] = `
+Array [
+  Array [
+    "npm install \\"updtr-test-module-1@2.0.0\\"",
+  ],
+  Array [
+    "npm test",
+  ],
+  Array [
+    "npm install \\"updtr-test-module-1@1.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
+  ],
+  Array [
+    "npm test",
+  ],
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the first test fails and the rest succeeds should emit expected events and execute expected commands: updateResults one fail rest pass 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": false,
+    "updateTo": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "success": true,
+    "updateTo": "2.1.1",
+  },
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using npm when the tests succeed should return the expected update results: updateResults success 1`] = `
+Array [
+  Object {
+    "name": "updtr-test-module-1",
+    "rollbackTo": "1.0.0",
+    "success": true,
+    "updateTo": "2.0.0",
+  },
+  Object {
+    "name": "updtr-test-module-2",
+    "rollbackTo": "2.0.0",
+    "success": true,
+    "updateTo": "2.1.1",
+  },
+]
+`;
+
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the first test fails and the rest succeeds should emit expected events and execute expected commands: emit.args yarn 1`] = `
 Array [
   Array [
     "sequential-update/start",
@@ -244,24 +295,7 @@ Array [
 ]
 `;
 
-exports[`exec.args npm 1`] = `
-Array [
-  Array [
-    "npm install \\"updtr-test-module-1@2.0.0\\"",
-  ],
-  Array [
-    "npm test",
-  ],
-  Array [
-    "npm install \\"updtr-test-module-1@1.0.0\\" \\"updtr-test-module-2@2.1.1\\"",
-  ],
-  Array [
-    "npm test",
-  ],
-]
-`;
-
-exports[`exec.args yarn 1`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the first test fails and the rest succeeds should emit expected events and execute expected commands: exec.args yarn 1`] = `
 Array [
   Array [
     "yarn add \\"updtr-test-module-1@2.0.0\\"",
@@ -278,7 +312,7 @@ Array [
 ]
 `;
 
-exports[`updateResults one fail rest pass 1`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the first test fails and the rest succeeds should emit expected events and execute expected commands: updateResults one fail rest pass 1`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
@@ -295,41 +329,7 @@ Array [
 ]
 `;
 
-exports[`updateResults one fail rest pass 2`] = `
-Array [
-  Object {
-    "name": "updtr-test-module-1",
-    "rollbackTo": "1.0.0",
-    "success": false,
-    "updateTo": "2.0.0",
-  },
-  Object {
-    "name": "updtr-test-module-2",
-    "rollbackTo": "2.0.0",
-    "success": true,
-    "updateTo": "2.1.1",
-  },
-]
-`;
-
-exports[`updateResults success 1`] = `
-Array [
-  Object {
-    "name": "updtr-test-module-1",
-    "rollbackTo": "1.0.0",
-    "success": true,
-    "updateTo": "2.0.0",
-  },
-  Object {
-    "name": "updtr-test-module-2",
-    "rollbackTo": "2.0.0",
-    "success": true,
-    "updateTo": "2.1.1",
-  },
-]
-`;
-
-exports[`updateResults success 2`] = `
+exports[`sequentialUpdate() when the given updateTasks array contains update tasks using yarn when the tests succeed should return the expected update results: updateResults success 1`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",

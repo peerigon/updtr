@@ -9,7 +9,7 @@ import {
     errorExecOutdated,
     errorParseOutdated,
 } from "../fixtures/execResults";
-import { PackageJsonNoAccessError } from "../../src/errors";
+import {PackageJsonNoAccessError} from "../../src/errors";
 
 describe("init()", () => {
     describe("when there are no outdated dependencies", () => {

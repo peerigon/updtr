@@ -1,5 +1,5 @@
 import EventEmitter from "events";
-import { WritableStreamBuffer } from "stream-buffers";
+import {WritableStreamBuffer} from "stream-buffers";
 import unicons from "unicons";
 import dense from "../../src/reporters/dense";
 import Spinner from "../../src/reporters/util/Spinner";
@@ -40,7 +40,7 @@ describe("dense()", () => {
         describe(caseName, () => {
             it("should print the expected lines", async () => {
                 const testCase = events[caseName];
-                const { updtr, stdout } = setup(testCase.reporterConfig);
+                const {updtr, stdout} = setup(testCase.reporterConfig);
 
                 await testCase.events.reduce(async (previous, [
                     eventName,
