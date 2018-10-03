@@ -10,12 +10,14 @@ module.exports = function (api) {
                 "@babel/preset-env",
                 {
                     targets: {
-                        node: process.env.NODE_ENV === "production" ? 6 : "current",
+                        node: 6,
                     },
                 },
             ],
         ],
-        plugins: ["@babel/transform-runtime"],
+        plugins: [
+            "@babel/plugin-transform-runtime",
+        ],
         sourceMaps: "inline",
         retainLines: true,
     };
