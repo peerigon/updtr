@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/peerigon/updtr/compare/v2.0.0...v3.0.0) (2018-10-03)
+
+
+### Bug Fixes
+
+* Respect package.json indentation ([#77](https://github.com/peerigon/updtr/issues/77)) ([e766fb0](https://github.com/peerigon/updtr/commit/e766fb0)), closes [#68](https://github.com/peerigon/updtr/issues/68)
+
+
+### Fix
+
+* Stdout output parsing from yarn ([ff56fbb](https://github.com/peerigon/updtr/commit/ff56fbb))
+
+
+### BREAKING CHANGES
+
+* Removed official Node 4 support. It may still work, but now you're on your own.
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/peerigon/updtr/compare/v1.0.0...v2.0.0) (2017-06-20)
 
