@@ -1,3 +1,4 @@
+import detectIndent from "detect-indent";
 import createUpdatedPackageJson from "./util/createUpdatedPackageJson";
 import Sequence from "./util/Sequence";
 
@@ -6,7 +7,8 @@ function lastChar(str) {
 }
 
 function stringify(newPackageJson, oldPackageJsonStr) {
-    let newPackageJsonStr = JSON.stringify(newPackageJson, null, "  ");
+    const indent = detectIndent(oldPackageJsonStr).indent || "  ";
+    let newPackageJsonStr = JSON.stringify(newPackageJson, null, indent);
     const lastCharFromOldPackageJson = lastChar(oldPackageJsonStr);
 
     // Preserve the new line character at the end if there was one
