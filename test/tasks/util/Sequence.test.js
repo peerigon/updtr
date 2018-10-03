@@ -67,14 +67,14 @@ describe("new Sequence()", () => {
         it("should emit an end event on the updtr instance with the result", () => {
             const updtr = new FakeUpdtr();
             const sequence = new Sequence("test", updtr, baseEvent);
-            const result = { c: true };
+            const result = {c: true};
 
             sequence.start();
             sequence.end(result);
 
             expect(updtr.emit.getCall(1).args).toEqual([
                 "test/end",
-                { ...baseEvent, ...result },
+                {...baseEvent, ...result},
             ]);
         });
         it("should set the isRunning flag to false", () => {
@@ -113,14 +113,14 @@ describe("new Sequence()", () => {
             it("should emit an event on the updtr with the properties of the given base event", () => {
                 const updtr = new FakeUpdtr();
                 const sequence = new Sequence("test", updtr, baseEvent);
-                const event = { b: false, c: true };
+                const event = {b: false, c: true};
 
                 sequence.start();
                 sequence.emit("test", event);
 
                 const emittedEvent = updtr.emit.getCall(1).args[1];
 
-                expect(emittedEvent).toEqual({ ...baseEvent, ...event });
+                expect(emittedEvent).toEqual({...baseEvent, ...event});
             });
         });
         describe("when the sequence has not been started", () => {
@@ -163,8 +163,8 @@ describe("new Sequence()", () => {
                     updtr.emit.getCall(1).args,
                     updtr.emit.getCall(2).args,
                 ]).toEqual([
-                    ["test/step-a", { ...baseEvent, cmd: "cmd-a" }],
-                    ["test/step-b", { ...baseEvent, cmd: "cmd-b" }],
+                    ["test/step-a", {...baseEvent, cmd: "cmd-a"}],
+                    ["test/step-b", {...baseEvent, cmd: "cmd-b"}],
                 ]);
             });
         });

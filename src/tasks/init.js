@@ -1,7 +1,7 @@
+import {PackageJsonNoAccessError} from "../errors";
 import Sequence from "./util/Sequence";
 import createUpdateTask from "./util/createUpdateTask";
 import filterUpdateTask from "./util/filterUpdateTask";
-import { PackageJsonNoAccessError } from "../errors";
 
 function getUpdateTasksFromStdout(updtr, outdatedCmd, stdout) {
     if (stdout.length === 0) {
@@ -15,7 +15,7 @@ function getUpdateTasksFromStdout(updtr, outdatedCmd, stdout) {
 }
 
 export default (async function init(updtr) {
-    const baseEvent = { config: updtr.config };
+    const baseEvent = {config: updtr.config};
     const outdatedCmd = updtr.cmds.outdated();
     const sequence = new Sequence("init", updtr, baseEvent);
     let stdout;

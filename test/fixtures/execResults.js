@@ -35,14 +35,14 @@ beforeAll(async () => {
     ]);
 
     npmNoOutdated.push(
-        { stdout: "" }, // installMissing
+        {stdout: ""}, // installMissing
         {
             stdout: stdoutLogs.get("no-outdated/outdated.npm.log"),
         } // outdated
     );
 
     npmOutdated.push(
-        { stdout: "" }, // installMissing
+        {stdout: ""}, // installMissing
         // npm exits with exit code 1 when there are outdated dependencies
         new ExecError({
             stdout: stdoutLogs.get("outdated/outdated.npm.log"),
@@ -50,25 +50,25 @@ beforeAll(async () => {
         }) // outdated
     );
     yarnOutdated.push(
-        { stdout: "" }, // installMissing
+        {stdout: ""}, // installMissing
         {
             stdout: stdoutLogs.get("outdated/outdated.yarn.log"),
         } // outdated
     );
 
     update.push(
-        { stdout: "" } // update
+        {stdout: ""} // update
     );
 
     testPass.push(
-        { stdout: "Everything ok" } // test
+        {stdout: "Everything ok"} // test
     );
     testFail.push(
         execError // test
     );
     testFailWithRollback.push(
         execError, // test
-        { stdout: "" } // rollback
+        {stdout: ""} // rollback
     );
 
     // npm exits with exit code 1 when there are outdated dependencies
@@ -86,18 +86,18 @@ beforeAll(async () => {
         execError // installMissing
     );
     errorExecOutdated.push(
-        { stdout: "" }, // installMissing
+        {stdout: ""}, // installMissing
         execError // outdated
     );
     errorParseOutdated.push(
-        { stdout: "" }, // installMissing
-        { stdout: "Nonsense" } // outdated
+        {stdout: ""}, // installMissing
+        {stdout: "Nonsense"} // outdated
     );
     errorExecUpdate.push(
         execError // update
     );
     errorExecRollback.push(
-        { stdout: "" }, // update
+        {stdout: ""}, // update
         execError, // test
         execError // rollback
     );

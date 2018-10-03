@@ -39,6 +39,6 @@ export default function configList(config) {
         .map(key => {
             const toString = configValues[key] || String;
 
-            return `${ configNames[key] }: ${ toString(config[key]) }`;
+            return `${configNames[key]}: ${toString(config[key])}`;
         });
 }

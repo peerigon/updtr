@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`dependencies > only successful updates 1`] = `
+exports[`createUpdatedPackageJson() dependencies should write the versions of the successful updates to the package json: dependencies > only successful updates 1`] = `
 Object {
   "dependencies": Object {
     "dep-1": "1.0.0",
@@ -14,7 +14,7 @@ Object {
 }
 `;
 
-exports[`devDependencies > only successful updates 1`] = `
+exports[`createUpdatedPackageJson() devDependencies should write the versions of the successful updates to the package json: devDependencies > only successful updates 1`] = `
 Object {
   "devDependencies": Object {
     "dep-1": "1.0.0",
@@ -27,7 +27,20 @@ Object {
 }
 `;
 
-exports[`more than one dependency type 1`] = `
+exports[`createUpdatedPackageJson() optionalDependencies should write the versions of the successful updates to the package json: optionalDependencies > only successful updates 1`] = `
+Object {
+  "optionalDependencies": Object {
+    "dep-1": "1.0.0",
+    "dep-2": "1.0.0",
+    "dep-3": "1.0.0",
+    "updtr-test-module-1": "2.0.0",
+    "updtr-test-module-2": "2.1.1",
+    "updtr-test-module-3": "1.0.0",
+  },
+}
+`;
+
+exports[`createUpdatedPackageJson() when a module is listed in more than one dependency type should update all dependency occurrences: more than one dependency type 1`] = `
 Object {
   "dependencies": Object {
     "updtr-test-module-1": "2.0.0",
@@ -41,24 +54,11 @@ Object {
 }
 `;
 
-exports[`not listed as any dependency type 1`] = `
+exports[`createUpdatedPackageJson() when the updated modules are not listed as any dependency type should save the modules as regular dependency: not listed as any dependency type 1`] = `
 Object {
   "dependencies": Object {
     "updtr-test-module-1": "2.0.0",
     "updtr-test-module-2": "2.1.1",
-  },
-}
-`;
-
-exports[`optionalDependencies > only successful updates 1`] = `
-Object {
-  "optionalDependencies": Object {
-    "dep-1": "1.0.0",
-    "dep-2": "1.0.0",
-    "dep-3": "1.0.0",
-    "updtr-test-module-1": "2.0.0",
-    "updtr-test-module-2": "2.1.1",
-    "updtr-test-module-3": "1.0.0",
   },
 }
 `;

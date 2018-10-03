@@ -5,14 +5,14 @@ import {
     NOT_WANTED,
     EXCLUDED,
     EXOTIC,
-} from "../../../src/constants/filterReasons";
-import { isUpdateToNonBreaking } from "./createUpdateTask";
+} from "../../constants/filterReasons";
+import {isUpdateToNonBreaking} from "./createUpdateTask";
 
 const prePattern = /^pre/;
 const reasonTests = [
     {
         name: EXCLUDED,
-        test: (updateTask, { exclude }) =>
+        test: (updateTask, {exclude}) =>
             exclude.some(name => updateTask.name === name) === true,
     },
     {

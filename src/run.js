@@ -8,7 +8,7 @@ import updatePackageJson from "./tasks/updatePackageJson";
 
 async function runUpdateTasks(updtr, updateTasks) {
     const results = [];
-    const { breaking, nonBreaking } = splitUpdateTasks(updateTasks);
+    const {breaking, nonBreaking} = splitUpdateTasks(updateTasks);
     const sequentialUpdateTasks = breaking.slice();
     let batchSuccess; // can be undefined, true or false
     let batchUpdateFailure;
@@ -53,7 +53,7 @@ export default (async function run(updtr) {
         config: updtr.config,
     });
 
-    const { updateTasks } = await init(updtr);
+    const {updateTasks} = await init(updtr);
 
     if (updateTasks.length > 0) {
         results.push(...(await runUpdateTasks(updtr, updateTasks)));

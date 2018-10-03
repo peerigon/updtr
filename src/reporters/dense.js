@@ -1,5 +1,9 @@
 import chalk from "chalk";
 import unicons from "unicons";
+import {
+    filterSuccessfulUpdates,
+    filterFailedUpdates,
+} from "../tasks/util/filterUpdateResults";
 import Projector from "./util/Projector";
 import Terminal from "./util/Terminal";
 import Message from "./util/Message";
@@ -14,10 +18,6 @@ import customConfigToLines from "./util/customConfigToLines";
 import pluralize from "./util/pluralize";
 import handleError from "./util/handleError";
 import msToString from "./util/msToString";
-import {
-    filterSuccessfulUpdates,
-    filterFailedUpdates,
-} from "../tasks/util/filterUpdateResults";
 
 const spinner = new Spinner("dots");
 
@@ -82,19 +82,19 @@ function cmdToLines(description, cmd) {
         description :
         [description];
 
-    return lines.concat([chalk.grey(`> ${ cmd } `), spinner]);
+    return lines.concat([chalk.grey(`> ${cmd} `), spinner]);
 }
 
-export default function (updtr, reporterConfig) {
+function dense(updtr, reporterConfig) {
     const terminal = new Terminal(reporterConfig.stream);
     const projector = new Projector(terminal);
     const startTime = Date.now();
     let excludedModules;
 
-    updtr.on("start", ({ config }) => {
+    updtr.on("start", ({config}) => {
         terminal.append(customConfigToLines(config));
     });
-    updtr.on("init/install-missing", ({ cmd }) => {
+    updtr.on("init/install-missing", ({cmd}) => {
         projector.display(
             cmdToLines(
                 "Installing missing dependencies" + chalk.grey("..."),
@@ -102,12 +102,12 @@ export default function (updtr, reporterConfig) {
             )
         );
     });
-    updtr.on("init/collect", ({ cmd }) => {
+    updtr.on("init/collect", ({cmd}) => {
         projector.display(
             cmdToLines("Looking for outdated modules" + chalk.grey("..."), cmd)
         );
     });
-    updtr.on("init/end", ({ updateTasks, excluded }) => {
+    updtr.on("init/end", ({updateTasks, excluded}) => {
         excludedModules = excluded;
         projector.stop();
         if (updateTasks.length === 0 && excluded.length === 0) {
@@ -168,7 +168,7 @@ export default function (updtr, reporterConfig) {
             terminal.append([event.stdout]);
         }
     });
-    updtr.on("end", ({ results }) => {
+    updtr.on("end", ({results}) => {
         const duration = msToString(Date.now() - startTime);
         const successful = filterSuccessfulUpdates(results);
         const failed = filterFailedUpdates(results);
@@ -212,3 +212,5 @@ export default function (updtr, reporterConfig) {
     });
     updtr.on("error", err => void handleError(err));
 }
+
+export default dense;

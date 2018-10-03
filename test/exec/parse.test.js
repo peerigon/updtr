@@ -1,4 +1,4 @@
-import { EOL } from "os";
+import {EOL} from "os";
 import readFixtures from "../helpers/readFixtures";
 import parse from "../../src/exec/parse";
 
@@ -16,7 +16,7 @@ function testUnexpectedInput(parse) {
                 // We don't really want to test for the actual error message here,
                 // but just whether there is an error message at all.
                 .toThrow(
-                /Error when trying to parse stdout from command 'my-cmd': \w+/
+                    /Error when trying to parse stdout from command 'my-cmd': \w+/
                 );
         });
     });
@@ -56,7 +56,7 @@ describe("parse", () => {
                         .get("empty/outdated.npm.log")
                         .trim();
 
-                    expect(fixture.length).toBe(0);
+                    expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -72,7 +72,7 @@ describe("parse", () => {
                         .get("no-outdated/outdated.npm.log")
                         .trim();
 
-                    expect(fixture.length).toBe(0);
+                    expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -88,7 +88,7 @@ describe("parse", () => {
                         .get("no-outdated-dev/outdated.npm.log")
                         .trim();
 
-                    expect(fixture.length).toBe(0);
+                    expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -192,7 +192,7 @@ describe("parse", () => {
                         .get("empty/outdated.yarn.log")
                         .trim();
 
-                    expect(fixture.length).toBe(0);
+                    expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -208,7 +208,7 @@ describe("parse", () => {
                         .get("no-outdated/outdated.yarn.log")
                         .trim();
 
-                    expect(fixture.length).toBe(0);
+                    expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -224,7 +224,7 @@ describe("parse", () => {
                         .get("no-outdated-dev/outdated.yarn.log")
                         .trim();
 
-                    expect(fixture.length).toBe(0);
+                    expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
                     expect(

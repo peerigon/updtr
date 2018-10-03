@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`exclude 1`] = `"exclude: a, b, c"`;
+exports[`configList() when config.exclude is an array with module names should return the expected line: exclude 1`] = `"exclude: a, b, c"`;
 
-exports[`registry 1`] = `"registry: http://example.com"`;
+exports[`configList() when config.registry is specified should return the expected line: registry 1`] = `"registry: http://example.com"`;
 
-exports[`save 1`] = `"save: exact"`;
+exports[`configList() when config.save is something else should return the expected line: save 1`] = `"save: exact"`;
 
-exports[`test 1`] = `"test command: custom test command"`;
+exports[`configList() when config.test is specified should return the expected line: test 1`] = `"test command: custom test command"`;
 
-exports[`updateTo 1`] = `"update to: non-breaking"`;
+exports[`configList() when config.updateTo is something else should return the expected line: updateTo 1`] = `"update to: non-breaking"`;
 
-exports[`use 1`] = `"use: yarn"`;
+exports[`configList() when config.use is something else should return the expected line: use 1`] = `"use: yarn"`;

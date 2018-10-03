@@ -1,17 +1,16 @@
 import path from "path";
+import pify from "pify";
 import rimraf from "rimraf";
-import { fixtureSetups } from "./setupFixtures";
+import {fixtureSetups} from "./setupFixtures";
 
 const pathToFixtures = path.resolve(__dirname, "..", "fixtures");
 const fixtures = Object.keys(fixtureSetups);
+const promiseRimraf = pify(rimraf);
 
 function remove(fixture) {
-    return new Promise((resolve, reject) => {
-        rimraf(
-            path.join(pathToFixtures, fixture),
-            err => err ? reject(err) : resolve
-        );
-    });
+    return promiseRimraf(
+        path.join(pathToFixtures, fixture),
+    );
 }
 
 export default function cleanupFixtures() {
@@ -19,9 +18,9 @@ export default function cleanupFixtures() {
 }
 
 if (!module.parent) {
-    cleanupFixtures().catch(err => {
-        setImmediate(() => {
-            throw err;
-        });
+    process.on("unhandledRejection", error => {
+        console.error(error.stack);
+        process.exit(1); // eslint-disable-line no-process-exit
     });
+    cleanupFixtures();
 }

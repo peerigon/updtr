@@ -24,9 +24,9 @@ describe("createUpdateTask()", () => {
             })
         ).toMatchSnapshot();
     });
-    describe(`when updateTo is "${ UPDATE_TO_LATEST }"`, () => {
+    describe(`when updateTo is "${UPDATE_TO_LATEST}"`, () => {
         outdateds.forEach(outdated => {
-            it(`when given ${ stringify(outdated) } should update to ${ outdated.latest } and rollback to ${ outdated.current }`, () => {
+            it(`when given ${stringify(outdated)} should update to ${outdated.latest} and rollback to ${outdated.current}`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_LATEST,
@@ -37,11 +37,11 @@ describe("createUpdateTask()", () => {
             });
         });
     });
-    describe(`when updateTo is "${ UPDATE_TO_NON_BREAKING }"`, () => {
+    describe(`when updateTo is "${UPDATE_TO_NON_BREAKING}"`, () => {
         outdateds.forEach(outdated => {
             const range = "^" + outdated.current;
 
-            it(`when given ${ stringify(outdated) } should update to ${ range } and rollback to ${ outdated.current }`, () => {
+            it(`when given ${stringify(outdated)} should update to ${range} and rollback to ${outdated.current}`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_NON_BREAKING,
@@ -52,9 +52,9 @@ describe("createUpdateTask()", () => {
             });
         });
     });
-    describe(`when updateTo is "${ UPDATE_TO_WANTED }"`, () => {
+    describe(`when updateTo is "${UPDATE_TO_WANTED}"`, () => {
         outdateds.forEach(outdated => {
-            it(`when given ${ stringify(outdated) } should update to ${ outdated.wanted } and rollback to ${ outdated.current }`, () => {
+            it(`when given ${stringify(outdated)} should update to ${outdated.wanted} and rollback to ${outdated.current}`, () => {
                 const updateTask = createUpdateTask(outdated, {
                     ...FakeUpdtr.baseConfig,
                     updateTo: UPDATE_TO_WANTED,

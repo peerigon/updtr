@@ -1,6 +1,5 @@
 import Updtr from "../src/Updtr";
 import FakeUpdtr from "./helpers/FakeUpdtr";
-
 const index = require("../src");
 
 describe("index", () => {

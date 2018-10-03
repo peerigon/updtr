@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { PackageJsonNoAccessError } from "../../errors";
+import {PackageJsonNoAccessError} from "../../errors";
 
 const ERROR = chalk.bgRed.bold(" ERROR ");
 

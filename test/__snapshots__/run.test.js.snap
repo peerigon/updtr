@@ -1,6 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`breaking updates > end event 1`] = `
+exports[`run() should emit a start event of expected shape: start event 1`] = `
+Array [
+  "start",
+  Object {
+    "config": Object {
+      "cwd": "/updtr/test/cwd",
+      "exclude": Array [],
+      "registry": undefined,
+      "save": "smart",
+      "test": undefined,
+      "updateTo": "latest",
+      "use": "npm",
+    },
+  },
+]
+`;
+
+exports[`run() when there are just breaking updates should emit an end event of expected shape and return the results: breaking updates > end event 1`] = `
 Array [
   "end",
   Object {
@@ -31,7 +48,7 @@ Array [
 ]
 `;
 
-exports[`no-outdated > end event 1`] = `
+exports[`run() when there are no outdated dependencies should emit an end event of expected shape and return the results: no-outdated > end event 1`] = `
 Array [
   "end",
   Object {
@@ -49,49 +66,7 @@ Array [
 ]
 `;
 
-exports[`one-breaking > end event 1`] = `
-Array [
-  "end",
-  Object {
-    "config": Object {
-      "cwd": "/updtr/test/cwd",
-      "exclude": Array [],
-      "registry": undefined,
-      "save": "smart",
-      "test": undefined,
-      "updateTo": "latest",
-      "use": "npm",
-    },
-    "results": Array [
-      Object {
-        "name": "updtr-test-module-1",
-        "rollbackTo": "2.0.0",
-        "success": true,
-        "updateTo": "2.1.1",
-      },
-    ],
-  },
-]
-`;
-
-exports[`start event 1`] = `
-Array [
-  "start",
-  Object {
-    "config": Object {
-      "cwd": "/updtr/test/cwd",
-      "exclude": Array [],
-      "registry": undefined,
-      "save": "smart",
-      "test": undefined,
-      "updateTo": "latest",
-      "use": "npm",
-    },
-  },
-]
-`;
-
-exports[`two non-breaking and update not ok > end event 1`] = `
+exports[`run() when there are two non-breaking updates and the update is not ok should emit an end event of expected shape and return the results: two non-breaking and update not ok > end event 1`] = `
 Array [
   "end",
   Object {
@@ -122,7 +97,7 @@ Array [
 ]
 `;
 
-exports[`two non-breaking and update ok > end event 1`] = `
+exports[`run() when there are two non-breaking updates and the update is ok should emit an end event of expected shape and return the results: two non-breaking and update ok > end event 1`] = `
 Array [
   "end",
   Object {
@@ -153,7 +128,32 @@ Array [
 ]
 `;
 
-exports[`updateTo non-breaking > end event 1`] = `
+exports[`run() when there is just one non-breaking update should emit an end event of expected shape and return the results: one-breaking > end event 1`] = `
+Array [
+  "end",
+  Object {
+    "config": Object {
+      "cwd": "/updtr/test/cwd",
+      "exclude": Array [],
+      "registry": undefined,
+      "save": "smart",
+      "test": undefined,
+      "updateTo": "latest",
+      "use": "npm",
+    },
+    "results": Array [
+      Object {
+        "name": "updtr-test-module-1",
+        "rollbackTo": "2.0.0",
+        "success": true,
+        "updateTo": "2.1.1",
+      },
+    ],
+  },
+]
+`;
+
+exports[`run() when updateTo is "non-breaking" should finish incomplete results: updateTo non-breaking > end event 1`] = `
 Array [
   Object {
     "name": "updtr-test-module-1",
