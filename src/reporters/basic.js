@@ -1,6 +1,10 @@
 import ansiEscapes from "ansi-escapes";
 import chalk from "chalk";
 import unicons from "unicons";
+import {
+    filterSuccessfulUpdates,
+    filterFailedUpdates,
+} from "../tasks/util/filterUpdateResults";
 import Message from "./util/Message";
 import Indicator, {
     INDICATOR_NEUTRAL,
@@ -12,10 +16,6 @@ import customConfigToLines from "./util/customConfigToLines";
 import pluralize from "./util/pluralize";
 import handleError from "./util/handleError";
 import msToString from "./util/msToString";
-import {
-    filterSuccessfulUpdates,
-    filterFailedUpdates,
-} from "../tasks/util/filterUpdateResults";
 
 function updatingLine(updateTask) {
     return [
@@ -78,7 +78,7 @@ function cmdToLines(description, cmd) {
         description :
         [description];
 
-    return lines.concat([chalk.grey(`> ${ cmd } `)]);
+    return lines.concat([chalk.grey(`> ${cmd} `)]);
 }
 
 function writeLinesToConsole(lines) {
@@ -88,14 +88,14 @@ function writeLinesToConsole(lines) {
     console.log(ansiEscapes.eraseDown + lines.join("\n"));
 }
 
-export default function (updtr, reporterConfig) {
+export default function basic(updtr, reporterConfig) {
     const startTime = Date.now();
     let excludedModules;
 
-    updtr.on("start", ({ config }) => {
+    updtr.on("start", ({config}) => {
         writeLinesToConsole(customConfigToLines(config));
     });
-    updtr.on("init/install-missing", ({ cmd }) => {
+    updtr.on("init/install-missing", ({cmd}) => {
         writeLinesToConsole(
             cmdToLines(
                 "Installing missing dependencies" + chalk.grey("..."),
@@ -103,12 +103,12 @@ export default function (updtr, reporterConfig) {
             )
         );
     });
-    updtr.on("init/collect", ({ cmd }) => {
+    updtr.on("init/collect", ({cmd}) => {
         writeLinesToConsole(
             cmdToLines("Looking for outdated modules" + chalk.grey("..."), cmd)
         );
     });
-    updtr.on("init/end", ({ updateTasks, excluded }) => {
+    updtr.on("init/end", ({updateTasks, excluded}) => {
         excludedModules = excluded;
         if (updateTasks.length === 0 && excluded.length === 0) {
             writeLinesToConsole(["Everything " + chalk.bold("up-to-date")]);
@@ -166,7 +166,7 @@ export default function (updtr, reporterConfig) {
             writeLinesToConsole([event.stdout]);
         }
     });
-    updtr.on("end", ({ results }) => {
+    updtr.on("end", ({results}) => {
         const duration = msToString(Date.now() - startTime);
         const successful = filterSuccessfulUpdates(results);
         const failed = filterFailedUpdates(results);

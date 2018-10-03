@@ -46,7 +46,7 @@ describe("basic()", () => {
         describe(caseName, () => {
             it("should print the expected lines", async () => {
                 const testCase = events[caseName];
-                const { updtr, output } = setup(testCase.reporterConfig);
+                const {updtr, output} = setup(testCase.reporterConfig);
 
                 await testCase.events.reduce(async (previous, [
                     eventName,
