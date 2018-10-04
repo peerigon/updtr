@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/peerigon/updtr/compare/v3.0.0...v3.1.0) (2018-10-04)
+
+
+### Features
+
+* Add basic reporter ([#78](https://github.com/peerigon/updtr/issues/78)) ([59885d3](https://github.com/peerigon/updtr/commit/59885d3))
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/peerigon/updtr/compare/v2.0.0...v3.0.0) (2018-10-03)
 
