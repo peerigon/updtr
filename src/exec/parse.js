@@ -1,5 +1,3 @@
-import {EOL} from "os";
-
 const STRING_PROPERTIES = ["name", "current", "wanted", "latest"];
 
 function isNotEmptyString(value) {
@@ -21,7 +19,9 @@ function tryParse(parser) {
         try {
             return parser(stdout);
         } catch (err) {
-            err.message = `Error when trying to parse stdout from command '${cmd}': ${err.message}`;
+            err.message = `Error when trying to parse stdout from command '${cmd}': ${
+                err.message
+            }`;
             throw err;
         }
     };
@@ -60,8 +60,9 @@ function yarnParser(stdout, wantedTypeProperty) {
         /* in some cases (e.g. when printing the outdated result), yarn prints for each line a separate JSON object */
         /* in that case, we need to look for a { type: "table" } object which holds the interesting data to display */
     }
+
     const dataLine = stdout
-        .split(EOL)
+        .split("\n")
         .map(line => line.trim())
         .filter(line => line !== "")
         .find(line => {
@@ -70,12 +71,16 @@ function yarnParser(stdout, wantedTypeProperty) {
 
                 return parsedLine.type === wantedTypeProperty;
             } catch (error) {
+                console.error(error.stack);
+
                 return false;
             }
         });
 
     if (dataLine === undefined) {
-        throw new Error(`Could not find object with type === ${wantedTypeProperty}`);
+        throw new Error(
+            `Could not find object with type === ${wantedTypeProperty}`
+        );
     }
 
     return JSON.parse(dataLine);
@@ -107,38 +112,36 @@ const parse = {
         list: tryParse(stdout => {
             const parsed = npmParser(stdout);
 
-            return (parsed.dependencies === undefined ?
+            return parsed.dependencies === undefined ?
                 [] :
                 Object.keys(parsed.dependencies)
                     .map(name => ({
                         name,
                         version: parsed.dependencies[name].version,
                     }))
-                    .sort(sortByName));
+                    .sort(sortByName);
         }),
     },
     yarn: {
-        outdated: tryParse(
-            stdout => {
-                const parsed = yarnParser(stdout, "table");
+        outdated: tryParse(stdout => {
+            const parsed = yarnParser(stdout, "table");
 
-                if (parsed === null) {
-                    return [];
-                }
-
-                return parsed.data.body
-                    .map(row => arrToObj(row, parsed.data.head))
-                    .map(dep =>
-                        returnIfValid({
-                            name: dep.Package,
-                            current: dep.Current,
-                            wanted: dep.Wanted,
-                            latest: dep.Latest,
-                        })
-                    )
-                    .sort(sortByName);
+            if (parsed === null) {
+                return [];
             }
-        ),
+
+            return parsed.data.body
+                .map(row => arrToObj(row, parsed.data.head))
+                .map(dep =>
+                    returnIfValid({
+                        name: dep.Package,
+                        current: dep.Current,
+                        wanted: dep.Wanted,
+                        latest: dep.Latest,
+                    })
+                )
+                .sort(sortByName);
+        }),
         list: tryParse(stdout => {
             const parsed = yarnParser(stdout, "tree");
 
@@ -150,8 +153,15 @@ const parse = {
                 .map(dependency => {
                     const [name, version] = dependency.name.split("@");
 
-                    if (isNotEmptyString(name) === false || isNotEmptyString(version) === false) {
-                        throw new Error(`Could not parse dependency name "${dependency.name}"`);
+                    if (
+                        isNotEmptyString(name) === false ||
+                        isNotEmptyString(version) === false
+                    ) {
+                        throw new Error(
+                            `Could not parse dependency name "${
+                                dependency.name
+                            }"`
+                        );
                     }
 
                     return {
