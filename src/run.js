@@ -5,6 +5,8 @@ import batchUpdate from "./tasks/batchUpdate";
 import createUpdateResult from "./tasks/util/createUpdateResult";
 import finish from "./tasks/finish";
 import updatePackageJson from "./tasks/updatePackageJson";
+import inquirer from "inquirer";
+import chalk from "chalk";
 
 async function runUpdateTasks(updtr, updateTasks) {
     const results = [];
@@ -46,6 +48,23 @@ async function runUpdateTasks(updtr, updateTasks) {
     return finish(updtr, results);
 }
 
+async function askForUpdate(tasks) {
+    const prompt = inquirer.createPromptModule();
+    const {packagesToUpdate} = await prompt([
+        {
+            name: "packagesToUpdate",
+            type: "checkbox",
+            message: chalk`{white.bold Choose which packages to update.}`,
+            choices: tasks.map(task => ({
+                name: task.name,
+                value: task,
+            })),
+        },
+    ]);
+
+    return packagesToUpdate;
+}
+
 export default (async function run(updtr) {
     const results = [];
 
@@ -53,7 +72,11 @@ export default (async function run(updtr) {
         config: updtr.config,
     });
 
-    const {updateTasks} = await init(updtr);
+    let {updateTasks} = await init(updtr);
+
+    if (updtr.config.interactive === true) {
+        updateTasks = await askForUpdate(updateTasks);
+    }
 
     if (updateTasks.length > 0) {
         results.push(...(await runUpdateTasks(updtr, updateTasks)));
@@ -67,3 +90,4 @@ export default (async function run(updtr) {
 
     return results;
 });
+
