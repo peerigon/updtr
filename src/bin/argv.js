@@ -35,6 +35,11 @@ export default yargs
         array: true,
         alias: "ex",
     })
+    .option("interactive", {
+        describe: "Let you select the packages you want to update",
+        alias: "i",
+        default: false,
+    })
     .option("update-to", {
         describe: "Specify which updates you want to install",
         choices: UPDATE_TO_OPTIONS,
