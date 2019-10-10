@@ -1,3 +1,5 @@
+import inquirer from "inquirer";
+import chalk from "chalk";
 import init from "./tasks/init";
 import sequentialUpdate from "./tasks/sequentialUpdate";
 import splitUpdateTasks from "./tasks/util/splitUpdateTasks";
@@ -5,8 +7,6 @@ import batchUpdate from "./tasks/batchUpdate";
 import createUpdateResult from "./tasks/util/createUpdateResult";
 import finish from "./tasks/finish";
 import updatePackageJson from "./tasks/updatePackageJson";
-import inquirer from "inquirer";
-import chalk from "chalk";
 
 async function runUpdateTasks(updtr, updateTasks) {
     const results = [];
@@ -48,17 +48,44 @@ async function runUpdateTasks(updtr, updateTasks) {
     return finish(updtr, results);
 }
 
-async function askForUpdate(tasks) {
+function generateChoices(tasks) {
+    let dims = [
+        "name".length,
+        "from".length,
+        // "to".length,
+    ];
+
+    dims = tasks.reduce((acc, {name, rollbackTo, updateTo}) => ([
+        name.length > acc[0] ? name.length : acc[0],
+        rollbackTo.length > acc[1] ? rollbackTo.length : acc[1],
+        // updateTo.length > acc[2] ? updateTo.length : acc[2],
+    ]), dims);
+
+    let choices = [
+        new inquirer.Separator(" "),
+        new inquirer.Separator(chalk`  {green.bold.underline name}${"".padEnd((dims[0] + 3) - "name".length, " ")}{green.bold.underline from}${"".padEnd((dims[1] + 5) - "from".length, " ")}{green.bold.underline to}`),
+    ];
+
+    choices = choices.concat(tasks.map(task => ({
+        name: chalk`{green ${task.name.padEnd(dims[0] + 3)}}{blue ${task.rollbackTo.padEnd(dims[1])}}  ❯  {blue ${task.updateTo}}`,
+        value: task,
+        short: `${task.name}@${task.updateTo}`,
+    })));
+
+    return choices;
+}
+
+async function selectUpdateTasks(tasks) {
     const prompt = inquirer.createPromptModule();
+    const choices = generateChoices(tasks);
     const {packagesToUpdate} = await prompt([
         {
             name: "packagesToUpdate",
             type: "checkbox",
             message: chalk`{white.bold Choose which packages to update.}`,
-            choices: tasks.map(task => ({
-                name: task.name,
-                value: task,
-            })),
+            choices,
+            pageSize: choices.length,
+            validate: answer => Boolean(answer.length) || "You must choose at least one package.",
         },
     ]);
 
@@ -75,7 +102,7 @@ export default (async function run(updtr) {
     let {updateTasks} = await init(updtr);
 
     if (updtr.config.interactive === true) {
-        updateTasks = await askForUpdate(updateTasks);
+        updateTasks = await selectUpdateTasks(updateTasks);
     }
 
     if (updateTasks.length > 0) {
