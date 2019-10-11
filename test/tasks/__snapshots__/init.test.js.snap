@@ -22,6 +22,7 @@ Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
         ],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -40,6 +41,7 @@ Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
         ],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -58,6 +60,7 @@ Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
         ],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -75,6 +78,7 @@ Array [
           "updtr-test-module-1",
           "updtr-test-module-2",
         ],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -120,6 +124,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -135,6 +140,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -150,6 +156,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -164,6 +171,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -196,6 +204,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -211,6 +220,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -226,6 +236,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -240,6 +251,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -283,6 +295,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -298,6 +311,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -313,6 +327,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,
@@ -327,6 +342,7 @@ Array [
       "config": Object {
         "cwd": "/updtr/test/cwd",
         "exclude": Array [],
+        "interactive": undefined,
         "registry": undefined,
         "save": "smart",
         "test": undefined,

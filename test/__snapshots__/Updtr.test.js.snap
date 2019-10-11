@@ -4,6 +4,7 @@ exports[`new Updtr() .config should match the default shape 1`] = `
 Object {
   "cwd": "/updtr/test/cwd",
   "exclude": Array [],
+  "interactive": undefined,
   "registry": undefined,
   "save": "smart",
   "test": undefined,
