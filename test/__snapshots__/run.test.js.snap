@@ -7,6 +7,7 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "interactive": undefined,
       "registry": undefined,
       "save": "smart",
       "test": undefined,
@@ -24,6 +25,7 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "interactive": undefined,
       "registry": undefined,
       "save": "smart",
       "test": undefined,
@@ -55,6 +57,7 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "interactive": undefined,
       "registry": undefined,
       "save": "smart",
       "test": undefined,
@@ -73,6 +76,7 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "interactive": undefined,
       "registry": undefined,
       "save": "smart",
       "test": undefined,
@@ -104,6 +108,7 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "interactive": undefined,
       "registry": undefined,
       "save": "smart",
       "test": undefined,
@@ -135,6 +140,7 @@ Array [
     "config": Object {
       "cwd": "/updtr/test/cwd",
       "exclude": Array [],
+      "interactive": undefined,
       "registry": undefined,
       "save": "smart",
       "test": undefined,
