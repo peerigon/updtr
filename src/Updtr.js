@@ -90,6 +90,7 @@ export default class Updtr extends EventEmitter {
             registry,
             updateTo,
             save,
+            interactive: config.interactive,
         };
         this.cmds = cmds[packageManager];
         this.parse = parse[packageManager];
