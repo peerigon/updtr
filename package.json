@@ -30,9 +30,9 @@
     "es6-error": "^4.0.2",
     "pify": "^4.0.1",
     "semver": "^6.3.0",
-    "string-width": "^2.1.1",
+    "string-width": "^4.2.0",
     "unicons": "0.0.3",
-    "yargs": "^12.0.5"
+    "yargs": "^15.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.7.5",
@@ -52,11 +52,11 @@
     "rollup": "^1.27.8",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "sinon": "^6.3.5",
-    "standard-version": "^4.4.0",
+    "sinon": "^7.5.0",
+    "standard-version": "^7.0.1",
     "stream-buffers": "^3.0.1",
-    "temp": "^0.8.4",
-    "wrap-ansi": "^4.0.0"
+    "temp": "^0.9.1",
+    "wrap-ansi": "^6.2.0"
   },
   "engines": {
     "node": ">= 4.0.0",
