@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
 import updateTo from "./util/updateTo";

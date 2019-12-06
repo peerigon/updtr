@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/no-undefined-types */
 import EventEmitter from "events";
 import path from "path";
 import fs from "./util/fs";

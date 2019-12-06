@@ -36,6 +36,7 @@ async function update(sequence, updateTasks) {
         success = false;
     }
 
+    // eslint-disable-next-line require-atomic-updates
     sequence.baseEvent.success = success;
 
     if (success === false && updateTasks.length > 1) {
