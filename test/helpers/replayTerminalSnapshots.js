@@ -13,6 +13,7 @@ async function replayTerminalSnapshots(pathToSnapshots) {
         const stdout = snapshots[snapshotTitle]
             // Removing double quotes
             .replace(/^.*?"|".*?$/gm, "");
+
         // Restoring ansi-escape-sequences
         // .replace(/(\[\d)/g, "\u001B$1");
         const frames = stdout.split(ansiEscapes.eraseDown);

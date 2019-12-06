@@ -29,6 +29,7 @@ function outdatedToUpdateResult(outdated, updateTo, success) {
 
 beforeAll(async () => {
     const stdoutLog = await readFixture("outdated/outdated.npm.log");
+
     const [outdatedTestModule1, outdatedTestModule2] = parse.npm.outdated(
         stdoutLog
     );

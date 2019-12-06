@@ -17,6 +17,7 @@ let stdoutLogs;
 
 function createUpdateTasks(updtrConfig) {
     const packageManager = updtrConfig.use;
+
     const outdated = parse[packageManager].outdated(
         stdoutLogs.get(`outdated/outdated.${packageManager}.log`)
     );
@@ -126,6 +127,7 @@ describe("batchUpdate()", () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
+
                     const updateTasks = createUpdateTasks(updtr.config);
 
                     updtr.execResults = update.concat(testPass);
@@ -146,6 +148,7 @@ describe("batchUpdate()", () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
+
                     const updateTasks = createUpdateTasks(updtr.config);
 
                     updtr.execResults = update.concat(testFailWithRollback);

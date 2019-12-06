@@ -18,6 +18,7 @@ const breakingUpdateTasks = [
         rollbackTo: "0.0.1",
     },
 ];
+
 const nonBreakingUpdateTasks = [
     {
         // Does not occur in the real-world since these modules are not outdated.
@@ -54,6 +55,7 @@ const nonBreakingUpdateTasks = [
         rollbackTo: "0.0.1",
     },
 ];
+
 const nonBreakingPreVersionUpdateTasks = [
     {
         updateTo: "^0.0.1-beta.1",
@@ -84,6 +86,7 @@ const nonBreakingPreVersionUpdateTasks = [
         rollbackTo: "1.0.1-alpha.1",
     },
 ];
+
 const breakingPreVersionUpdateTasks = [
     {
         updateTo: "1.0.1-beta.1",

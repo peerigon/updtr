@@ -26,7 +26,9 @@ describe("integration test: when there are no outdated dependencies", () => {
             const updtr = create({
                 cwd: tempDir,
             });
+
             const results = await run(updtr);
+
             const [
                 tempDirPackageContents,
                 installedVersions,
@@ -55,7 +57,9 @@ describe("integration test: when there are no outdated dependencies", () => {
                 cwd: tempDir,
                 use: USE_YARN,
             });
+
             const results = await run(updtr);
+
             const [
                 tempDirPackageContents,
                 installedVersions,

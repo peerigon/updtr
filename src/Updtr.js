@@ -65,15 +65,19 @@ export default class Updtr extends EventEmitter {
 
         const cwd = config.cwd;
         const registry = config.registry;
+
         const packageManager = config.use === undefined ?
             USE_OPTIONS[0] :
             config.use;
+
         const updateTo = config.updateTo === undefined ?
             UPDATE_TO_OPTIONS[0] :
             config.updateTo;
+
         const exclude = Array.isArray(config.exclude) === true ?
             config.exclude :
             [];
+
         const save = config.save === undefined ? SAVE_OPTIONS[0] : config.save;
 
         checkCwd(cwd);
@@ -101,6 +105,7 @@ export default class Updtr extends EventEmitter {
             };
         }
     }
+
     async canAccessPackageJson() {
         let result = true;
 
@@ -115,18 +120,22 @@ export default class Updtr extends EventEmitter {
 
         return result;
     }
+
     exec(cmd) {
         return exec(this.config.cwd, cmd);
     }
+
     readFile(filenameInCwd) {
         return fs.readFile(path.join(this.config.cwd, filenameInCwd), "utf8");
     }
+
     writeFile(filenameInCwd, contents) {
         return fs.writeFile(
             path.join(this.config.cwd, filenameInCwd),
             contents
         );
     }
+
     dispose() {
         this.removeAllListeners();
     }

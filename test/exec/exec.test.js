@@ -10,6 +10,7 @@ const logMemoryCode = (() => {
     .toString()
     .replace(/"/g, '\\"')
     .replace(/\r?\n/g, "");
+
 const logOkCmd = 'node -e "console.log(\\"ok\\")"';
 const noopCmd = 'node -e ""';
 const throwCmd = "node -e \"throw 'fail'\"";

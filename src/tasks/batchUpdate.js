@@ -58,6 +58,7 @@ export default (async function batchUpdate(updtr, updateTasks) {
     const sequence = new Sequence("batch-update", updtr, {
         updateTasks,
     });
+
     let success = true;
 
     if (updateTasks.length > 0) {
