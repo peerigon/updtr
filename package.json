@@ -45,7 +45,7 @@
     "clone": "^2.1.1",
     "cross-env": "^7.0.0",
     "eslint": "^6.8.0",
-    "eslint-config-peerigon": "^24.0.0",
+    "eslint-config-peerigon": "^25.3.1",
     "eslint-plugin-jest": "^23.6.0",
     "jest": "^24.9.0",
     "rimraf": "^3.0.1",
