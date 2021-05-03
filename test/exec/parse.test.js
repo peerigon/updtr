@@ -56,7 +56,7 @@ describe("parse", () => {
                         .get("empty/outdated.npm.log")
                         .trim();
 
-                    expect(fixture).toEqual('{}');
+                    expect(fixture).toEqual("{}");
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -72,7 +72,7 @@ describe("parse", () => {
                         .get("no-outdated/outdated.npm.log")
                         .trim();
 
-                    expect(fixture).toEqual('{}');
+                    expect(fixture).toEqual("{}");
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -88,7 +88,7 @@ describe("parse", () => {
                         .get("no-outdated-dev/outdated.npm.log")
                         .trim();
 
-                    expect(fixture).toEqual('{}');
+                    expect(fixture).toEqual("{}");
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -192,7 +192,6 @@ describe("parse", () => {
                         .get("empty/outdated.yarn.log")
                         .trim();
 
-                    console.log(typeof fixture, fixture, fixture.length);
                     expect(fixture).toHaveLength(0);
                 });
                 it("should return an empty array", () => {
