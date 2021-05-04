@@ -3,6 +3,7 @@
 // See https://github.com/peerigon/updtr/issues/52
 
 const name = "module";
+
 const outdateds = [
     {
         name,

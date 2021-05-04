@@ -39,6 +39,7 @@ export default function createUpdatedPackageJson(
                 const update = successfulUpdates.find(
                     ({name}) => name === moduleName
                 );
+
                 const oldVersionRange = dependencies[moduleName];
 
                 newDependencies[moduleName] = update === undefined ?

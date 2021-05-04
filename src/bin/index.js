@@ -5,10 +5,12 @@ import {create, run} from "..";
 async function start() {
     const cwd = process.cwd();
     const config = {...argv};
+
     const reporterConfig = {
         stream: process.stdout,
         testStdout: argv.testStdout,
     };
+
     const reporter = reporters[argv.reporter];
 
     config.cwd = cwd;

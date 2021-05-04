@@ -30,6 +30,7 @@ export default class Terminal {
             this.hasBeenResized = true;
         });
     }
+
     append(lines) {
         if (lines.length === 0) {
             return;
@@ -44,6 +45,7 @@ export default class Terminal {
         this.stream.write(content + "\n");
         this.hasBeenResized = false;
     }
+
     rewind() {
         const removedLines = this.lines.pop();
         const rows = calcNumOfRows(removedLines, this.stream.columns);

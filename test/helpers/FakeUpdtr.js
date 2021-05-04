@@ -16,6 +16,7 @@ export default class FakeUpdtr extends Updtr {
 
         this.canAccessPackageJson.resolves(true);
     }
+
     set execResults(execResults) {
         execResults.forEach((execResult, index) => {
             const call = this._exec.onCall(index);
@@ -27,6 +28,7 @@ export default class FakeUpdtr extends Updtr {
             }
         });
     }
+
     async exec(...args) {
         const result = await this._exec(...args);
 

@@ -29,7 +29,9 @@ describe("integration test: when there are outdated dependencies", () => {
                 const updtr = create({
                     cwd: tempDir,
                 });
+
                 const results = await run(updtr);
+
                 const [
                     tempDirPackageContents,
                     installedVersions,
@@ -64,7 +66,9 @@ describe("integration test: when there are outdated dependencies", () => {
                     cwd: tempDir,
                     use: USE_YARN,
                 });
+
                 const results = await run(updtr);
+
                 const [
                     tempDirPackageContents,
                     installedVersions,
@@ -120,6 +124,7 @@ describe("integration test: when there are outdated dependencies", () => {
                     tempDir,
                     filterUpdtrTestModule
                 );
+
                 const updtr = create({
                     cwd: tempDir,
                     exclude: ["updtr-test-module-2"],
@@ -138,6 +143,7 @@ describe("integration test: when there are outdated dependencies", () => {
                 });
 
                 const results = await run(updtr);
+
                 const [
                     tempDirPackageContents,
                     installedVersionsAfter,
@@ -184,10 +190,12 @@ describe("integration test: when there are outdated dependencies", () => {
                 );
 
                 const yarnLockContentsBefore = await read(tempDir, YARN_LOCK);
+
                 const installedVersionsBefore = getInstalledVersions(
                     tempDir,
                     filterUpdtrTestModule
                 );
+
                 const updtr = create({
                     cwd: tempDir,
                     use: USE_YARN,
@@ -207,6 +215,7 @@ describe("integration test: when there are outdated dependencies", () => {
                 });
 
                 const results = await run(updtr);
+
                 const [
                     tempDirPackageContents,
                     installedVersionsAfter,

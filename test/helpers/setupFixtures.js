@@ -163,6 +163,7 @@ async function modifyPackageJson(fixture, ...modifiers) {
         fixture,
         "package.json"
     );
+
     const packageJson = await fs.readFile(pathToPackageJson, "utf8");
 
     await fs.writeFile(
@@ -212,6 +213,7 @@ async function execFixtureCmd(fixture, cmd) {
 
 async function writeStdoutLog(fixture, packageManager, cmd) {
     const stdout = await execFixtureCmd(fixture, cmds[packageManager][cmd]());
+
     const filename = path.join(
         pathToFixtures,
         fixture,

@@ -11,12 +11,14 @@ export default class Spinner {
         this.interval = spinner.interval;
         this.length = Math.max(...this.frames.map(frame => frame.length));
     }
+
     valueOf() {
         const currentInterval = Math.floor(Date.now() / this.interval);
         const currentFrame = currentInterval % this.frames.length;
 
         return this.frames[currentFrame];
     }
+
     toString() {
         return this.valueOf();
     }

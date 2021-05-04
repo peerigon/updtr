@@ -32,6 +32,7 @@ async function execRunBinMock(
             }
         );
     });
+
     const stdoutWithoutBasePath = stdout
         // Replace double-backslashes with one forward slash
         .replace(/\\\\/g, "/")
@@ -80,6 +81,7 @@ describe("bin", () => {
                 "--save",
                 "exact",
             ];
+
             const configs = await execRunBinMock({args});
 
             expect(configs).toMatchSnapshot();

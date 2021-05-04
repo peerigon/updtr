@@ -12,9 +12,11 @@ const configNames = {
     updateTo: "update to",
     save: "save",
 };
+
 const configValues = {
     exclude: list => list.join(", "),
 };
+
 const configFilter = {
     cwd: () => false,
     use: option => option !== USE_OPTIONS[0],

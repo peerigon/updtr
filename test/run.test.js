@@ -117,6 +117,7 @@ describe("run()", () => {
                 "batch-update/start",
                 updtr.emit.args
             );
+
             const sequentialUpdateEvent = pickEvents(
                 "sequential-update/start",
                 updtr.emit.args
@@ -159,6 +160,7 @@ describe("run()", () => {
                 "batch-update/start",
                 updtr.emit.args
             );
+
             const sequentialUpdateEvent = pickEvents(
                 "sequential-update/start",
                 updtr.emit.args
@@ -206,6 +208,7 @@ describe("run()", () => {
                 "batch-update/start",
                 updtr.emit.args
             )[0];
+
             const sequentialUpdateEvents = pickEvents(
                 "sequential-update/start",
                 updtr.emit.args
@@ -253,6 +256,7 @@ describe("run()", () => {
                 "batch-update/start",
                 updtr.emit.args
             )[0];
+
             const sequentialUpdateEvent = pickEvents(
                 "sequential-update/start",
                 updtr.emit.args

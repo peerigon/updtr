@@ -9,6 +9,7 @@ import {
 import {isUpdateToNonBreaking} from "./createUpdateTask";
 
 const prePattern = /^pre/;
+
 const reasonTests = [
     {
         name: EXCLUDED,
@@ -40,6 +41,7 @@ const reasonTests = [
                 updateTask.rollbackTo,
                 updateTask.updateTo
             );
+
             const unstableTest = diff !== null &&
                 prePattern.test(diff) === true &&
                 diff !== "prerelease";
@@ -48,6 +50,7 @@ const reasonTests = [
         },
     },
 ];
+
 const reasons = reasonTests.map(test => test.name);
 
 export default function filterUpdateTask(updateTask, updtrConfig) {

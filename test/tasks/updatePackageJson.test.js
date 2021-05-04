@@ -88,6 +88,7 @@ describe("updatePackageJson()", () => {
     it("should emit the expected events", async () => {
         const updtr = new FakeUpdtr();
         const updateResults = [module1ToLatestSuccess];
+
         const eventNames = [
             "update-package-json/start",
             "update-package-json/end",

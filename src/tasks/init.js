@@ -51,8 +51,10 @@ export default (async function init(updtr) {
         outdatedCmd,
         stdout.trim()
     );
+
     const filterResults = allUpdateTasks.map(updateTask =>
         filterUpdateTask(updateTask, updtr.config));
+
     const result = {
         updateTasks: allUpdateTasks.filter(
             (updateTask, index) => filterResults[index] === null
