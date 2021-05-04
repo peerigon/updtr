@@ -172,7 +172,7 @@ describe("new Updtr()", () => {
             let givenErr;
 
             try {
-                await updtr.writeFile("");
+                await updtr.writeFile("", "test");
             } catch (err) {
                 givenErr = err;
             }
