@@ -1,7 +1,8 @@
 import semver from "semver";
 
 // Matches a semver version range that can be transformed to the new version in a safe manner
-const expectedSemverPattern = /^(\^|~|>=|)(\d+)\.(\d+|x|\*)\.(\d+|x|\*)(-[a-z][\d.a-z\-]+|)$/i;
+// eslint-disable-next-line optimize-regex/optimize-regex
+const expectedSemverPattern = /^(\^|~|>=|)(\d+)\.(\d+|x|\*)\.(\d+|x|\*)(-[a-z][\d\-.a-z]+|)$/i;
 const numberPattern = /^\d+$/;
 
 function parse(semverString) {
