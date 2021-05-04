@@ -1,9 +1,7 @@
 environment:
     matrix:
-        - nodejs_version: 8
-        - nodejs_version: 6
-        # Node 4 doesn't work because of an AppVeyor bug
-        # - nodejs_version: 4
+        - nodejs_version: 14
+        - nodejs_version: 12
 
 install:
     - ps: Install-Product node $env:nodejs_version
