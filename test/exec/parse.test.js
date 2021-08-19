@@ -1,5 +1,5 @@
 import readFixtures from "../helpers/readFixtures";
-import parse, { splitYarnLines } from "../../src/exec/parse";
+import parse, {splitYarnLines} from "../../src/exec/parse";
 
 let stdoutLogs;
 

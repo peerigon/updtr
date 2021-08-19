@@ -51,7 +51,7 @@ function npmParser(stdout) {
     return JSON.parse(trimmed);
 }
 
-export function splitYarnLines(stdout){
+export function splitYarnLines(stdout) {
     // Yarn is using \n on all platforms now in their stdout
     return stdout.split("\n");
 }
@@ -74,6 +74,7 @@ function yarnParser(stdout, wantedTypeProperty) {
                 return parsedLine.type === wantedTypeProperty;
             } catch (error) {
                 console.log(error);
+
                 return false;
             }
         });
