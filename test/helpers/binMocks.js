@@ -6,6 +6,7 @@ const reportersExports = require("../../src/reporters");
 const errorsExports = require("../../src/errors");
 
 const runMock = process.env.RUN_MOCK || "logConfigAndExit";
+
 const runMocks = {
     logConfigAndExit(updtr) {
         console.log(
@@ -23,6 +24,7 @@ const runMocks = {
         );
     },
 };
+
 let reporterConfig;
 let reporter;
 

@@ -1,3 +1,4 @@
+/* eslint-disable require-atomic-updates */
 import Sequence from "./util/Sequence";
 import createUpdateResult from "./util/createUpdateResult";
 import updateTo from "./util/updateTo";
@@ -31,6 +32,7 @@ async function runUpdateTask(sequence, updateTasks, i, previousUpdateResults) {
     const updateResults = await previousUpdateResults;
     const previousUpdateResult = updateResults[updateResults.length - 1];
     const updateTask = updateTasks[i];
+
     // If the previous update was a failure, we don't need to update now because
     // during the rollback, the next update is also installed in parallel
     const updateNecessary = previousUpdateResult === undefined ?

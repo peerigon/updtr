@@ -3,6 +3,7 @@ export default class Message {
         this.template = template;
         this.variables = variables;
     }
+
     valueOf() {
         const split = this.template.split(/%s/g);
 
@@ -11,6 +12,7 @@ export default class Message {
             ""
         );
     }
+
     toString() {
         return this.valueOf();
     }

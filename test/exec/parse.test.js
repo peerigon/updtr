@@ -1,6 +1,5 @@
-import {EOL} from "os";
 import readFixtures from "../helpers/readFixtures";
-import parse from "../../src/exec/parse";
+import parse, {splitYarnLines} from "../../src/exec/parse";
 
 let stdoutLogs;
 
@@ -56,7 +55,7 @@ describe("parse", () => {
                         .get("empty/outdated.npm.log")
                         .trim();
 
-                    expect(fixture).toHaveLength(0);
+                    expect(fixture).toEqual("{}");
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -72,7 +71,7 @@ describe("parse", () => {
                         .get("no-outdated/outdated.npm.log")
                         .trim();
 
-                    expect(fixture).toHaveLength(0);
+                    expect(fixture).toEqual("{}");
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -88,7 +87,7 @@ describe("parse", () => {
                         .get("no-outdated-dev/outdated.npm.log")
                         .trim();
 
-                    expect(fixture).toHaveLength(0);
+                    expect(fixture).toEqual("{}");
                 });
                 it("should return an empty array", () => {
                     expect(
@@ -241,7 +240,7 @@ describe("parse", () => {
                         .trim();
 
                     expect(fixture.length).toBeGreaterThan(10);
-                    fixture.split(EOL).forEach(line => JSON.parse(line)); // Each line should be parseable
+                    splitYarnLines(fixture).forEach(line => JSON.parse(line)); // Each line should be parseable
                 });
                 it("should return an array with normalized outdated data", () => {
                     expect(
@@ -258,7 +257,7 @@ describe("parse", () => {
                         .trim();
 
                     expect(fixture.length).toBeGreaterThan(10);
-                    fixture.split(EOL).forEach(line => JSON.parse(line)); // Each line should be parseable
+                    splitYarnLines(fixture).forEach(line => JSON.parse(line)); // Each line should be parseable
                 });
                 it("should return an array with normalized outdated data", () => {
                     expect(

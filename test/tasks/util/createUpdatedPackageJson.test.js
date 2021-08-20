@@ -25,6 +25,7 @@ function cloneAndFreeze(packageJson) {
 describe("createUpdatedPackageJson()", () => {
     it("should not create new fields by default", () => {
         const updateResults = [];
+
         const newPackageJson = createUpdatedPackageJson(
             Object.freeze({}),
             updateResults,
@@ -35,6 +36,7 @@ describe("createUpdatedPackageJson()", () => {
     });
     it("should not create new fields for failed update results", () => {
         const updateResults = [module1ToLatestFail, module2ToLatestFail];
+
         const newPackageJson = createUpdatedPackageJson(
             Object.freeze({}),
             updateResults,
@@ -61,6 +63,7 @@ describe("createUpdatedPackageJson()", () => {
                     name: "updtr-test-module-5",
                 },
             ];
+
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     dependencies: {
@@ -83,6 +86,7 @@ describe("createUpdatedPackageJson()", () => {
         describe(`when the save option is "${SAVE_EXACT}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
+
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -101,6 +105,7 @@ describe("createUpdatedPackageJson()", () => {
         describe(`when the save option is "${SAVE_CARET}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
+
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -131,6 +136,7 @@ describe("createUpdatedPackageJson()", () => {
                     name: "updtr-test-module-4",
                 },
             ];
+
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     devDependencies: {
@@ -153,6 +159,7 @@ describe("createUpdatedPackageJson()", () => {
         describe(`when the save option is "${SAVE_EXACT}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
+
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         devDependencies: {
@@ -171,6 +178,7 @@ describe("createUpdatedPackageJson()", () => {
         describe(`when the save option is "${SAVE_CARET}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
+
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -201,6 +209,7 @@ describe("createUpdatedPackageJson()", () => {
                     name: "updtr-test-module-4",
                 },
             ];
+
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     optionalDependencies: {
@@ -223,6 +232,7 @@ describe("createUpdatedPackageJson()", () => {
         describe(`when the save option is "${SAVE_EXACT}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
+
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         optionalDependencies: {
@@ -241,6 +251,7 @@ describe("createUpdatedPackageJson()", () => {
         describe(`when the save option is "${SAVE_CARET}"`, () => {
             it("should save the exact version", () => {
                 const updateResults = [module1ToLatestSuccess];
+
                 const newPackageJson = createUpdatedPackageJson(
                     cloneAndFreeze({
                         dependencies: {
@@ -261,6 +272,7 @@ describe("createUpdatedPackageJson()", () => {
     describe("when a module is listed in more than one dependency type", () => {
         it("should update all dependency occurrences", () => {
             const updateResults = [module1ToLatestSuccess];
+
             const newPackageJson = createUpdatedPackageJson(
                 cloneAndFreeze({
                     dependencies: {
@@ -288,6 +300,7 @@ describe("createUpdatedPackageJson()", () => {
                 module1ToLatestSuccess,
                 module2ToLatestSuccess,
             ];
+
             const newPackageJson = createUpdatedPackageJson(
                 Object.freeze({}),
                 updateResults,

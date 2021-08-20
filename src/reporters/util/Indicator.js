@@ -12,9 +12,11 @@ export default class Indicator {
     constructor(initialState) {
         this.state = initialState;
     }
+
     valueOf() {
         return COLORS[this.state](unicons.cli("circle"));
     }
+
     toString() {
         return this.valueOf();
     }

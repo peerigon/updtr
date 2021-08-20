@@ -36,6 +36,7 @@ async function update(sequence, updateTasks) {
         success = false;
     }
 
+    // eslint-disable-next-line require-atomic-updates
     sequence.baseEvent.success = success;
 
     if (success === false && updateTasks.length > 1) {
@@ -58,6 +59,7 @@ export default (async function batchUpdate(updtr, updateTasks) {
     const sequence = new Sequence("batch-update", updtr, {
         updateTasks,
     });
+
     let success = true;
 
     if (updateTasks.length > 0) {

@@ -15,6 +15,7 @@ const baseUpdateTask = {
     updateTo: "2.0.0",
     rollbackTo: "1.0.0",
 };
+
 const baseUpdtrConfig = {
     exclude: [],
 };

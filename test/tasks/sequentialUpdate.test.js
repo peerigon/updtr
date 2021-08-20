@@ -18,6 +18,7 @@ let stdoutLogs;
 
 function createUpdateTasks(updtrConfig) {
     const packageManager = updtrConfig.use;
+
     const outdated = parse[packageManager].outdated(
         stdoutLogs.get(`outdated/outdated.${packageManager}.log`)
     );
@@ -94,6 +95,7 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
+
                     const updateTasks = createUpdateTasks(updtr.config);
 
                     updtr.execResults = update.concat(
@@ -117,6 +119,7 @@ describe("sequentialUpdate()", () => {
                     const updtr = new FakeUpdtr({
                         use: "yarn",
                     });
+
                     const updateTasks = createUpdateTasks(updtr.config);
 
                     updtr.execResults = update.concat(
@@ -142,6 +145,7 @@ describe("sequentialUpdate()", () => {
         it("should skip the first updating step if the previous update success was false", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
+
             const previousUpdateResult = createUpdateResult(
                 updateTasks[0],
                 false
@@ -161,6 +165,7 @@ describe("sequentialUpdate()", () => {
         it("should not skip the first updating step if the previous update success was true", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
+
             const previousUpdateResult = createUpdateResult(
                 updateTasks[0],
                 true
@@ -180,6 +185,7 @@ describe("sequentialUpdate()", () => {
         it("should not include the previous update result in the returned results", async () => {
             const updtr = new FakeUpdtr();
             const updateTasks = createUpdateTasks(updtr.config);
+
             const previousUpdateResult = createUpdateResult(
                 updateTasks[0],
                 false

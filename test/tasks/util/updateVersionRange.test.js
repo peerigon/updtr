@@ -6,6 +6,7 @@ describe("updateVersionRange()", () => {
         const newVersionRanges = versionRanges.map(oldVersionRange =>
             updateVersionRange(oldVersionRange, "5.0.0")
         );
+
         const comparisons = versionRanges.map(
             (oldVersionRange, index) =>
                 oldVersionRange + "     becomes     " + newVersionRanges[index]
@@ -18,6 +19,7 @@ describe("updateVersionRange()", () => {
             const newVersionRanges = versionRanges.map(oldVersionRange =>
                 updateVersionRange(oldVersionRange, "5.0.0-beta.1")
             );
+
             const comparisons = versionRanges.map(
                 (oldVersionRange, index) =>
                     oldVersionRange +

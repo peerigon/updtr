@@ -5,10 +5,12 @@ export default class Sequence {
         this.baseEvent = baseEvent;
         this.isRunning = false;
     }
+
     start() {
         this.isRunning = true;
         this.emit("start");
     }
+
     emit(eventName, event = {}) {
         const fullEventName = this.name + "/" + eventName;
 
@@ -22,11 +24,13 @@ export default class Sequence {
             ...event,
         });
     }
+
     exec(step, cmd) {
         this.emit(step, {cmd});
 
         return this.updtr.exec(cmd);
     }
+
     end(result) {
         this.emit("end", result);
         this.isRunning = false;

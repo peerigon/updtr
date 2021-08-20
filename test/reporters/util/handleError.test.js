@@ -1,4 +1,4 @@
-import sinon from "sinon";
+import {spy} from "sinon";
 import handleError from "../../../src/reporters/util/handleError";
 import {PackageJsonNoAccessError} from "../../../src/errors";
 
@@ -6,8 +6,8 @@ const processExit = process.exit;
 const consoleError = console.error;
 
 function setupSpies() {
-    process.exit = sinon.spy();
-    console.error = sinon.spy();
+    process.exit = spy();
+    console.error = spy();
 }
 
 describe("handleError()", () => {

@@ -31,6 +31,7 @@ describe("finish()", () => {
     describe("when the given results are complete", () => {
         it("should resolve immediately with the given results without emitting events", async () => {
             const updtr = new FakeUpdtr();
+
             const results = [
                 module1ToLatestSuccess,
                 module1ToLatestFail,
@@ -48,6 +49,7 @@ describe("finish()", () => {
     describe("when there are incomplete results", () => {
         it("should filter tasks where rollbackTo and updateTo is the same value", async () => {
             const updtr = new FakeUpdtr();
+
             const results = [
                 {
                     ...module1ToLatestSuccess,
@@ -63,6 +65,7 @@ describe("finish()", () => {
         describe("using npm", () => {
             it("should return the expected results and emit the expected events", async () => {
                 const updtr = new FakeUpdtr();
+
                 const results = [
                     module1ToLatestSuccess,
                     module1ToNonBreakingSuccess,
@@ -88,6 +91,7 @@ describe("finish()", () => {
                 const updtr = new FakeUpdtr({
                     use: USE_YARN,
                 });
+
                 const results = [
                     module1ToLatestSuccess,
                     module1ToNonBreakingSuccess,

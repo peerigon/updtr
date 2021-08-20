@@ -1,5 +1,3 @@
-import {EOL} from "os";
-
 const STRING_PROPERTIES = ["name", "current", "wanted", "latest"];
 
 function isNotEmptyString(value) {
@@ -53,6 +51,11 @@ function npmParser(stdout) {
     return JSON.parse(trimmed);
 }
 
+export function splitYarnLines(stdout) {
+    // Yarn is using \n on all platforms now in their stdout
+    return stdout.split("\n");
+}
+
 function yarnParser(stdout, wantedTypeProperty) {
     try {
         return npmParser(stdout);
@@ -60,16 +63,18 @@ function yarnParser(stdout, wantedTypeProperty) {
         /* in some cases (e.g. when printing the outdated result), yarn prints for each line a separate JSON object */
         /* in that case, we need to look for a { type: "table" } object which holds the interesting data to display */
     }
-    const dataLine = stdout
-        .split(EOL)
+    const dataLine = splitYarnLines(stdout)
         .map(line => line.trim())
         .filter(line => line !== "")
         .find(line => {
             try {
+                console.log(line);
                 const parsedLine = JSON.parse(line);
 
                 return parsedLine.type === wantedTypeProperty;
             } catch (error) {
+                console.log(error);
+
                 return false;
             }
         });

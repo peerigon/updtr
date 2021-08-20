@@ -1,6 +1,6 @@
 import EventEmitter from "events";
 import unicons from "unicons";
-import sinon from "sinon";
+import {stub} from "sinon";
 import basic from "../../src/reporters/basic";
 import events from "../fixtures/events";
 
@@ -30,7 +30,7 @@ beforeAll(() => {
                 return "";
         }
     };
-    consoleStub = sinon.stub(console, "log");
+    consoleStub = stub(console, "log");
 });
 
 afterEach(() => {

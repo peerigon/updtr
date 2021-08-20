@@ -1,4 +1,4 @@
-import sinon from "sinon";
+import {stub} from "sinon";
 import Updtr from "../../src/Updtr";
 
 export default class FakeUpdtr extends Updtr {
@@ -7,15 +7,16 @@ export default class FakeUpdtr extends Updtr {
             ...FakeUpdtr.baseConfig,
             ...updtrConfig,
         });
-        this.canAccessPackageJson = sinon.stub();
-        this.readFile = sinon.stub();
-        this.writeFile = sinon.stub();
-        this.emit = sinon.stub();
-        this._exec = sinon.stub();
+        this.canAccessPackageJson = stub();
+        this.readFile = stub();
+        this.writeFile = stub();
+        this.emit = stub();
+        this._exec = stub();
         this.exec.args = this._exec.args;
 
         this.canAccessPackageJson.resolves(true);
     }
+
     set execResults(execResults) {
         execResults.forEach((execResult, index) => {
             const call = this._exec.onCall(index);
@@ -27,6 +28,7 @@ export default class FakeUpdtr extends Updtr {
             }
         });
     }
+
     async exec(...args) {
         const result = await this._exec(...args);
 

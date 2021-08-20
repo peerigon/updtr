@@ -42,6 +42,7 @@ describe("new Updtr()", () => {
                     ...FakeUpdtr.baseConfig,
                     exclude: ["a", "b", "c"],
                 };
+
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty("exclude", ["a", "b", "c"]);
@@ -53,6 +54,7 @@ describe("new Updtr()", () => {
                     ...FakeUpdtr.baseConfig,
                     registry: "http://example.com",
                 };
+
                 const updtr = new Updtr(config);
 
                 expect(updtr.config).toHaveProperty(
@@ -116,6 +118,7 @@ describe("new Updtr()", () => {
             const testContent = "This is a test";
             const testJs = "test.js";
             const cwd = await temp.mkdir("updtr-readFile-1");
+
             const updtr = new Updtr({
                 cwd,
             });
@@ -126,9 +129,11 @@ describe("new Updtr()", () => {
         it("should not swallow errors", async () => {
             const testJs = "test.js";
             const cwd = await temp.mkdir("updtr-readFile-2");
+
             const updtr = new Updtr({
                 cwd,
             });
+
             let givenErr;
 
             try {
@@ -146,6 +151,7 @@ describe("new Updtr()", () => {
             const testContent = "This is a test";
             const testJs = "test.js";
             const cwd = await temp.mkdir("updtr-writeFile-1");
+
             const updtr = new Updtr({
                 cwd,
             });
@@ -158,13 +164,15 @@ describe("new Updtr()", () => {
         });
         it("should not swallow errors", async () => {
             const cwd = await temp.mkdir("updtr-writeFile-2");
+
             const updtr = new Updtr({
                 cwd,
             });
+
             let givenErr;
 
             try {
-                await updtr.writeFile("");
+                await updtr.writeFile("", "test");
             } catch (err) {
                 givenErr = err;
             }
