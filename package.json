@@ -53,7 +53,7 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "sinon": "^8.1.1",
-    "standard-version": "^7.1.0",
+    "standard-version": "^9.3.1",
     "stream-buffers": "^3.0.1",
     "temp": "^0.9.4",
     "wrap-ansi": "^6.2.0"
