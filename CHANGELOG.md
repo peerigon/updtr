@@ -1,6 +1,20 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [4.0.0](https://github.com/peerigon/updtr/compare/v3.1.0...v4.0.0) (2021-08-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* No longer supporting node versions 6-11
+
+### Features
+
+* update dependencies and remove vulnerabilities ([#86](https://github.com/peerigon/updtr/issues/86)) ([eb7a1ef](https://github.com/peerigon/updtr/commit/eb7a1ef4281714405c64ef633ac2963b87510887))
+
+
+* upgrade node version to v12 ([2e29ef0](https://github.com/peerigon/updtr/commit/2e29ef0c605a7889ca5c50c7da86e65444c0acec))
 
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/peerigon/updtr/compare/v3.0.0...v3.1.0) (2018-10-04)
