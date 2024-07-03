@@ -14,6 +14,7 @@ Object {
       "b",
       "c",
     ],
+    "interactive": false,
     "save": "exact",
     "test": "jest -b",
     "updateTo": "non-breaking",
@@ -32,6 +33,7 @@ Object {
   "updtrConfig": Object {
     "cwd": "/test/bin",
     "exclude": Array [],
+    "interactive": false,
     "save": "smart",
     "updateTo": "latest",
     "use": "npm",
