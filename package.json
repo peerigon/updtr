@@ -28,10 +28,10 @@
     "cli-spinners": "^2.6.0",
     "detect-indent": "^6.0.0",
     "es6-error": "^4.0.2",
+    "inquirer": "7.0.0",
     "pify": "^4.0.1",
     "semver": "^7.3.5",
     "string-width": "^4.2.0",
-    "inquirer": "7.0.0",
     "unicons": "0.0.3",
     "yargs": "^15.1.0"
   },

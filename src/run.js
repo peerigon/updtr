@@ -78,6 +78,7 @@ function generateChoices(tasks) {
 async function selectUpdateTasks(tasks) {
     const prompt = inquirer.createPromptModule();
     const choices = generateChoices(tasks);
+
     const {packagesToUpdate} = await prompt([
         {
             name: "packagesToUpdate",

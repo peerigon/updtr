@@ -38,6 +38,7 @@ export default yargs
     .option("interactive", {
         describe: "Let you select the packages you want to update",
         alias: "i",
+        boolean: true,
         default: false,
     })
     .option("update-to", {
